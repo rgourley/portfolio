@@ -2,21 +2,105 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRef, useEffect } from "react";
+
+// Toggle between image and video background
+const USE_VIDEO_BACKGROUND = true; // Set to true to use video, false for image
+
+// Video configuration - just specify the filename, it will automatically use /videos/ folder
+// Leave empty string to auto-detect common video filenames
+const VIDEO_FILENAME = "6085299_Infomap Model Line 3d_By_Finn_Moeller_Artlist_HD.mp4"; // e.g., "globe-loop.mp4" or "" for auto-detect
+
+// Auto-detect video files (will try these in order)
+const VIDEO_OPTIONS = [
+  "globe-loop.mp4",
+  "earth-loop.mp4", 
+  "planet-loop.mp4",
+  "globe.mp4",
+  "earth.mp4"
+];
 
 export default function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current && USE_VIDEO_BACKGROUND) {
+      videoRef.current.playbackRate = 0.6; // 60% speed
+    }
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
-      
-      {/* Background Image - extends from left column to right edge */}
-      <div className="absolute inset-0 -z-5 overflow-hidden">
+      {/* Subtle lenticular gradient blobs */}
+      <div className="absolute inset-0 -z-20 overflow-hidden pointer-events-none">
         <div 
-          className="absolute top-0 h-full bg-cover bg-center bg-no-repeat opacity-25"
+          className="absolute top-0 left-1/4 w-full h-[600px] blur-3xl opacity-5"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=2000&h=1200&fit=crop')",
-            left: 'max(1.5rem, calc((100vw - 75rem) / 2 + 1.5rem))',
-            right: '0',
+            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.25) 25%, rgba(236, 72, 153, 0.2) 50%, rgba(99, 102, 241, 0.15) 75%, transparent 100%)',
           }}
         />
+        <div 
+          className="absolute top-0 right-1/4 w-full h-[500px] blur-3xl opacity-4"
+          style={{
+            background: 'linear-gradient(45deg, rgba(236, 72, 153, 0.25) 0%, rgba(99, 102, 241, 0.2) 30%, rgba(139, 92, 246, 0.15) 60%, transparent 100%)',
+          }}
+        />
+      </div>
+      
+      {/* Background Image or Video - extends from left column to right edge */}
+      <div className="absolute inset-0 -z-5 overflow-hidden">
+        {USE_VIDEO_BACKGROUND ? (
+          // Video Background with fade wrapper
+          <div
+            className="absolute top-0 h-full overflow-hidden"
+            style={{
+              left: 'max(1.5rem, calc((100vw - 75rem) / 2 + 1.5rem))',
+              right: '0',
+            }}
+          >
+            <video
+              ref={videoRef}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              className="absolute top-0 h-full w-full object-cover opacity-35"
+              style={{
+                maskImage: 'linear-gradient(to right, transparent 0%, transparent 15%, rgba(0, 0, 0, 0.3) 25%, rgba(0, 0, 0, 0.7) 40%, black 60%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 15%, rgba(0, 0, 0, 0.3) 25%, rgba(0, 0, 0, 0.7) 40%, black 60%, black 100%)',
+              }}
+            >
+              {VIDEO_FILENAME ? (
+                // Use specified filename
+                <source src={`/videos/${VIDEO_FILENAME}`} type="video/mp4" />
+              ) : (
+                // Auto-detect: try multiple common filenames
+                VIDEO_OPTIONS.map((filename) => (
+                  <source key={filename} src={`/videos/${filename}`} type="video/mp4" />
+                ))
+              )}
+            </video>
+            {/* Bottom fade overlay - quick fade in less vertical space */}
+            <div
+              className="absolute bottom-0 left-0 right-0 pointer-events-none"
+              style={{
+                height: '15%',
+                background: 'linear-gradient(to top, var(--background) 0%, rgba(13, 13, 13, 0.9) 30%, rgba(13, 13, 13, 0.5) 60%, transparent 100%)',
+              }}
+            />
+          </div>
+        ) : (
+          // Image Background (original)
+          <div 
+            className="absolute top-0 h-full bg-cover bg-center bg-no-repeat opacity-35"
+            style={{
+              backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=2000&h=1200&fit=crop')",
+              left: 'max(1.5rem, calc((100vw - 75rem) / 2 + 1.5rem))',
+              right: '0',
+            }}
+          />
+        )}
         {/* Gradient overlay to blend with background */}
         <div 
           className="absolute inset-0 pointer-events-none"
@@ -29,32 +113,78 @@ export default function Hero() {
       <div className="relative z-10 max-w-[1200px] mx-auto px-12 lg:px-16 w-full">
         <div className="max-w-2xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            initial="hidden"
+            animate="visible"
+            variants={{
+              visible: {
+                transition: {
+                  staggerChildren: 0.15,
+                  delayChildren: 0.1,
+                },
+              },
+            }}
             className="space-y-8"
           >
             {/* Main Headline */}
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-light leading-[0.8] tracking-tight">
-              Turn complexity
+            <motion.h1
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.8,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                },
+              }}
+              className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[1.0] tracking-[-0.02em] md:tracking-[-0.02em] lg:tracking-[-0.02em]"
+            >
+              Turning complexity
               <br />
               into products people love
-            </h1>
+            </motion.h1>
 
             {/* Description */}
-            <p className="text-lg md:text-xl text-foreground/70 font-light leading-relaxed max-w-xl">
+            <motion.p
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.7,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                },
+              }}
+              className="text-base md:text-lg text-grey-300 font-light leading-relaxed max-w-xl"
+            >
               Whether it's leading design for autonomous AI pilots, transforming how underwriters evaluate risk with machine learning, or helping traders move billions with confidence, I build systems that make the complex feel effortless.
-            </p>
+            </motion.p>
 
             {/* CTA Button */}
-            <div className="pt-4">
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.7,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                },
+              }}
+              className="pt-4"
+            >
               <Link
                 href="mailto:hello@example.com"
                 className="inline-flex items-center px-8 py-4 border border-foreground/20 rounded-lg font-light text-sm hover:border-foreground/40 transition-all"
               >
                 hello@example.com
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>

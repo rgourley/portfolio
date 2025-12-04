@@ -7,35 +7,38 @@ export default function Testimonials() {
   const testimonials = [
     {
       image: "https://randomuser.me/api/portraits/men/32.jpg",
-      name: "John Doe",
-      role: "CEO",
-      company: "Tech Solutions",
-      text: "Rob's design thinking transformed our product. His ability to simplify complex problems into elegant solutions is unmatched. A true asset to any team.",
+      name: "Will Ross",
+      role: "CEO & Co-Founder",
+      company: "Federato",
+      text: "Great design without compromise. That is what you get working with Robert Gourley. He will push you and your product to new heights. If product design excellence is what you are truly after but you feel blocked or aren't quite sure how to get there, look no further.",
     },
     {
       image: "https://randomuser.me/api/portraits/women/44.jpg",
-      name: "Jane Smith",
-      role: "Product Manager",
-      company: "Innovate Corp",
-      text: "Working with Rob was a game-changer. He brought clarity and creativity to our most challenging projects, always delivering exceptional user experiences.",
+      name: "Asia Giles",
+      role: "VP",
+      company: "Prudential Financial",
+      text: "Robert is someone you want to be around. Besides being an stellar thinker and designer, he is an awesome individual. Inspirational and genuine. Always dependable and easy to work with he has a knack for making it look effortless.",
     },
     {
-      image: "https://randomuser.me/api/portraits/men/47.jpg",
-      name: "Mike Johnson",
-      role: "Lead Engineer",
-      company: "DevOps Inc.",
-      text: "Rob bridges the gap between design and engineering seamlessly. His prototypes are always spot-on, making development efficient and enjoyable.",
+      image: "https://randomuser.me/api/portraits/women/47.jpg",
+      name: "Amy Maniatis",
+      role: "EVP & CMO",
+      company: "National Geographic",
+      text: "Robert is simply as good as it gets when it comes to collaborating on pioneering innovative and cool ways to reach and engage your audience. The work we were able to create together at Nimblefish, CafePress and later at National Geographic was not only the most FUN but the most creative and impactful.",
     },
   ];
 
   return (
-    <section className="py-32 relative overflow-hidden">
+    <section className="py-16 relative overflow-hidden">
       <div className="relative z-10 max-w-[1200px] mx-auto px-12 lg:px-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ 
+            duration: 0.8,
+            ease: [0.16, 1, 0.3, 1],
+          }}
           className="mb-16"
         >
           <span className="inline-flex items-center gap-2">
@@ -45,7 +48,7 @@ export default function Testimonials() {
               <div className="w-0.5 h-0.5 bg-blue-400/40" />
               <div className="w-0.5 h-0.5 bg-blue-400/40" />
             </div>
-            <span className="text-lg font-light text-foreground/60">Testimonials</span>
+            <span className="text-lg font-semibold text-foreground/60">Testimonials</span>
           </span>
         </motion.div>
 
@@ -53,10 +56,14 @@ export default function Testimonials() {
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ 
+                duration: 0.8, 
+                delay: index * 0.1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className="glass p-8 rounded-lg border border-foreground/10 flex flex-col items-center text-center"
             >
               <Image

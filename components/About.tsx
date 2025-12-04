@@ -4,20 +4,27 @@ import { motion } from "framer-motion";
 
 export default function About() {
   return (
-    <section className="py-32 relative overflow-hidden">
+    <section className="py-16 relative overflow-hidden">
       <div className="relative z-10 max-w-[1200px] mx-auto px-12 lg:px-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ 
+            duration: 0.8,
+            ease: [0.16, 1, 0.3, 1],
+          }}
           className="space-y-12"
         >
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ 
+              duration: 0.7,
+              delay: 0.1,
+              ease: [0.16, 1, 0.3, 1],
+            }}
             className="inline-flex items-center gap-2"
           >
             <div className="grid grid-cols-2 gap-0.5 w-2 h-2 flex-shrink-0">
@@ -26,7 +33,7 @@ export default function About() {
               <div className="w-0.5 h-0.5 bg-blue-400/40" />
               <div className="w-0.5 h-0.5 bg-blue-400/40" />
             </div>
-            <span className="text-lg font-light text-foreground/60">About</span>
+            <span className="text-lg font-semibold text-foreground/60">About</span>
           </motion.div>
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -43,47 +50,17 @@ export default function About() {
 
             {/* Right column - Stats/Companies */}
             <div className="lg:col-span-4 space-y-8">
-              <div className="border-t border-foreground/10 pt-8">
-                <p className="text-sm font-light text-foreground/60 mb-6 uppercase tracking-wider">Previously</p>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <div className="w-1 h-1 rounded-full bg-foreground/40 mt-2 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-light text-foreground">Kraken</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-1 h-1 rounded-full bg-foreground/40 mt-2 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-light text-foreground">Crunchyroll</p>
-                      <p className="text-xs font-light text-foreground/60">$1.2B Sony acquisition</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-1 h-1 rounded-full bg-foreground/40 mt-2 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-light text-foreground">Federato</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-1 h-1 rounded-full bg-foreground/40 mt-2 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-light text-foreground">Axure</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-1 h-1 rounded-full bg-foreground/40 mt-2 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-light text-foreground">Apple</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-1 h-1 rounded-full bg-foreground/40 mt-2 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-light text-foreground">My agency</p>
-                      <p className="text-xs font-light text-foreground/60">Grew NatGeo to 50M+ followers</p>
-                    </div>
-                  </div>
+              <div>
+                <p className="text-base font-semibold text-foreground/60 mb-6">
+                  Previously <span className="bg-gradient-to-r from-blue-400/60 to-purple-400/60 bg-clip-text text-transparent">@</span>
+                </p>
+                <div className="space-y-3">
+                  <p className="text-sm font-light text-foreground">Apple</p>
+                  <p className="text-sm font-light text-foreground">Shield AI</p>
+                  <p className="text-sm font-light text-foreground">Federato</p>
+                  <p className="text-sm font-light text-foreground">Boombox</p>
+                  <p className="text-sm font-light text-foreground">Axure</p>
+                  <p className="text-sm font-light text-foreground">Crunchyroll</p>
                 </div>
               </div>
             </div>
