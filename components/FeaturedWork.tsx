@@ -14,8 +14,8 @@ export default function FeaturedWork({ featuredWork }: FeaturedWorkProps) {
     <section className="py-16 relative overflow-hidden">
       <div className="relative z-10 max-w-[1200px] mx-auto px-12 lg:px-16">
         {/* Section Header */}
-        <div className="mb-20">
-          <div className="flex items-center justify-between mb-12">
+        <div className="mb-4">
+          <div className="mb-2">
             <span className="inline-flex items-center gap-2">
               <div className="grid grid-cols-2 gap-0.5 w-2 h-2 flex-shrink-0">
                 <div className="w-0.5 h-0.5 bg-pink-400/40" />
@@ -25,12 +25,6 @@ export default function FeaturedWork({ featuredWork }: FeaturedWorkProps) {
               </div>
               <span className="text-lg font-semibold text-foreground/60">Selected work</span>
             </span>
-            <Link
-              href="/work"
-              className="text-sm font-light text-foreground/60 hover:text-foreground transition-colors"
-            >
-              Discover ↓
-            </Link>
           </div>
         </div>
 
@@ -52,9 +46,9 @@ export default function FeaturedWork({ featuredWork }: FeaturedWorkProps) {
                 href={`/work/${featuredWork[0].slug}`}
                 className="block group"
               >
-                <div className="space-y-6">
-                  {/* Image */}
-                  <div className="relative aspect-[16/10] overflow-hidden bg-foreground/5">
+                <div className="space-y-8">
+                  {/* Full Screen Width Image - breaks out of container */}
+                  <div className="relative aspect-[16/10] overflow-hidden bg-foreground/5" style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}>
                     {featuredWork[0].image && (
                       <img
                         src={featuredWork[0].image}
@@ -68,19 +62,24 @@ export default function FeaturedWork({ featuredWork }: FeaturedWorkProps) {
                     )}
                   </div>
 
-                  {/* Title */}
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h3 className="font-display text-lg font-semibold group-hover:text-foreground/80 transition-colors mb-1">
-                        {featuredWork[0].title}
-                      </h3>
-                      {featuredWork[0].description && (
-                        <p className="text-sm text-foreground/80 font-light">
-                          {featuredWork[0].description}
-                        </p>
-                      )}
+                  {/* Large Title Below Image */}
+                  <div>
+                    <h3 className="font-display text-4xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight group-hover:text-foreground/90 transition-colors">
+                      {featuredWork[0].title}
+                    </h3>
+                  </div>
+
+                  {/* Description and Arrow Below Title */}
+                  <div className="flex items-start justify-between gap-6">
+                    {featuredWork[0].description && (
+                      <p className="text-lg md:text-xl text-foreground/65 font-light leading-relaxed max-w-2xl">
+                        {featuredWork[0].description}
+                      </p>
+                    )}
+                    <div className="flex items-center gap-2 text-foreground/40 group-hover:text-foreground/60 transition-colors flex-shrink-0">
+                      <span className="text-sm font-light">View project</span>
+                      <ArrowRight className="w-4 h-4" />
                     </div>
-                    <ArrowRight className="w-4 h-4 text-foreground/30 group-hover:text-foreground/60 mt-2 ml-4 transition-colors flex-shrink-0" />
                   </div>
                 </div>
               </Link>
@@ -106,14 +105,14 @@ export default function FeaturedWork({ featuredWork }: FeaturedWorkProps) {
                     <div className="space-y-4">
                       {/* Image */}
                       <div className="relative aspect-[16/10] overflow-hidden bg-foreground/5">
-                          {work.image && (
-                            <img
-                              src={work.image}
-                              alt={work.title}
-                              loading="lazy"
-                              className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-500"
-                            />
-                          )}
+                        {work.image && (
+                          <img
+                            src={work.image}
+                            alt={work.title}
+                            loading="lazy"
+                            className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-500"
+                          />
+                        )}
                         {!work.image && (
                           <div className="w-full h-full bg-foreground/5" />
                         )}
@@ -126,7 +125,7 @@ export default function FeaturedWork({ featuredWork }: FeaturedWorkProps) {
                             {work.title}
                           </h3>
                           {work.description && (
-                            <p className="text-sm text-foreground/80 font-light">
+                            <p className="text-base text-foreground/65 font-light leading-relaxed">
                               {work.description}
                             </p>
                           )}

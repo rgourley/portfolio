@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import { useTheme } from "@/components/ThemeProvider";
 
 // Toggle between image and video background
 const USE_VIDEO_BACKGROUND = true; // Set to true to use video, false for image
@@ -22,12 +23,22 @@ const VIDEO_OPTIONS = [
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (videoRef.current && USE_VIDEO_BACKGROUND) {
       videoRef.current.playbackRate = 0.6; // 60% speed
     }
   }, []);
+
+  // Video mask gradients - inverted for light mode
+  const videoMaskGradient = theme === "light"
+    ? 'linear-gradient(to right, transparent 0%, transparent 15%, rgba(255, 255, 255, 0.3) 25%, rgba(255, 255, 255, 0.7) 40%, white 60%, white 100%)'
+    : 'linear-gradient(to right, transparent 0%, transparent 15%, rgba(0, 0, 0, 0.3) 25%, rgba(0, 0, 0, 0.7) 40%, black 60%, black 100%)';
+  
+  const bottomMaskGradient = theme === "light"
+    ? 'linear-gradient(to top, transparent 0%, rgba(255, 255, 255, 0.5) 8%, white 15%, white 100%)'
+    : 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.5) 8%, black 15%, black 100%)';
 
   return (
     <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
@@ -67,8 +78,10 @@ export default function Hero() {
               preload="metadata"
               className="absolute top-0 h-full w-full object-cover opacity-35"
               style={{
-                maskImage: 'linear-gradient(to right, transparent 0%, transparent 15%, rgba(0, 0, 0, 0.3) 25%, rgba(0, 0, 0, 0.7) 40%, black 60%, black 100%)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 15%, rgba(0, 0, 0, 0.3) 25%, rgba(0, 0, 0, 0.7) 40%, black 60%, black 100%)',
+                maskImage: `${videoMaskGradient}, ${bottomMaskGradient}`,
+                WebkitMaskImage: `${videoMaskGradient}, ${bottomMaskGradient}`,
+                maskComposite: 'intersect',
+                WebkitMaskComposite: 'source-in',
               }}
             >
               {VIDEO_FILENAME ? (
@@ -86,7 +99,7 @@ export default function Hero() {
               className="absolute bottom-0 left-0 right-0 pointer-events-none"
               style={{
                 height: '15%',
-                background: 'linear-gradient(to top, var(--background) 0%, rgba(13, 13, 13, 0.9) 30%, rgba(13, 13, 13, 0.5) 60%, transparent 100%)',
+                background: 'linear-gradient(to top, var(--background) 0%, color-mix(in srgb, var(--background) 90%, transparent) 30%, color-mix(in srgb, var(--background) 50%, transparent) 60%, transparent 100%)',
               }}
             />
           </div>
@@ -105,7 +118,7 @@ export default function Hero() {
         <div 
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'linear-gradient(to right, var(--background) 0%, rgba(13, 13, 13, 0.8) 30%, rgba(13, 13, 13, 0.4) 60%, transparent 100%)'
+            background: 'linear-gradient(to right, var(--background) 0%, color-mix(in srgb, var(--background) 80%, transparent) 30%, color-mix(in srgb, var(--background) 40%, transparent) 60%, transparent 100%)'
           }}
         />
       </div>
@@ -142,7 +155,7 @@ export default function Hero() {
             >
               Turning complexity
               <br />
-              into products people love
+              into products <span style={{ color: 'var(--accent-cyan)' }}>people love</span>
             </motion.h1>
 
             {/* Description */}
@@ -158,12 +171,12 @@ export default function Hero() {
                   },
                 },
               }}
-              className="text-base md:text-lg text-grey-300 font-light leading-relaxed max-w-xl"
+              className="text-xl text-foreground/65 font-light leading-relaxed max-w-xl"
             >
               Whether it's leading design for autonomous AI pilots, transforming how underwriters evaluate risk with machine learning, or helping traders move billions with confidence, I build systems that make the complex feel effortless.
             </motion.p>
 
-            {/* CTA Button */}
+            {/* Discover Link */}
             <motion.div
               variants={{
                 hidden: { opacity: 0, y: 20 },
@@ -179,10 +192,10 @@ export default function Hero() {
               className="pt-4"
             >
               <Link
-                href="mailto:hello@example.com"
-                className="inline-flex items-center px-8 py-4 border border-foreground/20 rounded-lg font-light text-sm hover:border-foreground/40 transition-all"
+                href="/work"
+                className="inline-flex items-center text-sm font-light text-foreground/60 hover:text-foreground transition-colors"
               >
-                hello@example.com
+                Discover ↓
               </Link>
             </motion.div>
           </motion.div>

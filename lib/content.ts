@@ -13,12 +13,16 @@ export interface WorkItem {
   content: string;
   contentHtml?: string;
   image?: string;
+  gallery?: string[];
   tags: string[];
   featured: boolean;
   date: string;
   client?: string;
   year?: string;
   order?: number;
+  role?: string;
+  timeline?: string;
+  platform?: string;
 }
 
 export interface BlogPost {
@@ -58,12 +62,16 @@ export function getAllWork(): WorkItem[] {
         description: data.description || "",
         content,
         image: data.image,
+        gallery: data.gallery || [],
         tags: data.tags || [],
         featured: data.featured || false,
         date: data.date || "",
         client: data.client,
         year: data.year,
         order: data.order !== undefined ? data.order : 999,
+        role: data.role,
+        timeline: data.timeline,
+        platform: data.platform,
       } as WorkItem;
     });
   
@@ -96,12 +104,16 @@ export async function getWorkBySlug(slug: string): Promise<WorkItem | null> {
     content,
     contentHtml,
     image: data.image,
+    gallery: data.gallery || [],
     tags: data.tags || [],
     featured: data.featured || false,
     date: data.date || "",
     client: data.client,
     year: data.year,
     order: data.order !== undefined ? data.order : 999,
+    role: data.role,
+    timeline: data.timeline,
+    platform: data.platform,
   } as WorkItem;
 }
 
@@ -187,6 +199,7 @@ tags: ${JSON.stringify(work.tags)}
 featured: ${work.featured}
 ${work.order !== undefined ? `order: ${work.order}` : ""}
 ${work.image ? `image: "${work.image}"` : ""}
+${work.gallery && work.gallery.length > 0 ? `gallery: ${JSON.stringify(work.gallery)}` : ""}
 ${work.client ? `client: "${work.client}"` : ""}
 ${work.year ? `year: "${work.year}"` : ""}
 ---

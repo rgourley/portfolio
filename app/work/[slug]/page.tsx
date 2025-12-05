@@ -3,6 +3,45 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
+import MarkdownContent from "@/components/MarkdownContent";
+import type { Metadata } from "next";
+import StructuredData from "@/components/StructuredData";
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const work = await getWorkBySlug(params.slug);
+  
+  if (!work) {
+    return {
+      title: "Work Not Found",
+    };
+  }
+
+  return {
+    title: `${work.title} | Product Design Case Study`,
+    description: work.description || `Case study: ${work.title}. ${work.tags?.join(", ")} design work by Robert Gourley.`,
+    keywords: [...(work.tags || []), "product design", "UX design", "case study", work.client || ""].filter(Boolean),
+    openGraph: {
+      title: `${work.title} | Product Design Case Study`,
+      description: work.description || `Case study: ${work.title}`,
+      url: `/work/${work.slug}`,
+      type: "article",
+      images: work.image ? [
+        {
+          url: work.image,
+          width: 1200,
+          height: 630,
+          alt: work.title,
+        },
+      ] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: work.title,
+      description: work.description || `Product design case study`,
+      images: work.image ? [work.image] : undefined,
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const work = getAllWork();
@@ -22,9 +61,27 @@ export default async function WorkDetailPage({
     notFound();
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com';
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "@id": `${baseUrl}/work/${work.slug}`,
+    name: work.title,
+    description: work.description,
+    image: work.image,
+    datePublished: work.date,
+    author: {
+      "@type": "Person",
+      name: "Robert Gourley",
+    },
+    keywords: work.tags?.join(", "),
+  };
+
   return (
     <article className="pt-32 pb-20">
-      <div className="max-w-4xl mx-auto px-12 lg:px-16">
+      <StructuredData data={articleSchema} />
+      <div className="max-w-[1200px] mx-auto px-12 lg:px-16">
         <Link
           href="/work"
           className="inline-flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors mb-8"
@@ -33,40 +90,60 @@ export default async function WorkDetailPage({
           Back to work
         </Link>
 
+        {/* Headline */}
+        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[1.0] tracking-[-0.02em] mb-8">{work.title}</h1>
+
+        {/* Subhead Above Image */}
+        <p className="text-lg md:text-xl text-foreground/65 font-light leading-relaxed max-w-2xl mb-8">{work.description}</p>
+
+        {/* Large Image */}
         {work.image && (
-          <div className="aspect-video rounded-2xl overflow-hidden mb-8">
+          <div className="relative aspect-[16/10] overflow-hidden bg-foreground/5 mb-8">
             <img
               src={work.image}
               alt={work.title}
+              loading="lazy"
               className="w-full h-full object-cover"
             />
           </div>
         )}
 
         <header className="mb-8">
-          <div className="flex flex-wrap items-center gap-4 mb-4">
+          <div className="flex flex-wrap items-center gap-2 mb-4">
             {work.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-sm px-3 py-1 rounded-full bg-muted text-foreground/70"
+                className="text-xs px-3 py-1 rounded-full bg-muted text-foreground/70 font-light"
               >
                 {tag}
               </span>
             ))}
           </div>
-          <h1 className="font-display text-4xl md:text-5xl font-light mb-4">{work.title}</h1>
-          <p className="text-xl text-foreground/60 mb-6">{work.description}</p>
-          {work.date && (
-            <span className="text-sm text-foreground/50">
-              {format(new Date(work.date), "MMMM d, yyyy")}
-            </span>
-          )}
+          <div className="space-y-1">
+            {work.date && (
+              <div className="text-sm text-foreground/50">
+                {format(new Date(work.date), "MMMM d, yyyy")}
+              </div>
+            )}
+            {work.role && (
+              <div className="text-sm text-foreground/50">
+                Role: {work.role}
+              </div>
+            )}
+            {work.timeline && (
+              <div className="text-sm text-foreground/50">
+                Timeline: {work.timeline}
+              </div>
+            )}
+            {work.platform && (
+              <div className="text-sm text-foreground/50">
+                Platform: {work.platform}
+              </div>
+            )}
+          </div>
         </header>
 
-        <div
-          className="prose prose-invert prose-lg max-w-none"
-          dangerouslySetInnerHTML={{ __html: work.contentHtml || work.content }}
-        />
+        <MarkdownContent content={work.content} />
       </div>
     </article>
   );

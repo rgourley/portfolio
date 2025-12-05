@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { WorkItem } from "@/lib/content";
-import { X } from "lucide-react";
+import { X, Image as ImageIcon } from "lucide-react";
+import dynamic from "next/dynamic";
+
+// Dynamically import the markdown editor to avoid SSR issues
+const MDEditor = dynamic(
+  () => import("@uiw/react-md-editor"),
+  { ssr: false }
+);
+
+// Import markdown editor styles
+import "@uiw/react-md-editor/markdown-editor.css";
 
 interface WorkFormProps {
   work: WorkItem | null;
@@ -17,12 +27,16 @@ export default function WorkForm({ work, onClose, onSuccess }: WorkFormProps) {
     description: work?.description || "",
     content: work?.content || "",
     image: work?.image || "",
+    gallery: work?.gallery?.join("\n") || "",
     tags: work?.tags?.join(", ") || "",
     featured: work?.featured || false,
     date: work?.date || new Date().toISOString().split("T")[0],
     client: work?.client || "",
     year: work?.year || "",
     order: work?.order?.toString() || "",
+    role: work?.role || "",
+    timeline: work?.timeline || "",
+    platform: work?.platform || "",
   });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -37,9 +51,15 @@ export default function WorkForm({ work, onClose, onSuccess }: WorkFormProps) {
         .map((tag) => tag.trim())
         .filter((tag) => tag.length > 0);
 
+      const gallery = formData.gallery
+        .split("\n")
+        .map((url) => url.trim())
+        .filter((url) => url.length > 0);
+
       const payload = {
         ...formData,
         tags,
+        gallery: gallery.length > 0 ? gallery : undefined,
         order: formData.order ? parseInt(formData.order, 10) : undefined,
       };
 
@@ -68,20 +88,27 @@ export default function WorkForm({ work, onClose, onSuccess }: WorkFormProps) {
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
-      <div className="glass rounded-2xl p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold">
-            {work ? "Edit Work Item" : "Add Work Item"}
-          </h2>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-muted rounded transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+      return (
+        <div className="w-full">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-3xl font-semibold mb-2">
+                {work ? "Edit Work Item" : "Add Work Item"}
+              </h2>
+              <p className="text-foreground/60">
+                {work ? `Editing: ${work.title}` : "Create a new work item"}
+              </p>
+            </div>
+            <button
+              onClick={onClose}
+              className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors"
+            >
+              <X className="w-5 h-5" />
+              Back to List
+            </button>
+          </div>
+          
+          <div className="glass rounded-2xl p-8 border border-foreground/10">
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
@@ -132,13 +159,93 @@ export default function WorkForm({ work, onClose, onSuccess }: WorkFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Content (Markdown)</label>
-            <textarea
-              value={formData.content}
-              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-mono text-sm"
-              rows={10}
-            />
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-medium">Content (Markdown)</label>
+              <button
+                type="button"
+                onClick={async () => {
+                  const input = document.createElement('input');
+                  input.type = 'file';
+                  input.accept = 'image/*';
+                  input.onchange = async (e) => {
+                    const file = (e.target as HTMLInputElement).files?.[0];
+                    if (!file) return;
+                    
+                    setUploading(true);
+                    try {
+                      const uploadFormData = new FormData();
+                      uploadFormData.append("file", file);
+                      
+                      const response = await fetch("/api/upload", {
+                        method: "POST",
+                        body: uploadFormData,
+                      });
+                      
+                      if (response.ok) {
+                        const data = await response.json();
+                        const imageMarkdown = `![${file.name}](${data.url})`;
+                        const cursorPos = (document.querySelector('[data-color-mode] textarea') as HTMLTextAreaElement)?.selectionStart || formData.content.length;
+                        const newContent = formData.content.slice(0, cursorPos) + imageMarkdown + formData.content.slice(cursorPos);
+                        setFormData({ ...formData, content: newContent });
+                      } else {
+                        const error = await response.json();
+                        alert(error.error || "Failed to upload image");
+                      }
+                    } catch (error) {
+                      console.error("Error uploading image:", error);
+                      alert("Error uploading image");
+                    } finally {
+                      setUploading(false);
+                    }
+                  };
+                  input.click();
+                }}
+                className="flex items-center gap-2 px-3 py-1.5 text-xs border border-border rounded-lg hover:bg-muted transition-colors"
+                disabled={uploading}
+              >
+                <ImageIcon className="w-4 h-4" />
+                {uploading ? "Uploading..." : "Insert Image"}
+              </button>
+            </div>
+            <div data-color-mode="dark">
+              <MDEditor
+                value={formData.content}
+                onChange={(value) => setFormData({ ...formData, content: value || "" })}
+                preview="edit"
+                hideToolbar={false}
+                visibleDragBar={false}
+                height={600}
+              />
+            </div>
+            <style jsx global>{`
+              .w-md-editor {
+                background-color: var(--muted) !important;
+                border: 1px solid var(--border) !important;
+                border-radius: 0.5rem !important;
+              }
+              .w-md-editor-text-textarea {
+                background-color: var(--muted) !important;
+                color: var(--foreground) !important;
+                font-family: var(--font-mono) !important;
+              }
+              .w-md-editor-text-pre {
+                background-color: var(--muted) !important;
+                color: var(--foreground) !important;
+              }
+              .w-md-editor-text {
+                background-color: var(--muted) !important;
+              }
+              .w-md-editor-toolbar {
+                background-color: var(--muted) !important;
+                border-bottom: 1px solid var(--border) !important;
+              }
+              .w-md-editor-toolbar button {
+                color: var(--foreground) !important;
+              }
+              .w-md-editor-toolbar button:hover {
+                background-color: var(--background) !important;
+              }
+            `}</style>
           </div>
 
           <div>
@@ -231,6 +338,53 @@ export default function WorkForm({ work, onClose, onSuccess }: WorkFormProps) {
             </div>
           </div>
 
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Role</label>
+              <input
+                type="text"
+                value={formData.role}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                placeholder="Director of Product Design"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">Timeline</label>
+              <input
+                type="text"
+                value={formData.timeline}
+                onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
+                className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                placeholder="2025 - Present"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">Platform</label>
+              <input
+                type="text"
+                value={formData.platform}
+                onChange={(e) => setFormData({ ...formData, platform: e.target.value })}
+                className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                placeholder="Web application/SDK/CLI Tools"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">Gallery Images (one URL per line)</label>
+            <textarea
+              value={formData.gallery}
+              onChange={(e) => setFormData({ ...formData, gallery: e.target.value })}
+              className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-mono text-sm"
+              rows={4}
+              placeholder="/images/image1.jpg&#10;/images/image2.jpg"
+            />
+            <p className="text-xs text-foreground/60 mt-1">
+              Enter image URLs, one per line. Use the upload button above to upload images first.
+            </p>
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-2">Tags (comma-separated)</label>
@@ -271,25 +425,25 @@ export default function WorkForm({ work, onClose, onSuccess }: WorkFormProps) {
             </div>
           </div>
 
-          <div className="flex justify-end gap-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-6 py-2 border border-border rounded-lg hover:bg-muted transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-2 bg-foreground text-background rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {loading ? "Saving..." : work ? "Update" : "Create"}
-            </button>
+              <div className="flex justify-end gap-4 pt-6 border-t border-border">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="px-6 py-2 border border-border rounded-lg hover:bg-muted transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="px-6 py-2 bg-foreground text-background rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                >
+                  {loading ? "Saving..." : work ? "Update" : "Create"}
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    </div>
-  );
+        </div>
+      );
 }
 

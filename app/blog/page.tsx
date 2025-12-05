@@ -1,5 +1,25 @@
 import { getAllBlogPosts } from "@/lib/content";
 import BlogGrid from "@/components/BlogGrid";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog | Design, Product Development & Creative Process",
+  description: "Thoughts on design, product development, and the creative process. Insights on AI tools, design team building, design systems, and trends that matter.",
+  keywords: ["design blog", "product design", "UX design", "design thinking", "design leadership", "AI design tools", "design systems"],
+  openGraph: {
+    title: "Blog | Design, Product Development & Creative Process",
+    description: "Thoughts on design, product development, and the creative process.",
+    url: "/blog",
+    images: [
+      {
+        url: "/images/og-blog.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Design Blog",
+      },
+    ],
+  },
+};
 
 export default function BlogPage() {
   const posts = getAllBlogPosts();

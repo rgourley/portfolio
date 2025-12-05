@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  /* Dark mode (default) */
   --background: #0d0d0d;
   --foreground: #d1d1d1;
   --border: #2a2a2a;
@@ -10,6 +11,7 @@
   --accent: #d1d1d1;
   --accent-secondary: #3b82f6;
   --accent-tertiary: #ec4899;
+  --accent-cyan: #06b6d4;
 
   /* Grey scale system */
   --grey-50: #fafafa;
@@ -35,6 +37,40 @@
 
   --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+}
+
+[data-theme="light"] {
+  /* Light mode */
+  --background: #ffffff;
+  --foreground: #171717;
+  --border: #e5e5e5;
+  --muted: #f5f5f5;
+  --accent: #171717;
+  --accent-secondary: #3b82f6;
+  --accent-tertiary: #ec4899;
+  --accent-cyan: #0891b2;
+
+  /* Grey scale system (inverted for light mode) */
+  --grey-50: #0a0a0a;
+  --grey-100: #171717;
+  --grey-200: #262626;
+  --grey-300: #404040;
+  --grey-400: #525252;
+  --grey-500: #737373;
+  --grey-600: #a3a3a3;
+  --grey-700: #d4d4d4;
+  --grey-800: #e5e5e5;
+  --grey-900: #f5f5f5;
+  --grey-950: #fafafa;
+
+  /* Semantic grey usage */
+  --grey-text-primary: #171717;
+  --grey-text-secondary: #404040;
+  --grey-text-tertiary: #737373;
+  --grey-text-quaternary: #a3a3a3;
+  --grey-border: #e5e5e5;
+  --grey-surface: #fafafa;
+  --grey-surface-elevated: #ffffff;
 }
 
 body {

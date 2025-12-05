@@ -50,6 +50,20 @@ export default function WorkManager({ workItems, onUpdate }: WorkManagerProps) {
     setEditingWork(null);
   };
 
+  // If showing form, render it full page
+  if (showForm) {
+    return (
+      <WorkForm
+        work={editingWork}
+        onClose={handleClose}
+        onSuccess={() => {
+          handleClose();
+          onUpdate();
+        }}
+      />
+    );
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -98,17 +112,6 @@ export default function WorkManager({ workItems, onUpdate }: WorkManagerProps) {
           </div>
         ))}
       </div>
-
-      {showForm && (
-        <WorkForm
-          work={editingWork}
-          onClose={handleClose}
-          onSuccess={() => {
-            handleClose();
-            onUpdate();
-          }}
-        />
-      )}
     </div>
   );
 }

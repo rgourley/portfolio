@@ -39,7 +39,7 @@ export default function Testimonials() {
             duration: 0.8,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className="mb-16"
+          className="mb-8"
         >
           <span className="inline-flex items-center gap-2">
             <div className="grid grid-cols-2 gap-0.5 w-2 h-2 flex-shrink-0">
@@ -73,7 +73,7 @@ export default function Testimonials() {
                 height={48}
                 className="rounded-full mb-6 border border-foreground/20"
               />
-              <p className="text-lg text-foreground/70 font-light mb-6 flex-1">
+              <p className="text-xl text-foreground/65 font-light mb-6 flex-1">
                 "{testimonial.text}"
               </p>
               <div className="text-sm font-light">

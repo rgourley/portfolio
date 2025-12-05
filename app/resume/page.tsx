@@ -213,8 +213,8 @@ export default function ResumePage() {
                     {/* Bullets */}
                     <ul className="space-y-3 text-foreground/70 font-light leading-relaxed">
                       {exp.bullets.map((bullet, bulletIndex) => (
-                        <li key={bulletIndex} className="flex items-start gap-3">
-                          <span className="text-foreground/30 mt-2 text-xs">▸</span>
+                        <li key={bulletIndex} className="flex gap-3">
+                          <span className="text-foreground/40 flex-shrink-0">•</span>
                           <span>{bullet}</span>
                         </li>
                       ))}

@@ -38,7 +38,7 @@ export default function CTA() {
             <br />
             <span className="gradient-text">together</span>
           </h2>
-          <p className="text-lg text-foreground/70 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-xl text-foreground/65 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
             Whether you're looking to transform a complex product or build something new, I'd love to hear about your project.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

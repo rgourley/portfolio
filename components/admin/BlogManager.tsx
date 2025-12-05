@@ -50,6 +50,20 @@ export default function BlogManager({ blogPosts, onUpdate }: BlogManagerProps) {
     setEditingPost(null);
   };
 
+  // If showing form, render it full page
+  if (showForm) {
+    return (
+      <BlogForm
+        post={editingPost}
+        onClose={handleClose}
+        onSuccess={() => {
+          handleClose();
+          onUpdate();
+        }}
+      />
+    );
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -98,17 +112,6 @@ export default function BlogManager({ blogPosts, onUpdate }: BlogManagerProps) {
           </div>
         ))}
       </div>
-
-      {showForm && (
-        <BlogForm
-          post={editingPost}
-          onClose={handleClose}
-          onSuccess={() => {
-            handleClose();
-            onUpdate();
-          }}
-        />
-      )}
     </div>
   );
 }
