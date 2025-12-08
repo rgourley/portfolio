@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { format } from "date-fns";
 import { BlogPost } from "@/lib/content";
 
@@ -35,10 +36,14 @@ export default function BlogGrid({ posts }: BlogGridProps) {
             <div className="space-y-4 h-full flex flex-col">
               {post.image && (
                 <div className="relative aspect-video overflow-hidden bg-foreground/5 rounded-lg">
-                  <img
+                  <Image
                     src={post.image}
                     alt={post.title}
-                    className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-500"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover group-hover:opacity-90 transition-opacity duration-500"
+                    quality={85}
+                    priority={index === 0}
                   />
                 </div>
               )}

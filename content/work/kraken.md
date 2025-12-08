@@ -5,7 +5,7 @@ date: "2025-12-02"
 tags: ["Strategy","Technical Design","UX","UI Design"]
 featured: true
 order: 2
-image: "http://localhost:3001//images/1764914892122-kraken.png"
+image: "/images/1764914892122-kraken.png"
 
 client: "Kraken"
 year: "2022"

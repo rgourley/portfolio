@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { WorkItem } from "@/lib/content";
 
@@ -34,6 +35,7 @@ export default function FeaturedWork({ featuredWork }: FeaturedWorkProps) {
             <motion.div
               key={featuredWork[0].slug}
               initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ 
@@ -50,11 +52,14 @@ export default function FeaturedWork({ featuredWork }: FeaturedWorkProps) {
                   {/* Full Screen Width Image - breaks out of container */}
                   <div className="relative aspect-[16/10] overflow-hidden bg-foreground/5" style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}>
                     {featuredWork[0].image && (
-                      <img
+                      <Image
                         src={featuredWork[0].image}
                         alt={featuredWork[0].title}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-500"
+                        fill
+                        priority
+                        sizes="100vw"
+                        className="object-cover group-hover:opacity-90 transition-opacity duration-500"
+                        quality={85}
                       />
                     )}
                     {!featuredWork[0].image && (
@@ -93,6 +98,7 @@ export default function FeaturedWork({ featuredWork }: FeaturedWorkProps) {
                 <motion.div
                   key={work.slug}
                   initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: (index + 1) * 0.15 }}
@@ -106,11 +112,13 @@ export default function FeaturedWork({ featuredWork }: FeaturedWorkProps) {
                       {/* Image */}
                       <div className="relative aspect-[16/10] overflow-hidden bg-foreground/5">
                         {work.image && (
-                          <img
+                          <Image
                             src={work.image}
                             alt={work.title}
-                            loading="lazy"
-                            className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-500"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            className="object-cover group-hover:opacity-90 transition-opacity duration-500"
+                            quality={85}
                           />
                         )}
                         {!work.image && (

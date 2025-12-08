@@ -25,6 +25,7 @@ export default function CTA() {
       <div className="relative z-10 max-w-[1200px] mx-auto px-12 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ 

@@ -55,6 +55,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     },
+    {
+      url: `${baseUrl}/newsletter`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    },
   ];
 
   // Dynamic work pages

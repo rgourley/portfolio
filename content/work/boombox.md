@@ -5,7 +5,7 @@ date: "2025-12-02"
 tags: []
 featured: true
 order: 2
-image: "http://localhost:3001//images/1764915348966-Boombox.png"
+image: "/images/1764915348966-Boombox.png"
 
 client: "Boombox"
 year: "2024"

@@ -5,7 +5,7 @@ date: "2025-12-02"
 tags: ["Strategy","User Research","Prototyping","UX","UI Design"]
 featured: true
 order: 1
-image: "http://localhost:3001//images/1764702897299-xcvcbMacBook_Air__2022_.png"
+image: "/images/1764702897299-xcvcbMacBook_Air__2022_.png"
 gallery:
   - "/images/1764702897299-xcvcbMacBook_Air__2022_.png"
   - "/images/1764703324296-Screenshot_2025-12-02_at_9.24.10_AM.png"

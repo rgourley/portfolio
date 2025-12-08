@@ -1,12 +1,23 @@
 import Hero from "@/components/Hero";
 import FeaturedWork from "@/components/FeaturedWork";
-import About from "@/components/About";
-import Testimonials from "@/components/Testimonials";
-import DesignApproach from "@/components/DesignApproach";
-import CTA from "@/components/CTA";
 import { getFeaturedWork } from "@/lib/content";
 import type { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
+import dynamic from "next/dynamic";
+
+// Dynamically import below-the-fold components for better initial load
+const About = dynamic(() => import("@/components/About"), {
+  loading: () => <div className="h-96 bg-transparent" />,
+});
+const Testimonials = dynamic(() => import("@/components/Testimonials"), {
+  loading: () => <div className="h-96 bg-transparent" />,
+});
+const DesignApproach = dynamic(() => import("@/components/DesignApproach"), {
+  loading: () => <div className="h-96 bg-transparent" />,
+});
+const CTA = dynamic(() => import("@/components/CTA"), {
+  loading: () => <div className="h-64 bg-transparent" />,
+});
 
 export const metadata: Metadata = {
   title: "Product Design & Strategy | Turning Complexity Into Products People Love",

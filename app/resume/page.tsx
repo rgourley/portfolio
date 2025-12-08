@@ -118,12 +118,8 @@ export default function ResumePage() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mb-16"
         >
-          <h1 className="font-display text-5xl md:text-7xl font-medium leading-[1.0] tracking-[-0.02em] mb-6">
-            Making complex
-            <br />
-            products intuitive
-            <br />
-            and adoptable
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[1.0] tracking-[-0.02em] mb-6">
+            Product Design Leadership
           </h1>
           <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
             <p className="text-lg text-foreground/70 font-light">

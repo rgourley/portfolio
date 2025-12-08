@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
 import MarkdownContent from "@/components/MarkdownContent";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -73,11 +74,15 @@ export default async function BlogPostPage({
         </Link>
 
         {post.image && (
-          <div className="aspect-video rounded-2xl overflow-hidden mb-8">
-            <img
+          <div className="relative aspect-video rounded-2xl overflow-hidden mb-8">
+            <Image
               src={post.image}
               alt={post.title}
-              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 1200px"
+              className="object-cover"
+              quality={90}
             />
           </div>
         )}

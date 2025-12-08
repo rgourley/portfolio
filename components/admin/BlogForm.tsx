@@ -198,7 +198,7 @@ export default function BlogForm({ post, onClose, onSuccess }: BlogFormProps) {
                 onChange={(value) => setFormData({ ...formData, content: value || "" })}
                 preview="edit"
                 hideToolbar={false}
-                visibleDragBar={false}
+                visibleDragbar={false}
                 height={600}
               />
             </div>

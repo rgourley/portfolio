@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
 import MarkdownContent from "@/components/MarkdownContent";
+import Image from "next/image";
 import type { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
 
@@ -99,11 +100,14 @@ export default async function WorkDetailPage({
         {/* Large Image */}
         {work.image && (
           <div className="relative aspect-[16/10] overflow-hidden bg-foreground/5 mb-8">
-            <img
+            <Image
               src={work.image}
               alt={work.title}
-              loading="lazy"
-              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 1200px"
+              className="object-cover"
+              quality={90}
             />
           </div>
         )}

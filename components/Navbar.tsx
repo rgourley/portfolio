@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { FaInstagram, FaLinkedin, FaEnvelope, FaMedium } from "react-icons/fa";
+import { FaInstagram, FaLinkedin, FaMedium, FaGithub } from "react-icons/fa";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -44,7 +44,7 @@ export default function Navbar() {
           {/* Social Icons */}
           <div className="flex items-center gap-4">
             <a 
-              href="https://instagram.com" 
+              href="https://www.instagram.com/whats.up.rob/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-grey-400 hover:text-foreground transition-colors"
@@ -53,7 +53,7 @@ export default function Navbar() {
               <FaInstagram className="w-5 h-5" />
             </a>
             <a 
-              href="https://linkedin.com" 
+              href="https://www.linkedin.com/in/rob-gourley/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-grey-400 hover:text-foreground transition-colors"
@@ -62,7 +62,7 @@ export default function Navbar() {
               <FaLinkedin className="w-5 h-5" />
             </a>
             <a 
-              href="https://medium.com" 
+              href="https://uxcreative.medium.com/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-grey-400 hover:text-foreground transition-colors"
@@ -71,11 +71,13 @@ export default function Navbar() {
               <FaMedium className="w-5 h-5" />
             </a>
             <a 
-              href="/newsletter" 
+              href="https://github.com/rgourley" 
+              target="_blank" 
+              rel="noopener noreferrer"
               className="text-grey-400 hover:text-foreground transition-colors"
-              aria-label="Beehive Newsletter"
+              aria-label="GitHub"
             >
-              <FaEnvelope className="w-5 h-5" />
+              <FaGithub className="w-5 h-5" />
             </a>
           </div>
         </div>

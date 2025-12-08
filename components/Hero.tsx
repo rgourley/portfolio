@@ -10,7 +10,7 @@ const USE_VIDEO_BACKGROUND = true; // Set to true to use video, false for image
 
 // Video configuration - just specify the filename, it will automatically use /videos/ folder
 // Leave empty string to auto-detect common video filenames
-const VIDEO_FILENAME = "6085299_Infomap Model Line 3d_By_Finn_Moeller_Artlist_HD.mp4"; // e.g., "globe-loop.mp4" or "" for auto-detect
+const VIDEO_FILENAME = "hero.mp4"; // e.g., "globe-loop.mp4" or "" for auto-detect
 
 // Auto-detect video files (will try these in order)
 const VIDEO_OPTIONS = [
@@ -27,7 +27,57 @@ export default function Hero() {
 
   useEffect(() => {
     if (videoRef.current && USE_VIDEO_BACKGROUND) {
-      videoRef.current.playbackRate = 0.6; // 60% speed
+      // Function to set playback rate
+      const setPlaybackRate = () => {
+        if (videoRef.current) {
+          videoRef.current.playbackRate = 0.5; // 50% speed
+        }
+      };
+      
+      // Set playback rate initially
+      setPlaybackRate();
+      
+      // Function to load and play video
+      const loadAndPlayVideo = () => {
+        if (videoRef.current) {
+          videoRef.current.load();
+          // Set playback rate after loading
+          videoRef.current.addEventListener('loadedmetadata', setPlaybackRate);
+          videoRef.current.addEventListener('play', setPlaybackRate);
+          videoRef.current.play().catch((error) => {
+            console.log('Video autoplay prevented:', error);
+          });
+        }
+      };
+
+      // Lazy load video - only start loading when in viewport
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && videoRef.current) {
+              loadAndPlayVideo();
+              observer.disconnect();
+            }
+          });
+        },
+        { rootMargin: '50px' }
+      );
+      
+      if (videoRef.current) {
+        // Check if already in viewport (hero section is usually visible immediately)
+        const rect = videoRef.current.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isInViewport) {
+          // Already visible, load immediately
+          loadAndPlayVideo();
+        } else {
+          // Observe for when it enters viewport
+          observer.observe(videoRef.current);
+        }
+      }
+      
+      return () => observer.disconnect();
     }
   }, []);
 
@@ -75,7 +125,7 @@ export default function Hero() {
               loop
               muted
               playsInline
-              preload="metadata"
+              preload="none"
               className="absolute top-0 h-full w-full object-cover opacity-35"
               style={{
                 maskImage: `${videoMaskGradient}, ${bottomMaskGradient}`,
@@ -129,6 +179,7 @@ export default function Hero() {
             initial="hidden"
             animate="visible"
             variants={{
+              hidden: {},
               visible: {
                 transition: {
                   staggerChildren: 0.15,

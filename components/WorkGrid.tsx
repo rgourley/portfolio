@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { WorkItem } from "@/lib/content";
 
@@ -37,11 +38,14 @@ export default function WorkGrid({ work }: WorkGridProps) {
               {/* Large Image */}
               <div className="relative aspect-[16/10] overflow-hidden bg-foreground/5">
                 {item.image && (
-                  <img
+                  <Image
                     src={item.image}
                     alt={item.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-500"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1200px"
+                    className="object-cover group-hover:opacity-90 transition-opacity duration-500"
+                    quality={85}
+                    priority={index === 0}
                   />
                 )}
                 {!item.image && (

@@ -1,12 +1,19 @@
 "use client";
 
 import React, { useMemo } from "react";
+import dynamic from "next/dynamic";
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import SolutionHighlightsCarousel from "./SolutionHighlightsCarousel";
-import TestimonialBlock from "./TestimonialBlock";
+
+// Dynamically import heavy components to reduce initial bundle size
+const SolutionHighlightsCarousel = dynamic(() => import("./SolutionHighlightsCarousel"), {
+  loading: () => <div className="h-64 bg-muted/20 animate-pulse rounded-lg" />,
+});
+const TestimonialBlock = dynamic(() => import("./TestimonialBlock"), {
+  loading: () => <div className="h-48 bg-muted/20 animate-pulse rounded-lg" />,
+});
 
 interface MarkdownContentProps {
   content: string;
@@ -175,7 +182,29 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
                 </div>
               );
             } else if (src.startsWith("http://") || src.startsWith("https://")) {
-              // External image - use regular img tag
+              // External image - check if it's from configured domains, otherwise use regular img
+              const isConfiguredDomain = 
+                src.includes("uploads-ssl.webflow.com") ||
+                src.includes("images.unsplash.com") ||
+                src.includes("randomuser.me");
+              
+              if (isConfiguredDomain) {
+                // Use Next.js Image for configured external domains
+                return (
+                  <div className="relative w-full my-8" style={{ aspectRatio: '16/9' }}>
+                    <Image
+                      src={src}
+                      alt={alt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 900px"
+                      className="object-contain rounded-lg"
+                      quality={85}
+                    />
+                  </div>
+                );
+              }
+              
+              // Unconfigured external image - use regular img tag
               return (
                 <div className="my-8">
                   <img
@@ -183,6 +212,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
                     alt={alt}
                     className="w-full h-auto rounded-lg"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
               );
@@ -195,6 +225,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
                   alt={alt}
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             );

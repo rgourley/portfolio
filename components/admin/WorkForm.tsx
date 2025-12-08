@@ -213,7 +213,7 @@ export default function WorkForm({ work, onClose, onSuccess }: WorkFormProps) {
                 onChange={(value) => setFormData({ ...formData, content: value || "" })}
                 preview="edit"
                 hideToolbar={false}
-                visibleDragBar={false}
+                visibleDragbar={false}
                 height={600}
               />
             </div>

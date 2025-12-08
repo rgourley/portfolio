@@ -56,6 +56,7 @@ export default function DesignApproach() {
       <div className="relative z-10 max-w-[1200px] mx-auto px-12 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ 
@@ -65,9 +66,13 @@ export default function DesignApproach() {
           className="space-y-4"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            {/* Empty left column for spacing */}
+            <div className="hidden lg:block lg:col-span-5"></div>
+            
             {/* Design Approach heading on the right */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ 
@@ -75,7 +80,7 @@ export default function DesignApproach() {
                 delay: 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="lg:col-span-7 lg:col-start-6 inline-flex items-center gap-2 mb-1"
+              className="lg:col-span-7 inline-flex items-center gap-2"
             >
               <div className="grid grid-cols-2 gap-0.5 w-2 h-2 flex-shrink-0">
                 <div className="w-0.5 h-0.5 bg-purple-400/40" />
@@ -86,9 +91,13 @@ export default function DesignApproach() {
               <span className="text-lg font-semibold text-foreground/60">Design Approach</span>
             </motion.div>
 
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start -mt-2">
             {/* Content on the right */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ 

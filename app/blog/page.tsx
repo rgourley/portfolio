@@ -3,11 +3,11 @@ import BlogGrid from "@/components/BlogGrid";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog | Design, Product Development & Creative Process",
+  title: "What I'm Thinking About | Design, Product Development & Creative Process",
   description: "Thoughts on design, product development, and the creative process. Insights on AI tools, design team building, design systems, and trends that matter.",
   keywords: ["design blog", "product design", "UX design", "design thinking", "design leadership", "AI design tools", "design systems"],
   openGraph: {
-    title: "Blog | Design, Product Development & Creative Process",
+    title: "What I'm Thinking About | Design, Product Development & Creative Process",
     description: "Thoughts on design, product development, and the creative process.",
     url: "/blog",
     images: [
@@ -28,7 +28,11 @@ export default function BlogPage() {
     <div className="pt-32 pb-20">
       <div className="max-w-[1200px] mx-auto px-12 lg:px-16">
         <div className="mb-16">
-          <h1 className="font-display text-5xl md:text-6xl font-light mb-4">Blog</h1>
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[1.0] tracking-[-0.02em] md:tracking-[-0.02em] lg:tracking-[-0.02em] mb-4">
+            What I'm
+            <br />
+            Thinking About
+          </h1>
           <p className="text-xl text-foreground/60 max-w-2xl">
             Thoughts on design, product development, and the creative process.
           </p>
