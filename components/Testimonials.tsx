@@ -6,21 +6,21 @@ import Image from "next/image";
 export default function Testimonials() {
   const testimonials = [
     {
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
+      image: "/images/will.avif",
       name: "Will Ross",
       role: "CEO & Co-Founder",
       company: "Federato",
       text: "Great design without compromise. That is what you get working with Robert Gourley. He will push you and your product to new heights. If product design excellence is what you are truly after but you feel blocked or aren't quite sure how to get there, look no further.",
     },
     {
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      image: "/images/asia.avif",
       name: "Asia Giles",
       role: "VP",
       company: "Prudential Financial",
       text: "Robert is someone you want to be around. Besides being an stellar thinker and designer, he is an awesome individual. Inspirational and genuine. Always dependable and easy to work with he has a knack for making it look effortless.",
     },
     {
-      image: "https://randomuser.me/api/portraits/women/47.jpg",
+      image: "/images/amy.avif",
       name: "Amy Maniatis",
       role: "EVP & CMO",
       company: "National Geographic",
@@ -66,14 +66,15 @@ export default function Testimonials() {
                 delay: index * 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="glass p-8 rounded-lg border border-foreground/10 flex flex-col items-center text-center"
+              whileHover={{ y: -4 }}
+              className="glass p-8 rounded-lg border border-foreground/10 flex flex-col items-center text-center transition-all duration-300 hover:border-foreground/30 hover:shadow-xl hover:shadow-foreground/10 cursor-pointer"
             >
               <Image
                 src={testimonial.image}
                 alt={testimonial.name}
-                width={48}
-                height={48}
-                className="rounded-full mb-6 border border-foreground/20"
+                width={64}
+                height={64}
+                className="rounded-full mb-6"
               />
               <p className="text-xl text-foreground/65 font-light mb-6 flex-1">
                 "{testimonial.text}"
