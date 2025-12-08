@@ -173,7 +173,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="relative z-10 max-w-[1200px] mx-auto px-12 lg:px-16 w-full">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16 w-full">
         <div className="max-w-2xl">
           <motion.div
             initial="hidden"
@@ -224,7 +224,7 @@ export default function Hero() {
               }}
               className="text-xl text-foreground/65 font-light leading-relaxed max-w-xl"
             >
-              Whether it's leading design for autonomous AI pilots, transforming how underwriters evaluate risk with machine learning, or helping traders move billions with confidence, I build systems that make the complex feel effortless.
+              Whether it's leading design for autonomous AI pilots, transforming how underwriters evaluate risk with machine learning, or helping traders move billions with confidence, I design systems that make the complex feel effortless.
             </motion.p>
 
             {/* Discover Link */}

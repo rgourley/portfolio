@@ -45,7 +45,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen pt-20 pb-20">
-      <div className="max-w-7xl mx-auto px-12 lg:px-16">
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>
           <p className="text-foreground/60">

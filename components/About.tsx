@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function About() {
   return (
     <section className="py-16 relative overflow-hidden">
-      <div className="relative z-10 max-w-[1200px] mx-auto px-12 lg:px-16">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -42,7 +42,7 @@ export default function About() {
             {/* Left column - Main content */}
             <div className="lg:col-span-8 space-y-8">
               <p className="text-xl font-light leading-relaxed text-foreground/65">
-                Twenty years building products across the spectrum. Consumer platforms that scaled to <span className="font-normal text-foreground">$1.2B acquisitions</span>. Trading systems processing <span className="font-normal text-foreground">$200B in volume</span>. ML underwriting platforms. AI music production. Autonomous robotics. What ties it together? Taking hairy technical challenges and crafting experiences that just work.
+                Many years leading design teams across product types. Consumer platforms with <span className="font-normal text-foreground">multi-billion dollar exits</span>. Trading systems processing <span className="font-normal text-foreground">$200B in volume</span>. ML underwriting platforms. AI music production. Autonomous robotics. What ties it together? Taking hairy technical challenges and crafting experiences that just work.
               </p>
               
               <p className="text-xl font-light leading-relaxed text-foreground/65">

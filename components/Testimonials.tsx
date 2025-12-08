@@ -30,7 +30,7 @@ export default function Testimonials() {
 
   return (
     <section className="py-16 relative overflow-hidden">
-      <div className="relative z-10 max-w-[1200px] mx-auto px-12 lg:px-16">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

@@ -39,7 +39,7 @@ export default function NewsletterPage() {
             />
           </div>
 
-          <div className="max-w-[1200px] mx-auto px-12 lg:px-16 w-full relative z-10">
+          <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16 w-full relative z-10">
             <div className="max-w-4xl">
               <div className="inline-flex items-center gap-2 mb-8">
                 <div className="grid grid-cols-2 gap-0.5 w-2 h-2 flex-shrink-0">
@@ -86,7 +86,7 @@ export default function NewsletterPage() {
           </div>
         </section>
 
-        <div className="max-w-[1200px] mx-auto px-12 lg:px-16">
+        <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
           {/* This Newsletter Is For You If */}
           <section className="mb-20">
             <div className="inline-flex items-center gap-2 mb-12">
@@ -205,7 +205,7 @@ export default function NewsletterPage() {
               />
             </div>
             
-            <div className="max-w-[900px] px-12 lg:px-16 py-16 relative z-10">
+            <div className="max-w-[900px] px-6 sm:px-12 lg:px-16 py-16 relative z-10">
               <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium mb-6">
                 Let's shape the future of design, together.
               </h2>

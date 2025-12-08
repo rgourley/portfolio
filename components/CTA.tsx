@@ -22,7 +22,7 @@ export default function CTA() {
           }}
         />
       </div>
-      <div className="relative z-10 max-w-[1200px] mx-auto px-12 lg:px-16">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -44,7 +44,7 @@ export default function CTA() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="mailto:hello@example.com"
+              href="mailto:rgourley@gmail.com"
               className="group inline-flex items-center gap-2 px-6 py-3 border border-foreground/30 rounded-full font-light text-sm hover:border-foreground transition-all duration-300"
             >
               <Mail className="w-4 h-4" />

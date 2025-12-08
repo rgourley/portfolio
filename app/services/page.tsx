@@ -48,7 +48,7 @@ export default function ServicesPage() {
           />
         </div>
 
-        <div className="max-w-[1200px] mx-auto px-12 lg:px-16 w-full relative z-10">
+        <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16 w-full relative z-10">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 mb-8">
               <div className="grid grid-cols-2 gap-0.5 w-2 h-2 flex-shrink-0">
@@ -79,7 +79,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <div className="max-w-[1200px] mx-auto px-12 lg:px-16">
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
 
         {/* Services Sections with Images */}
         <div className="space-y-20 mb-20">
@@ -259,7 +259,7 @@ export default function ServicesPage() {
             />
           </div>
           
-          <div className="max-w-[680px] px-12 lg:px-16 py-16 relative z-10">
+          <div className="max-w-[680px] px-6 sm:px-12 lg:px-16 py-16 relative z-10">
             <h2 className="font-display text-3xl md:text-4xl font-medium mb-3">Let's talk about your product</h2>
             <p className="text-[21px] text-foreground/65 font-light leading-[1.7] mb-8">
               Ready to turn complexity into clarity? Let's discuss how strategic design can drive your business forward.

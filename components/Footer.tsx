@@ -9,7 +9,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-border mt-20">
-      <div className="max-w-[1200px] mx-auto px-12 lg:px-16 py-12">
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16 py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Links */}
           <div className="flex items-center gap-6 flex-wrap justify-center">
@@ -35,7 +35,7 @@ export default function Footer() {
               Leadership
             </Link>
             <a 
-              href="mailto:hello@example.com" 
+              href="mailto:rgourley@gmail.com" 
               className="text-sm font-light text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
             >
               <FaEnvelope className="w-4 h-4" />

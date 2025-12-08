@@ -64,7 +64,7 @@ export default async function BlogPostPage({
 
   return (
     <article className="pt-32 pb-20">
-      <div className="max-w-[1200px] mx-auto px-12 lg:px-16">
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
         <Link
           href="/blog"
           className="inline-flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors mb-8"

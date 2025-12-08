@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="pt-32 pb-20">
-      <div className="max-w-[1200px] mx-auto px-12 lg:px-16">
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors mb-8"
@@ -36,10 +36,10 @@ export default function ContactPage() {
 
           <div className="space-y-6">
             <a
-              href="mailto:hello@example.com"
+              href="mailto:rgourley@gmail.com"
               className="block text-[19px] text-foreground/80 font-light leading-[1.7] hover:text-foreground transition-colors"
             >
-              hello@example.com
+              rgourley@gmail.com
             </a>
           </div>
         </div>

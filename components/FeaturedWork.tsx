@@ -13,7 +13,7 @@ interface FeaturedWorkProps {
 export default function FeaturedWork({ featuredWork }: FeaturedWorkProps) {
   return (
     <section className="py-16 relative overflow-hidden">
-      <div className="relative z-10 max-w-[1200px] mx-auto px-12 lg:px-16">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
         {/* Section Header */}
         <div className="mb-4">
           <div className="mb-2">

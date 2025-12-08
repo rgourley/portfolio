@@ -26,7 +26,7 @@ export default function WorkPage() {
 
   return (
     <div className="pt-32 pb-20">
-      <div className="max-w-[1200px] mx-auto px-12 lg:px-16">
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
         <div className="mb-16">
           <p className="text-base text-foreground/60 max-w-2xl">
             Selected projects showcasing design leadership and product innovation.
