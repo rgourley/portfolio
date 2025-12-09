@@ -32,10 +32,11 @@ export default function DesignApproach() {
           }}
         />
       </div>
-      {/* Background Image - extends from left edge to content start */}
+      {/* Background Image - desktop: extends from left edge to content start, mobile: shown above content */}
       <div className="absolute inset-0 -z-5 overflow-hidden">
+        {/* Desktop background image */}
         <div
-          className="absolute top-0 bottom-0 bg-cover bg-center bg-no-repeat opacity-12"
+          className="hidden lg:block absolute top-0 bottom-0 bg-cover bg-center bg-no-repeat opacity-12"
           style={{
             backgroundImage: "url('/images/plan.png')",
             left: '0',
@@ -51,6 +52,20 @@ export default function DesignApproach() {
             background: gradientOverlay
           }}
         />
+      </div>
+      
+      {/* Mobile image - shown above content */}
+      <div className="lg:hidden relative z-10 mb-8">
+        <div className="max-w-[1200px] mx-auto px-6 sm:px-12">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-lg opacity-80">
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: "url('/images/plan.png')",
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       <div className="relative z-10 max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
