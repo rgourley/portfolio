@@ -83,7 +83,7 @@ export default function LeadershipPage() {
 
             <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[1.0] tracking-[-0.02em] mb-8">
               Strategic Design Leadership.<br />
-              <span className="text-pink-400/60">More power to empower.</span>
+              <span className="text-blue-400/70">More power to empower.</span>
             </h1>
 
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-light leading-tight tracking-tight mb-8">

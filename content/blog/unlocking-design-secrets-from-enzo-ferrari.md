@@ -62,203 +62,22 @@ So, as we create, let us remember Enzo Ferrari's legacy and strive to design not
 
 ‍
 
-  
-
-  
-  
-  
-      
-      
-  
-  
-  
-      
-                                    
               ![](/images/image-97dd323a.jpg)
-              
-                /images/infinite-loader-gray-svg-3e582512.jpg
-              
-            
-                    
-                                    
-                         
-          
 
-          
-                                             
+                /images/infinite-loader-gray-svg-3e582512.jpg
+
               ![](/images/image-eefc81f4.jpg)
-              
-                /images/infinite-loader-gray-svg-3e582512.jpg
-              
-            
-                    
-                                    
-                         
-          
 
-          
-                                             
+                /images/infinite-loader-gray-svg-3e582512.jpg
+
               ![](/images/image-b035943e.jpg)
-              
-                /images/infinite-loader-gray-svg-3e582512.jpg
-              
-            
-                    
-                                    
-                         
-          
 
-          
-                                             
+                /images/infinite-loader-gray-svg-3e582512.jpg
+
               ![](/images/image-1d1b48ee.jpg)
-              
-                /images/infinite-loader-gray-svg-3e582512.jpg
-              
-            
-                    
-                                    
-                         
-          
 
-          
-                                             
+                /images/infinite-loader-gray-svg-3e582512.jpg
+
               ![](/images/image-f13f3454.jpg)
-              
+
                 /images/infinite-loader-gray-svg-3e582512.jpg
-              
-            
-                    
-                                    
-                         
-          
-
-          
-                   
-     
-  
-  
-  
-  
-  
-    
-                                
-                  
-                    
-                      
-                                                            
-                                                                                                              
-                      
-	
-                    
-                                  
-                                                    
-  
-
-      
-    
-    
-
-  
-  
-
-  
-                Tags: 
-      
-                  [Ferrari](tag/Ferrari)                            [design](tag/design)                            [car design](tag/car design)                            [automotive](tag/automotive)                        
-      
-
-    
-    
-    
-      
-          
-          Share
-      
-      
-        
-          Share
-          
-            
-              http://www.robertcreative.com/blog/unlocking-design-secrets-from-enzo-ferrari
-              
-                
-              
-              Copied
-            
-          
-          
-            
-              
-                
-                
-              
-            
-            
-              
-                
-                
-              
-            
-            
-              
-                
-                
-              
-            
-            
-              
-                
-                
-              
-            
-
-            
-              
-                
-              
-            
-
-            
-              
-                
-                
-              
-            
-              
-            
-            
-          
-
-        
-      
-      
-    
-  
-  
-  
-  
-          [  Previous Post ](/blog/what-is-a-design-system)
-              [ Next Post   ](/blog/100-best-pricing-page-examples)
-      
-
-      
-    
-      
-                Comments 
-      
-      
-        
-        
-          
-          
-          
-          
-        
-        
-          
-          
-            
-                              Post Comments
-                
-                          
-            Thank you!

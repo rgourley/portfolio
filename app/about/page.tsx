@@ -241,7 +241,7 @@ export default function AboutPage() {
           <h2 className="font-display text-3xl md:text-4xl font-medium mb-6">Let's Work Together</h2>
           
           <p className="text-[21px] text-foreground/65 font-light leading-[1.7] mb-8 max-w-3xl">
-            I'm currently leading design at Shield AI and also take on select consulting engagements, typically fractional leadership roles, strategic advisory work, or specific initiatives like design system creation or team building.
+            When my schedule allows, I take on select consulting engagements, typically fractional leadership roles, strategic advisory work, or specific initiatives like design system creation or team building.
           </p>
           
           <p className="text-[21px] text-foreground/65 font-light leading-[1.7] mb-8 max-w-3xl">
@@ -262,7 +262,7 @@ export default function AboutPage() {
         <section className="mb-20">
           <h2 className="font-display text-3xl md:text-4xl font-medium mb-12">Quick Facts</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl">
             <div>
               <p className="text-sm font-semibold text-foreground/60 mb-2">Current Role</p>
               <p className="text-[21px] text-foreground/65 font-light leading-[1.7] mb-6">Director of Product Design, Shield AI</p>

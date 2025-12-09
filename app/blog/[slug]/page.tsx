@@ -73,6 +73,20 @@ export default async function BlogPostPage({
           Back to blog
         </Link>
 
+        <header className="mb-8">
+          <div className="flex flex-wrap items-center gap-4 mb-4">
+            {post.tags.map((tag) => (
+              <span
+                key={tag}
+                className="text-sm px-3 py-1 rounded-full bg-muted text-foreground/70"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <h1 className="font-display text-6xl md:text-7xl lg:text-8xl font-semibold mb-8 leading-[1.0] tracking-[-0.02em]">{post.title}</h1>
+        </header>
+
         {post.image && (
           <div className="relative aspect-video rounded-2xl overflow-hidden mb-8">
             <Image
@@ -87,25 +101,14 @@ export default async function BlogPostPage({
           </div>
         )}
 
-        <header className="mb-8">
-          <div className="flex flex-wrap items-center gap-4 mb-4">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-sm px-3 py-1 rounded-full bg-muted text-foreground/70"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-          <h1 className="font-display text-4xl md:text-5xl font-light mb-4">{post.title}</h1>
+        <div className="mb-8">
           <p className="text-xl text-foreground/60 mb-6">{post.description}</p>
           {post.date && (
             <span className="text-sm text-foreground/50">
               {format(new Date(post.date), "MMMM d, yyyy")}
             </span>
           )}
-        </header>
+        </div>
 
         <MarkdownContent content={post.content} />
       </div>

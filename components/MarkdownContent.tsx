@@ -170,13 +170,14 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
                 : src;
               
               return (
-                <div className="my-8">
+                <div className="relative w-full my-8 aspect-video overflow-hidden rounded-lg bg-foreground/5">
                   <Image
                     src={normalizedSrc}
                     alt={alt}
-                    width={1200}
-                    height={675}
-                    className="w-full h-auto rounded-lg"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 900px, 1200px"
+                    className="object-cover rounded-lg"
+                    quality={85}
                     loading="lazy"
                   />
                 </div>
@@ -191,20 +192,21 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
               if (isConfiguredDomain) {
                 // Use Next.js Image for configured external domains
                 return (
-                  <div className="relative w-full my-8" style={{ aspectRatio: '16/9' }}>
+                  <div className="relative w-full my-8 aspect-video overflow-hidden rounded-lg bg-foreground/5">
                     <Image
                       src={src}
                       alt={alt}
                       fill
-                      sizes="(max-width: 768px) 100vw, 900px"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 900px, 1200px"
                       className="object-contain rounded-lg"
-                      quality={85}
+                      quality={80}
+                      loading="lazy"
                     />
                   </div>
                 );
               }
               
-              // Unconfigured external image - use regular img tag
+              // Unconfigured external image - use regular img tag with optimizations
               return (
                 <div className="my-8">
                   <img
@@ -213,6 +215,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
                     className="w-full h-auto rounded-lg"
                     loading="lazy"
                     decoding="async"
+                    fetchPriority="low"
                   />
                 </div>
               );
@@ -226,6 +229,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
                   decoding="async"
+                  fetchPriority="low"
                 />
               </div>
             );
