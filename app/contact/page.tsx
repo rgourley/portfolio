@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
+import EmailLink from "@/components/EmailLink";
 
 export const metadata: Metadata = {
   title: "Contact | Let's Work Together",
@@ -35,12 +36,13 @@ export default function ContactPage() {
           </p>
 
           <div className="space-y-6">
-            <a
-              href="mailto:rgourley@gmail.com"
+            <EmailLink
+              email="rgourley@gmail.com"
+              location="contact_page"
               className="block text-[19px] text-foreground/80 font-light leading-[1.7] hover:text-foreground transition-colors"
             >
               rgourley@gmail.com
-            </a>
+            </EmailLink>
           </div>
         </div>
       </div>

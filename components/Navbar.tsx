@@ -42,10 +42,10 @@ export default function Navbar() {
           <div className="flex items-center justify-between">
             <Link
               href="/"
-              className="text-base font-semibold tracking-tight hover:text-foreground/80 transition-colors"
+              className="text-sm font-bold tracking-tight hover:text-foreground/80 transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Rob Gourley
+              ROB GOURLEY
             </Link>
 
             {/* Desktop Navigation - Centered */}

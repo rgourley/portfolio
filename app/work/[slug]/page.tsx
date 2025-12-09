@@ -7,6 +7,7 @@ import MarkdownContent from "@/components/MarkdownContent";
 import Image from "next/image";
 import type { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
+import ProjectViewTracker from "@/components/ProjectViewTracker";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const work = await getWorkBySlug(params.slug);
@@ -81,6 +82,7 @@ export default async function WorkDetailPage({
 
   return (
     <article className="pt-32 pb-20">
+      <ProjectViewTracker slug={work.slug} title={work.title} />
       <StructuredData data={articleSchema} />
       <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
         <Link

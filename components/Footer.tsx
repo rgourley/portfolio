@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FaEnvelope } from "react-icons/fa";
 import { useTheme } from "@/components/ThemeProvider";
+import { trackEmailClick } from "@/lib/analytics";
 
 export default function Footer() {
   const { theme, toggleTheme } = useTheme();
@@ -37,6 +38,7 @@ export default function Footer() {
             <a 
               href="mailto:hello@example.com" 
               className="text-sm font-light text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
+              onClick={() => trackEmailClick("hello@example.com", "footer")}
             >
               <FaEnvelope className="w-4 h-4" />
               <span>Email</span>

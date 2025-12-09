@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Mail } from "lucide-react";
+import { trackEmailClick } from "@/lib/analytics";
+import EmailLink from "@/components/EmailLink";
 
 export default function CTA() {
   return (
@@ -43,14 +45,15 @@ export default function CTA() {
             Whether you're looking to transform a complex product or build something new, I'd love to hear about your project.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="mailto:rgourley@gmail.com"
+            <EmailLink
+              email="rgourley@gmail.com"
+              location="cta"
               className="group inline-flex items-center gap-2 px-6 py-3 border border-foreground/30 rounded-full font-light text-sm hover:border-foreground transition-all duration-300"
             >
               <Mail className="w-4 h-4" />
               Get in touch
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            </EmailLink>
             <Link
               href="/work"
               className="inline-flex items-center gap-2 px-6 py-3 text-foreground/60 hover:text-foreground font-light text-sm transition-colors"
