@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "What I'm Thinking About | Design, Product Development & Creative Process",
-  description: "Thoughts on design, product development, and the creative process. Insights on AI tools, design team building, design systems, and trends that matter.",
-  keywords: ["design blog", "product design", "UX design", "design thinking", "design leadership", "AI design tools", "design systems"],
+  description: "Design blog by Robert Gourley covering product design, UX strategy, AI-powered design tools, design team building, design systems, and design leadership. Practical insights from 20+ years of shipping products at scale. Read articles on design trends, team processes, and building complex technical products.",
+  keywords: ["design blog", "product design blog", "UX design", "design thinking", "design leadership", "AI design tools", "design systems", "design team building", "product development", "design strategy"],
   openGraph: {
     title: "What I'm Thinking About | Design, Product Development & Creative Process",
     description: "Thoughts on design, product development, and the creative process.",

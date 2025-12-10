@@ -18,15 +18,49 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
   }
 
+  // Use the work's description if available (should be written specifically for that project)
+  // Otherwise create a simple, natural fallback
+  let metaDescription = work.description;
+  
+  if (!metaDescription) {
+    // Create a natural description from available context
+    const parts = [work.title];
+    
+    if (work.client) {
+      parts.push(`for ${work.client}`);
+    }
+    
+    if (work.tags?.length) {
+      parts.push(`— ${work.tags.slice(0, 2).join(" and ")} design`);
+    }
+    
+    parts.push("by Robert Gourley.");
+    
+    metaDescription = parts.join(" ");
+  }
+  
+  const ogDescription = work.description || metaDescription;
+
   return {
-    title: `${work.title} | Product Design Case Study`,
-    description: work.description || `Case study: ${work.title}. ${work.tags?.join(", ")} design work by Robert Gourley.`,
-    keywords: [...(work.tags || []), "product design", "UX design", "case study", work.client || ""].filter(Boolean),
+    title: `${work.title} | Product Design Case Study${work.client ? ` - ${work.client}` : ""}`,
+    description: metaDescription,
+    keywords: [
+      ...(work.tags || []), 
+      "product design case study", 
+      "UX design case study", 
+      "product design portfolio",
+      work.client || "",
+      work.role || "",
+      "Robert Gourley",
+      "design leadership"
+    ].filter(Boolean),
     openGraph: {
       title: `${work.title} | Product Design Case Study`,
-      description: work.description || `Case study: ${work.title}`,
+      description: ogDescription,
       url: `/work/${work.slug}`,
       type: "article",
+      publishedTime: work.date,
+      authors: ["Robert Gourley"],
       images: work.image ? [
         {
           url: work.image,
@@ -39,7 +73,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     twitter: {
       card: "summary_large_image",
       title: work.title,
-      description: work.description || `Product design case study`,
+      description: ogDescription,
       images: work.image ? [work.image] : undefined,
     },
   };

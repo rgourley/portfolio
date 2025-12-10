@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Services | Product Design & Strategy Consulting",
-  description: "Strategic design partnership for organizations building intuitive products. Services include strategic design direction, product design execution, and design systems & team building. 20 years of experience turning ambitious ideas into shipping products.",
-  keywords: ["product design services", "UX design consulting", "design strategy", "design systems", "product design execution", "design team building", "design consulting"],
+  description: "Product design consulting services by Robert Gourley. Strategic design direction, end-to-end product design execution, and design systems & team building. Specializing in complex technical products, AI/ML interfaces, fintech platforms, and enterprise SaaS. 20+ years experience at Shield AI, Kraken, Crunchyroll, and Federato.",
+  keywords: ["product design services", "UX design consulting", "design strategy consulting", "design systems", "product design execution", "design team building", "design consulting", "AI product design", "fintech design consulting", "enterprise design"],
   openGraph: {
     title: "Services | Product Design & Strategy Consulting",
     description: "Strategic design partnership for organizations building intuitive products. Turn complexity into products people love.",

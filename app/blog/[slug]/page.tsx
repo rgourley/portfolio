@@ -16,16 +16,24 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
   }
 
+  // Use the post's description if available (should be written specifically for that post)
+  // Otherwise create a simple, natural fallback
+  const metaDescription = post.description || 
+    `${post.title}. ${post.tags?.length ? `Insights on ${post.tags.slice(0, 2).join(" and ")}. ` : ""}By Robert Gourley.`;
+
+  const ogDescription = post.description || metaDescription;
+
   return {
-    title: `${post.title} | Design Blog`,
-    description: post.description || `Read ${post.title} on design, product development, and the creative process.`,
-    keywords: [...(post.tags || []), "design blog", "product design", "UX design", "design thinking"].filter(Boolean),
+    title: `${post.title} | Design Blog by Robert Gourley`,
+    description: metaDescription,
+    keywords: [...(post.tags || []), "design blog", "product design blog", "UX design", "design thinking", "design leadership", "AI design tools", "Robert Gourley"].filter(Boolean),
     openGraph: {
       title: post.title,
-      description: post.description || `Design blog post by Robert Gourley`,
+      description: ogDescription,
       url: `/blog/${post.slug}`,
       type: "article",
       publishedTime: post.date,
+      authors: ["Robert Gourley"],
       images: post.image ? [
         {
           url: post.image,
@@ -38,7 +46,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     twitter: {
       card: "summary_large_image",
       title: post.title,
-      description: post.description || `Design blog post`,
+      description: ogDescription,
       images: post.image ? [post.image] : undefined,
     },
   };

@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Work | Product Design Projects & Case Studies",
-  description: "Selected projects showcasing design leadership and product innovation. Case studies from Shield AI's Hivemind autonomy platform, Kraken's trading platform, Federato's ML underwriting platform, and more.",
-  keywords: ["product design portfolio", "UX case studies", "design projects", "autonomy platform design", "trading platform UX", "fintech design", "enterprise product design"],
+  description: "Product design case studies and portfolio work by Robert Gourley. Explore design projects from Shield AI's Hivemind autonomy platform, Kraken's cryptocurrency trading platform, Federato's machine learning underwriting system, Axure's design tooling, and more. Detailed case studies showing design process, solutions, and outcomes.",
+  keywords: ["product design portfolio", "UX case studies", "design projects", "autonomy platform design", "trading platform UX", "fintech design", "enterprise product design", "design case studies", "Hivemind design", "Kraken UX"],
   openGraph: {
     title: "Work | Product Design Projects & Case Studies",
     description: "Selected projects showcasing design leadership and product innovation.",

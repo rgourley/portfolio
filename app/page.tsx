@@ -21,8 +21,8 @@ const CTA = dynamic(() => import("@/components/CTA"), {
 
 export const metadata: Metadata = {
   title: "Product Design & Strategy | Turning Complexity Into Products People Love",
-  description: "Product designer and design leader with 20 years of experience building systems that make the complex feel effortless. Specializing in autonomous AI, fintech, and enterprise products. Formerly at Shield AI, Kraken, Federato, and Crunchyroll.",
-  keywords: ["product design", "UX design", "design leadership", "autonomous systems", "AI product design", "fintech design", "design strategy", "product strategy"],
+  description: "Robert Gourley - Director of Product Design at Shield AI. 20+ years building complex technical products that users actually understand. Specializing in AI/ML interfaces, fintech platforms, and autonomous systems. Led design teams at Kraken ($200B trading volume), Crunchyroll ($1.2B acquisition), Federato, and Axure. Product design consulting and fractional leadership services.",
+  keywords: ["product design", "UX design", "design leadership", "autonomous systems", "AI product design", "fintech design", "design strategy", "product strategy", "Shield AI", "design consulting"],
   openGraph: {
     title: "Robert Gourley - Product Design & Strategy",
     description: "Turning complexity into products people love. Product designer and design leader specializing in complex technical products.",

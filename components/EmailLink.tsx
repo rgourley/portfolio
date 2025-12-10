@@ -25,3 +25,4 @@ export default function EmailLink({ email, location, className, children }: Emai
   );
 }
 
+

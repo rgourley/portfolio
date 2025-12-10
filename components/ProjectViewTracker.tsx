@@ -16,3 +16,4 @@ export default function ProjectViewTracker({ slug, title }: ProjectViewTrackerPr
   return null;
 }
 
+
