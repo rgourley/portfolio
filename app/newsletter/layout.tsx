@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Newsletter | Design Mind - Product Design, AI & Team Leadership",
-  description: "Rob Gourley's weekly newsletter on product design, AI, and team leadership. Join 2,000+ designers getting actionable insights. Read by designers at Google, Airbnb, and startups worldwide.",
-  keywords: ["design newsletter", "product design newsletter", "AI design tools", "design leadership", "design team building", "Design Mind newsletter"],
+  title: "The Autonomy Report | Rob Gourley's Weekly Briefing on Agentic AI",
+  description: "Daily briefing on agentic AI. Agent releases, model launches, infrastructure changes, and the work transition ahead. Join 2,000+ builders getting actionable takes.",
+  keywords: ["agentic AI", "AI agents", "autonomous systems", "AI newsletter", "agent readout", "Rob Gourley"],
   openGraph: {
-    title: "Design Mind Newsletter | Product Design, AI & Team Leadership",
-    description: "Weekly insights on product design, AI tools, and team leadership. Join 2,000+ designers getting actionable insights.",
+    title: "The Autonomy Report | Weekly Briefing on Agentic AI",
+    description: "Daily briefing on agentic AI. Agent releases, model launches, infrastructure changes, and the work transition ahead.",
     url: "/newsletter",
     images: [
       {
         url: "/images/og-newsletter.jpg",
         width: 1200,
         height: 630,
-        alt: "Design Mind Newsletter",
+        alt: "The Autonomy Report",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Design Mind Newsletter",
-    description: "Weekly insights on product design, AI tools, and team leadership.",
+    title: "The Autonomy Report",
+    description: "Rob Gourley's weekly briefing on agentic AI.",
   },
 };
 
@@ -31,7 +31,3 @@ export default function NewsletterLayout({
 }) {
   return children;
 }
-
-
-
-
