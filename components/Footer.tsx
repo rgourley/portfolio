@@ -57,10 +57,6 @@ export default function Footer() {
               <span className="hidden sm:inline">{theme === "dark" ? "Light" : "Dark"}</span>
             </button>
 
-            {/* Vibe coded line */}
-            <p className="text-xs text-grey-600">
-              Vibe coded with ♥ using Cursor and Figma MCP
-            </p>
           </div>
         </div>
       </div>

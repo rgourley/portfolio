@@ -46,6 +46,20 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
+  async redirects() {
+    return [
+      {
+        source: '/financial-ui-suite',
+        destination: '/projects/financial-ui-suite',
+        permanent: true,
+      },
+      {
+        source: '/quant-garage',
+        destination: '/projects/quant-garage',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

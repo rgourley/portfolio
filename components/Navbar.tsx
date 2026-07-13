@@ -38,7 +38,7 @@ export default function Navbar() {
             : "bg-transparent border-transparent py-6"
         }`}
       >
-        <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
+        <div className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16">
           <div className="flex items-center justify-between">
             <Link
               href="/"
@@ -127,7 +127,7 @@ export default function Navbar() {
           
           {/* Menu Content */}
           <div className="absolute top-0 left-0 right-0 glass border-b border-border/50 pt-20 pb-8">
-            <div className="max-w-[1200px] mx-auto px-6">
+            <div className="max-w-[1360px] mx-auto px-6">
               <nav className="flex flex-col gap-6">
                 <Link
                   href="/work"
