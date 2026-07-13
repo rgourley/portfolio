@@ -6,7 +6,7 @@ import { ArrowUpRight, Check, Github, Terminal } from "lucide-react";
 const PAGE_PATH = "/projects/quant-garage";
 const PAGE_TITLE = "Quant Garage — Pro market research, no terminal";
 const PAGE_DESCRIPTION =
-  "Forty-one tools and eight one-command workflows for equity research, sizing, and risk. Ask Claude \"review my book\" or import the same function into a Python notebook. Every number cites the live API call it came from.";
+  "Forty-two tools and thirteen one-command workflows for equity research, sizing, and risk. Ask Claude \"review my book\" or import the same function into a Python notebook. Every number cites the live API call it came from.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Quant Garage. Pro research. No terminal.",
     description:
-      "Trade like a pro. Without the terminal. Forty-one tools, eight workflows, one Massive key. Ask from Claude or call from Python.",
+      "Trade like a pro. Without the terminal. Forty-two tools, thirteen workflows, one Massive key. Ask from Claude or call from Python.",
     url: PAGE_PATH,
     siteName: "Robert Gourley",
     type: "website",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Quant Garage. Pro research. No terminal.",
     description:
-      "Trade like a pro. Without the terminal. 41 tools, 8 workflows. Ask from Claude or import into Python.",
+      "Trade like a pro. Without the terminal. 42 tools, 13 workflows. Ask from Claude or import into Python.",
     creator: "@rgourley",
   },
 };
@@ -261,13 +261,13 @@ const PLANS: Plan[] = [
   {
     name: "Basic (free)",
     price: "$0",
-    unlocks: "18 tools + most workflows end to end",
+    unlocks: "21 tools + most workflows end to end",
     note: "5 calls/min, end-of-day data, SEC EDGAR fallback for earnings",
   },
   {
     name: "Stocks Starter",
     price: "$29/mo",
-    unlocks: "38 of 41 tools, every workflow composite",
+    unlocks: "39 of 42 tools, every workflow composite",
     note: "unlimited rate, 15-min delayed real-time, bulk grouped-aggregates",
   },
   {
@@ -526,7 +526,7 @@ function WhatItIs() {
             The full research desk, one prompt away.
           </h2>
           <p className="text-xl text-foreground/80 font-medium leading-[1.5] tracking-[-0.005em] mb-4 max-w-3xl">
-            Forty-one tools that each answer one analyst question well. Earnings previews. Risk reports. Factor research. Options flow. Corporate actions. Macro calendars. Eight workflows chain them into complete briefings, so one prompt returns the whole read.
+            Forty-two tools that each answer one analyst question well. Earnings previews. Risk reports. Factor research. Options flow. Corporate actions. Macro calendars. Thirteen workflows chain them into complete briefings, so one prompt returns the whole read.
           </p>
           <p className="text-lg text-foreground/60 font-normal leading-[1.55] max-w-3xl">
             Every figure carries the endpoint and timestamp it came from. Every take shows its work. Ask from Claude, import into a Python notebook, or wire it into a cron job. Same computation, same audit trail, same answer.
@@ -626,7 +626,7 @@ function Hero() {
                 Analyst-grade market research used to live behind expensive professional terminals. Now it runs in your Claude, or a Python notebook, grounded in live data and silent when the numbers won&rsquo;t support a take.
               </p>
               <p className="text-lg md:text-xl text-foreground/70 font-normal leading-relaxed">
-                Eight one-command workflows chain multiple tools into a single market briefing. One prompt returns the regime, the risk, the upcoming earnings, the macro calendar, and the sector rotation. The read a research analyst would put together at 8am, computed on demand.
+                Thirteen one-command workflows chain multiple tools into a single market briefing. One prompt returns the regime, the risk, the upcoming earnings, the macro calendar, and the sector rotation. The read a research analyst would put together at 8am, computed on demand.
               </p>
               <p className="text-lg md:text-xl text-foreground/90 font-semibold leading-snug tracking-tight">
                 Trade like a pro. Without the terminal.
@@ -655,12 +655,12 @@ function Hero() {
 
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/50">
               <span>
-                <span className="text-foreground/90 mr-1.5 tabular-nums">41</span>
+                <span className="text-foreground/90 mr-1.5 tabular-nums">42</span>
                 tools
               </span>
               <span className="text-foreground/20">·</span>
               <span>
-                <span className="text-foreground/90 mr-1.5 tabular-nums">8</span>
+                <span className="text-foreground/90 mr-1.5 tabular-nums">13</span>
                 workflows
               </span>
               <span className="text-foreground/20">·</span>
@@ -1036,7 +1036,7 @@ function WorkflowsSection() {
   return (
     <section className="border-b border-foreground/10 py-24">
       <Container>
-        <SectionEyebrow number="04" label="Eight one-command workflows" />
+        <SectionEyebrow number="04" label="Thirteen one-command workflows" />
         <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
           <div className="max-w-2xl">
             <h2 className="font-display text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.05] tracking-[-0.03em] mb-4">
@@ -1082,7 +1082,7 @@ function PrimitivesSection() {
   return (
     <section className="border-b border-foreground/10 py-24">
       <Container>
-        <SectionEyebrow number="05" label="Forty-one primitives" />
+        <SectionEyebrow number="05" label="Forty-two primitives" />
         <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
           <div className="max-w-2xl">
             <h2 className="font-display text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.05] tracking-[-0.03em] mb-4">
@@ -1209,7 +1209,7 @@ function PlanSection() {
               You need a Massive API key. Free works for most of it.
             </h2>
             <p className="text-lg text-foreground/65 font-light leading-relaxed">
-              Every install needs a key. The Basic tier is free and runs 18 tools plus most workflows end to end. Stocks Starter at $29/month opens 38 of 41 tools and every workflow. Add-ons matter only for options data, live streaming, and Benzinga fundamentals.
+              Every install needs a key. The Basic tier is free and runs 21 tools plus most workflows end to end. Stocks Starter at $29/month opens 39 of 42 tools and every workflow. Add-ons matter only for options data, live streaming, and Benzinga fundamentals.
             </p>
           </div>
         </div>
