@@ -60,7 +60,7 @@ export default function ServicesPage() {
               <span className="text-lg font-semibold text-foreground/60">Product Design & Strategy</span>
             </div>
 
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[1.0] tracking-[-0.02em] mb-8">
+            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[0.98] tracking-[-0.035em] mb-8">
               Strategic Design Partnership
             </h1>
 

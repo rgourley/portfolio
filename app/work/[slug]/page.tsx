@@ -97,7 +97,7 @@ export default async function WorkDetailPage({
     notFound();
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.robertcreative.com';
 
   const articleSchema = {
     "@context": "https://schema.org",

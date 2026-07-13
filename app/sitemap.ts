@@ -3,7 +3,7 @@ import { getAllWork } from '@/lib/content';
 import { getAllBlogPosts } from '@/lib/content';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.robertcreative.com';
   
   // Static pages
   const staticPages = [

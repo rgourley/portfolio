@@ -45,7 +45,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   const featuredWork = getFeaturedWork();
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.robertcreative.com';
 
   const personSchema = {
     "@context": "https://schema.org",

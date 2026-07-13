@@ -202,7 +202,7 @@ export default function Hero() {
                   },
                 },
               }}
-              className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[1.0] tracking-[-0.02em] md:tracking-[-0.02em] lg:tracking-[-0.02em]"
+              className="font-display text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[0.98] tracking-[-0.035em]"
             >
               Turning complexity
               <br />
