@@ -50,8 +50,8 @@ export default function ProjectsIndexPage() {
           <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/45 mb-6">
             Projects
           </div>
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-medium leading-[0.98] tracking-[-0.035em] mb-6">
-            Open source tools I built and use.
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[1.0] tracking-[-0.02em] mb-6">
+            The tools I wanted didn't exist.<br />So I built them.
           </h1>
           <p className="text-lg text-foreground/65 font-light leading-relaxed">
             Design-led product work for people who ship. Each is used in real workflows before it goes public.

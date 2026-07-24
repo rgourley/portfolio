@@ -51,6 +51,7 @@ export default function Navbar() {
             {/* Desktop Navigation - Centered */}
             <div className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
               <Link href="/work" className="text-sm font-light text-foreground/60 hover:text-foreground transition-colors">Work</Link>
+              <Link href="/projects" className="text-sm font-light text-foreground/60 hover:text-foreground transition-colors">Projects</Link>
               <Link href="/resume" className="text-sm font-light text-foreground/60 hover:text-foreground transition-colors">Resume</Link>
               <Link href="/blog" className="text-sm font-light text-foreground/60 hover:text-foreground transition-colors">Blog</Link>
               <Link href="/about" className="text-sm font-light text-foreground/60 hover:text-foreground transition-colors">About</Link>
@@ -135,6 +136,13 @@ export default function Navbar() {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Work
+                </Link>
+                <Link
+                  href="/projects"
+                  className="text-lg font-light text-foreground/80 hover:text-foreground transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Projects
                 </Link>
                 <Link
                   href="/resume"
