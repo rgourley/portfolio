@@ -117,7 +117,7 @@ export default async function OGImage() {
               </div>
               <div style={{ color: "#404040" }}>·</div>
               <div style={{ display: "flex", gap: 6 }}>
-                <span style={{ color: "#f5f5f5" }}>10</span>
+                <span style={{ color: "#f5f5f5" }}>14</span>
                 <span>styles</span>
               </div>
             </div>
