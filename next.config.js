@@ -46,6 +46,9 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
+  async rewrites() {
+    return [{ source: '/amphora', destination: '/amphora/index.html' }];
+  },
   async redirects() {
     return [
       {
