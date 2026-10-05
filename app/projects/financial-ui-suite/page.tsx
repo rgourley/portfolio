@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import Script from "next/script";
 import type { Metadata } from "next";
 import { ArrowUpRight, Check, Github, Terminal } from "lucide-react";
 
@@ -585,20 +584,20 @@ export default function FinancialUISuitePage() {
 
   return (
     <div className="pt-24 pb-24">
-      <Script
+      <script
         id="ld-fui-software"
         type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(softwareSchema)}
-      </Script>
-      <Script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(softwareSchema).replace(/</g, "\\u003c"),
+        }}
+      />
+      <script
         id="ld-fui-breadcrumb"
         type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(breadcrumbSchema)}
-      </Script>
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c"),
+        }}
+      />
 
       <Hero />
       <Composition />
@@ -3437,15 +3436,7 @@ function FinalCTA() {
       <Container>
         <div className="text-center max-w-3xl mx-auto">
           <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/45 mb-6">
-            MIT · by Robert Gourley, principal product engineer at{" "}
-            <a
-              href={MASSIVE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground/70 hover:text-foreground underline underline-offset-4 decoration-foreground/25 hover:decoration-foreground/60 transition-colors"
-            >
-              Massive
-            </a>
+            MIT · by Robert Gourley
           </div>
           <h2 className="font-display text-5xl md:text-7xl font-black leading-[1.0] tracking-[-0.04em] mb-8">
             Ship something that doesn&apos;t look generated.

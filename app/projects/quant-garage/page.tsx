@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Script from "next/script";
 import type { Metadata } from "next";
 import { ArrowUpRight, Check, Github, Terminal } from "lucide-react";
 
@@ -354,20 +353,20 @@ export default function QuantGaragePage() {
 
   return (
     <div className="pt-24 pb-24">
-      <Script
+      <script
         id="ld-quant-garage-software"
         type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(softwareSchema)}
-      </Script>
-      <Script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(softwareSchema).replace(/</g, "\\u003c"),
+        }}
+      />
+      <script
         id="ld-quant-garage-breadcrumb"
         type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(breadcrumbSchema)}
-      </Script>
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c"),
+        }}
+      />
       <Hero />
       <WhatItIs />
       <ClaudePath />

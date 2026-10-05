@@ -1,6 +1,7 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
 export const alt = "financial-ui-suite — Claude Code plugin for financial UI";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -24,18 +25,21 @@ const interRegular = fetch(
   "https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.19/files/inter-latin-500-normal.woff",
 ).then((res) => res.arrayBuffer());
 
-function getBaseUrl(): string {
-  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  return "http://localhost:3010";
+// The image reads the previews from disk. It does not fetch them over HTTP,
+// because the site URL is not reachable when the image renders at build time.
+async function readPreview(slug: string): Promise<string> {
+  const file = await readFile(
+    join(process.cwd(), "public", "images", "fui", `${slug}.png`),
+  );
+  return `data:image/png;base64,${file.toString("base64")}`;
 }
 
 export default async function OGImage() {
-  const baseUrl = getBaseUrl();
-  const [blackData, semiBoldData, regularData] = await Promise.all([
+  const [blackData, semiBoldData, regularData, previews] = await Promise.all([
     interBlack,
     interSemiBold,
     interRegular,
+    Promise.all(PREVIEW_SLUGS.map(readPreview)),
   ]);
 
   return new ImageResponse(
@@ -167,7 +171,7 @@ export default async function OGImage() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={`${baseUrl}/images/fui/${slug}.png`}
+                src={previews[i]}
                 alt={slug}
                 width={217}
                 height={235}
