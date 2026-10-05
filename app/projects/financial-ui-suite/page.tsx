@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import { ArrowUpRight, Check, Github, Terminal } from "lucide-react";
 
 const PAGE_PATH = "/projects/financial-ui-suite";
-const PAGE_TITLE = "financial-ui-suite — Claude Code plugin for financial UI";
+const PAGE_TITLE = "Financial UI Suite: a Claude Code plugin";
 const PAGE_DESCRIPTION =
-  "A Claude Code plugin with two skills, 17 correctness references, and 14 design styles modeled on Bloomberg, TradingView, Kraken Pro, Robinhood, FT, Yahoo Finance, and more. Stops the AI from shipping the same generic dashboard every time.";
+  "A Claude Code plugin: 17 correctness references and 14 design styles modeled on Bloomberg, TradingView, Robinhood, and FT. No more generic AI dashboards.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,

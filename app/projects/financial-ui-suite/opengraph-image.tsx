@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-export const alt = "financial-ui-suite — Claude Code plugin for financial UI";
+export const alt = "Financial UI Suite: a Claude Code plugin";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
