@@ -1,19 +1,63 @@
 import { NextResponse } from "next/server";
 
+type Segment = {
+  id: string;
+  name: string;
+};
+
+type SegmentList = {
+  data: Segment[];
+};
+
+type SignupPayload = {
+  email?: string;
+};
+
+const amphoraSegmentName = "Amphora Launch Updates";
+
+async function getAmphoraSegmentId(apiKey: string): Promise<string | null> {
+  const headers = { Authorization: `Bearer ${apiKey}` };
+  const segmentsResponse = await fetch("https://api.resend.com/segments", { headers });
+  if (!segmentsResponse.ok) return null;
+
+  const segments = (await segmentsResponse.json()) as SegmentList;
+  const existingSegment = segments.data.find(
+    (segment) => segment.name.toLowerCase() === amphoraSegmentName.toLowerCase()
+  );
+  if (existingSegment) return existingSegment.id;
+
+  const createResponse = await fetch("https://api.resend.com/segments", {
+    method: "POST",
+    headers: { ...headers, "Content-Type": "application/json" },
+    body: JSON.stringify({ name: amphoraSegmentName }),
+  });
+
+  if (createResponse.ok) {
+    const createdSegment = (await createResponse.json()) as Segment;
+    return createdSegment.id;
+  }
+
+  const retryResponse = await fetch("https://api.resend.com/segments", { headers });
+  if (!retryResponse.ok) return null;
+
+  const retrySegments = (await retryResponse.json()) as SegmentList;
+  return retrySegments.data.find(
+    (segment) => segment.name.toLowerCase() === amphoraSegmentName.toLowerCase()
+  )?.id ?? null;
+}
+
 export async function POST(request: Request): Promise<NextResponse> {
   const apiKey = process.env.RESEND_API_KEY;
-  const segmentId = process.env.RESEND_AMPHORA_SEGMENT_ID;
-
-  if (!apiKey || !segmentId) {
+  if (!apiKey) {
     return NextResponse.json(
       { error: "The Amphora mailing list is not configured." },
       { status: 503 }
     );
   }
 
-  let body: { email?: string };
+  let body: SignupPayload;
   try {
-    body = (await request.json()) as { email?: string };
+    body = (await request.json()) as SignupPayload;
   } catch {
     return NextResponse.json({ error: "Enter a valid email address." }, { status: 400 });
   }
@@ -24,6 +68,14 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
 
   try {
+    const segmentId = await getAmphoraSegmentId(apiKey);
+    if (!segmentId) {
+      return NextResponse.json(
+        { error: "Could not prepare the Amphora mailing list." },
+        { status: 502 }
+      );
+    }
+
     const resendResponse = await fetch("https://api.resend.com/contacts", {
       method: "POST",
       headers: {
@@ -40,10 +92,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     if (resendResponse.status === 409) {
       const segmentResponse = await fetch(
         `https://api.resend.com/contacts/${encodeURIComponent(email)}/segments/${encodeURIComponent(segmentId)}`,
-        {
-          method: "POST",
-          headers: { Authorization: `Bearer ${apiKey}` },
-        }
+        { method: "POST", headers: { Authorization: `Bearer ${apiKey}` } }
       );
 
       if (segmentResponse.ok) {
