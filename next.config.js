@@ -47,7 +47,10 @@ const nextConfig = {
     } : false,
   },
   async rewrites() {
-    return [{ source: '/amphora', destination: '/amphora/index.html' }];
+    return [
+      { source: '/amphora', destination: '/amphora/index.html' },
+      { source: '/amphora/updates', destination: '/amphora/updates/index.html' },
+    ];
   },
   async redirects() {
     return [

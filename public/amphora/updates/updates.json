@@ -1,0 +1,104 @@
+{
+  "entries": [
+    {
+      "date": "2026-10-09",
+      "title": "A description for every town and ruin",
+      "summary": "Every town, village and ruin now has its own description, drawn from the land around it: the stone it's built from, what its fields grow, which workshops line its streets, what its people are known for. Two towns on the same coast read differently.",
+      "items": [
+        "Descriptions name the local work, the stone underfoot and the crops in the fields",
+        "Market towns carry a local tale",
+        "Ruins are described from the rock they stand on"
+      ]
+    },
+    {
+      "date": "2026-10-06",
+      "title": "Bandits and pirates",
+      "summary": "Raiders now come from somewhere. Pirate coasts and bandit gangs grow where life is hard and there's somewhere to hide, and towns pay guards to push them back. Every road and sea route has a danger level that changes month to month.",
+      "items": [
+        "Hideouts form on rugged coasts, islands and rough hills near busy routes",
+        "Poor towns turn to petty robbery in famine years",
+        "You hear about dangerous roads from locals, sometimes late",
+        "Before a risky trip, choose: hire guards, take another road, or go anyway",
+        "Raiders may take a toll, steal cargo, rob you outright, or at sea hold your crew for ransom"
+      ]
+    },
+    {
+      "date": "2026-10-02",
+      "title": "Legends and deep history",
+      "summary": "Every world now has thousands of years of past behind it, built from the world itself. Volcanoes erupted, cities fell, peoples migrated. Each people remembers it differently, and the stories are clues.",
+      "items": [
+        "Locals tell their people's legends at the market and when you talk to them",
+        "A legend can point you to a real ruin or an old road",
+        "Ruins and sunken harbours appear on the map once you've heard of them or seen them",
+        "Festivals have names, some for a people's founding or escape",
+        "The Chronicle has a new Deep past section"
+      ]
+    },
+    {
+      "date": "2026-09-29",
+      "title": "Save and load",
+      "summary": "Save your game and pick it up later exactly where you left it.",
+      "items": [
+        "Your cards, what you've learned and the clock all carry over",
+        "Bandit hideouts, legends and festival names are kept too"
+      ]
+    },
+    {
+      "date": "2026-09-25",
+      "title": "Haggling and merchants",
+      "summary": "Market prices are now a starting point. Each market has named merchants with their own tempers, and what you pay depends on who you are and how you bargain.",
+      "items": [
+        "Prices show as a range, not one number",
+        "Strangers get quoted worse prices. Trade in a town and the gap closes",
+        "Sea ports and caravan towns bargain hard. River farming towns stay closer to fixed prices",
+        "Haggle fairly, or push hard and risk the merchant walking away",
+        "Merchants remember you. Five fair trades in a town earns a guest-friendship"
+      ]
+    },
+    {
+      "date": "2026-09-22",
+      "title": "News and rumours",
+      "summary": "You only know what you've seen or heard. News travels with traders, gets older on the way, and isn't always right.",
+      "items": [
+        "Prices in far towns are rumours until you go and look",
+        "Strangers know less about a town than locals do",
+        "Talk to locals to learn roads, towns and prices nearby"
+      ]
+    },
+    {
+      "date": "2026-09-18",
+      "title": "Decision cards",
+      "summary": "Events now arrive as cards with clear choices, written in plain English.",
+      "items": [
+        "Hire a worker from the people who want the job",
+        "Storms, arrivals and offers each come with options",
+        "Cards show how many days you have to decide"
+      ]
+    },
+    {
+      "date": "2026-09-15",
+      "title": "Live clock",
+      "summary": "The world now runs on its own. Pause it, or play at three speeds, and watch pack trains and boats move along the routes.",
+      "items": [
+        "Speed 1 for careful play, speed 3 to let a season pass",
+        "The header shows the date, your silver and your daily costs"
+      ]
+    },
+    {
+      "date": "2026-09-11",
+      "title": "Clearer markets",
+      "summary": "The market panel shows less and says more.",
+      "items": [
+        "Prices are for one unit, with whole units in store",
+        "Goods a market doesn't have are hidden",
+        "Small villages list only what they have spare and what they want"
+      ]
+    },
+    {
+      "date": "2026-09-08",
+      "title": "Market days and festivals",
+      "summary": "Towns come alive on market days and festivals. More traders turn up, more goods change hands, and prices move while it lasts.",
+      "items": []
+    }
+  ]
+}

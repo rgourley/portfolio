@@ -164,11 +164,12 @@
     .signup-status { min-height: 18px; color: var(--paper); }
     footer { display: flex; justify-content: space-between; gap: 25px; padding: 28px clamp(24px, 9vw, 140px); color: #9e9e8d; font-size: 10px; letter-spacing: .08em; }
     footer a { color: var(--paper); text-decoration: none; }
+    .foot-links { display: flex; gap: 22px; }
     @media (max-width: 760px) {
       .topbar { padding: 18px 20px; }
       .nav { gap: 15px; }
       .nav a:not(.nav-join) { display: none; }
-      .nav a[href="#people"] { display: inline; }
+      .nav a[href="#people"], .nav a[href="updates/"] { display: inline; }
       .hero { min-height: 730px; height: 90svh; }
       .hero::before { background-position: 61% center; background-image: linear-gradient(90deg, rgba(9,16,15,.82), rgba(9,16,15,.3)), linear-gradient(0deg, rgba(12,20,19,.52), transparent 65%), url("assets/start.webp"); }
       .hero-copy { width: auto; margin: 25px 24px 0; }
@@ -210,7 +211,8 @@
       <a href="#world">The world</a>
       <a href="#people">People</a>
       <a href="#trade">Trading</a>
-      <a class="nav-join" href="#signup">Get updates</a>
+      <a href="updates/">Updates</a>
+      <a class="nav-join" href="#signup">Sign up</a>
     </nav>
   </header>
   <main>
@@ -400,7 +402,7 @@
       </div>
     </section>
   </main>
-  <footer><span>© Amphora · A game by <a href="https://www.robertcreative.com/" target="_blank" rel="noreferrer">Rob Gourley</a></span><a href="#home">Back to the road</a></footer>
+  <footer><span>© Amphora · A game by <a href="https://www.robertcreative.com/" target="_blank" rel="noreferrer">Rob Gourley</a></span><span class="foot-links"><a href="updates/">Updates</a><a href="#home">Back to the road</a></span></footer>
   <script>
     // The arrow buttons scroll the card track in their section by about one screen of cards.
     document.querySelectorAll(".goods-arrows button").forEach((button) => {
