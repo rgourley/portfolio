@@ -117,6 +117,12 @@
     .fleet-section .good-card.more { color: var(--paper); border-color: var(--line); }
     .fleet-section .good-card.more b { color: var(--brass); }
     .fleet-section .good-card.more p { color: var(--muted); }
+    .workshops-section { background: #172624; }
+    .good-card img.work-art { width: 100%; height: 150px; margin: 0 auto 14px; object-fit: contain; }
+    .work-facts { display: grid; grid-template-columns: 52px 1fr; gap: 6px 10px; margin: auto 0 0; padding-top: 14px; border-top: 1px solid rgba(26,41,40,.14); font-size: 11px; line-height: 1.5; }
+    .good-card p + .work-facts { margin-top: 14px; }
+    .work-facts dt { color: #946d3f; letter-spacing: .1em; text-transform: uppercase; font-size: 9px; padding-top: 2px; }
+    .work-facts dd { margin: 0; color: #1a2928; }
     .goods-caption { color: #7a7a68; font-size: 10px; margin: 8px 0 0; }
     .world-section { padding-top: 113px; padding-bottom: 120px; }
     .world-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 12px; }
@@ -292,6 +298,39 @@
         <article class="good-card more"><b>+162</b><h3>And many more</h3><p>Barley, cheese, timber, hides, copper, bronze, papyrus, marble, silk, horses and every craft in between.</p></article>
       </div>
       <p class="goods-caption">Twelve of the goods in the first playable world. Prices move with harvests, makers, freight, and news.</p>
+    </section>
+    <section class="section goods-section fleet-section workshops-section" id="workshops" aria-labelledby="workshops-title">
+      <div class="goods-top">
+        <div class="section-head">
+          <div class="eyebrow">Where goods are made</div>
+          <h2 id="workshops-title">Clay becomes jars. Copper and tin become bronze.</h2>
+          <p>A workshop buys its inputs in the local market and sells what it makes. Each one starts small and grows, from a household kiln to an export works.</p>
+        </div>
+        <div class="goods-arrows">
+          <button type="button" data-dir="-1" aria-label="Previous workshops">←</button>
+          <button type="button" data-dir="1" aria-label="More workshops">→</button>
+        </div>
+      </div>
+      <div class="goods-track" aria-label="Examples of workshops" tabindex="0">
+        <article class="good-card"><img class="work-art" src="assets/workshops/mill.webp" alt="" loading="lazy"><span class="good-tier">Food</span><h3>Mill</h3><p>Every loaf starts here. Mills need farmland and running water or an ox to turn the stones.</p><dl class="work-facts"><dt>Makes</dt><dd>Wheat → flour</dd><dt>Grows</dt><dd>Household quern → water mill</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/bakery.webp" alt="" loading="lazy"><span class="good-tier">Food</span><h3>Bakery</h3><p>Flour and firewood become the daily loaf. Towns need about one oven for every hundred people.</p><dl class="work-facts"><dt>Makes</dt><dd>Flour, firewood → bread</dd><dt>Grows</dt><dd>Household oven → great town bakery</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/olive-press.webp" alt="" loading="lazy"><span class="good-tier">Food</span><h3>Olive press</h3><p>Five baskets of olives give one of oil, and the oil needs jars before it can travel.</p><dl class="work-facts"><dt>Makes</dt><dd>Olives, jars → olive oil</dd><dt>Grows</dt><dd>Household press → press house</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/winery.webp" alt="" loading="lazy"><span class="good-tier">Food</span><h3>Winery</h3><p>Must ferments in jars into wine. A town that keeps its quality earns a name for it.</p><dl class="work-facts"><dt>Makes</dt><dd>Grape must, jars → wine</dd><dt>Grows</dt><dd>Household vats → wine house</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/fish-salter.webp" alt="" loading="lazy"><span class="good-tier">Food</span><h3>Fish salter</h3><p>Fresh fish rots in a day. Packed in salt, it keeps for months and can ship inland.</p><dl class="work-facts"><dt>Makes</dt><dd>Fresh fish, salt → salted fish</dd><dt>Grows</dt><dd>Salting tubs → salting works</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/amphora-kiln.webp" alt="" loading="lazy"><span class="good-tier">Pottery</span><h3>Amphora kiln</h3><p>One load of clay and firewood makes 55 jars. Oil, wine and fish all ship in what this kiln makes.</p><dl class="work-facts"><dt>Makes</dt><dd>Clay, firewood → amphorae</dd><dt>Grows</dt><dd>Household kiln → export works</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/bronze-foundry.webp" alt="" loading="lazy"><span class="good-tier">Metal</span><h3>Bronze foundry</h3><p>Nine parts copper to one of tin. A foundry far from tin waits on the ships that bring it.</p><dl class="work-facts"><dt>Makes</dt><dd>Copper, tin, charcoal → bronze</dd><dt>Grows</dt><dd>Bronze foundry → great foundry</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/smithy.webp" alt="" loading="lazy"><span class="good-tier">Metal</span><h3>Smithy</h3><p>Iron bloom is hammered into bars, then into tool heads that every farm wears out.</p><dl class="work-facts"><dt>Makes</dt><dd>Iron bloom, charcoal → tools</dd><dt>Grows</dt><dd>Village smith → armoury</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/weaver.webp" alt="" loading="lazy"><span class="good-tier">Cloth</span><h3>Weaver</h3><p>Spun wool becomes cloth on the loom. Towns keep about one loom for every two hundred people.</p><dl class="work-facts"><dt>Makes</dt><dd>Wool yarn → woollen cloth</dd><dt>Grows</dt><dd>Household loom → cloth works</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/purple-dyer.webp" alt="" loading="lazy"><span class="good-tier">Luxury</span><h3>Purple dyer</h3><p>Shells boiled with salt give a little dye. Dyed wool becomes the costliest cloth in the game.</p><dl class="work-facts"><dt>Makes</dt><dd>Murex, salt, cloth → purple cloth</dd><dt>Grows</dt><dd>Household dye pots → great dye works</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/tanner.webp" alt="" loading="lazy"><span class="good-tier">Cloth</span><h3>Tanner</h3><p>Hides from the butchers soak in pits of bark for months. Tanners need pasture and slaughter nearby.</p><dl class="work-facts"><dt>Makes</dt><dd>Hides, bark → leather</dd><dt>Grows</dt><dd>Family pits → tanners' quarter</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/glassworks.webp" alt="" loading="lazy"><span class="good-tier">Luxury</span><h3>Glassworks</h3><p>A few skilled furnaces turn a bed of sand into flasks and beads for rich buyers far away.</p><dl class="work-facts"><dt>Makes</dt><dd>Sand, firewood → glass ware, beads</dd><dt>Grows</dt><dd>Glassblower's furnace → tank furnace works</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/perfumer.webp" alt="" loading="lazy"><span class="good-tier">Luxury</span><h3>Perfumer</h3><p>Oil steeped with aromatics. Light, small and costly, so it pays for the longest routes.</p><dl class="work-facts"><dt>Makes</dt><dd>Olive oil, aromatics → perfume</dd><dt>Grows</dt><dd>Household pots → perfume workshop</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/jeweller.webp" alt="" loading="lazy"><span class="good-tier">Luxury</span><h3>Jeweller</h3><p>Gold, silver and cut stones made into jewellery and plate. A few big towns keep one.</p><dl class="work-facts"><dt>Makes</dt><dd>Gold, silver, gems → jewellery, silver ware</dd><dt>Grows</dt><dd>Goldsmith → court workshop</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/rope-and-sail-maker.webp" alt="" loading="lazy"><span class="good-tier">Ships</span><h3>Rope and sail maker</h3><p>Flax twisted into rope and linen woven into sails. Harbours with flax farms nearby rig the ships.</p><dl class="work-facts"><dt>Makes</dt><dd>Flax, linen yarn → rope, sailcloth</dd><dt>Grows</dt><dd>Household twisting → naval ropery</dd></dl></article>
+        <article class="good-card"><img class="work-art" src="assets/workshops/cartwright.webp" alt="" loading="lazy"><span class="good-tier">Carriers</span><h3>Cartwright</h3><p>Planks and a little iron make wheels, handcarts, carts and wagons for the roads inland.</p><dl class="work-facts"><dt>Makes</dt><dd>Planks, iron → wheels, carts, wagons</dd><dt>Grows</dt><dd>Village carpenter → builders' yard</dd></dl></article>
+        <article class="good-card more"><b>+94</b><h3>And many more</h3><p>Shipyards, breweries, quarries, mines, salt pans, papyrus makers, sculptors and every trade in between.</p></article>
+      </div>
+      <p class="goods-caption">Sixteen of the workshops in the game. Each runs on real inputs bought in its own market.</p>
     </section>
     <section class="section goods-section fleet-section" id="fleet" aria-labelledby="fleet-title">
       <div class="goods-top">
