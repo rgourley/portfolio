@@ -1,11 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Open source tools and libraries by Robert Gourley. Financial UI systems, quant research tooling, and design-led product work.",
+    "Games, open source tools, and experiments by Robert Gourley. Amphora, Git Kingdom, Quant Garage, and the Financial UI Suite.",
   openGraph: {
     title: "Projects | Robert Gourley",
     description:
@@ -16,37 +17,136 @@ export const metadata: Metadata = {
 };
 
 type Project = {
-  slug: string;
   name: string;
   tagline: string;
   blurb: string;
   meta: string;
+  href: string;
+  external?: boolean;
+  cta: string;
+  image?: string;
+  imageAlt?: string;
+  cover?: "terminal";
+};
+
+const FEATURED: Project = {
+  name: "Amphora",
+  tagline: "Build a merchant dynasty.",
+  blurb:
+    "A Mediterranean trading simulation of shifting economies, generated cultures, and family dynasties. Trade from local markets to distant shores and build a trading house across generations.",
+  meta: "Game · In development",
+  href: "/amphora",
+  cta: "Visit Amphora",
+  image: "/amphora/assets/landing-harbor.webp",
+  imageAlt: "A Mediterranean harbor from the game Amphora",
 };
 
 const PROJECTS: Project[] = [
   {
-    slug: "quant-garage",
+    name: "Git Kingdom",
+    tagline: "GitHub as a fantasy RPG world.",
+    blurb:
+      "Every language becomes a kingdom and every repo a building. Sign in with GitHub and your code joins a shared, procedurally generated pixel-art world.",
+    meta: "Phaser · TypeScript · Vercel · AGPL",
+    href: "https://gitkingdom.com",
+    external: true,
+    cta: "Explore the world",
+    image: "/images/projects/git-kingdom.webp",
+    imageAlt: "The Git Kingdom world map",
+  },
+  {
     name: "quant-garage",
     tagline: "Analyst workflows as Claude skills.",
     blurb:
       "Forty-one Python tools and eight one-command workflows for equity research, sizing, and risk. Ask Claude or import the same function into a notebook. Every number cites the live API call it came from.",
     meta: "Python · Claude Code · Massive API · MIT",
+    href: "/projects/quant-garage",
+    cta: "Read more",
+    cover: "terminal",
   },
   {
-    slug: "financial-ui-suite",
     name: "financial-ui-suite",
     tagline: "Financial UI that looks like the product it ships in.",
     blurb:
       "Two Claude Code skills, 17 reference docs, and 10 visual systems modeled on Bloomberg, TradingView, Kraken Pro, Robinhood, the FT, and more. Drops generic AI dashboards on the floor.",
     meta: "Claude Code plugin · React · Tailwind · MIT",
+    href: "/projects/financial-ui-suite",
+    cta: "Read more",
+    image: "/images/projects/financial-ui-suite.webp",
+    imageAlt: "A dark professional trading dashboard from the Financial UI Suite",
   },
 ];
+
+function TerminalCover() {
+  return (
+    <div className="absolute inset-0 bg-[#0a0a0a] p-6 font-mono text-[12px] leading-relaxed text-foreground/70">
+      <div className="mb-4 flex gap-1.5">
+        <span className="h-2.5 w-2.5 rounded-full bg-foreground/20" />
+        <span className="h-2.5 w-2.5 rounded-full bg-foreground/20" />
+        <span className="h-2.5 w-2.5 rounded-full bg-foreground/20" />
+      </div>
+      <p><span className="text-emerald-400">❯</span> claude</p>
+      <p className="text-foreground/50">&gt; review my book</p>
+      <p className="mt-3 text-foreground/45">Pulling positions, factor exposure, risk…</p>
+      <p className="text-foreground/45">✓ 14 holdings · beta 1.12 · top weight 18.4%</p>
+      <p className="text-foreground/45">✓ source: /v2/aggs/ticker/NVDA/range</p>
+    </div>
+  );
+}
+
+function Cover({ p, priority }: { p: Project; priority?: boolean }) {
+  return (
+    <div className="relative aspect-[16/10] overflow-hidden bg-[color:var(--muted)]">
+      {p.image ? (
+        <Image
+          src={p.image}
+          alt={p.imageAlt ?? ""}
+          fill
+          priority={priority}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+        />
+      ) : (
+        p.cover === "terminal" && <TerminalCover />
+      )}
+      <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-foreground/10" />
+    </div>
+  );
+}
+
+function CardLink({
+  p,
+  className,
+  children,
+}: {
+  p: Project;
+  className: string;
+  children: React.ReactNode;
+}) {
+  // /amphora is a static HTML page rewritten in next.config.js, so use a plain anchor.
+  if (p.external || p.href === "/amphora") {
+    return (
+      <a
+        href={p.href}
+        className={className}
+        {...(p.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={p.href} className={className}>
+      {children}
+    </Link>
+  );
+}
 
 export default function ProjectsIndexPage() {
   return (
     <div className="pt-32 pb-24">
       <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
-        <div className="mb-16 max-w-3xl">
+        <div className="mb-14 max-w-3xl">
           <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/45 mb-6">
             Projects
           </div>
@@ -54,33 +154,68 @@ export default function ProjectsIndexPage() {
             The tools I wanted didn't exist.<br />So I built them.
           </h1>
           <p className="text-lg text-foreground/65 font-light leading-relaxed">
-            Design-led product work for people who ship. Each is used in real workflows before it goes public.
+            Games, tools, and experiments. Each is used in real workflows before it goes public.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <CardLink
+          p={FEATURED}
+          className="group mb-6 grid overflow-hidden rounded-2xl border border-foreground/10 bg-[color:var(--muted)] transition-colors hover:border-foreground/30 md:grid-cols-5"
+        >
+          <div className="md:col-span-3">
+            <div className="relative aspect-[16/10] h-full min-h-[260px] md:aspect-auto">
+              <Image
+                src={FEATURED.image!}
+                alt={FEATURED.imageAlt ?? ""}
+                fill
+                priority
+                sizes="(min-width: 768px) 60vw, 100vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              />
+            </div>
+          </div>
+          <div className="flex min-w-0 flex-col justify-center p-8 md:col-span-2 md:p-10">
+            <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground/45">
+              Featured · {FEATURED.meta}
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl font-medium leading-[1.05] tracking-[-0.02em] mb-4">
+              {FEATURED.name}
+            </h2>
+            <p className="text-lg text-foreground/85 mb-3">{FEATURED.tagline}</p>
+            <p className="text-sm text-foreground/60 font-light leading-relaxed mb-8">
+              {FEATURED.blurb}
+            </p>
+            <span className="inline-flex items-center gap-2 text-sm text-foreground/85">
+              {FEATURED.cta}
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </span>
+          </div>
+        </CardLink>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {PROJECTS.map((p) => (
-            <Link
-              key={p.slug}
-              href={`/projects/${p.slug}`}
-              className="group block border border-foreground/10 bg-[color:var(--muted)] p-8 hover:border-foreground/30 transition-colors"
+            <CardLink
+              key={p.name}
+              p={p}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-[color:var(--muted)] transition-colors hover:border-foreground/30"
             >
-              <div className="flex items-center justify-between mb-6">
-                <div className="font-mono text-sm text-foreground/85">
-                  {p.name}
+              <Cover p={p} />
+              <div className="flex flex-1 flex-col p-8">
+                <div className="mb-5 flex items-center justify-between">
+                  <div className="font-mono text-sm text-foreground/85">{p.name}</div>
+                  <ArrowUpRight className="h-4 w-4 text-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <h2 className="font-display text-2xl md:text-3xl font-medium leading-[1.1] tracking-[-0.02em] mb-4">
+                  {p.tagline}
+                </h2>
+                <p className="mb-6 flex-1 text-sm text-foreground/60 font-light leading-relaxed">
+                  {p.blurb}
+                </p>
+                <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-foreground/45">
+                  {p.meta}
+                </div>
               </div>
-              <h2 className="font-display text-2xl md:text-3xl font-medium leading-[1.1] tracking-[-0.02em] mb-4">
-                {p.tagline}
-              </h2>
-              <p className="text-sm text-foreground/60 font-light leading-relaxed mb-6">
-                {p.blurb}
-              </p>
-              <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-foreground/45">
-                {p.meta}
-              </div>
-            </Link>
+            </CardLink>
           ))}
         </div>
       </div>
