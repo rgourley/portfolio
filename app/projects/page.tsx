@@ -125,8 +125,8 @@ const PROJECTS: Project[] = [
     meta: "TypeScript · Claude Code · Open source",
     href: "/projects/proxies",
     cta: "Visit Proxies",
-    image: "/images/projects/proxies-run.webp",
-    imageAlt: "A Proxies run showing twelve simulated stakeholders and ranked findings",
+    image: "/images/proxies/results-meeting.webp",
+    imageAlt: "A Proxies meeting result with eleven simulated stakeholders and how their positions moved",
     position: "top",
   },
 ];

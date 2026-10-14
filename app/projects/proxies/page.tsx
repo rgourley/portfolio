@@ -8,7 +8,7 @@ const GITHUB_URL = "https://github.com/rgourley/proxies";
 const PAGE_TITLE = "Proxies: test your idea on simulated stakeholders";
 const PAGE_DESCRIPTION =
   "Proxies is a free Claude Code skill. It makes a room of simulated stakeholders, each with their own role, goals, and hard lines. Show them an idea, a prototype, or a design, and each one tells you where it breaks for them, before the real meeting.";
-const OG_IMAGE = "/images/projects/proxies-run.webp";
+const OG_IMAGE = "/images/proxies/results-meeting.webp";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: "Robert Gourley",
     type: "website",
     locale: "en_US",
-    images: [{ url: OG_IMAGE, width: 2000, height: 1544, alt: "A Proxies results page" }],
+    images: [{ url: OG_IMAGE, width: 2000, height: 1436, alt: "A Proxies results page" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -280,9 +280,9 @@ function ResultsShot() {
         <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
           <Image
             src={OG_IMAGE}
-            alt="A Proxies results page: twelve simulated stakeholders, who blocks the idea and why, and a ranked list of findings"
+            alt="A Proxies meeting result: eleven simulated stakeholders with avatars, a summary of the question and the decision, and how each position moved"
             width={2000}
-            height={1544}
+            height={1436}
             sizes="(min-width: 1024px) 80vw, 100vw"
             className="h-auto w-full"
           />
@@ -416,10 +416,10 @@ function PersonCardSection() {
           </div>
           <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
             <Image
-              src="/images/projects/proxies-person-card.webp"
-              alt="A Proxies person card for Sam, an engineering lead who can veto. It lists what he is measured on, his hard lines, his blind spots, and how he reviews"
-              width={1470}
-              height={720}
+              src="/images/proxies/person-card-kofi.webp"
+              alt="A Proxies person card for Kofi, head of player support. It shows his avatar, a quote, what he is measured on, his hard lines, his blind spots, and how he reviews"
+              width={2000}
+              height={1158}
               sizes="(min-width: 1024px) 55vw, 100vw"
               className="h-auto w-full"
             />
