@@ -26,6 +26,7 @@ type Project = {
   cta: string;
   image?: string;
   imageAlt?: string;
+  position?: string;
 };
 
 const FEATURED: Project = {
@@ -72,8 +73,9 @@ const PROJECTS: Project[] = [
     meta: "Claude Code plugin · React · Tailwind · MIT",
     href: "/projects/financial-ui-suite",
     cta: "Read more",
-    image: "/images/projects/financial-ui-suite.webp",
-    imageAlt: "A dark professional trading dashboard from the Financial UI Suite",
+    image: "/images/projects/massive-desk.webp",
+    imageAlt: "Massive Desk, a dark trading workspace built with the Financial UI Suite",
+    position: "top",
   },
   {
     name: "geofaces",
@@ -108,8 +110,9 @@ const PROJECTS: Project[] = [
     href: "https://github.com/rgourley/proxies",
     external: true,
     cta: "View on GitHub",
-    image: "/images/projects/proxies.webp",
-    imageAlt: "A Proxies run showing six simulated stakeholders and ranked findings",
+    image: "/images/projects/proxies-run.webp",
+    imageAlt: "A Proxies run showing twelve simulated stakeholders and ranked findings",
+    position: "top",
   },
 ];
 
@@ -123,6 +126,7 @@ function Cover({ p, priority }: { p: Project; priority?: boolean }) {
           fill
           priority={priority}
           sizes="(min-width: 768px) 50vw, 100vw"
+          style={p.position ? { objectPosition: p.position } : undefined}
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
         />
       ) : null}
