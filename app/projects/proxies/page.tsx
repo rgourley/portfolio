@@ -50,23 +50,23 @@ export const metadata: Metadata = {
 
 const REASONS = [
   {
-    title: "Each person is a separate agent",
-    body: "Every person only sees their own card. They do not blur into one agreeable voice.",
+    title: "Real disagreement, not polite agreement",
+    body: "Each persona runs as a separate agent and only sees their own card, so they cannot blur into one agreeable voice.",
   },
   {
-    title: "People are saved and reused",
-    body: "You build your team once. When a real person says something different, you correct the card.",
+    title: "Personas that get closer to the real people",
+    body: "You build your team of personas once and reuse it. When a real person says something different, you correct the card.",
   },
   {
-    title: "They read the real documents",
-    body: "They review against your real spec and decision docs, not an old draft.",
+    title: "Feedback on your real work",
+    body: "They read your real spec and decision docs, not an old draft.",
   },
   {
-    title: "Every run has a clear outcome",
-    body: "First everyone gives a view on their own. Then they answer each other. Then someone decides. Disagreement is written down.",
+    title: "A clear outcome, not a long chat",
+    body: "Everyone gives a view on their own. Then they answer each other. Then someone decides, and any disagreement is written down.",
   },
   {
-    title: "One page with the answer",
+    title: "One page that tells you what to fix",
     body: "Every run ends on one results page: who blocks it, what is critical, and what fixes it.",
   },
 ];
@@ -75,7 +75,7 @@ const STEPS = [
   {
     n: "01",
     title: "Pick a team",
-    body: "Choose a company and its people. Three sample teams come with the project, or you can describe your own and Claude drafts it.",
+    body: "Choose a company and its personas. Three sample teams come with the project, or you can describe your own and Claude drafts it.",
   },
   {
     n: "02",
@@ -96,11 +96,11 @@ const COMMANDS = [
   },
   {
     cmd: "meeting",
-    body: "They debate it, then the person who decides makes the call.",
+    body: "They debate it, then the persona who decides makes the call.",
   },
   {
     cmd: "prep",
-    body: "Get each person's top questions before you walk in.",
+    body: "Get each persona's top questions before you walk in.",
   },
   {
     cmd: "followup",
@@ -108,11 +108,11 @@ const COMMANDS = [
   },
   {
     cmd: "compare",
-    body: "Show two versions. Each person picks one.",
+    body: "Show two versions. Each persona picks one.",
   },
   {
     cmd: "ask / talk",
-    body: "Ask one person a question, or have a longer chat.",
+    body: "Ask one persona a question, or have a longer chat.",
   },
 ];
 
@@ -231,7 +231,7 @@ function Hero() {
           <div>
             <div className="max-w-xl mb-8 space-y-4">
               <p className="text-lg md:text-xl text-[#efe6d0]/75 leading-relaxed">
-                Proxies are simulated people you test an idea on. Each one has a
+                Proxies are simulated personas you test an idea on. Each one has a
                 role, goals, and hard lines. You show them a flow, a spec, or a
                 prototype, and each one tells you where it breaks for them.
               </p>
@@ -280,7 +280,7 @@ function ResultsShot() {
         <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
           <Image
             src="/images/proxies/results-dark.webp"
-            alt="A Proxies meeting result: eleven simulated stakeholders with avatars, a summary of the question and the decision, and how each position moved"
+            alt="A Proxies meeting result: eleven personas with avatars, a summary of the question and the decision, and how each position moved"
             width={2000}
             height={1349}
             sizes="(min-width: 1024px) 80vw, 100vw"
@@ -301,7 +301,7 @@ function StandingsSection() {
           See who thinks what, and what changed.
         </h2>
         <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed max-w-2xl mb-12">
-          Each person gives a first take, then answers the room. You can see
+          Each persona gives a first take, then answers the room. You can see
           at a glance who moved and who held their ground.
         </p>
         <div className="grid lg:grid-cols-2 gap-6">
@@ -317,14 +317,14 @@ function StandingsSection() {
               />
             </div>
             <figcaption className="mt-3 text-sm text-[#efe6d0]/55 font-light">
-              Hover over a person to see their hard lines.
+              Hover over a persona to see their hard lines.
             </figcaption>
           </figure>
           <figure>
             <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
               <Image
                 src="/images/proxies/each-view.webp"
-                alt="A list of ten people with their first take and their response to the room, such as Rework to Rework or Ship with changes"
+                alt="A list of ten personas with their first take and their response to the room, such as Rework to Rework or Ship with changes"
                 width={1654}
                 height={1204}
                 sizes="(min-width: 1024px) 45vw, 100vw"
@@ -332,7 +332,7 @@ function StandingsSection() {
               />
             </div>
             <figcaption className="mt-3 text-sm text-[#efe6d0]/55 font-light">
-              Open a person to read their rounds in order.
+              Open a persona to read their rounds in order.
             </figcaption>
           </figure>
         </div>
@@ -367,16 +367,16 @@ function WhySection() {
         <div className="grid lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-20 items-start">
           <div>
             <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.03em] mb-10">
-              One prompt gives you one agreeable voice.{" "}
-              <span className="text-[#ec4a2a]">Proxies doesn&rsquo;t.</span>
+              Five personas in one prompt is still one voice.{" "}
+              <span className="text-[#ec4a2a]">Proxies keeps them apart.</span>
             </h2>
-            <div className="max-w-sm overflow-hidden rounded-xl border border-[#2e2a26]">
+            <div className="max-w-[220px] overflow-hidden rounded-xl border border-[#2e2a26]">
               <Image
                 src="/images/proxies/dialogue.webp"
                 alt="Two flat illustrated figures facing each other, each with an empty speech bubble"
                 width={1024}
                 height={1024}
-                sizes="(min-width: 1024px) 24vw, 80vw"
+                sizes="220px"
                 className="h-auto w-full"
               />
             </div>
@@ -440,11 +440,11 @@ function PersonCardSection() {
   return (
     <section className="border-b border-[#2e2a26] py-24">
       <Container>
-        <SectionEyebrow number="04" label="The people" />
+        <SectionEyebrow number="04" label="The personas" />
         <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-16 items-center">
           <div>
             <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-6">
-              Every person has a card.
+              Every persona has a card.
             </h2>
             <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed mb-6">
               The card says who they are and what they care about. It is just a
@@ -459,7 +459,7 @@ function PersonCardSection() {
               ))}
             </ul>
             <p className="text-sm text-[#efe6d0]/55 font-light leading-relaxed mb-8">
-              Each person also gets an avatar. The same person always gets the
+              Each persona also gets an avatar. The same persona always gets the
               same one.
             </p>
             <AvatarRow />
@@ -467,7 +467,7 @@ function PersonCardSection() {
           <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
             <Image
               src="/images/proxies/card-kofi-dark.webp"
-              alt="A Proxies person card for Kofi, head of player support. It shows his avatar, a quote, what he is measured on, his hard lines, his blind spots, and how he reviews"
+              alt="A Proxies persona card for Kofi, head of player support. It shows his avatar, a quote, what he is measured on, his hard lines, his blind spots, and how he reviews"
               width={2000}
               height={1222}
               sizes="(min-width: 1024px) 55vw, 100vw"
@@ -522,12 +522,12 @@ function OwnTeamSection() {
             <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed mb-8 max-w-2xl">
               Write a few lines about the business, and Claude drafts it for
               you: the rules, who decides what, and the words people use. Then
-              add people one at a time. Anything Claude guessed is marked, and you
+              add personas one at a time. Anything Claude guessed is marked, and you
               see the draft before it is saved.
             </p>
             <div className="space-y-4 text-[#efe6d0]/70 font-light leading-relaxed max-w-2xl">
               <p>
-                Each person has a decision level. Some decide. Some can block.
+                Each persona has a decision level. Some decide. Some can block.
                 Some must sign off. Some give advice. Some just want to be kept
                 in the loop.
               </p>
@@ -537,7 +537,7 @@ function OwnTeamSection() {
                 closer to the real people over time.
               </p>
               <p>
-                You can also share a whole team as one file, or copy a person
+                You can also share a whole team as one file, or copy a persona
                 into another company and adjust them. Three sample teams come
                 with the project: a project planning tool, a clinic network, and
                 a game studio.
@@ -548,7 +548,7 @@ function OwnTeamSection() {
             <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
               <Image
                 src="/images/proxies/people-list.webp"
-                alt="The Proxies library showing a team of eleven people, each with an avatar, a name, and a decision level such as decision owner, veto holder, or consulted"
+                alt="The Proxies library showing a team of eleven personas, each with an avatar, a name, and a decision level such as decision owner, veto holder, or consulted"
                 width={558}
                 height={1126}
                 sizes="220px"
@@ -556,7 +556,7 @@ function OwnTeamSection() {
               />
             </div>
             <figcaption className="mt-3 text-sm text-[#efe6d0]/55 font-light">
-              A team of eleven, from decision owner to informed.
+              A team of eleven personas, from decision owner to informed.
             </figcaption>
           </figure>
         </div>
