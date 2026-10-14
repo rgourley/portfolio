@@ -4,11 +4,19 @@ import type { Metadata } from "next";
 import { ArrowUpRight, Check, Github, Terminal } from "lucide-react";
 
 const PAGE_PATH = "/projects/proxies";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.robertcreative.com";
 const GITHUB_URL = "https://github.com/rgourley/proxies";
-const PAGE_TITLE = "Proxies: test your idea on simulated stakeholders";
+const PAGE_TITLE = "Proxies: Simulated Stakeholder Reviews";
 const PAGE_DESCRIPTION =
-  "Proxies is a free Claude Code skill. It makes a room of simulated stakeholders, each with their own role, goals, and hard lines. Show them an idea, a prototype, or a design, and each one tells you where it breaks for them, before the real meeting.";
-const OG_IMAGE = "/images/proxies/results-hover.webp";
+  "Proxies is a free Claude Code skill. Simulated personas review your idea, prototype, or design and tell you where it breaks, before the real meeting.";
+const OG_TITLE = "Proxies. Ask your stakeholders before the meeting.";
+const OG_DESCRIPTION =
+  "Simulated personas review your idea, prototype, or design and tell you where it breaks for them. Free and open source.";
+const OG_IMAGE = "/images/proxies/og-proxies.jpg";
+const OG_IMAGE_ALT =
+  "Proxies: flat mid-century illustration of people in red, teal and ochre sitting around an oval table";
+const RESULTS_IMAGE = "/images/proxies/results-hover.webp";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -17,34 +25,48 @@ export const metadata: Metadata = {
     "Proxies",
     "simulated stakeholders",
     "stakeholder review",
+    "AI personas",
+    "persona review",
     "design review",
     "concept review",
     "red team",
     "Claude Code skill",
-    "AI personas",
     "product review",
     "Robert Gourley",
   ],
   authors: [{ name: "Robert Gourley", url: "https://github.com/rgourley" }],
   creator: "Robert Gourley",
+  publisher: "Robert Gourley",
+  category: "software",
   alternates: { canonical: PAGE_PATH },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
-    title: "Proxies. Ask your stakeholders before the meeting.",
-    description:
-      "Simulated stakeholders review your idea, prototype, or design and tell you where it breaks for them.",
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
     url: PAGE_PATH,
     siteName: "Robert Gourley",
     type: "website",
     locale: "en_US",
-    images: [{ url: OG_IMAGE, width: 2000, height: 1282, alt: "A Proxies results page" }],
+    images: [
+      { url: `${SITE_URL}${OG_IMAGE}`, width: 1200, height: 630, alt: OG_IMAGE_ALT },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Proxies. Ask your stakeholders before the meeting.",
-    description:
-      "Simulated stakeholders review your idea, prototype, or design and tell you where it breaks for them.",
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
     creator: "@rgourley",
-    images: [OG_IMAGE],
+    images: [{ url: `${SITE_URL}${OG_IMAGE}`, alt: OG_IMAGE_ALT }],
   },
 };
 
@@ -308,7 +330,7 @@ function StandingsSection() {
           <figure>
             <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
               <Image
-                src="/images/proxies/results-hover.webp"
+                src={RESULTS_IMAGE}
                 alt="A Proxies result with a hover card for Tomas, a technical director who can veto, showing his quote and hard lines"
                 width={2000}
                 height={1282}
@@ -674,8 +696,7 @@ function FinalCTA() {
 }
 
 export default function ProxiesPage() {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://www.robertcreative.com";
+  const siteUrl = SITE_URL;
   const pageUrl = `${siteUrl}${PAGE_PATH}`;
 
   const softwareSchema = {
@@ -688,6 +709,8 @@ export default function ProxiesPage() {
     codeRepository: GITHUB_URL,
     runtimePlatform: ["Claude Code", "Node.js 22+"],
     license: "https://polyformproject.org/licenses/shield/1.0.0/",
+    isAccessibleForFree: true,
+    inLanguage: "en",
     author: {
       "@type": "Person",
       name: "Robert Gourley",
@@ -695,12 +718,35 @@ export default function ProxiesPage() {
     },
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Projects",
+        item: `${siteUrl}/projects`,
+      },
+      { "@type": "ListItem", position: 3, name: "Proxies", item: pageUrl },
+    ],
+  };
+
   return (
     <>
       <script
+        id="ld-proxies-software"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(softwareSchema).replace(/</g, "\\u003c"),
+        }}
+      />
+      <script
+        id="ld-proxies-breadcrumb"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c"),
         }}
       />
       <div className="pt-28 bg-[#0f0e0d] text-[#efe6d0]">

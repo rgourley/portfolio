@@ -6,11 +6,11 @@ import { ArrowUpRight } from "lucide-react";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Games, open source tools, and experiments by Robert Gourley. Amphora, Git Kingdom, Quant Garage, and the Financial UI Suite.",
+    "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Git Kingdom, Quant Garage, Financial UI Suite, Proxies, geofaces, and more.",
   openGraph: {
     title: "Projects | Robert Gourley",
     description:
-      "Open source tools and libraries by Robert Gourley.",
+      "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Git Kingdom, Quant Garage, Proxies, and more.",
     url: "/projects",
     type: "website",
   },
