@@ -148,49 +148,126 @@ function Container({ children }: { children: React.ReactNode }) {
 
 function SectionEyebrow({ number, label }: { number: string; label: string }) {
   return (
-    <div className="flex items-center gap-3 mb-8 text-[11px] uppercase tracking-[0.18em] text-foreground/45 font-mono">
-      <span className="text-foreground/70">{number}</span>
-      <span className="h-px w-8 bg-foreground/20" aria-hidden="true" />
+    <div className="flex items-center gap-3 mb-8 text-[11px] uppercase tracking-[0.18em] text-[#efe6d0]/45 font-mono">
+      <span className="text-[#efe6d0]/70">{number}</span>
+      <span className="h-px w-8 bg-[#efe6d0]/20" aria-hidden="true" />
       <span>{label}</span>
     </div>
   );
 }
 
+const FIG = {
+  red: "#ec4a2a",
+  red2: "#d23a1f",
+  teal: "#2b6470",
+  teal2: "#1d4650",
+  ochre: "#b5873a",
+  brown: "#5a2a1c",
+  cream: "#efe6d0",
+  grey: "#8a9a9b",
+};
+
+function Figure({
+  x,
+  top,
+  w = 150,
+  body,
+  head,
+  hair,
+  tie,
+}: {
+  x: number;
+  top: number;
+  w?: number;
+  body: string;
+  head: string;
+  hair?: string;
+  tie?: boolean;
+}) {
+  const hx = x - 32;
+  return (
+    <g>
+      <path d={`M${x - w / 2} 816 L${x - w * 0.34} ${top + 190} L${x + w * 0.34} ${top + 190} L${x + w / 2} 816 Z`} fill={body} />
+      {tie && <path d={`M${x - 16} ${top + 190} L${x + 16} ${top + 190} L${x + 8} ${top + 300} L${x - 8} ${top + 300} Z`} fill={FIG.cream} />}
+      <rect x={x - 12} y={top + 100} width="24" height="92" fill={head} />
+      <rect x={hx} y={top} width="64" height="108" rx="26" fill={head} />
+      {hair && <path d={`M${hx - 4} ${top + 56} Q${hx - 6} ${top - 6} ${hx + 36} ${top - 4} Q${hx + 70} ${top - 2} ${hx + 68} ${top + 40} L${hx + 40} ${top + 24} Q${hx + 20} ${top + 34} ${hx + 6} ${top + 90} Z`} fill={hair} />}
+    </g>
+  );
+}
+
+function HeroArt() {
+  return (
+    <svg
+      viewBox="0 0 1456 816"
+      role="img"
+      aria-label="Flat illustration of people in red, teal and ochre sitting around a table"
+      className="h-full w-full"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <defs>
+        <filter id="px-grain" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n" />
+          <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0" />
+        </filter>
+      </defs>
+      <rect width="1456" height="816" fill="#0f0e0d" />
+      <Figure x={120} top={170} w={210} body={FIG.red} head="#f08a63" hair={FIG.red2} />
+      <Figure x={330} top={190} w={190} body={FIG.teal} head={FIG.grey} tie />
+      <Figure x={575} top={110} w={230} body={FIG.red} head="#e8793f" hair={FIG.brown} />
+      <Figure x={845} top={130} w={250} body={FIG.ochre} head={FIG.red2} hair={FIG.ochre} />
+      <Figure x={1070} top={95} w={210} body={FIG.red2} head="#ef6a3f" hair={FIG.brown} tie />
+      <Figure x={1290} top={150} w={230} body={FIG.teal} head={FIG.teal2} hair={FIG.teal2} />
+      <ellipse cx="728" cy="640" rx="780" ry="100" fill={FIG.cream} />
+      <rect x="320" y="560" width="30" height="256" fill="#0f0e0d" />
+      <Figure x={730} top={300} w={180} body={FIG.red} head="#7a3a22" hair={FIG.brown} />
+      <Figure x={400} top={470} w={170} body={FIG.ochre} head={FIG.brown} />
+      <Figure x={1110} top={460} w={190} body={FIG.red} head={FIG.red2} />
+      <text x="64" y="96" fontFamily='"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif' fontSize="62" fontWeight="600" fill={FIG.cream}>
+        Proxies
+      </text>
+      <circle cx="300" cy="64" r="7" fill={FIG.red} />
+      <rect width="1456" height="816" filter="url(#px-grain)" opacity="0.18" />
+    </svg>
+  );
+}
+
 function Hero() {
   return (
-    <section className="border-b border-border pb-20 pt-12">
+    <section className="border-b border-[#2e2a26]">
       <Container>
-        <div className="mb-12 lg:mb-16 max-w-5xl">
-          <div className="inline-flex items-center gap-2 mb-6 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/55">
-            <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--accent-cyan)]" />
-            <span>open source · Claude Code skill</span>
-          </div>
-          <h1 className="font-display font-black leading-[0.92] tracking-[-0.05em] text-6xl sm:text-7xl md:text-8xl lg:text-[112px]">
-            <span className="block">Proxies.</span>
-            <span className="block">Ask your stakeholders</span>
-            <span className="block">before the meeting.</span>
-          </h1>
+        <div className="relative aspect-[1456/816] w-full overflow-hidden rounded-xl border border-[#2e2a26]">
+          <HeroArt />
         </div>
-
-        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-16 items-start">
+      </Container>
+      <Container>
+        <div className="py-16 lg:py-20 grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-start">
           <div>
-            <div className="max-w-xl mb-10 space-y-4">
-              <p className="text-lg md:text-xl text-foreground/70 leading-relaxed">
+            <div className="inline-flex items-center gap-2 mb-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[#efe6d0]/60">
+              <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[#ec4a2a]" />
+              <span>open source · Claude Code skill</span>
+            </div>
+            <h1 className="px-serif text-5xl sm:text-6xl md:text-7xl leading-[1.02]">
+              Ask your stakeholders before the meeting.
+            </h1>
+          </div>
+          <div>
+            <div className="max-w-xl mb-8 space-y-4">
+              <p className="text-lg md:text-xl text-[#efe6d0]/75 leading-relaxed">
                 Proxies are simulated people you test an idea on. Each one has a
                 role, goals, and hard lines. You show them a flow, a spec, or a
                 prototype, and each one tells you where it breaks for them.
               </p>
-              <p className="text-lg md:text-xl text-foreground/90 font-semibold leading-snug tracking-tight">
+              <p className="px-serif text-xl md:text-2xl text-[#efe6d0] leading-snug">
                 Find the problems before the real meeting does.
               </p>
             </div>
-
             <div className="flex flex-wrap items-center gap-3 mb-8">
               <a
                 href={GITHUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 bg-foreground text-background px-5 py-3 text-sm font-medium hover:bg-foreground/90 transition-colors"
+                className="group inline-flex items-center gap-2 bg-[#ec4a2a] text-[#0f0e0d] px-5 py-3 text-sm font-medium hover:bg-[#ff5a38] transition-colors"
               >
                 <Github className="w-4 h-4" />
                 View on GitHub
@@ -198,33 +275,40 @@ function Hero() {
               </a>
               <a
                 href="#start"
-                className="inline-flex items-center gap-2 border border-foreground/20 px-5 py-3 text-sm font-light text-foreground/80 hover:border-foreground/40 hover:text-foreground transition-colors"
+                className="inline-flex items-center gap-2 border border-[#efe6d0]/30 px-5 py-3 text-sm font-light text-[#efe6d0]/85 hover:border-[#efe6d0]/60 hover:text-[#efe6d0] transition-colors"
               >
                 <Terminal className="w-4 h-4" />
                 Get started
               </a>
             </div>
-
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/50">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#efe6d0]/55">
               <span>Free</span>
-              <span className="text-foreground/20">·</span>
+              <span className="text-[#efe6d0]/25">·</span>
               <span>Nothing to install</span>
-              <span className="text-foreground/20">·</span>
+              <span className="text-[#efe6d0]/25">·</span>
               <span>Plain markdown files</span>
             </div>
           </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
 
-          <div className="overflow-hidden rounded-xl border border-border bg-[color:var(--muted)]">
-            <Image
-              src={OG_IMAGE}
-              alt="A Proxies results page: twelve simulated stakeholders, who blocks the idea and why, and a ranked list of findings"
-              width={2000}
-              height={1544}
-              priority
-              sizes="(min-width: 1024px) 55vw, 100vw"
-              className="h-auto w-full"
-            />
-          </div>
+function ResultsShot() {
+  return (
+    <section className="border-b border-[#2e2a26] py-20">
+      <Container>
+        <SectionEyebrow number="00" label="What you get back" />
+        <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
+          <Image
+            src={OG_IMAGE}
+            alt="A Proxies results page: twelve simulated stakeholders, who blocks the idea and why, and a ranked list of findings"
+            width={2000}
+            height={1544}
+            sizes="(min-width: 1024px) 80vw, 100vw"
+            className="h-auto w-full"
+          />
         </div>
       </Container>
     </section>
@@ -233,13 +317,13 @@ function Hero() {
 
 function HonestNote() {
   return (
-    <section className="border-b border-border py-16">
+    <section className="border-b border-[#2e2a26] py-16">
       <Container>
         <div className="max-w-3xl">
-          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/45 mb-4">
+          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#efe6d0]/45 mb-4">
             A fair warning
           </div>
-          <p className="text-xl md:text-2xl text-foreground/85 leading-snug tracking-tight">
+          <p className="text-xl md:text-2xl text-[#efe6d0]/85 leading-snug tracking-tight">
             Proxies are simulations. They show the worries a role would likely
             raise. They do not predict what a real person will say.
           </p>
@@ -251,26 +335,26 @@ function HonestNote() {
 
 function WhySection() {
   return (
-    <section className="border-b border-border py-24">
+    <section className="border-b border-[#2e2a26] py-24">
       <Container>
         <SectionEyebrow number="01" label="Why not just ask for five personas?" />
         <div className="grid lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-20 items-start">
-          <h2 className="font-display text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.05] tracking-[-0.03em]">
+          <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em]">
             One prompt gives you one agreeable voice.
           </h2>
           <ul className="grid sm:grid-cols-2 gap-4">
             {REASONS.map((r, i) => (
               <li
                 key={r.title}
-                className={`rounded-xl border border-border bg-[color:var(--muted)] p-6 ${i === REASONS.length - 1 ? "sm:col-span-2" : ""}`}
+                className={`rounded-xl border border-[#2e2a26] bg-[#171413] p-6 ${i === REASONS.length - 1 ? "sm:col-span-2" : ""}`}
               >
                 <div className="flex items-start gap-3">
-                  <Check className="w-4 h-4 text-[color:var(--accent-cyan)] mt-1 shrink-0" />
+                  <Check className="w-4 h-4 text-[#ec4a2a] mt-1 shrink-0" />
                   <div>
-                    <h3 className="text-base font-medium text-foreground/90 mb-2">
+                    <h3 className="text-base font-medium text-[#efe6d0]/90 mb-2">
                       {r.title}
                     </h3>
-                    <p className="text-sm text-foreground/60 font-light leading-relaxed">
+                    <p className="text-sm text-[#efe6d0]/60 font-light leading-relaxed">
                       {r.body}
                     </p>
                   </div>
@@ -286,23 +370,23 @@ function WhySection() {
 
 function HowItWorks() {
   return (
-    <section className="border-b border-border py-24">
+    <section className="border-b border-[#2e2a26] py-24">
       <Container>
         <SectionEyebrow number="02" label="How it works" />
-        <h2 className="font-display text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.05] tracking-[-0.03em] mb-12 max-w-3xl">
+        <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-12 max-w-3xl">
           Three steps. One page of answers.
         </h2>
         <div className="grid md:grid-cols-3 gap-6">
           {STEPS.map((s) => (
             <div
               key={s.n}
-              className="rounded-xl border border-border bg-[color:var(--muted)] p-8"
+              className="rounded-xl border border-[#2e2a26] bg-[#171413] p-8"
             >
-              <div className="font-mono text-sm text-foreground/45 mb-6">{s.n}</div>
-              <h3 className="font-display text-2xl font-medium tracking-[-0.02em] mb-3">
+              <div className="font-mono text-sm text-[#efe6d0]/45 mb-6">{s.n}</div>
+              <h3 className="px-serif text-2xl font-medium tracking-[-0.02em] mb-3">
                 {s.title}
               </h3>
-              <p className="text-sm text-foreground/60 font-light leading-relaxed">
+              <p className="text-sm text-[#efe6d0]/60 font-light leading-relaxed">
                 {s.body}
               </p>
             </div>
@@ -315,32 +399,32 @@ function HowItWorks() {
 
 function PersonCardSection() {
   return (
-    <section className="border-b border-border py-24">
+    <section className="border-b border-[#2e2a26] py-24">
       <Container>
         <SectionEyebrow number="03" label="The people" />
         <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-16 items-center">
           <div>
-            <h2 className="font-display text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.05] tracking-[-0.03em] mb-6">
+            <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-6">
               Every person has a card.
             </h2>
-            <p className="text-lg text-foreground/65 font-light leading-relaxed mb-6">
+            <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed mb-6">
               The card says who they are and what they care about. It is just a
               markdown file, so you can read it and edit it by hand.
             </p>
-            <ul className="space-y-3 text-sm text-foreground/70 font-light mb-6">
+            <ul className="space-y-3 text-sm text-[#efe6d0]/70 font-light mb-6">
               {CARD_FIELDS.map((line) => (
                 <li key={line} className="flex items-start gap-3">
-                  <Check className="w-4 h-4 text-[color:var(--accent-cyan)] mt-0.5 shrink-0" />
+                  <Check className="w-4 h-4 text-[#ec4a2a] mt-0.5 shrink-0" />
                   <span>{line}</span>
                 </li>
               ))}
             </ul>
-            <p className="text-sm text-foreground/55 font-light leading-relaxed">
+            <p className="text-sm text-[#efe6d0]/55 font-light leading-relaxed">
               Each person also gets an avatar. The same person always gets the
               same one.
             </p>
           </div>
-          <div className="overflow-hidden rounded-xl border border-border bg-[color:var(--muted)]">
+          <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
             <Image
               src="/images/projects/proxies-person-card.webp"
               alt="A Proxies person card for Sam, an engineering lead who can veto. It lists what he is measured on, his hard lines, his blind spots, and how he reviews"
@@ -358,23 +442,23 @@ function PersonCardSection() {
 
 function CommandsSection() {
   return (
-    <section className="border-b border-border py-24">
+    <section className="border-b border-[#2e2a26] py-24">
       <Container>
         <SectionEyebrow number="04" label="What you can do" />
-        <h2 className="font-display text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.05] tracking-[-0.03em] mb-12 max-w-3xl">
+        <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-12 max-w-3xl">
           Pick the kind of review you need.
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {COMMANDS.map((c) => (
             <div
               key={c.cmd}
-              className="rounded-xl border border-border bg-[color:var(--muted)] p-6"
+              className="rounded-xl border border-[#2e2a26] bg-[#171413] p-6"
             >
-              <div className="font-mono text-sm text-foreground/85 mb-3">
-                <span className="text-[color:var(--accent-cyan)]">/proxies </span>
+              <div className="font-mono text-sm text-[#efe6d0]/85 mb-3">
+                <span className="text-[#ec4a2a]">/proxies </span>
                 {c.cmd}
               </div>
-              <p className="text-sm text-foreground/60 font-light leading-relaxed">
+              <p className="text-sm text-[#efe6d0]/60 font-light leading-relaxed">
                 {c.body}
               </p>
             </div>
@@ -387,22 +471,22 @@ function CommandsSection() {
 
 function OwnTeamSection() {
   return (
-    <section className="border-b border-border py-24">
+    <section className="border-b border-[#2e2a26] py-24">
       <Container>
         <SectionEyebrow number="05" label="Make it yours" />
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           <div>
-            <h2 className="font-display text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.05] tracking-[-0.03em] mb-6">
+            <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-6">
               Describe your company. Get your team.
             </h2>
-            <p className="text-lg text-foreground/65 font-light leading-relaxed">
+            <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed">
               Write a few lines about the business, and Claude drafts it for
               you: the rules, who decides what, and the words people use. Then
               add people one at a time. Anything Claude guessed is marked, and you
               see the draft before it is saved.
             </p>
           </div>
-          <div className="space-y-4 text-foreground/70 font-light leading-relaxed">
+          <div className="space-y-4 text-[#efe6d0]/70 font-light leading-relaxed">
             <p>
               Each person has a decision level. Some decide. Some can block.
               Some must sign off. Some give advice. Some just want to be kept in
@@ -428,34 +512,34 @@ function OwnTeamSection() {
 
 function StartSection() {
   return (
-    <section id="start" className="border-b border-border py-24">
+    <section id="start" className="border-b border-[#2e2a26] py-24">
       <Container>
         <SectionEyebrow number="06" label="Get started" />
         <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20 items-start">
           <div>
-            <h2 className="font-display text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.05] tracking-[-0.03em] mb-6">
+            <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-6">
               Nothing to install.
             </h2>
-            <p className="text-lg text-foreground/65 font-light leading-relaxed mb-6">
+            <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed mb-6">
               Download the project, open Claude Code inside it, and the skill is
               ready. Start a new session after you download or update it.
             </p>
-            <ul className="space-y-3 text-sm text-foreground/70 font-light">
+            <ul className="space-y-3 text-sm text-[#efe6d0]/70 font-light">
               {[
                 "Needs Node 22 or newer and Claude Code",
                 "Results open as a page on their own after each run",
                 "Everything is plain markdown, so it is easy to read and change",
               ].map((line) => (
                 <li key={line} className="flex items-start gap-3">
-                  <Check className="w-4 h-4 text-[color:var(--accent-cyan)] mt-0.5 shrink-0" />
+                  <Check className="w-4 h-4 text-[#ec4a2a] mt-0.5 shrink-0" />
                   <span>{line}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="bg-[color:var(--muted)] border border-border rounded-xl overflow-hidden">
-            <div className="flex items-center justify-between border-b border-border px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground/45">
+          <div className="bg-[#171413] border border-[#2e2a26] rounded-xl overflow-hidden">
+            <div className="flex items-center justify-between border-b border-[#2e2a26] px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-[#efe6d0]/45">
               <span className="flex items-center gap-2">
                 <Terminal className="w-3 h-3" />
                 terminal
@@ -466,22 +550,22 @@ function StartSection() {
               {INSTALL_LINES.map((l, i) => {
                 if (l.kind === "comment") {
                   return (
-                    <div key={i} className="text-foreground/40">
+                    <div key={i} className="text-[#efe6d0]/40">
                       {l.text}
                     </div>
                   );
                 }
                 if (l.kind === "prompt") {
                   return (
-                    <div key={i} className="text-foreground/85">
-                      <span className="text-[#c084fc] mr-2">&gt;</span>
+                    <div key={i} className="text-[#efe6d0]/85">
+                      <span className="text-[#d9a441] mr-2">&gt;</span>
                       {l.text}
                     </div>
                   );
                 }
                 return (
-                  <div key={i} className="text-foreground/90">
-                    <span className="text-[color:var(--accent-cyan)] mr-2">$</span>
+                  <div key={i} className="text-[#efe6d0]/90">
+                    <span className="text-[#ec4a2a] mr-2">$</span>
                     {l.text}
                   </div>
                 );
@@ -499,10 +583,10 @@ function FinalCTA() {
     <section className="py-32">
       <Container>
         <div className="text-center max-w-3xl mx-auto">
-          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/45 mb-6">
+          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#efe6d0]/45 mb-6">
             Free to use · by Robert Gourley
           </div>
-          <h2 className="font-display text-5xl md:text-7xl font-black leading-[1.0] tracking-[-0.04em] mb-8">
+          <h2 className="px-serif text-5xl md:text-7xl  leading-[1.0] tracking-[-0.04em] mb-8">
             Hear the pushback first.
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
@@ -510,7 +594,7 @@ function FinalCTA() {
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 bg-foreground text-background px-6 py-3.5 text-sm font-medium hover:bg-foreground/90 transition-colors"
+              className="group inline-flex items-center gap-2 bg-[#ec4a2a] text-[#0f0e0d] px-6 py-3.5 text-sm font-medium hover:bg-[#ff5a38] transition-colors"
             >
               <Github className="w-4 h-4" />
               github.com/rgourley/proxies
@@ -518,12 +602,12 @@ function FinalCTA() {
             </a>
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 border border-foreground/20 px-6 py-3.5 text-sm font-light text-foreground/80 hover:border-foreground/40 hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-2 border border-[#efe6d0]/30 px-6 py-3.5 text-sm font-light text-[#efe6d0]/80 hover:border-[#efe6d0]/60 hover:text-[#efe6d0] transition-colors"
             >
               See more projects
             </Link>
           </div>
-          <p className="text-xs text-foreground/45 font-light leading-relaxed">
+          <p className="text-xs text-[#efe6d0]/45 font-light leading-relaxed">
             Licensed under PolyForm Shield 1.0.0. You can use, change, and share
             Proxies for any purpose, including inside your company, except to
             build a product that competes with it.
@@ -564,8 +648,15 @@ export default function ProxiesPage() {
           __html: JSON.stringify(softwareSchema).replace(/</g, "\\u003c"),
         }}
       />
-      <div className="pt-24">
+      <div className="pt-28 bg-[#0f0e0d] text-[#efe6d0]">
+        <style
+          dangerouslySetInnerHTML={{
+            __html:
+              '.px-serif.px-serif{font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;font-weight:500;letter-spacing:-0.02em}',
+          }}
+        />
         <Hero />
+        <ResultsShot />
         <HonestNote />
         <WhySection />
         <HowItWorks />
