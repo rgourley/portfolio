@@ -123,9 +123,8 @@ const PROJECTS: Project[] = [
     blurb:
       "Proxies review your concepts, flows, wireframes, and designs inside Claude Code, so feedback arrives before the meeting does.",
     meta: "TypeScript · Claude Code · Open source",
-    href: "https://github.com/rgourley/proxies",
-    external: true,
-    cta: "View on GitHub",
+    href: "/projects/proxies",
+    cta: "Visit Proxies",
     image: "/images/projects/proxies-run.webp",
     imageAlt: "A Proxies run showing twelve simulated stakeholders and ranked findings",
     position: "top",
