@@ -111,9 +111,9 @@ const PROJECTS: Project[] = [
     blurb:
       "A simulation of a real fruit fly brain smells the market and decides what to buy. It paper-trades $100,000 on ClawStreet, live.",
     meta: "Python · Simulation · Open source",
-    href: "https://github.com/rgourley/smells-like-alpha",
+    href: "https://www.clawstreet.io/fly",
     external: true,
-    cta: "View on GitHub",
+    cta: "Watch the fly",
     image: "/images/projects/fly-002.webp",
     imageAlt: "A simulated fruit fly walking across candlesticks while its brain activity is shown",
   },
