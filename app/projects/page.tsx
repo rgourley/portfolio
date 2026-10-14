@@ -34,12 +34,12 @@ const FEATURED: Project[] = [
     name: "ClawStreet",
     tagline: "Training flywheel for financial agents.",
     blurb:
-      "A paper-trading arena where AI agents trade live US stocks and crypto. Follow every agent on a leaderboard, read their journals and trades, and see who beats the market.",
+      "Train your AI trading agent on live US markets with paper money. Watch it fail, capture the lessons, iterate, and learn. Deploy into real markets once you are ready.",
     meta: "Product · Live markets",
     href: "https://www.clawstreet.io",
     external: true,
     cta: "Visit ClawStreet",
-    image: "/images/projects/clawstreet-dashboard.webp",
+    image: "/images/projects/clawstreet-dashboard-v2.webp",
     imageAlt: "The ClawStreet dashboard comparing AI trading agents against SPY",
     position: "top left",
   },
@@ -77,27 +77,27 @@ const PROJECTS: Project[] = [
       "Forty-one Python tools and eight one-command workflows for equity research, sizing, and risk. Ask Claude or import the same function into a notebook. Every number cites the live API call it came from.",
     meta: "Python · Claude Code · Massive API · MIT",
     href: "/projects/quant-garage",
-    cta: "Read more",
+    cta: "Visit Quant Garage",
     image: "/images/projects/quant-garage.webp",
     imageAlt: "The Quant Garage landing page with market-regime and earnings cards",
   },
   {
     name: "financial-ui-suite",
-    tagline: "Financial UI that looks like the product it ships in.",
+    tagline: "Build complete financial UIs from a single prompt.",
     blurb:
-      "Two Claude Code skills, 17 reference docs, and 10 visual systems modeled on Bloomberg, TradingView, Kraken Pro, Robinhood, the FT, and more. Drops generic AI dashboards on the floor.",
+      "Describe the product once and get a complete, production-grade interface. Two Claude Code skills, 17 reference docs, and 10 visual systems modeled on Bloomberg, TradingView, Kraken Pro, Robinhood, the FT, and more.",
     meta: "Claude Code plugin · React · Tailwind · MIT",
     href: "/projects/financial-ui-suite",
-    cta: "Read more",
+    cta: "Visit Financial UI Suite",
     image: "/images/projects/massive-desk.webp",
     imageAlt: "Massive Desk, a dark trading workspace built with the Financial UI Suite",
     position: "top",
   },
   {
     name: "geofaces",
-    tagline: "Same name, same face.",
+    tagline: "Deterministic avatars for any project.",
     blurb:
-      "Deterministic flat-geometric avatar faces. Generated as SVG from a name, with nothing to host.",
+      "Flat-geometric faces generated as SVG from any name or ID. Same name, same face, with zero dependencies and nothing to host.",
     meta: "TypeScript · SVG · Open source",
     href: "https://github.com/rgourley/geofaces",
     external: true,
@@ -107,9 +107,9 @@ const PROJECTS: Project[] = [
   },
   {
     name: "smells-like-alpha",
-    tagline: "Stock picks by fruit fly nose.",
+    tagline: "I hooked a fruit fly brain up to the stock market.",
     blurb:
-      "A simulated fruit fly smell circuit that picks stocks by smell and paper-trades them on ClawStreet.",
+      "A simulation of a real fruit fly brain smells the market and decides what to buy. It paper-trades $100,000 on ClawStreet, live.",
     meta: "Python · Simulation · Open source",
     href: "https://github.com/rgourley/smells-like-alpha",
     external: true,
@@ -119,9 +119,9 @@ const PROJECTS: Project[] = [
   },
   {
     name: "proxies",
-    tagline: "Simulated stakeholders for design review.",
+    tagline: "Simulated stakeholders for concept review.",
     blurb:
-      "Proxies review your flows, wireframes, and designs inside Claude Code, so feedback arrives before the meeting does.",
+      "Proxies review your concepts, flows, wireframes, and designs inside Claude Code, so feedback arrives before the meeting does.",
     meta: "TypeScript · Claude Code · Open source",
     href: "https://github.com/rgourley/proxies",
     external: true,
@@ -146,7 +146,7 @@ function Cover({ p, priority }: { p: Project; priority?: boolean }) {
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
         />
       ) : null}
-      <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-foreground/10" />
+      <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-border" />
     </div>
   );
 }
@@ -191,7 +191,7 @@ export default function ProjectsIndexPage() {
             The tools I wanted didn't exist.<br />So I built them.
           </h1>
           <p className="text-lg text-foreground/65 font-light leading-relaxed">
-            Games, tools, and experiments. Each is used in real workflows before it goes public.
+            Games, tools, and experiments.
           </p>
         </div>
 
@@ -199,7 +199,7 @@ export default function ProjectsIndexPage() {
           <CardLink
             key={f.name}
             p={f}
-            className="group mb-6 grid overflow-hidden rounded-2xl border border-foreground/10 bg-[color:var(--muted)] transition-colors hover:border-foreground/30 md:grid-cols-5"
+            className="group mb-6 grid overflow-hidden rounded-2xl border border-border bg-[color:var(--muted)] transition-colors hover:border-grey-600 md:grid-cols-5"
           >
             <div className={`md:col-span-3 ${i % 2 ? "md:order-2" : ""}`}>
               <div className="relative aspect-[16/10] h-full min-h-[260px] md:aspect-auto">
@@ -238,23 +238,24 @@ export default function ProjectsIndexPage() {
             <CardLink
               key={p.name}
               p={p}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-[color:var(--muted)] transition-colors hover:border-foreground/30"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-[color:var(--muted)] transition-colors hover:border-grey-600"
             >
               <Cover p={p} />
               <div className="flex flex-1 flex-col p-8">
-                <div className="mb-5 flex items-center justify-between">
-                  <div className="font-mono text-sm text-foreground/85">{p.name}</div>
-                  <ArrowUpRight className="h-4 w-4 text-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </div>
+                <div className="mb-5 font-mono text-sm text-foreground/85">{p.name}</div>
                 <h2 className="font-display text-2xl md:text-3xl font-medium leading-[1.1] tracking-[-0.02em] mb-4">
                   {p.tagline}
                 </h2>
                 <p className="mb-6 flex-1 text-sm text-foreground/60 font-light leading-relaxed">
                   {p.blurb}
                 </p>
-                <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-foreground/45">
+                <div className="mb-6 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground/45">
                   {p.meta}
                 </div>
+                <span className="inline-flex items-center gap-2 text-sm text-foreground/85">
+                  {p.cta}
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
               </div>
             </CardLink>
           ))}
