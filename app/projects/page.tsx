@@ -29,17 +29,33 @@ type Project = {
   position?: string;
 };
 
-const FEATURED: Project = {
-  name: "Amphora",
-  tagline: "Build a merchant dynasty.",
-  blurb:
-    "A Mediterranean trading simulation of shifting economies, generated cultures, and family dynasties. Trade from local markets to distant shores and build a trading house across generations.",
-  meta: "Game · In development",
-  href: "/amphora",
-  cta: "Visit Amphora",
-  image: "/amphora/assets/landing-harbor.webp",
-  imageAlt: "A Mediterranean harbor from the game Amphora",
-};
+const FEATURED: Project[] = [
+  {
+    name: "ClawStreet",
+    tagline: "Where AI trading agents compete.",
+    blurb:
+      "A paper-trading arena where AI agents trade live US stocks and crypto. Follow every agent on a leaderboard, read their journals and trades, and see who beats the market.",
+    meta: "Product · Live markets",
+    href: "https://www.clawstreet.io",
+    external: true,
+    cta: "Visit ClawStreet",
+    image: "/images/projects/clawstreet-dashboard.webp",
+    imageAlt: "The ClawStreet dashboard comparing AI trading agents against SPY",
+    position: "top left",
+  },
+  {
+    name: "Amphora",
+    tagline: "Build a merchant dynasty.",
+    blurb:
+      "A Mediterranean trading simulation of shifting economies, generated cultures, and family dynasties. Trade from local markets to distant shores and build a trading house across generations.",
+    meta: "Game · In development",
+    href: "/amphora",
+    cta: "Visit Amphora",
+    image: "/images/projects/amphora-selis.webp",
+    imageAlt: "The port town of Selis in Amphora, with its workshops, sanctuary, and granary",
+    position: "center",
+  },
+];
 
 const PROJECTS: Project[] = [
   {
@@ -98,8 +114,8 @@ const PROJECTS: Project[] = [
     href: "https://github.com/rgourley/smells-like-alpha",
     external: true,
     cta: "View on GitHub",
-    image: "/images/projects/smells-like-alpha.webp",
-    imageAlt: "A simulated fruit fly standing on a candlestick chart",
+    image: "/images/projects/fly-002.webp",
+    imageAlt: "A simulated fruit fly walking across candlesticks while its brain activity is shown",
   },
   {
     name: "proxies",
@@ -179,39 +195,43 @@ export default function ProjectsIndexPage() {
           </p>
         </div>
 
-        <CardLink
-          p={FEATURED}
-          className="group mb-6 grid overflow-hidden rounded-2xl border border-foreground/10 bg-[color:var(--muted)] transition-colors hover:border-foreground/30 md:grid-cols-5"
-        >
-          <div className="md:col-span-3">
-            <div className="relative aspect-[16/10] h-full min-h-[260px] md:aspect-auto">
-              <Image
-                src={FEATURED.image!}
-                alt={FEATURED.imageAlt ?? ""}
-                fill
-                priority
-                sizes="(min-width: 768px) 60vw, 100vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-              />
+        {FEATURED.map((f, i) => (
+          <CardLink
+            key={f.name}
+            p={f}
+            className="group mb-6 grid overflow-hidden rounded-2xl border border-foreground/10 bg-[color:var(--muted)] transition-colors hover:border-foreground/30 md:grid-cols-5"
+          >
+            <div className={`md:col-span-3 ${i % 2 ? "md:order-2" : ""}`}>
+              <div className="relative aspect-[16/10] h-full min-h-[260px] md:aspect-auto">
+                <Image
+                  src={f.image!}
+                  alt={f.imageAlt ?? ""}
+                  fill
+                  priority={i === 0}
+                  sizes="(min-width: 768px) 60vw, 100vw"
+                  style={f.position ? { objectPosition: f.position } : undefined}
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                />
+              </div>
             </div>
-          </div>
-          <div className="flex min-w-0 flex-col justify-center p-8 md:col-span-2 md:p-10">
-            <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground/45">
-              Featured · {FEATURED.meta}
+            <div className="flex min-w-0 flex-col justify-center p-8 md:col-span-2 md:p-10">
+              <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground/45">
+                Featured · {f.meta}
+              </div>
+              <h2 className="font-display text-4xl md:text-5xl font-medium leading-[1.05] tracking-[-0.02em] mb-4">
+                {f.name}
+              </h2>
+              <p className="text-lg text-foreground/85 mb-3">{f.tagline}</p>
+              <p className="text-sm text-foreground/60 font-light leading-relaxed mb-8">
+                {f.blurb}
+              </p>
+              <span className="inline-flex items-center gap-2 text-sm text-foreground/85">
+                {f.cta}
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </span>
             </div>
-            <h2 className="font-display text-4xl md:text-5xl font-medium leading-[1.05] tracking-[-0.02em] mb-4">
-              {FEATURED.name}
-            </h2>
-            <p className="text-lg text-foreground/85 mb-3">{FEATURED.tagline}</p>
-            <p className="text-sm text-foreground/60 font-light leading-relaxed mb-8">
-              {FEATURED.blurb}
-            </p>
-            <span className="inline-flex items-center gap-2 text-sm text-foreground/85">
-              {FEATURED.cta}
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </span>
-          </div>
-        </CardLink>
+          </CardLink>
+        ))}
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {PROJECTS.map((p) => (
