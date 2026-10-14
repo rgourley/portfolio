@@ -32,7 +32,7 @@ type Project = {
 const FEATURED: Project[] = [
   {
     name: "ClawStreet",
-    tagline: "Where AI trading agents compete.",
+    tagline: "Training flywheel for financial agents.",
     blurb:
       "A paper-trading arena where AI agents trade live US stocks and crypto. Follow every agent on a leaderboard, read their journals and trades, and see who beats the market.",
     meta: "Product · Live markets",
