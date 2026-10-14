@@ -6,11 +6,11 @@ import { ArrowUpRight } from "lucide-react";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Games, open source tools, and experiments by Robert Gourley. Amphora, Git Kingdom, Quant Garage, and the Financial UI Suite.",
+    "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Git Kingdom, Quant Garage, Financial UI Suite, Proxies, geofaces, and more.",
   openGraph: {
     title: "Projects | Robert Gourley",
     description:
-      "Open source tools and libraries by Robert Gourley.",
+      "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Git Kingdom, Quant Garage, Proxies, and more.",
     url: "/projects",
     type: "website",
   },
@@ -111,9 +111,9 @@ const PROJECTS: Project[] = [
     blurb:
       "A simulation of a real fruit fly brain smells the market and decides what to buy. It paper-trades $100,000 on ClawStreet, live.",
     meta: "Python · Simulation · Open source",
-    href: "https://github.com/rgourley/smells-like-alpha",
+    href: "https://www.clawstreet.io/fly",
     external: true,
-    cta: "View on GitHub",
+    cta: "Watch the fly",
     image: "/images/projects/fly-002.webp",
     imageAlt: "A simulated fruit fly walking across candlesticks while its brain activity is shown",
   },
@@ -123,11 +123,10 @@ const PROJECTS: Project[] = [
     blurb:
       "Proxies review your concepts, flows, wireframes, and designs inside Claude Code, so feedback arrives before the meeting does.",
     meta: "TypeScript · Claude Code · Open source",
-    href: "https://github.com/rgourley/proxies",
-    external: true,
-    cta: "View on GitHub",
-    image: "/images/projects/proxies-run.webp",
-    imageAlt: "A Proxies run showing twelve simulated stakeholders and ranked findings",
+    href: "/projects/proxies",
+    cta: "Visit Proxies",
+    image: "/images/proxies/results-hover.webp",
+    imageAlt: "A Proxies result with a hover card for a stakeholder, showing their quote and hard lines",
     position: "top",
   },
 ];

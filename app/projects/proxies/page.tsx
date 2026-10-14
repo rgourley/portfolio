@@ -1,0 +1,773 @@
+import Image from "next/image";
+import Link from "next/link";
+import type { Metadata } from "next";
+import { ArrowUpRight, Check, Github, Terminal } from "lucide-react";
+
+const PAGE_PATH = "/projects/proxies";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.robertcreative.com";
+const GITHUB_URL = "https://github.com/rgourley/proxies";
+const PAGE_TITLE = "Proxies: Simulated Stakeholder Reviews";
+const PAGE_DESCRIPTION =
+  "Proxies is a free Claude Code skill. Simulated personas review your idea, prototype, or design and tell you where it breaks, before the real meeting.";
+const OG_TITLE = "Proxies. Ask your stakeholders before the meeting.";
+const OG_DESCRIPTION =
+  "Simulated personas review your idea, prototype, or design and tell you where it breaks for them. Free and open source.";
+const OG_IMAGE = "/images/proxies/og-proxies.jpg";
+const OG_IMAGE_ALT =
+  "Proxies: flat mid-century illustration of people in red, teal and ochre sitting around an oval table";
+const RESULTS_IMAGE = "/images/proxies/results-hover.webp";
+
+export const metadata: Metadata = {
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  keywords: [
+    "Proxies",
+    "simulated stakeholders",
+    "stakeholder review",
+    "AI personas",
+    "persona review",
+    "design review",
+    "concept review",
+    "red team",
+    "Claude Code skill",
+    "product review",
+    "Robert Gourley",
+  ],
+  authors: [{ name: "Robert Gourley", url: "https://github.com/rgourley" }],
+  creator: "Robert Gourley",
+  publisher: "Robert Gourley",
+  category: "software",
+  alternates: { canonical: PAGE_PATH },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+    url: PAGE_PATH,
+    siteName: "Robert Gourley",
+    type: "website",
+    locale: "en_US",
+    images: [
+      { url: `${SITE_URL}${OG_IMAGE}`, width: 1200, height: 630, alt: OG_IMAGE_ALT },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+    creator: "@rgourley",
+    images: [{ url: `${SITE_URL}${OG_IMAGE}`, alt: OG_IMAGE_ALT }],
+  },
+};
+
+const REASONS = [
+  {
+    title: "Real disagreement, not polite agreement",
+    body: "Each persona runs as a separate agent and only sees their own card, so they cannot blur into one agreeable voice.",
+  },
+  {
+    title: "Personas that get closer to the real people",
+    body: "You build your team of personas once and reuse it. When a real person says something different, you correct the card.",
+  },
+  {
+    title: "Feedback on your real work",
+    body: "They read your real spec and decision docs, not an old draft.",
+  },
+  {
+    title: "A clear outcome, not a long chat",
+    body: "Everyone gives a view on their own. Then they answer each other. Then someone decides, and any disagreement is written down.",
+  },
+  {
+    title: "One page that tells you what to fix",
+    body: "Every run ends on one results page: who blocks it, what is critical, and what fixes it.",
+  },
+];
+
+const STEPS = [
+  {
+    n: "01",
+    title: "Pick a team",
+    body: "Choose a company and its personas. Three sample teams come with the project, or you can describe your own and Claude drafts it.",
+  },
+  {
+    n: "02",
+    title: "Give them something to review",
+    body: "Hand over a flow, a spec, a prototype, or a design idea. Add one line about the situation.",
+  },
+  {
+    n: "03",
+    title: "Read the results page",
+    body: "See who would block it, the problems ranked from critical to minor, and what to fix first. Click any name to read their full answer.",
+  },
+];
+
+const COMMANDS = [
+  {
+    cmd: "redteam",
+    body: "Everyone tries to break your idea.",
+  },
+  {
+    cmd: "meeting",
+    body: "They debate it, then the persona who decides makes the call.",
+  },
+  {
+    cmd: "prep",
+    body: "Get each persona's top questions before you walk in.",
+  },
+  {
+    cmd: "followup",
+    body: "Check whether your new version answered their objections.",
+  },
+  {
+    cmd: "compare",
+    body: "Show two versions. Each persona picks one.",
+  },
+  {
+    cmd: "ask / talk",
+    body: "Ask one persona a question, or have a longer chat.",
+  },
+];
+
+const CARD_FIELDS = [
+  "Role and who they report to",
+  "What they are measured on",
+  "Hard lines they will not cross",
+  "Blind spots they have",
+  "How they like to review",
+  "Their voice, in one line",
+];
+
+const INSTALL_LINES: Array<{ kind: "comment" | "cmd" | "prompt"; text: string }> = [
+  { kind: "comment", text: "# You need Node 22 or newer and Claude Code" },
+  { kind: "cmd", text: "git clone https://github.com/rgourley/proxies.git" },
+  { kind: "cmd", text: "cd proxies" },
+  { kind: "cmd", text: "claude" },
+  { kind: "comment", text: "# Then, inside Claude Code" },
+  { kind: "prompt", text: "/proxies use tilt" },
+  {
+    kind: "prompt",
+    text: '/proxies redteam your-flow.mmd "an agency invites 30 client reviewers"',
+  },
+];
+
+function Container({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16">
+      {children}
+    </div>
+  );
+}
+
+function SectionEyebrow({ number, label }: { number: string; label: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-8 text-[11px] uppercase tracking-[0.18em] text-[#efe6d0]/45 font-mono">
+      <span className="text-[#efe6d0]/70">{number}</span>
+      <span className="h-px w-8 bg-[#efe6d0]/20" aria-hidden="true" />
+      <span>{label}</span>
+    </div>
+  );
+}
+
+const AVATARS = [
+  { id: "tilt-sam", name: "Sam, engineering lead" },
+  { id: "tilt-ken", name: "Ken, head of support" },
+  { id: "tilt-rita", name: "Rita, VP sales" },
+  { id: "tilt-jo", name: "Jo, head of product" },
+  { id: "tilt-ana", name: "Ana, operations director" },
+  { id: "tilt-theo", name: "Theo, AI engineer" },
+];
+
+function AvatarRow() {
+  return (
+    <ul
+      className="grid grid-cols-3 gap-x-4 gap-y-5 sm:grid-cols-6"
+      aria-label="Example proxies from the Tilt sample team"
+    >
+      {AVATARS.map((a) => {
+        const [first, ...rest] = a.name.split(", ");
+        return (
+          <li key={a.id} className="text-center">
+            <Image
+              src={`/images/proxies/avatars/${a.id}.svg`}
+              alt={a.name}
+              title={a.name}
+              width={160}
+              height={160}
+              unoptimized
+              className="mx-auto mb-2 h-16 w-16 rounded-full ring-1 ring-[#efe6d0]/20"
+            />
+            <div className="text-sm text-[#efe6d0]/90">{first}</div>
+            <div className="text-[11px] leading-tight text-[#efe6d0]/50">
+              {rest.join(", ")}
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="border-b border-[#2e2a26]">
+      <Container>
+        <div className="relative aspect-[1456/816] w-full overflow-hidden rounded-xl border border-[#2e2a26]">
+          <Image
+            src="/images/proxies/hero-room-clean.webp"
+            alt="Flat mid-century illustration of people in red, teal and ochre sitting around an oval table"
+            fill
+            priority
+            sizes="(min-width: 1360px) 1232px, 100vw"
+            className="object-cover"
+          />
+          <div
+            className="px-serif absolute left-[4.5%] top-[6%] flex items-start text-[clamp(28px,5.2vw,68px)] leading-none text-[#efe6d0]"
+            aria-hidden="true"
+          >
+            Proxies
+            <span className="ml-[0.1em] mt-[0.1em] inline-block h-[0.13em] w-[0.13em] rounded-full bg-[#ec4a2a]" />
+          </div>
+        </div>
+      </Container>
+      <Container>
+        <div className="py-16 lg:py-20 grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-start">
+          <div>
+            <div className="inline-flex items-center gap-2 mb-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[#efe6d0]/60">
+              <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[#ec4a2a]" />
+              <span>open source · Claude Code skill</span>
+            </div>
+            <h1 className="px-serif text-5xl sm:text-6xl md:text-7xl leading-[1.02]">
+              Ask your stakeholders before the meeting.
+            </h1>
+          </div>
+          <div>
+            <div className="max-w-xl mb-8 space-y-4">
+              <p className="text-lg md:text-xl text-[#efe6d0]/75 leading-relaxed">
+                Proxies are simulated personas you test an idea on. Each one has a
+                role, goals, and hard lines. You show them a flow, a spec, or a
+                prototype, and each one tells you where it breaks for them.
+              </p>
+              <p className="px-serif text-xl md:text-2xl text-[#efe6d0] leading-snug">
+                Find the problems before the real meeting does.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 mb-8">
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 bg-[#ec4a2a] text-[#0f0e0d] px-5 py-3 text-sm font-medium hover:bg-[#ff5a38] transition-colors"
+              >
+                <Github className="w-4 h-4" />
+                View on GitHub
+                <ArrowUpRight className="w-4 h-4 -mr-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+              <a
+                href="#start"
+                className="inline-flex items-center gap-2 border border-[#efe6d0]/30 px-5 py-3 text-sm font-light text-[#efe6d0]/85 hover:border-[#efe6d0]/60 hover:text-[#efe6d0] transition-colors"
+              >
+                <Terminal className="w-4 h-4" />
+                Get started
+              </a>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#efe6d0]/55">
+              <span>Free</span>
+              <span className="text-[#efe6d0]/25">·</span>
+              <span>Nothing to install</span>
+              <span className="text-[#efe6d0]/25">·</span>
+              <span>Plain markdown files</span>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function ResultsShot() {
+  return (
+    <section className="border-b border-[#2e2a26] py-20">
+      <Container>
+        <SectionEyebrow number="00" label="What you get back" />
+        <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
+          <Image
+            src="/images/proxies/results-dark.webp"
+            alt="A Proxies meeting result: eleven personas with avatars, a summary of the question and the decision, and how each position moved"
+            width={2000}
+            height={1349}
+            sizes="(min-width: 1024px) 80vw, 100vw"
+            className="h-auto w-full"
+          />
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function StandingsSection() {
+  return (
+    <section className="border-b border-[#2e2a26] py-24">
+      <Container>
+        <SectionEyebrow number="03" label="Where everyone stands" />
+        <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.03em] mb-6 max-w-3xl">
+          See who thinks what, and what changed.
+        </h2>
+        <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed max-w-2xl mb-12">
+          Each persona gives a first take, then answers the room. You can see
+          at a glance who moved and who held their ground.
+        </p>
+        <div className="grid lg:grid-cols-2 gap-6">
+          <figure>
+            <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
+              <Image
+                src={RESULTS_IMAGE}
+                alt="A Proxies result with a hover card for Tomas, a technical director who can veto, showing his quote and hard lines"
+                width={2000}
+                height={1282}
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="h-auto w-full"
+              />
+            </div>
+            <figcaption className="mt-3 text-sm text-[#efe6d0]/55 font-light">
+              Hover over a persona to see their hard lines.
+            </figcaption>
+          </figure>
+          <figure>
+            <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
+              <Image
+                src="/images/proxies/each-view.webp"
+                alt="A list of ten personas with their first take and their response to the room, such as Rework to Rework or Ship with changes"
+                width={1654}
+                height={1204}
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="h-auto w-full"
+              />
+            </div>
+            <figcaption className="mt-3 text-sm text-[#efe6d0]/55 font-light">
+              Open a persona to read their rounds in order.
+            </figcaption>
+          </figure>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function HonestNote() {
+  return (
+    <section className="border-b border-[#2e2a26] py-16">
+      <Container>
+        <div className="max-w-3xl">
+          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#efe6d0]/45 mb-4">
+            A fair warning
+          </div>
+          <p className="text-xl md:text-2xl text-[#efe6d0]/85 leading-snug tracking-tight">
+            Proxies are simulations. They show the worries a role would likely
+            raise. They do not predict what a real person will say.
+          </p>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function WhySection() {
+  return (
+    <section className="border-b border-[#2e2a26] py-24">
+      <Container>
+        <SectionEyebrow number="01" label="Why not just ask for five personas?" />
+        <div className="grid lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-20 items-start">
+          <div>
+            <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.03em] mb-10">
+              Five personas in one prompt is still one voice.{" "}
+              <span className="text-[#ec4a2a]">Proxies keeps them apart.</span>
+            </h2>
+            <div className="max-w-[220px] overflow-hidden rounded-xl border border-[#2e2a26]">
+              <Image
+                src="/images/proxies/dialogue.webp"
+                alt="Two flat illustrated figures facing each other, each with an empty speech bubble"
+                width={1024}
+                height={1024}
+                sizes="220px"
+                className="h-auto w-full"
+              />
+            </div>
+          </div>
+          <ul className="grid sm:grid-cols-2 gap-4">
+            {REASONS.map((r, i) => (
+              <li
+                key={r.title}
+                className={`rounded-xl border border-[#2e2a26] bg-[#171413] p-6 ${i === REASONS.length - 1 ? "sm:col-span-2" : ""}`}
+              >
+                <div className="flex items-start gap-3">
+                  <Check className="w-4 h-4 text-[#ec4a2a] mt-1 shrink-0" />
+                  <div>
+                    <h3 className="text-base font-medium text-[#efe6d0]/90 mb-2">
+                      {r.title}
+                    </h3>
+                    <p className="text-sm text-[#efe6d0]/60 font-light leading-relaxed">
+                      {r.body}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function HowItWorks() {
+  return (
+    <section className="border-b border-[#2e2a26] py-24">
+      <Container>
+        <SectionEyebrow number="02" label="How it works" />
+        <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-12 max-w-3xl">
+          Three steps. One page of answers.
+        </h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {STEPS.map((s) => (
+            <div
+              key={s.n}
+              className="rounded-xl border border-[#2e2a26] bg-[#171413] p-8"
+            >
+              <div className="font-mono text-sm text-[#efe6d0]/45 mb-6">{s.n}</div>
+              <h3 className="px-serif text-2xl font-medium tracking-[-0.02em] mb-3">
+                {s.title}
+              </h3>
+              <p className="text-sm text-[#efe6d0]/60 font-light leading-relaxed">
+                {s.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function PersonCardSection() {
+  return (
+    <section className="border-b border-[#2e2a26] py-24">
+      <Container>
+        <SectionEyebrow number="04" label="The personas" />
+        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-16 items-center">
+          <div>
+            <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-6">
+              Every persona has a card.
+            </h2>
+            <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed mb-6">
+              The card says who they are and what they care about. It is just a
+              markdown file, so you can read it and edit it by hand.
+            </p>
+            <ul className="space-y-3 text-sm text-[#efe6d0]/70 font-light mb-6">
+              {CARD_FIELDS.map((line) => (
+                <li key={line} className="flex items-start gap-3">
+                  <Check className="w-4 h-4 text-[#ec4a2a] mt-0.5 shrink-0" />
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-sm text-[#efe6d0]/55 font-light leading-relaxed mb-8">
+              Each persona also gets an avatar. The same persona always gets the
+              same one.
+            </p>
+            <AvatarRow />
+          </div>
+          <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
+            <Image
+              src="/images/proxies/card-kofi-dark.webp"
+              alt="A Proxies persona card for Kofi, head of player support. It shows his avatar, a quote, what he is measured on, his hard lines, his blind spots, and how he reviews"
+              width={2000}
+              height={1222}
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              className="h-auto w-full"
+            />
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function CommandsSection() {
+  return (
+    <section className="border-b border-[#2e2a26] py-24">
+      <Container>
+        <SectionEyebrow number="05" label="What you can do" />
+        <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-12 max-w-3xl">
+          Pick the kind of review you need.
+        </h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {COMMANDS.map((c) => (
+            <div
+              key={c.cmd}
+              className="rounded-xl border border-[#2e2a26] bg-[#171413] p-6"
+            >
+              <div className="font-mono text-sm text-[#efe6d0]/85 mb-3">
+                <span className="text-[#ec4a2a]">/proxies </span>
+                {c.cmd}
+              </div>
+              <p className="text-sm text-[#efe6d0]/60 font-light leading-relaxed">
+                {c.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function OwnTeamSection() {
+  return (
+    <section className="border-b border-[#2e2a26] py-24">
+      <Container>
+        <SectionEyebrow number="06" label="Make it yours" />
+        <div className="grid lg:grid-cols-[1.5fr_1fr] gap-12 lg:gap-20 items-start">
+          <div>
+            <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.03em] mb-6">
+              Describe your company. Get your team.
+            </h2>
+            <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed mb-8 max-w-2xl">
+              Write a few lines about the business, and Claude drafts it for
+              you: the rules, who decides what, and the words people use. Then
+              add personas one at a time. Anything Claude guessed is marked, and you
+              see the draft before it is saved.
+            </p>
+            <div className="space-y-4 text-[#efe6d0]/70 font-light leading-relaxed max-w-2xl">
+              <p>
+                Each persona has a decision level. Some decide. Some can block.
+                Some must sign off. Some give advice. Some just want to be kept
+                in the loop.
+              </p>
+              <p>
+                When the real person says something different, tell Proxies. It
+                suggests changes to the card and keeps a log, so your team gets
+                closer to the real people over time.
+              </p>
+              <p>
+                You can also share a whole team as one file, or copy a persona
+                into another company and adjust them. Three sample teams come
+                with the project: a project planning tool, a clinic network, and
+                a game studio.
+              </p>
+            </div>
+          </div>
+          <figure className="mx-auto w-full max-w-[220px] lg:ml-auto">
+            <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
+              <Image
+                src="/images/proxies/people-list.webp"
+                alt="The Proxies library showing a team of eleven personas, each with an avatar, a name, and a decision level such as decision owner, veto holder, or consulted"
+                width={558}
+                height={1126}
+                sizes="220px"
+                className="h-auto w-full"
+              />
+            </div>
+            <figcaption className="mt-3 text-sm text-[#efe6d0]/55 font-light">
+              A team of eleven personas, from decision owner to informed.
+            </figcaption>
+          </figure>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function StartSection() {
+  return (
+    <section id="start" className="border-b border-[#2e2a26] py-24">
+      <Container>
+        <SectionEyebrow number="07" label="Get started" />
+        <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20 items-start">
+          <div>
+            <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-6">
+              Nothing to install.
+            </h2>
+            <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed mb-6">
+              Download the project, open Claude Code inside it, and the skill is
+              ready. Start a new session after you download or update it.
+            </p>
+            <ul className="space-y-3 text-sm text-[#efe6d0]/70 font-light">
+              {[
+                "Needs Node 22 or newer and Claude Code",
+                "Results open as a page on their own after each run",
+                "Everything is plain markdown, so it is easy to read and change",
+              ].map((line) => (
+                <li key={line} className="flex items-start gap-3">
+                  <Check className="w-4 h-4 text-[#ec4a2a] mt-0.5 shrink-0" />
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="bg-[#171413] border border-[#2e2a26] rounded-xl overflow-hidden">
+            <div className="flex items-center justify-between border-b border-[#2e2a26] px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-[#efe6d0]/45">
+              <span className="flex items-center gap-2">
+                <Terminal className="w-3 h-3" />
+                terminal
+              </span>
+              <span>zsh</span>
+            </div>
+            <pre className="p-5 text-[13px] leading-relaxed font-mono overflow-x-auto">
+              {INSTALL_LINES.map((l, i) => {
+                if (l.kind === "comment") {
+                  return (
+                    <div key={i} className="text-[#efe6d0]/40">
+                      {l.text}
+                    </div>
+                  );
+                }
+                if (l.kind === "prompt") {
+                  return (
+                    <div key={i} className="text-[#efe6d0]/85">
+                      <span className="text-[#d9a441] mr-2">&gt;</span>
+                      {l.text}
+                    </div>
+                  );
+                }
+                return (
+                  <div key={i} className="text-[#efe6d0]/90">
+                    <span className="text-[#ec4a2a] mr-2">$</span>
+                    {l.text}
+                  </div>
+                );
+              })}
+            </pre>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function FinalCTA() {
+  return (
+    <section className="py-32">
+      <Container>
+        <div className="text-center max-w-3xl mx-auto">
+          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#efe6d0]/45 mb-6">
+            Free to use · by Robert Gourley
+          </div>
+          <h2 className="px-serif text-5xl md:text-7xl  leading-[1.0] tracking-[-0.04em] mb-8">
+            Hear the pushback first.
+          </h2>
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 bg-[#ec4a2a] text-[#0f0e0d] px-6 py-3.5 text-sm font-medium hover:bg-[#ff5a38] transition-colors"
+            >
+              <Github className="w-4 h-4" />
+              github.com/rgourley/proxies
+              <ArrowUpRight className="w-4 h-4 -mr-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 border border-[#efe6d0]/30 px-6 py-3.5 text-sm font-light text-[#efe6d0]/80 hover:border-[#efe6d0]/60 hover:text-[#efe6d0] transition-colors"
+            >
+              See more projects
+            </Link>
+          </div>
+          <p className="text-xs text-[#efe6d0]/45 font-light leading-relaxed">
+            Licensed under PolyForm Shield 1.0.0. You can use, change, and share
+            Proxies for any purpose, including inside your company, except to
+            build a product that competes with it.
+          </p>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+export default function ProxiesPage() {
+  const siteUrl = SITE_URL;
+  const pageUrl = `${siteUrl}${PAGE_PATH}`;
+
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    name: "Proxies",
+    description: PAGE_DESCRIPTION,
+    url: pageUrl,
+    image: `${siteUrl}${OG_IMAGE}`,
+    codeRepository: GITHUB_URL,
+    runtimePlatform: ["Claude Code", "Node.js 22+"],
+    license: "https://polyformproject.org/licenses/shield/1.0.0/",
+    isAccessibleForFree: true,
+    inLanguage: "en",
+    author: {
+      "@type": "Person",
+      name: "Robert Gourley",
+      url: "https://github.com/rgourley",
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Projects",
+        item: `${siteUrl}/projects`,
+      },
+      { "@type": "ListItem", position: 3, name: "Proxies", item: pageUrl },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        id="ld-proxies-software"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(softwareSchema).replace(/</g, "\\u003c"),
+        }}
+      />
+      <script
+        id="ld-proxies-breadcrumb"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c"),
+        }}
+      />
+      <div className="pt-28 bg-[#0f0e0d] text-[#efe6d0]">
+        <style
+          dangerouslySetInnerHTML={{
+            __html:
+              '.px-serif.px-serif{font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;font-weight:500;letter-spacing:-0.02em}',
+          }}
+        />
+        <Hero />
+        <ResultsShot />
+        <HonestNote />
+        <WhySection />
+        <HowItWorks />
+        <StandingsSection />
+        <PersonCardSection />
+        <CommandsSection />
+        <OwnTeamSection />
+        <StartSection />
+        <FinalCTA />
+      </div>
+    </>
+  );
+}
