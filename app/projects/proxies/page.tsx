@@ -156,82 +156,6 @@ function SectionEyebrow({ number, label }: { number: string; label: string }) {
   );
 }
 
-const FIG = {
-  red: "#ec4a2a",
-  red2: "#d23a1f",
-  teal: "#2b6470",
-  teal2: "#1d4650",
-  ochre: "#b5873a",
-  brown: "#5a2a1c",
-  cream: "#efe6d0",
-  grey: "#8a9a9b",
-};
-
-function Figure({
-  x,
-  top,
-  w = 150,
-  body,
-  head,
-  hair,
-  tie,
-}: {
-  x: number;
-  top: number;
-  w?: number;
-  body: string;
-  head: string;
-  hair?: string;
-  tie?: boolean;
-}) {
-  const hx = x - 32;
-  return (
-    <g>
-      <path d={`M${x - w / 2} 816 L${x - w * 0.34} ${top + 190} L${x + w * 0.34} ${top + 190} L${x + w / 2} 816 Z`} fill={body} />
-      {tie && <path d={`M${x - 16} ${top + 190} L${x + 16} ${top + 190} L${x + 8} ${top + 300} L${x - 8} ${top + 300} Z`} fill={FIG.cream} />}
-      <rect x={x - 12} y={top + 100} width="24" height="92" fill={head} />
-      <rect x={hx} y={top} width="64" height="108" rx="26" fill={head} />
-      {hair && <path d={`M${hx - 4} ${top + 56} Q${hx - 6} ${top - 6} ${hx + 36} ${top - 4} Q${hx + 70} ${top - 2} ${hx + 68} ${top + 40} L${hx + 40} ${top + 24} Q${hx + 20} ${top + 34} ${hx + 6} ${top + 90} Z`} fill={hair} />}
-    </g>
-  );
-}
-
-function HeroArt() {
-  return (
-    <svg
-      viewBox="0 0 1456 816"
-      role="img"
-      aria-label="Flat illustration of people in red, teal and ochre sitting around a table"
-      className="h-full w-full"
-      preserveAspectRatio="xMidYMid slice"
-    >
-      <defs>
-        <filter id="px-grain" x="0" y="0" width="100%" height="100%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n" />
-          <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0" />
-        </filter>
-      </defs>
-      <rect width="1456" height="816" fill="#0f0e0d" />
-      <Figure x={120} top={170} w={210} body={FIG.red} head="#f08a63" hair={FIG.red2} />
-      <Figure x={330} top={190} w={190} body={FIG.teal} head={FIG.grey} tie />
-      <Figure x={575} top={110} w={230} body={FIG.red} head="#e8793f" hair={FIG.brown} />
-      <Figure x={845} top={130} w={250} body={FIG.ochre} head={FIG.red2} hair={FIG.ochre} />
-      <Figure x={1070} top={95} w={210} body={FIG.red2} head="#ef6a3f" hair={FIG.brown} tie />
-      <Figure x={1290} top={150} w={230} body={FIG.teal} head={FIG.teal2} hair={FIG.teal2} />
-      <ellipse cx="728" cy="640" rx="780" ry="100" fill={FIG.cream} />
-      <rect x="320" y="560" width="30" height="256" fill="#0f0e0d" />
-      <Figure x={730} top={300} w={180} body={FIG.red} head="#7a3a22" hair={FIG.brown} />
-      <Figure x={400} top={470} w={170} body={FIG.ochre} head={FIG.brown} />
-      <Figure x={1110} top={460} w={190} body={FIG.red} head={FIG.red2} />
-      <text x="64" y="96" fontFamily='"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif' fontSize="62" fontWeight="600" fill={FIG.cream}>
-        Proxies
-      </text>
-      <circle cx="300" cy="64" r="7" fill={FIG.red} />
-      <rect width="1456" height="816" filter="url(#px-grain)" opacity="0.18" />
-    </svg>
-  );
-}
-
 const AVATARS = [
   { id: "tilt-sam", name: "Sam, engineering lead" },
   { id: "tilt-ken", name: "Ken, head of support" },
@@ -276,7 +200,21 @@ function Hero() {
     <section className="border-b border-[#2e2a26]">
       <Container>
         <div className="relative aspect-[1456/816] w-full overflow-hidden rounded-xl border border-[#2e2a26]">
-          <HeroArt />
+          <Image
+            src="/images/proxies/hero-room-clean.webp"
+            alt="Flat mid-century illustration of people in red, teal and ochre sitting around an oval table"
+            fill
+            priority
+            sizes="(min-width: 1360px) 1232px, 100vw"
+            className="object-cover"
+          />
+          <div
+            className="px-serif absolute left-[4.5%] top-[6%] flex items-start text-[clamp(28px,5.2vw,68px)] leading-none text-[#efe6d0]"
+            aria-hidden="true"
+          >
+            Proxies
+            <span className="ml-[0.1em] mt-[0.1em] inline-block h-[0.13em] w-[0.13em] rounded-full bg-[#ec4a2a]" />
+          </div>
         </div>
       </Container>
       <Container>
