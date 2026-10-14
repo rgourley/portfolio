@@ -232,6 +232,45 @@ function HeroArt() {
   );
 }
 
+const AVATARS = [
+  { id: "tilt-sam", name: "Sam, engineering lead" },
+  { id: "tilt-ken", name: "Ken, head of support" },
+  { id: "tilt-rita", name: "Rita, VP sales" },
+  { id: "tilt-jo", name: "Jo, head of product" },
+  { id: "tilt-ana", name: "Ana, operations director" },
+  { id: "tilt-theo", name: "Theo, AI engineer" },
+];
+
+function AvatarRow() {
+  return (
+    <ul
+      className="grid grid-cols-3 gap-x-4 gap-y-5 sm:grid-cols-6"
+      aria-label="Example proxies from the Tilt sample team"
+    >
+      {AVATARS.map((a) => {
+        const [first, ...rest] = a.name.split(", ");
+        return (
+          <li key={a.id} className="text-center">
+            <Image
+              src={`/images/proxies/avatars/${a.id}.svg`}
+              alt={a.name}
+              title={a.name}
+              width={160}
+              height={160}
+              unoptimized
+              className="mx-auto mb-2 h-16 w-16 rounded-full ring-1 ring-[#efe6d0]/20"
+            />
+            <div className="text-sm text-[#efe6d0]/90">{first}</div>
+            <div className="text-[11px] leading-tight text-[#efe6d0]/50">
+              {rest.join(", ")}
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 function Hero() {
   return (
     <section className="border-b border-[#2e2a26]">
@@ -339,9 +378,21 @@ function WhySection() {
       <Container>
         <SectionEyebrow number="01" label="Why not just ask for five personas?" />
         <div className="grid lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-20 items-start">
-          <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em]">
-            One prompt gives you one agreeable voice.
-          </h2>
+          <div>
+            <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.03em] mb-10">
+              One prompt gives you one agreeable voice.
+            </h2>
+            <div className="max-w-sm overflow-hidden rounded-xl border border-[#2e2a26]">
+              <Image
+                src="/images/proxies/dialogue.webp"
+                alt="Two flat illustrated figures facing each other, each with an empty speech bubble"
+                width={1024}
+                height={1024}
+                sizes="(min-width: 1024px) 24vw, 80vw"
+                className="h-auto w-full"
+              />
+            </div>
+          </div>
           <ul className="grid sm:grid-cols-2 gap-4">
             {REASONS.map((r, i) => (
               <li
@@ -419,10 +470,11 @@ function PersonCardSection() {
                 </li>
               ))}
             </ul>
-            <p className="text-sm text-[#efe6d0]/55 font-light leading-relaxed">
+            <p className="text-sm text-[#efe6d0]/55 font-light leading-relaxed mb-8">
               Each person also gets an avatar. The same person always gets the
               same one.
             </p>
+            <AvatarRow />
           </div>
           <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
             <Image
