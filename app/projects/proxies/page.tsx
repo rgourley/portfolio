@@ -8,7 +8,7 @@ const GITHUB_URL = "https://github.com/rgourley/proxies";
 const PAGE_TITLE = "Proxies: test your idea on simulated stakeholders";
 const PAGE_DESCRIPTION =
   "Proxies is a free Claude Code skill. It makes a room of simulated stakeholders, each with their own role, goals, and hard lines. Show them an idea, a prototype, or a design, and each one tells you where it breaks for them, before the real meeting.";
-const OG_IMAGE = "/images/proxies/results-meeting.webp";
+const OG_IMAGE = "/images/proxies/results-hover.webp";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: "Robert Gourley",
     type: "website",
     locale: "en_US",
-    images: [{ url: OG_IMAGE, width: 2000, height: 1436, alt: "A Proxies results page" }],
+    images: [{ url: OG_IMAGE, width: 2000, height: 1282, alt: "A Proxies results page" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -279,13 +279,62 @@ function ResultsShot() {
         <SectionEyebrow number="00" label="What you get back" />
         <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
           <Image
-            src={OG_IMAGE}
+            src="/images/proxies/results-dark.webp"
             alt="A Proxies meeting result: eleven simulated stakeholders with avatars, a summary of the question and the decision, and how each position moved"
             width={2000}
-            height={1436}
+            height={1349}
             sizes="(min-width: 1024px) 80vw, 100vw"
             className="h-auto w-full"
           />
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function StandingsSection() {
+  return (
+    <section className="border-b border-[#2e2a26] py-24">
+      <Container>
+        <SectionEyebrow number="03" label="Where everyone stands" />
+        <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.03em] mb-6 max-w-3xl">
+          See who thinks what, and what changed.
+        </h2>
+        <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed max-w-2xl mb-12">
+          Each person gives a first take, then answers the room. You can see
+          at a glance who moved and who held their ground.
+        </p>
+        <div className="grid lg:grid-cols-2 gap-6">
+          <figure>
+            <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
+              <Image
+                src="/images/proxies/results-hover.webp"
+                alt="A Proxies result with a hover card for Tomas, a technical director who can veto, showing his quote and hard lines"
+                width={2000}
+                height={1282}
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="h-auto w-full"
+              />
+            </div>
+            <figcaption className="mt-3 text-sm text-[#efe6d0]/55 font-light">
+              Hover over a person to see their hard lines.
+            </figcaption>
+          </figure>
+          <figure>
+            <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
+              <Image
+                src="/images/proxies/each-view.webp"
+                alt="A list of ten people with their first take and their response to the room, such as Rework to Rework or Ship with changes"
+                width={1654}
+                height={1204}
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="h-auto w-full"
+              />
+            </div>
+            <figcaption className="mt-3 text-sm text-[#efe6d0]/55 font-light">
+              Open a person to read their rounds in order.
+            </figcaption>
+          </figure>
         </div>
       </Container>
     </section>
@@ -318,7 +367,8 @@ function WhySection() {
         <div className="grid lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-20 items-start">
           <div>
             <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.03em] mb-10">
-              One prompt gives you one agreeable voice.
+              One prompt gives you one agreeable voice.{" "}
+              <span className="text-[#ec4a2a]">Proxies doesn&rsquo;t.</span>
             </h2>
             <div className="max-w-sm overflow-hidden rounded-xl border border-[#2e2a26]">
               <Image
@@ -390,7 +440,7 @@ function PersonCardSection() {
   return (
     <section className="border-b border-[#2e2a26] py-24">
       <Container>
-        <SectionEyebrow number="03" label="The people" />
+        <SectionEyebrow number="04" label="The people" />
         <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-16 items-center">
           <div>
             <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-6">
@@ -416,10 +466,10 @@ function PersonCardSection() {
           </div>
           <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
             <Image
-              src="/images/proxies/person-card-kofi.webp"
+              src="/images/proxies/card-kofi-dark.webp"
               alt="A Proxies person card for Kofi, head of player support. It shows his avatar, a quote, what he is measured on, his hard lines, his blind spots, and how he reviews"
               width={2000}
-              height={1158}
+              height={1222}
               sizes="(min-width: 1024px) 55vw, 100vw"
               className="h-auto w-full"
             />
@@ -434,7 +484,7 @@ function CommandsSection() {
   return (
     <section className="border-b border-[#2e2a26] py-24">
       <Container>
-        <SectionEyebrow number="04" label="What you can do" />
+        <SectionEyebrow number="05" label="What you can do" />
         <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-12 max-w-3xl">
           Pick the kind of review you need.
         </h2>
@@ -463,37 +513,52 @@ function OwnTeamSection() {
   return (
     <section className="border-b border-[#2e2a26] py-24">
       <Container>
-        <SectionEyebrow number="05" label="Make it yours" />
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+        <SectionEyebrow number="06" label="Make it yours" />
+        <div className="grid lg:grid-cols-[1.5fr_1fr] gap-12 lg:gap-20 items-start">
           <div>
-            <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-6">
+            <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.03em] mb-6">
               Describe your company. Get your team.
             </h2>
-            <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed">
+            <p className="text-lg text-[#efe6d0]/65 font-light leading-relaxed mb-8 max-w-2xl">
               Write a few lines about the business, and Claude drafts it for
               you: the rules, who decides what, and the words people use. Then
               add people one at a time. Anything Claude guessed is marked, and you
               see the draft before it is saved.
             </p>
+            <div className="space-y-4 text-[#efe6d0]/70 font-light leading-relaxed max-w-2xl">
+              <p>
+                Each person has a decision level. Some decide. Some can block.
+                Some must sign off. Some give advice. Some just want to be kept
+                in the loop.
+              </p>
+              <p>
+                When the real person says something different, tell Proxies. It
+                suggests changes to the card and keeps a log, so your team gets
+                closer to the real people over time.
+              </p>
+              <p>
+                You can also share a whole team as one file, or copy a person
+                into another company and adjust them. Three sample teams come
+                with the project: a project planning tool, a clinic network, and
+                a game studio.
+              </p>
+            </div>
           </div>
-          <div className="space-y-4 text-[#efe6d0]/70 font-light leading-relaxed">
-            <p>
-              Each person has a decision level. Some decide. Some can block.
-              Some must sign off. Some give advice. Some just want to be kept in
-              the loop.
-            </p>
-            <p>
-              When the real person says something different, tell Proxies. It
-              suggests changes to the card and keeps a log, so your team gets
-              closer to the real people over time.
-            </p>
-            <p>
-              You can also share a whole team as one file, or copy a person into
-              another company and adjust them. Three sample teams come with the
-              project: a project planning tool, a clinic network, and a game
-              studio.
-            </p>
-          </div>
+          <figure className="mx-auto w-full max-w-[220px] lg:ml-auto">
+            <div className="overflow-hidden rounded-xl border border-[#2e2a26] bg-[#171413]">
+              <Image
+                src="/images/proxies/people-list.webp"
+                alt="The Proxies library showing a team of eleven people, each with an avatar, a name, and a decision level such as decision owner, veto holder, or consulted"
+                width={558}
+                height={1126}
+                sizes="220px"
+                className="h-auto w-full"
+              />
+            </div>
+            <figcaption className="mt-3 text-sm text-[#efe6d0]/55 font-light">
+              A team of eleven, from decision owner to informed.
+            </figcaption>
+          </figure>
         </div>
       </Container>
     </section>
@@ -504,7 +569,7 @@ function StartSection() {
   return (
     <section id="start" className="border-b border-[#2e2a26] py-24">
       <Container>
-        <SectionEyebrow number="06" label="Get started" />
+        <SectionEyebrow number="07" label="Get started" />
         <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20 items-start">
           <div>
             <h2 className="px-serif text-4xl md:text-5xl lg:text-[56px]  leading-[1.05] tracking-[-0.03em] mb-6">
@@ -650,6 +715,7 @@ export default function ProxiesPage() {
         <HonestNote />
         <WhySection />
         <HowItWorks />
+        <StandingsSection />
         <PersonCardSection />
         <CommandsSection />
         <OwnTeamSection />
