@@ -8,6 +8,8 @@ tags: ["design","product design"]
 
 As designers, we often need to audit an existing product to improve the overall UX, or to start a design system. I was looking for an easy way to get all of the font styles from a webpage and couldn't find a great existing solution. I wrote this JavaScript snippet that retrieves all font sizes, weights, and more in use on a webpage. This guide will walk you through using this tool directly in your browser’s Developer Tools (DevTools). Hopefully it will help if you are looking to gather all font styles from a page.
 
+Want it as a one-click bookmark instead? Use the [font size checker](/tools/font-sizes). It does the same job and shows the result in a panel on the page.
+
 ## Prerequisites
 
 Ensure you are familiar with your browser’s Developer Tools. For this guide, we will assume you are using Google Chrome, but the process should be similar in other browsers.
