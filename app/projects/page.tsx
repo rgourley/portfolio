@@ -125,9 +125,9 @@ const PROJECTS: Project[] = [
     meta: "TypeScript · Claude Code · Open source",
     href: "/projects/proxies",
     cta: "Visit Proxies",
-    image: "/images/proxies/results-hover.webp",
-    imageAlt: "A Proxies result with a hover card for a stakeholder, showing their quote and hard lines",
-    position: "top",
+    image: "/images/proxies/art-with-logo.webp",
+    imageAlt: "Proxies: flat mid-century illustration of people in red, teal and ochre sitting around an oval table",
+    position: "top left",
   },
 ];
 
