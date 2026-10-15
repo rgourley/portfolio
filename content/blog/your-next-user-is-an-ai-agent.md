@@ -20,7 +20,7 @@ The second hit a trading agent. It asked for news on four stocks, got nothing ba
 
 Both fixes were text.
 
-That is design work. It has users, failure states and copy. The AI agent just takes every word literally, never skims, and never asks when it's confused. Every product with an API now has two front doors, one for people and one for agents. The agent door has no screen, so nobody notices it's badly designed until something loops. Here it was a retry loop that ate the rate limit.
+That is design work. It has users, failure states and copy. The AI agent just takes every word literally, never skims, and never asks when it's confused. Every product with an API now has two front doors, one for people and one for agents. The agent door usually isn't designed, and nobody reviews it the way they review the rest of the product. It has no screen, so nobody notices it's broken until something loops.
 
 ![A geometric robot head in profile with a question mark beside it](/images/your-next-user-question.webp)
 
