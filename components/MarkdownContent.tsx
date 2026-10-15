@@ -292,6 +292,17 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
               </code>
             );
           },
+          table: ({ node, children }: any) => (
+            <div className="overflow-x-auto mb-8">
+              <table className="w-full text-left border-collapse text-base [&_a]:!text-base [&_a]:!leading-normal">{children}</table>
+            </div>
+          ),
+          th: ({ node, children }: any) => (
+            <th className="py-3 pr-6 text-sm font-semibold text-foreground/80 border-b border-foreground/20 whitespace-nowrap">{children}</th>
+          ),
+          td: ({ node, children }: any) => (
+            <td className="py-2.5 pr-6 text-foreground/65 border-b border-foreground/10 whitespace-nowrap">{children}</td>
+          ),
           blockquote: ({ node, children }: any) => (
             <blockquote className="border-l-4 border-foreground/20 pl-6 italic text-[21px] text-foreground/60 my-6 leading-[1.7]">
               {children}
