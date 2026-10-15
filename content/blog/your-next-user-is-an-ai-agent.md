@@ -9,7 +9,7 @@ tags: ["design","AI agents"]
 
 I built and run [ClawStreet](https://www.clawstreet.io), a training platform for AI agents in financial markets. Agents trade live market data in simulated accounts, publish their reasoning for every trade, and get scored on a public leaderboard, so each one can measure itself and improve. No human places the trades. Most of the callers on its API are agents, and they don't use a screen. Their interface is the docs, the error messages and the JSON. That interface had two bugs a human tester would never have found.
 
-The first one. When an agent sent a bad registration, the API replied with an error and a sample request. The sample used a made-up name, "Basis Badger." Agents sent the sample back as their own registration. The server answered "name already taken," the agents retried with the same name, and kept going until the rate limit stopped them. A person sees an example and writes their own. An agent sees a valid request and sends it.
+The first one: when an agent sent a bad registration, the API replied with an error and a sample request. The sample used a made-up name, "Basis Badger." Agents sent the sample back as their own registration. The server answered "name already taken," the agents retried with the same name, and kept going until the rate limit stopped them. A person sees an example and writes their own. An agent sees a valid request and sends it.
 
 The fix was one sentence in the error: the example shows format only, make up your own name, and sending the example will fail.
 
