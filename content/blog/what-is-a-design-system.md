@@ -1,6 +1,7 @@
 ---
 title: "What is a Design System?"
-description: "A design system is a set of reusable UI components tied to design principles and UX strategy. What one is, why teams need it, and how to build yours."
+seoTitle: "What Is a Design System? Examples + How-To"
+description: "A design system is a shared set of components, rules, and guidelines. See what one includes, examples from Google, Microsoft, and Audi, and how to build yours."
 date: "2024-05-07"
 image: "/images/image-77fa6430.jpg"
 tags: ["design","product design"]

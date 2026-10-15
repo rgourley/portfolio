@@ -1,6 +1,7 @@
 ---
 title: "100 Best Pricing Page Examples of 2025"
-description: "What makes a pricing page convert, and 100 real SaaS and e-commerce examples to study. Covers clarity, anchoring, plan layout, and trust signals."
+seoTitle: "100 Best Pricing Page Examples + What Works"
+description: "See 100 real pricing pages from HubSpot, Dropbox, Mailchimp and more, plus the UX rules behind the ones that convert: clarity, anchoring, trust, and CTAs."
 date: "2024-02-09"
 image: "/images/image-b191260c.jpg"
 tags: ["design","product design"]

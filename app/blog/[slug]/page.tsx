@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const ogDescription = post.description || metaDescription;
 
   return {
-    title: post.title,
+    title: post.seoTitle || post.title,
     description: metaDescription,
     alternates: { canonical: `/blog/${post.slug}` },
     keywords: [...(post.tags || []), "design blog", "product design blog", "UX design", "design thinking", "design leadership", "AI design tools", "Robert Gourley"].filter(Boolean),
