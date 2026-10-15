@@ -141,6 +141,6 @@ The pages in this list that do all of that are not the prettiest ones. They're t
 | 99 | [canva.com](https://www.canva.com/pricing/) | Yes | Yes | Yes | Yes |
 | 100 | [posthog.com](https://posthog.com/pricing) | Yes | No | Yes | No |
 
-## How I checked
+## How I counted
 
-I opened each URL in headless Chrome in October 2026 and read the page's visible text. "Price shown" means the page shows a currency amount or a per-month style figure. "Yearly discount" means the page offers both billing periods or advertises a saving for paying yearly. "Free plan or trial" and "Contact sales" are text matches, so a link in the nav counts. I checked the eight no-price pages by hand and read a sample of other rows against the page text to check the matches. Six pages blocked the bot or timed out (Moz, BoldSign, Bold BI, 2Checkout, Fiverr, Pepperdata) and show n/a. Screenshots were taken on a 1440 pixel wide window with cookie banners removed.
+A script opened each page in Chrome and searched the text. A price is any currency amount or "per month" figure. A yearly discount is a monthly/yearly choice or a "save X%" line. "Free" and "Contact sales" are plain text matches, so a nav link counts and a few cells are probably off. I checked the eight no-price pages by hand. Moz, BoldSign, Bold BI, 2Checkout, Fiverr and Pepperdata blocked the script and show n/a.
