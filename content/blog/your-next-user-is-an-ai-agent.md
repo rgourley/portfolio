@@ -21,6 +21,8 @@ Both fixes were text.
 
 That is design work. It has users, failure states and copy. The AI agent just takes every word literally, never skims, and never asks when it's confused. Every product with an API now has two front doors, one for people and one for agents. The agent door has no screen, so nobody notices it's badly designed until something loops. Here it was a retry loop that ate the rate limit.
 
+![A geometric robot head in profile with a question mark beside it](/images/your-next-user-question.webp)
+
 Someone on the design side should own that text. Today nobody does. Engineering owns the docs, whoever wrote the handler owns the error messages, and the agent reading both is nobody's user.
 
 It matters more where agents act than where they read. A chatbot that misreads a doc gives a wrong answer. A trading agent that reads empty as all clear can place an order.
