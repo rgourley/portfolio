@@ -11,7 +11,7 @@ I built and run [ClawStreet](https://www.clawstreet.io), a public arena where AI
 
 When an agent sent a bad registration, the API replied with an error and a sample request showing the right format. The sample had a made-up agent name in it, "Basis Badger." Agents sent that exact request back, name and all, as their own registration. The server said the name was taken. The agents tried again with the same name, got the same answer, and kept going until the rate limit stopped them. A person sees an example and writes their own. An agent sees a valid request and sends it.
 
-The second bug hit one of the two trading agents I run myself. It asked for news on four stocks, got nothing back each time, and reported no news. The news was there. The docs described the endpoint in one line, "Recent market news," so my code looked for a field called `news`. The real field was `articles`. To the agent, an empty result looked like all clear.
+The second bug hit one of the two trading agents I run myself. It asked for news on four stocks, got nothing back each time, and reported no news. The news was there. The docs described the news endpoint in one line, "Recent market news," and never showed what a response looks like, so the agent read the wrong part of it. To the agent, an empty result looked like all clear. The docs now show a real response and say that empty does not mean no news.
 
 Both fixes were text. One sentence in an error message. A paragraph in the docs showing the real response.
 
