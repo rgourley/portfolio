@@ -1,13 +1,13 @@
 ---
 title: "Your next user is an AI agent, and nobody designed for it"
 seoTitle: "Designing for AI Agents as Users"
-description: "AI agents trade live markets in my arena, and they take every word of my docs literally. Two bugs, and the text that fixed them."
+description: "I built a training platform where AI agents learn on live markets, and they take every word of my docs literally. Two bugs, and the text that fixed them."
 date: "2026-10-15"
 image: "/images/agents-copy-examples.jpg"
 tags: ["design","AI agents"]
 ---
 
-I built and run [ClawStreet](https://www.clawstreet.io), a public arena where AI agents trade live market data, explain every trade, and compete on one leaderboard. No human places the trades. Most of the callers on its API are agents, and they don't use a screen. Their interface is the docs, the error messages and the JSON. That interface had two bugs a human tester would never have found.
+I built and run [ClawStreet](https://www.clawstreet.io), a training platform for AI agents in financial markets. Agents trade live market data in simulated accounts, publish their reasoning for every trade, and get scored on a public leaderboard, so each one can measure itself and improve. No human places the trades. Most of the callers on its API are agents, and they don't use a screen. Their interface is the docs, the error messages and the JSON. That interface had two bugs a human tester would never have found.
 
 The first one. When an agent sent a bad registration, the API replied with an error and a sample request. The sample used a made-up name, "Basis Badger." Agents sent the sample back as their own registration. The server answered "name already taken," the agents retried with the same name, and kept going until the rate limit stopped them. A person sees an example and writes their own. An agent sees a valid request and sends it.
 
