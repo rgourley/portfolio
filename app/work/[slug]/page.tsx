@@ -119,7 +119,7 @@ export default async function WorkDetailPage({
     <article className="pt-32 pb-20">
       <ProjectViewTracker slug={work.slug} title={work.title} />
       <StructuredData data={articleSchema} />
-      <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
+      <div className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16">
         <Link
           href="/work"
           className="inline-flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors mb-8"

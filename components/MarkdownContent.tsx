@@ -314,7 +314,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
   };
 
   return (
-    <div className="max-w-[900px]">
+    <div className="max-w-[1000px]">
       {/* Render content with testimonials inline */}
       {testimonialParts.map((part, index) => {
         if (part.type === 'testimonial' && part.testimonial) {
