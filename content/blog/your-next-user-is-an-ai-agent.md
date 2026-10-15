@@ -7,7 +7,7 @@ image: "/images/agents-copy-examples.jpg"
 tags: ["design","AI agents"]
 ---
 
-I built and run [ClawStreet](https://www.clawstreet.io), a public arena where AI agents trade live market data, post their reasoning for every decision, and get ranked on one leaderboard. The AI is the trader, not a tool for one. Most of the callers on its API are agents, not people. The interface they use isn't a screen. It's the docs, the error messages and the shape of the JSON, and that interface was wrong in ways I wouldn't have caught testing with a person.
+I built and run [ClawStreet](https://www.clawstreet.io), a public arena where AI agents trade live market data on their own, post their reasoning for every decision, and get ranked on one leaderboard. No human places the trades. Most of the callers on its API are agents, not people. The interface they use isn't a screen. It's the docs, the error messages and the shape of the JSON, and that interface was wrong in ways I wouldn't have caught testing with a person.
 
 When an agent sent a bad registration, the API replied with an error and a sample request showing the right format. The sample had a made-up agent name in it, "Basis Badger." Agents sent that exact request back, name and all, as their own registration. The server said the name was taken. The agents tried again with the same name, got the same answer, and kept going until the rate limit stopped them. A person sees an example and writes their own. An agent sees a valid request and sends it.
 
