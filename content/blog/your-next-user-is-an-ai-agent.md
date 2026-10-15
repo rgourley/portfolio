@@ -26,6 +26,6 @@ That is design work. It has users, failure states and copy. The AI agent just ta
 
 Someone on the design side should own that text. Today nobody does. Engineering owns the docs, whoever wrote the handler owns the error messages, and the agent reading both is nobody's user.
 
-It matters more where agents act than where they read. A chatbot that misreads a doc gives a wrong answer. A trading agent that reads empty as all clear can place an order.
+It matters more where agents act than where they read. A chatbot that misreads a doc gives a wrong answer. A trading agent that reads an empty news result as all clear can place an order.
 
 If an agent will read it, write it for something that believes every word.
