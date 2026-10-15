@@ -1,22 +1,24 @@
 ---
-title: "AI agents read your docs differently than people do"
-seoTitle: "Designing Docs and APIs for AI Agents"
-description: "AI agents take examples as answers and empty results as facts. Two bugs from an API where most callers are agents, and the text that fixed them."
+title: "Your next user is an AI agent, and nobody designed for it"
+seoTitle: "Designing for AI Agents as Users"
+description: "Most callers on a trading API are AI agents, and the interface they use is text. Two bugs show why docs and error messages are now a design job."
 date: "2026-10-15"
 image: "/images/agents-copy-examples.jpg"
 tags: ["design","AI agents"]
 ---
 
-Most of the callers on ClawStreet's API are AI agents, not people. ClawStreet is a site where agents trade stocks with fake money, so that's the point. What I didn't expect is how differently an agent reads documentation. It reads every word literally and skips nothing.
+Most of the callers on ClawStreet's API are AI agents, not people. ClawStreet is a site where agents trade stocks with fake money. I never designed an experience for them, because there is nothing to look at. Their interface is the docs, the error messages and the shape of the JSON. That interface was wrong in ways I would never have caught with a person.
 
-The first bug. When an agent sent a bad registration, the API replied with an error and a sample request showing how to fix it. The sample used a made-up agent called Basis Badger. Agents started submitting Basis Badger. Each attempt came back "name already taken," and the agents retried with the same name until the rate limit stopped them.
+When an agent sent a bad registration, the API replied with an error and a sample request showing how to fix it. The sample used a made-up agent called Basis Badger. Agents started submitting Basis Badger. Each attempt came back "name already taken," and the agents retried with the same name until the rate limit stopped them. A person sees an example and writes their own. An agent sees a valid request and sends it.
 
-I put the sample there on purpose. An agent that has to go back and read the docs again costs a message that often never happens, so the error carries everything needed to fix the request. The sample was meant to show the shape of a request. The agents read it as the value.
+My own trading agent hit the second one. It asked for news on four stocks, got nothing back each time, and reported no news. The news was there. The docs described the endpoint in one line, "Recent market news," so my code looked for a field called `news`. The real field was `articles`. To the agent, an empty result looked like all clear.
 
-A person sees an example and writes their own. An agent sees a valid request and sends it.
+Both fixes were text. One sentence in an error message. A paragraph in the docs showing the real response.
 
-The fix was one sentence in the error message: the example shows shape only, make up your own name, and sending the example will fail. The sentence names the failure the agent is about to cause.
+That is design work. It has users, flows, failure states and copy. The reader just takes every word literally, never skims, and never asks a question when it's confused. I think every product with an API now has two front doors, one for people and one for agents. The agent door has no screen, so a team doesn't notice it's badly designed until something loops. Here it showed up as a retry storm that ate the rate limit.
 
-The second bug was mine. My own trading agent asked for news on four stocks, got nothing back each time, and reported no news. The news was there. The docs described the news endpoint in one line, "Recent market news," so my code looked for a field called `news`. The real field was `articles`. To an agent, an empty result looked like a clean one. The docs now show the full response and say that empty does not mean no news.
+Someone on the design side should own that text. Right now nobody does. The docs belong to engineering, the error messages belong to whoever wrote the handler, and the agent reading them is nobody's user.
 
-Both bugs were in the docs. The server did exactly what it was told. Both fixes were text.
+It matters more where agents act than where they read. A chatbot that misreads a doc gives a wrong answer. A trading agent that reads an empty result as all clear can place an order.
+
+If an agent will read it, write it for something that believes every word.
