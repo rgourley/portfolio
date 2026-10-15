@@ -1,5 +1,6 @@
 ---
 title: "Vibe Design Is Here and It Might Be Leading Us Off a Cliff"
+seoTitle: "Vibe Design: Is It Leading Us Off a Cliff?"
 description: "Vibe design is on the rise. Learn how AI builds from mood and why real designers are still critical for usability and product integrity."
 date: "2025-04-17"
 image: "/images/image-c9675d04.jpg"

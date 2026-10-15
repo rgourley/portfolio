@@ -1,5 +1,6 @@
 ---
 title: "What is the ‘Goal Gradient Effect’ and how can it improve your design?"
+seoTitle: "The Goal Gradient Effect in UX Design"
 description: "People speed up as they near a goal. How the goal gradient effect works, the research behind it, and how to use it in progress bars, onboarding, and loyalty flows."
 date: "2024-11-01"
 image: "/images/image-52ba2756.jpg"

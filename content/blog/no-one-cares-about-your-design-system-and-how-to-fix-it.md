@@ -1,5 +1,6 @@
 ---
 title: "No One Cares About Your Design System (And How to Fix It)"
+seoTitle: "No One Cares About Your Design System"
 description: "Most design systems stall at low adoption because the team ships documentation instead of solving problems for designers and engineers. Here is how to fix that."
 date: "2025-10-27"
 image: "/images/image-66877933.jpg"

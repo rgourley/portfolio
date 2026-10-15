@@ -1,5 +1,6 @@
 ---
 title: "Quickly Find All Font Sizes Used on a Web Page: How-To Guide"
+seoTitle: "Find All Font Sizes on a Web Page"
 description: "A JavaScript snippet that lists every font size, weight, and style used on a web page. Paste it into Chrome DevTools to audit a product or start a design system."
 date: "2024-07-17"
 image: "/images/image-7199fe63.jpg"
