@@ -31,20 +31,11 @@ export const metadata: Metadata = {
     siteName: "Robert Gourley - Product Design & Strategy",
     title: "Robert Gourley - Product Design & Strategy",
     description: "Product designer and design leader specializing in complex technical products. Experience building design teams and shipping products at scale.",
-    images: [
-      {
-        url: "/images/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Robert Gourley - Product Design & Strategy",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Robert Gourley - Product Design & Strategy",
     description: "Product designer and design leader specializing in complex technical products.",
-    images: ["/images/og-image.jpg"],
   },
   robots: {
     index: true,

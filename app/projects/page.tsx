@@ -4,10 +4,12 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/projects" },
   title: "Projects",
   description:
     "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Git Kingdom, Quant Garage, Financial UI Suite, Proxies, geofaces, and more.",
   openGraph: {
+    images: ["/opengraph-image"],
     title: "Projects | Robert Gourley",
     description:
       "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Git Kingdom, Quant Garage, Proxies, and more.",

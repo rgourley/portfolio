@@ -1,6 +1,7 @@
 ---
 title: "How to Run a UX Brainstorming Session: Key Strategies for Success"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+seoTitle: "How to Run a UX Brainstorming Session"
+description: "A step-by-step guide to running a UX brainstorming session: pick the format, define the problem, defer judgment, and push for quantity before you narrow down."
 date: "2024-10-22"
 image: "/images/image-da8ada76.jpg"
 tags: ["design","product design"]

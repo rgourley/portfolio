@@ -1,6 +1,6 @@
 ---
 title: "Shape Up Design"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+description: "How designers can use Basecamp's Shape Up method (shaping, betting, building) to manage risk and keep autonomy without a backlog or Scrum sprints."
 date: "2024-12-13"
 image: "/images/image-faba6cea.jpg"
 tags: ["design","product design"]

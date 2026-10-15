@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import MarkdownContent from "@/components/MarkdownContent";
 import Image from "next/image";
 import type { Metadata } from "next";
+import StructuredData from "@/components/StructuredData";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getBlogPostBySlug(params.slug);
@@ -24,8 +25,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const ogDescription = post.description || metaDescription;
 
   return {
-    title: `${post.title} | Design Blog by Robert Gourley`,
+    title: post.seoTitle || post.title,
     description: metaDescription,
+    alternates: { canonical: `/blog/${post.slug}` },
     keywords: [...(post.tags || []), "design blog", "product design blog", "UX design", "design thinking", "design leadership", "AI design tools", "Robert Gourley"].filter(Boolean),
     openGraph: {
       title: post.title,
@@ -34,20 +36,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       type: "article",
       publishedTime: post.date,
       authors: ["Robert Gourley"],
-      images: post.image ? [
-        {
-          url: post.image,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ] : undefined,
+      // Posts with `ogArt` use the generated card from opengraph-image.tsx. Older posts use their own image.
+      ...(!post.ogArt && post.image ? { images: [{ url: post.image, width: 1200, height: 630, alt: post.title }] } : {}),
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: ogDescription,
-      images: post.image ? [post.image] : undefined,
+      ...(!post.ogArt && post.image ? { images: [post.image] } : {}),
     },
   };
 }
@@ -70,9 +66,35 @@ export default async function BlogPostPage({
     notFound();
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.robertcreative.com";
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${baseUrl}/blog/${post.slug}`,
+    mainEntityOfPage: `${baseUrl}/blog/${post.slug}`,
+    headline: post.title,
+    description: post.description,
+    image: post.image ? `${baseUrl}${post.image}` : undefined,
+    datePublished: post.date,
+    dateModified: post.updated || post.date,
+    keywords: post.tags?.join(", "),
+    author: {
+      "@type": "Person",
+      name: "Robert Gourley",
+      url: baseUrl,
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Robert Gourley",
+      url: baseUrl,
+    },
+  };
+
   return (
     <article className="pt-32 pb-20">
-      <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
+      <StructuredData data={articleSchema} />
+      <div className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16">
         <Link
           href="/blog"
           className="inline-flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors mb-8"

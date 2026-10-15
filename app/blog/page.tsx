@@ -3,21 +3,15 @@ import BlogGrid from "@/components/BlogGrid";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/blog" },
   title: "What I'm Thinking About | Design, Product Development & Creative Process",
   description: "Design blog by Robert Gourley covering product design, UX strategy, AI-powered design tools, design team building, design systems, and design leadership. Practical insights from 20+ years of shipping products at scale. Read articles on design trends, team processes, and building complex technical products.",
   keywords: ["design blog", "product design blog", "UX design", "design thinking", "design leadership", "AI design tools", "design systems", "design team building", "product development", "design strategy"],
   openGraph: {
+    images: ["/opengraph-image"],
     title: "What I'm Thinking About | Design, Product Development & Creative Process",
     description: "Thoughts on design, product development, and the creative process.",
     url: "/blog",
-    images: [
-      {
-        url: "/images/og-blog.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Design Blog",
-      },
-    ],
   },
 };
 

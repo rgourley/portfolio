@@ -1,12 +1,15 @@
 ---
 title: "Quickly Find All Font Sizes Used on a Web Page: How-To Guide"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+seoTitle: "Find All Font Sizes on a Web Page"
+description: "A JavaScript snippet that lists every font size, weight, and style used on a web page. Paste it into Chrome DevTools to audit a product or start a design system."
 date: "2024-07-17"
 image: "/images/image-7199fe63.jpg"
 tags: ["design","product design"]
 ---
 
 As designers, we often need to audit an existing product to improve the overall UX, or to start a design system. I was looking for an easy way to get all of the font styles from a webpage and couldn't find a great existing solution. I wrote this JavaScript snippet that retrieves all font sizes, weights, and more in use on a webpage. This guide will walk you through using this tool directly in your browser’s Developer Tools (DevTools). Hopefully it will help if you are looking to gather all font styles from a page.
+
+Want it as a one-click bookmark instead? Use the [font size checker](/tools/font-sizes). It does the same job and shows the result in a panel on the page.
 
 ## Prerequisites
 

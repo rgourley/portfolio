@@ -1,6 +1,7 @@
 ---
 title: "No One Cares About Your Design System (And How to Fix It)"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+seoTitle: "No One Cares About Your Design System"
+description: "Most design systems stall at low adoption because the team ships documentation instead of solving problems for designers and engineers. Here is how to fix that."
 date: "2025-10-27"
 image: "/images/image-66877933.jpg"
 tags: ["design","product design"]

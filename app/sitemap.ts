@@ -9,92 +9,82 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
     {
       url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+            changeFrequency: 'weekly' as const,
       priority: 1,
     },
     {
       url: `${baseUrl}/work`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+            changeFrequency: 'weekly' as const,
       priority: 0.9,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+            changeFrequency: 'weekly' as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+            changeFrequency: 'monthly' as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/leadership`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+            changeFrequency: 'monthly' as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+            changeFrequency: 'monthly' as const,
       priority: 0.7,
     },
     {
       url: `${baseUrl}/resume`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+            changeFrequency: 'monthly' as const,
       priority: 0.7,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+            changeFrequency: 'monthly' as const,
       priority: 0.6,
     },
     {
       url: `${baseUrl}/newsletter`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+            changeFrequency: 'weekly' as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/projects`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+            changeFrequency: 'monthly' as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/projects/quant-garage`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+            changeFrequency: 'monthly' as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/projects/financial-ui-suite`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+            changeFrequency: 'monthly' as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/projects/proxies`,
-      lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/tools/font-sizes`,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/amphora`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+            changeFrequency: 'weekly' as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/amphora/updates`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+            changeFrequency: 'weekly' as const,
       priority: 0.7,
     },
   ];
@@ -102,7 +92,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Dynamic work pages
   const workPages = getAllWork().map((work) => ({
     url: `${baseUrl}/work/${work.slug}`,
-    lastModified: work.date ? new Date(work.date) : new Date(),
+    lastModified: work.date ? new Date(work.date) : undefined,
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }));
@@ -110,7 +100,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Dynamic blog pages
   const blogPages = getAllBlogPosts().map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: post.date ? new Date(post.date) : new Date(),
+    lastModified: post.date ? new Date(post.date) : undefined,
     changeFrequency: 'monthly' as const,
     priority: 0.6,
   }));

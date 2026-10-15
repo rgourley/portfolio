@@ -3,21 +3,15 @@ import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/about" },
   title: "About | Product Design Leader & Strategist",
   description: "About Robert Gourley - Director of Product Design at Shield AI. 20+ years building design teams and shipping products at scale. Led design through Crunchyroll's $1.2B acquisition, built trading platforms handling $200B volume at Kraken, established design at Federato, and transformed Axure. Specializing in AI/ML products, complex technical interfaces, design systems, and team building.",
   keywords: ["product design leader", "design director", "UX design leader", "design strategist", "Shield AI", "Kraken", "Federato", "Crunchyroll", "design team building", "Robert Gourley", "product designer"],
   openGraph: {
+    images: ["/opengraph-image"],
     title: "About | Product Design Leader & Strategist",
     description: "Product design leader with 20+ years of experience building design teams and shipping products at scale.",
     url: "/about",
-    images: [
-      {
-        url: "/images/og-about.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Robert Gourley - Product Design Leader",
-      },
-    ],
   },
 };
 

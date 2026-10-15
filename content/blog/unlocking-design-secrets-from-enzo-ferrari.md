@@ -1,6 +1,6 @@
 ---
 title: "Unlocking Design Secrets from Enzo Ferrari"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+description: "What Enzo Ferrari's obsession with perfection, and the critics of his methods, can teach designers about excellence, pressure, and building a lasting brand."
 date: "2024-02-13"
 image: "/images/image-7453b7a0.jpg"
 tags: ["design","product design"]

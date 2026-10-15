@@ -1,6 +1,7 @@
 ---
 title: "Photographing the Quirky & Majestic Mushroom House of La Jolla"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+seoTitle: "Mushroom House of La Jolla: Photos"
+description: "Photos and history of the Mushroom House in La Jolla, a 1965 beach house by architect Dale Naegle built to survive the Pacific on a single concrete column."
 date: "2024-12-11"
 image: "/images/image-19b2776d.jpg"
 tags: ["design","product design"]

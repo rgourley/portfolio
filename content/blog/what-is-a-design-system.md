@@ -1,6 +1,7 @@
 ---
 title: "What is a Design System?"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+seoTitle: "What Is a Design System? Examples + How-To"
+description: "A design system is a shared set of components, rules, and guidelines. See what one includes, examples from Google, Microsoft, and Audi, and how to build yours."
 date: "2024-05-07"
 image: "/images/image-77fa6430.jpg"
 tags: ["design","product design"]

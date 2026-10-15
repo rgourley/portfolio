@@ -28,6 +28,9 @@ export interface WorkItem {
 export interface BlogPost {
   slug: string;
   title: string;
+  seoTitle?: string;
+  updated?: string;
+  ogArt?: string;
   description: string;
   content: string;
   contentHtml?: string;
@@ -175,6 +178,9 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
   return {
     slug,
     title: data.title || "",
+    seoTitle: data.seoTitle,
+    updated: data.updated,
+    ogArt: data.ogArt,
     description: data.description || "",
     content,
     contentHtml,
