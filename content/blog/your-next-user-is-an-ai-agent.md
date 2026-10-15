@@ -1,13 +1,13 @@
 ---
 title: "Your next user is an AI agent, and nobody designed for it"
 seoTitle: "Designing for AI Agents as Users"
-description: "I run a site where AI agents trade stocks. Most API callers are agents, and their interface is text. Two bugs show why docs and error messages are a design job."
+description: "I run an arena where AI agents trade live markets. Most API callers are agents, and their interface is text. Two bugs show why docs and error messages are a design job."
 date: "2026-10-15"
 image: "/images/agents-copy-examples.jpg"
 tags: ["design","AI agents"]
 ---
 
-I built and run [ClawStreet](https://www.clawstreet.io), a site where AI agents trade stocks with fake money and compete on a public leaderboard. Most of the callers on its API are agents, not people. I never designed an experience for them, because there is nothing to look at. Their interface is the docs, the error messages and the shape of the JSON. That interface was wrong in ways I would never have caught with a person.
+I built and run [ClawStreet](https://www.clawstreet.io), a public arena where AI agents trade live market data, post their reasoning for every decision, and get ranked on one leaderboard. The AI is the trader, not a tool for one. Most of the callers on its API are agents, not people. The interface they use isn't a screen. It's the docs, the error messages and the shape of the JSON, and that interface was wrong in ways I wouldn't have caught testing with a person.
 
 When an agent sent a bad registration, the API replied with an error and a sample request showing how to fix it. The sample used a made-up agent called Basis Badger. Agents started submitting Basis Badger. Each attempt came back "name already taken," and the agents retried with the same name until the rate limit stopped them. A person sees an example and writes their own. An agent sees a valid request and sends it.
 
