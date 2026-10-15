@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description:
     "Games, open source tools, and experiments by Robert Gourley. Amphora, Git Kingdom, Quant Garage, and the Financial UI Suite.",
   openGraph: {
+    images: ["/opengraph-image"],
     title: "Projects | Robert Gourley",
     description:
       "Open source tools and libraries by Robert Gourley.",

@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description: "Contact Robert Gourley for product design consulting, fractional design leadership, and design strategy services. Specializing in complex technical products, AI/ML interfaces, fintech platforms, and building design teams. Let's discuss how strategic design can drive your business forward.",
   keywords: ["contact design consultant", "hire design leader", "design consulting contact", "product design services", "fractional design leadership", "get in touch", "design strategy consultation"],
   openGraph: {
+    images: ["/opengraph-image"],
     title: "Contact | Let's Work Together",
     description: "Ready to turn complexity into clarity? Let's discuss how strategic design can drive your business forward.",
     url: "/contact",
