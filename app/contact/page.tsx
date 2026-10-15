@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import EmailLink from "@/components/EmailLink";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/contact" },
   title: "Contact | Let's Work Together",
   description: "Contact Robert Gourley for product design consulting, fractional design leadership, and design strategy services. Specializing in complex technical products, AI/ML interfaces, fintech platforms, and building design teams. Let's discuss how strategic design can drive your business forward.",
   keywords: ["contact design consultant", "hire design leader", "design consulting contact", "product design services", "fractional design leadership", "get in touch", "design strategy consultation"],

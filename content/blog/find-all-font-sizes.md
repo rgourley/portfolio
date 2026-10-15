@@ -1,6 +1,6 @@
 ---
 title: "Quickly Find All Font Sizes Used on a Web Page: How-To Guide"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+description: "A JavaScript snippet that lists every font size, weight, and style used on a web page. Paste it into Chrome DevTools to audit a product or start a design system."
 date: "2024-07-17"
 image: "/images/image-7199fe63.jpg"
 tags: ["design","product design"]

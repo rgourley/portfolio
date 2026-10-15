@@ -42,8 +42,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const ogDescription = work.description || metaDescription;
 
   return {
-    title: `${work.title} | Product Design Case Study${work.client ? ` - ${work.client}` : ""}`,
+    title: `${work.title}${work.client ? ` (${work.client})` : ""} | Case Study`,
     description: metaDescription,
+    alternates: { canonical: `/work/${work.slug}` },
     keywords: [
       ...(work.tags || []), 
       "product design case study", 

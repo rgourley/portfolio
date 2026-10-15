@@ -1,6 +1,6 @@
 ---
 title: "What is the ‘Goal Gradient Effect’ and how can it improve your design?"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+description: "People speed up as they near a goal. How the goal gradient effect works, the research behind it, and how to use it in progress bars, onboarding, and loyalty flows."
 date: "2024-11-01"
 image: "/images/image-52ba2756.jpg"
 tags: ["design","product design"]

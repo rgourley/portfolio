@@ -1,6 +1,6 @@
 ---
 title: "What is a Design System?"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+description: "A design system is a set of reusable UI components tied to design principles and UX strategy. What one is, why teams need it, and how to build yours."
 date: "2024-05-07"
 image: "/images/image-77fa6430.jpg"
 tags: ["design","product design"]

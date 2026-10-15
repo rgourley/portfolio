@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/projects" },
   title: "Projects",
   description:
     "Games, open source tools, and experiments by Robert Gourley. Amphora, Git Kingdom, Quant Garage, and the Financial UI Suite.",

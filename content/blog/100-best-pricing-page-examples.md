@@ -1,6 +1,6 @@
 ---
 title: "100 Best Pricing Page Examples of 2025"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+description: "What makes a pricing page convert, and 100 real SaaS and e-commerce examples to study. Covers clarity, anchoring, plan layout, and trust signals."
 date: "2024-02-09"
 image: "/images/image-b191260c.jpg"
 tags: ["design","product design"]

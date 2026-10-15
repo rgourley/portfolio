@@ -20,6 +20,7 @@ const CTA = dynamic(() => import("@/components/CTA"), {
 });
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/" },
   title: "Product Design & Strategy | Turning Complexity Into Products People Love",
   description: "Robert Gourley - Director of Product Design at Shield AI. 20+ years building complex technical products that users actually understand. Specializing in AI/ML interfaces, fintech platforms, and autonomous systems. Led design teams at Kraken ($200B trading volume), Crunchyroll ($1.2B acquisition), Federato, and Axure. Product design consulting and fractional leadership services.",
   keywords: ["product design", "UX design", "design leadership", "autonomous systems", "AI product design", "fintech design", "design strategy", "product strategy", "Shield AI", "design consulting"],
@@ -27,14 +28,6 @@ export const metadata: Metadata = {
     title: "Robert Gourley - Product Design & Strategy",
     description: "Turning complexity into products people love. Product designer and design leader specializing in complex technical products.",
     url: "/",
-    images: [
-      {
-        url: "/images/og-home.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Robert Gourley - Product Design Portfolio",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",

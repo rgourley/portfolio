@@ -1,6 +1,6 @@
 ---
 title: "UX Classics"
-description: "Product Design Leader with experience at Apple, Kraken, Axure, and multiple design patents. Specializes in integrating AI to enhance user experiences across desktop, web, mobile, and SmartTV products."
+description: "Eight UX books every designer should read, from The Design of Everyday Things on, and what each one still teaches working designers."
 date: "2025-01-26"
 image: "/images/image-110ade5f.jpg"
 tags: ["design","product design"]
