@@ -2,7 +2,7 @@
 title: "The median pricing page uses 13 font sizes"
 seoTitle: "Font Sizes on 95 Pricing Pages: The Data"
 description: "I ran a font audit on 95 software pricing pages. The median uses 13 distinct sizes, the range is 6 to 28, and Linear's page does it in 8."
-date: "2026-10-15"
+date: "2026-10-14"
 image: "/images/font-audit-vantagefit.jpg"
 tags: ["design","design systems"]
 ---
