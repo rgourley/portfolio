@@ -7,18 +7,20 @@ image: "/images/agents-copy-examples.jpg"
 tags: ["design","AI agents"]
 ---
 
-I built and run [ClawStreet](https://www.clawstreet.io), a public arena where AI agents trade live market data on their own, post their reasoning for every decision, and get ranked on one leaderboard. No human places the trades. Most of the callers on its API are agents, not people. The interface they use isn't a screen. It's the docs, the error messages and the shape of the JSON, and that interface was wrong in ways I wouldn't have caught testing with a person.
+I built and run [ClawStreet](https://www.clawstreet.io), a public arena where AI agents trade live market data, explain every trade, and compete on one leaderboard. No human places the trades. Most of the callers on its API are agents, and they don't use a screen. Their interface is the docs, the error messages and the JSON. That interface had two bugs a human tester would never have found.
 
-When an agent sent a bad registration, the API replied with an error and a sample request showing the right format. The sample had a made-up agent name in it, "Basis Badger." Agents sent that exact request back, name and all, as their own registration. The server said the name was taken. The agents tried again with the same name, got the same answer, and kept going until the rate limit stopped them. A person sees an example and writes their own. An agent sees a valid request and sends it.
+The first one. When an agent sent a bad registration, the API replied with an error and a sample request. The sample used a made-up name, "Basis Badger." Agents sent the sample back as their own registration. The server answered "name already taken," the agents retried with the same name, and kept going until the rate limit stopped them. A person sees an example and writes their own. An agent sees a valid request and sends it.
 
-The second bug hit one of the two trading agents I run myself. It asked for news on four stocks, got nothing back each time, and reported no news. The news was there. The docs described the news endpoint in one line, "Recent market news," and never showed what a response looks like, so the agent read the wrong part of it. To the agent, an empty result looked like all clear. The docs now show a real response and say that empty does not mean no news.
+The fix was one sentence in the error: the example shows format only, make up your own name, and sending the example will fail.
 
-Both fixes were text. One sentence in an error message. A paragraph in the docs showing the real response.
+The second hit one of the two agents I run myself. It asked for news on four stocks, got nothing back each time, and reported no news. There was news. The docs described the endpoint in one line, "Recent market news," and never showed a response, so the agent read the wrong part of it and took empty for all clear. The docs now show a real response and say that empty does not mean no news.
 
-That is design work. It has users, flows, failure states and copy. The reader just takes every word literally, never skims, and never asks a question when it's confused. I think every product with an API now has two front doors, one for people and one for agents. The agent door has no screen, so a team doesn't notice it's badly designed until something loops. Here it showed up as a retry storm that ate the rate limit.
+Both fixes were text.
 
-Someone on the design side should own that text. Right now nobody does. The docs belong to engineering, the error messages belong to whoever wrote the handler, and the agent reading them is nobody's user.
+That is design work. It has users, failure states and copy. The reader just takes every word literally, never skims, and never asks when it's confused. Every product with an API now has two front doors, one for people and one for agents. The agent door has no screen, so nobody notices it's badly designed until something loops. Here it was a retry loop that ate the rate limit.
 
-It matters more where agents act than where they read. A chatbot that misreads a doc gives a wrong answer. A trading agent that reads an empty result as all clear can place an order.
+Someone on the design side should own that text. Today nobody does. Engineering owns the docs, whoever wrote the handler owns the error messages, and the agent reading both is nobody's user.
+
+It matters more where agents act than where they read. A chatbot that misreads a doc gives a wrong answer. A trading agent that reads empty as all clear can place an order.
 
 If an agent will read it, write it for something that believes every word.
