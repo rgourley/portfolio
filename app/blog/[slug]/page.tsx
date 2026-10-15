@@ -83,7 +83,7 @@ export default async function BlogPostPage({
     description: post.description,
     image: post.image ? `${baseUrl}${post.image}` : undefined,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.updated || post.date,
     keywords: post.tags?.join(", "),
     author: {
       "@type": "Person",

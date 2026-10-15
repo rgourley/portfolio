@@ -1,55 +1,146 @@
 ---
-title: "100 Best Pricing Page Examples of 2025"
+title: "100 Best Pricing Page Examples"
 seoTitle: "100 Best Pricing Page Examples + What Works"
-description: "See 100 real pricing pages from HubSpot, Dropbox, Mailchimp and more, plus the UX rules behind the ones that convert: clarity, anchoring, trust, and CTAs."
+description: "Data from 100 live pricing pages: 86 of 94 show a price and 51 have a yearly toggle. Screenshots, what to copy, and the full list."
+updated: "2026-10-15"
 date: "2024-02-09"
 image: "/images/image-b191260c.jpg"
 tags: ["design","product design"]
 ---
 
-![](/images/image-fb7cb527.jpg)
-The business landscape has never been more competitive, particularly in e-commerce and SaaS sectors. Here, your pricing page is not just another page; it's the gateway to conversion. If you're a designer striving for great user experience or a C-suite leader keen on results, then optimizing the UX on your pricing page isn't just a nice-to-have—it's an imperative.
+I loaded 100 software pricing pages in a headless browser in October 2026. Six blocked the bot or timed out. Of the other 94, 86 show a price on the page. Eight don't: Ubuntu, OneTrust, Elastic, Lever, ON24, AdRoll, Qlik and Bold Reports.
 
-Your pricing page is essentially the final act of your customer's journey on your site, and it plays a crucial role in transforming browsers into buyers. The impact of UX here is undeniable; well-crafted user experience can tip the scales dramatically in terms of conversion rates.
+For a product that sells at five or six figures, hiding the number is a choice you can defend. For everyone else it costs you visitors who won't ask.
 
-### **Why Is UX Crucial on Pricing Pages?**
+![Teachable pricing page with a yearly toggle set to 22% off and struck-through monthly prices](/images/pricing-teachable.jpg)
 
-**Clarity Over Complexity**
+Fifty-one of the 94 have a monthly and yearly toggle. Teachable opens on yearly and strikes through the monthly price ($39 becomes $29), then adds a "Save $120" tag to each card. The visitor sees the discount before touching anything. Hotjar's pricing, now on Contentsquare, shows 20% off the same way, and Notion says "Save up to 20% with yearly" next to the switch.
 
-Pricing pages should simplify decision-making, not complicate it. Users should instantly understand your offerings, features, and pricing tiers. Confusing layouts or complicated terms can deter a prospective customer
+The yearly discounts I found cluster between 15 and 30 percent. Twenty and 25 show up most.
 
-**Trust and Transparency**‍
+![Close CRM pricing page with four per-user plans and a Most popular label on Growth](/images/pricing-close.jpg)
 
-Display all costs upfront. Hidden fees or confusing fine print can severely damage your brand reputation and trustworthiness.
+Close prices per user per month and says so on every card. Its lower plans list what they leave out: "Limited to 1 user," "Limited to 10k leads," a crossed-out line for workflows. The reason to upgrade sits on the card you're already reading. The Growth plan carries a "Most popular" label and the only filled button, and 27 of the 94 pages use the words "Most popular" the same way.
 
-**Cognitive Ease**
+Seventy of the 94 mention a free plan or a free trial somewhere on the page, and about seven in ten also have a "contact sales" or "book a demo" path. The usual shape is two or three self-serve plans and a fourth card that says Custom. Teachable's fourth card says "Book a call to build the best plan for your needs." Notion's says "Custom pricing."
 
-Your pricing page should guide users seamlessly to their preferred choice, utilizing visual cues like color contrasts, directional cues, or featured tags on popular plans.
+![Contentsquare pricing page showing a free plan at $0 forever, a Growth plan at $39 a month and two custom plans](/images/pricing-contentsquare.jpg)
 
-**Speed and Load Time**
+Contentsquare is a good case of a free tier doing real work. The free plan is the first card, it says "$0 / forever," and it covers 200k monthly sessions. Growth starts at $39 and has a dropdown for session volume, so the price changes in front of you instead of behind a form. The two enterprise plans just say Custom.
 
-A slow pricing page is a conversion killer. When users are ready to make a purchase, the last thing you want is to test their patience with slow load times.
+## Pricing pages disappear
 
-**Price Anchoring**
+Hotjar's pricing moved to Contentsquare, and a banner at the top reads "Looking for Hotjar pricing? You're in the right place." Others aren't that tidy. Hopin's pricing page returns a 404. InVision Freehand redirects to Miro's homepage. ProfitWell redirects to Paddle, Talend to Qlik, Spot to Flexera. If you copy a competitor's pricing structure, screenshot it first.
 
-Start with a higher-priced option and follow with more budget-friendly ones to make the latter appear more attractive
+## What I would copy
 
-**Mobile Responsiveness**
+Put a number on the page. Label what it's per: user, seat, month, session. Make one plan visibly different from the others and label it. Put the limits on the cheaper cards so the upgrade makes sense without a comparison table. If you offer a yearly discount, show it as a percentage and a dollar amount, the way Teachable does.
 
-With more people shopping on mobile devices than ever before, your pricing page should be just as effective and easy to navigate on a mobile screen as on a desktop.
+The pages in this list that do all of that are not the prettiest ones. They're the ones where a visitor can answer "what will this cost me?" without scrolling or clicking.
 
-**Call-to-Action**
+## The 100 pages
 
-Each pricing tier should have a distinct and easily recognizable CTA, encouraging users to take the next step.
+1. [hubspot.com](https://www.hubspot.com/pricing/marketing/)
+2. [vantagecircle.com](https://www.vantagecircle.com/pricing/)
+3. [shopify.com](https://www.shopify.com/pricing/)
+4. [dropbox.com](https://www.dropbox.com/plans/)
+5. [typeform.com](https://www.typeform.com/pricing/)
+6. [liveplan.com](https://www.liveplan.com/pricing/)
+7. [mailchimp.com](https://mailchimp.com/pricing/marketing/)
+8. [ibm.com](https://www.ibm.com/products/video-streaming/pricing)
+9. [moz.com](https://moz.com/products/api/pricing/)
+10. [hootsuite.com](https://hootsuite.com/plans/)
+11. [ubuntu.com](https://ubuntu.com/pricing/)
+12. [zendesk.com](https://www.zendesk.com/pricing/)
+13. [zoom.us](https://zoom.us/pricing/)
+14. [semrush.com](https://www.semrush.com/prices/)
+15. [wpengine.com](https://wpengine.com/plans/)
+16. [slack.com](https://slack.com/pricing/)
+17. [pingdom.com](https://www.pingdom.com/pricing/)
+18. [trello.com](https://trello.com/pricing/)
+19. [ahrefs.com](https://ahrefs.com/pricing/)
+20. [akismet.com](https://akismet.com/plans/)
+21. [sell.g2.com](https://sell.g2.com/plans/)
+22. [siemens.com](https://www.siemens.com/en-us/products/capital/offerings/capital-x-panel-designer/pricing/)
+23. [onetrust.com](https://www.onetrust.com/pricing/)
+24. [store.devolutions.net](https://store.devolutions.net/store/pricing/)
+25. [infogram.com](https://infogram.com/pricing/)
+26. [boldreports.com](https://www.boldreports.com/pricing/)
+27. [boldsign.com](https://www.boldsign.com/pricing/)
+28. [smartsheet.com](https://www.smartsheet.com/pricing/)
+29. [fastmail.com](https://www.fastmail.com/pricing/)
+30. [app.neilpatel.com](https://app.neilpatel.com/en/pricing/)
+31. [paypal.com](https://www.paypal.com/us/business/pricing/)
+32. [buffer.com](https://buffer.com/pricing/)
+33. [boldbi.com](https://www.boldbi.com/pricing/)
+34. [constantcontact.com](https://www.constantcontact.com/pricing/)
+35. [cloudinary.com](https://cloudinary.com/pricing/)
+36. [paddle.com](https://www.paddle.com/pricing)
+37. [calendly.com](https://calendly.com/pricing/)
+38. [asana.com](https://asana.com/pricing/)
+39. [jobs.shrm.org](https://jobs.shrm.org/employer/pricing/)
+40. [zapier.com](https://zapier.com/pricing/)
+41. [statcounter.com](https://statcounter.com/pricing/)
+42. [us.ovhcloud.com](https://us.ovhcloud.com/bare-metal/prices/)
+43. [optinmonster.com](https://optinmonster.com/pricing/)
+44. [1password.com](https://1password.com/teams/pricing/)
+45. [campaignmonitor.com](https://www.campaignmonitor.com/pricing/)
+46. [2checkout.com](https://www.2checkout.com/pricing/)
+47. [buzzsumo.com](https://buzzsumo.com/pricing/)
+48. [close.com](https://close.com/pricing/)
+49. [fiverr.com](https://www.fiverr.com/pricing/)
+50. [runsignup.com](https://runsignup.com/pricing/)
+51. [squarespace.com](https://www.squarespace.com/pricing/)
+52. [twilio.com](https://www.twilio.com/pricing/)
+53. [adroll.com](https://www.adroll.com/pricing/)
+54. [wpforms.com](https://wpforms.com/pricing/)
+55. [iubenda.com](https://www.iubenda.com/en/pricing/)
+56. [notion.com](https://www.notion.com/pricing)
+57. [eventbrite.com](https://www.eventbrite.com/organizer/pricing/)
+58. [on24.com](https://www.on24.com/pricing/)
+59. [box.com](https://www.box.com/pricing/)
+60. [qlik.com](https://www.qlik.com/us/di/pricing)
+61. [awario.com](https://awario.com/pricing/)
+62. [sproutsocial.com](https://sproutsocial.com/pricing/)
+63. [mongodb.com](https://www.mongodb.com/pricing/)
+64. [couchbase.com](https://www.couchbase.com/pricing/)
+65. [weebly.com](https://www.weebly.com/pricing/)
+66. [crazyegg.com](https://crazyegg.com/pricing/)
+67. [pepperdata.com](https://www.pepperdata.com/product/pricing/)
+68. [activecampaign.com](https://www.activecampaign.com/pricing/)
+69. [teachable.com](https://teachable.com/pricing/)
+70. [figma.com](https://www.figma.com/pricing/)
+71. [contentsquare.com](https://contentsquare.com/pricing/)
+72. [heroku.com](https://www.heroku.com/pricing/)
+73. [wrike.com](https://www.wrike.com/price/)
+74. [unbounce.com](https://unbounce.com/pricing/)
+75. [craftcms.com](https://craftcms.com/pricing/)
+76. [coschedule.com](https://coschedule.com/pricing/)
+77. [broadstreetads.com](https://broadstreetads.com/pricing/)
+78. [vantagefit.io](https://www.vantagefit.io/pricing/)
+79. [lastpass.com](https://www.lastpass.com/pricing/)
+80. [feedblitz.com](https://www.feedblitz.com/pricing/)
+81. [elementor.com](https://elementor.com/pricing/)
+82. [stripe.com](https://stripe.com/pricing/)
+83. [basecamp.com](https://basecamp.com/pricing/)
+84. [tableau.com](https://www.tableau.com/pricing/individual/)
+85. [buzzsprout.com](https://www.buzzsprout.com/pricing/)
+86. [screamingfrog.co.uk](https://www.screamingfrog.co.uk/seo-spider/pricing/)
+87. [elastic.co](https://www.elastic.co/pricing/)
+88. [grammarly.com](https://www.grammarly.com/plans/)
+89. [monsterinsights.com](https://www.monsterinsights.com/pricing/)
+90. [lever.co](https://www.lever.co/pricing/)
+91. [linear.app](https://linear.app/pricing)
+92. [vercel.com](https://vercel.com/pricing)
+93. [github.com](https://github.com/pricing)
+94. [airtable.com](https://www.airtable.com/pricing)
+95. [webflow.com](https://webflow.com/pricing)
+96. [framer.com](https://www.framer.com/pricing)
+97. [loom.com](https://www.loom.com/pricing)
+98. [supabase.com](https://supabase.com/pricing)
+99. [posthog.com](https://posthog.com/pricing)
+100. [canva.com](https://www.canva.com/pricing/)
 
-### **Real-World Examples: Why UX Matters**
+## How I checked
 
-- **Dropbox**: Their pricing page uses simple language and clear CTAs, making it easier for users to understand their options.
-- **Netflix**: Offers a short FAQ section below the pricing tiers to immediately address common questions, enhancing user trust.
-- **Mailchimp**: Utilizes an interactive slider to allow users to see how changes in their usage will affect pricing, adding an element of interactivity and clarity.
-
-### 100 Pricing Page Examples
-
-Need some real-world inspiration? Here’s a list of the top 100 pricing pages. Use this list for your next research or redesign project.1 hubspot.com [https://www.hubspot.com/pricing/marketing/](https://www.hubspot.com/pricing/marketing/) 2 vantagecircle.com [https://www.vantagecircle.com/pricing/](https://www.vantagecircle.com/pricing/) 3 shopify.com [https://www.shopify.com/pricing/](https://www.shopify.com/pricing/) 4 dropbox.com [https://www.dropbox.com/plans/](https://www.dropbox.com/plans/) 5 typeform.com [https://www.typeform.com/pricing/](https://www.typeform.com/pricing/) 6 liveplan.com [https://www.liveplan.com/pricing/](https://www.liveplan.com/pricing/) 7 mailchimp.com [https://mailchimp.com/pricing/marketing/](https://mailchimp.com/pricing/marketing/) 8 ibm.com [https://video.ibm.com/platform/plans/](https://video.ibm.com/platform/plans/) 9 moz.com [https://moz.com/products/api/pricing/](https://moz.com/products/api/pricing/) 10 hootsuite.com [https://hootsuite.com/plans/](https://hootsuite.com/plans/) 11 ubuntu.com [https://ubuntu.com/pricing/](https://ubuntu.com/pricing/) 12 zendesk.com [https://www.zendesk.com/pricing/](https://www.zendesk.com/pricing/) 13 zoom.us [https://zoom.us/pricing/](https://zoom.us/pricing/) 14 semrush.com [https://www.semrush.com/prices/](https://www.semrush.com/prices/) 15 wpengine.com [https://wpengine.com/plans/](https://wpengine.com/plans/) 16 slack.com [https://slack.com/pricing/](https://slack.com/pricing/) 17 pingdom.com [https://www.pingdom.com/pricing/](https://www.pingdom.com/pricing/) 18 trello.com [https://trello.com/pricing/](https://trello.com/pricing/) 19 ahrefs.com [https://ahrefs.com/pricing/](https://ahrefs.com/pricing/) 20 akismet.com [https://akismet.com/plans/](https://akismet.com/plans/) 21 g2.com [https://sell.g2.com/plans/](https://sell.g2.com/plans/) 22 radicasoftware.com [https://radicasoftware.com/pricing/](https://radicasoftware.com/pricing/) 23 onetrust.com [https://www.onetrust.com/pricing/](https://www.onetrust.com/pricing/) 24 devolutions.net [https://store.devolutions.net/store/pricing/](https://store.devolutions.net/store/pricing/) 25 hubspot.de [https://www.hubspot.de/pricing/marketing/](https://www.hubspot.de/pricing/marketing/) 26 infogram.com [https://infogram.com/pricing/](https://infogram.com/pricing/) 27 boldreports.com [https://www.boldreports.com/pricing/](https://www.boldreports.com/pricing/) 28 boldsign.com [https://www.boldsign.com/pricing/](https://www.boldsign.com/pricing/) 29 smartsheet.com [https://www.smartsheet.com/pricing/](https://www.smartsheet.com/pricing/) 30 fastmail.com [https://www.fastmail.com/pricing/](https://www.fastmail.com/pricing/) 31 neilpatel.com [https://app.neilpatel.com/en/pricing/](https://app.neilpatel.com/en/pricing/) 32 spot.io [https://spot.io/pricing/](https://spot.io/pricing/) 33 paypal.com [https://www.paypal.com/us/business/pricing/](https://www.paypal.com/us/business/pricing/) 34 buffer.com [https://buffer.com/pricing/](https://buffer.com/pricing/) 35 boldbi.com [https://www.boldbi.com/pricing/](https://www.boldbi.com/pricing/) 36 constantcontact.com [https://www.constantcontact.com/pricing/](https://www.constantcontact.com/pricing/) 37 cloudinary.com [https://cloudinary.com/pricing/](https://cloudinary.com/pricing/) 38 profitwell.com [https://www.profitwell.com/pricing/](https://www.profitwell.com/pricing/) 39 calendly.com [https://calendly.com/pricing/](https://calendly.com/pricing/) 40 asana.com [https://asana.com/pricing/](https://asana.com/pricing/) 41 shrm.org [https://jobs.shrm.org/employer/pricing/](https://jobs.shrm.org/employer/pricing/) 42 zapier.com [https://zapier.com/pricing/](https://zapier.com/pricing/) 43 statcounter.com [https://statcounter.com/pricing/](https://statcounter.com/pricing/) 44 ovhcloud.com [https://us.ovhcloud.com/bare-metal/prices/](https://us.ovhcloud.com/bare-metal/prices/) 45 optinmonster.com [https://optinmonster.com/pricing/](https://optinmonster.com/pricing/) 46 1password.com [https://1password.com/teams/pricing/](https://1password.com/teams/pricing/) 47 campaignmonitor.com [https://www.campaignmonitor.com/pricing/](https://www.campaignmonitor.com/pricing/) 48 2checkout.com [https://www.2checkout.com/pricing/](https://www.2checkout.com/pricing/) 9 buzzsumo.com [https://buzzsumo.com/pricing/](https://buzzsumo.com/pricing/) 50 close.com [https://close.com/pricing/](https://close.com/pricing/) 51 fiverr.com [https://workspace.fiverr.com/pricing/](https://workspace.fiverr.com/pricing/) 52 runsignup.com [https://runsignup.com/pricing/](https://runsignup.com/pricing/) 53 hopin.com [https://hopin.com/pricing/](https://hopin.com/pricing/) 54 squarespace.com [https://www.squarespace.com/pricing/](https://www.squarespace.com/pricing/) 55 twilio.com [https://www.twilio.com/pricing/‍](https://www.twilio.com/pricing/) 56 adroll.com [https://www.adroll.com/pricing/](https://www.adroll.com/pricing/) 57 surveymonkey.com [https://ru.surveymonkey.com/pricing/](https://ru.surveymonkey.com/pricing/) 58 wpforms.com [https://wpforms.com/pricing/](https://wpforms.com/pricing/) 59 bitbucket.org [https://bitbucket.org/product/pricing/](https://bitbucket.org/product/pricing/) 60 iubenda.com [https://www.iubenda.com/en/pricing/](https://www.iubenda.com/en/pricing/) 61 notion.so [https://www.notion.so/pricing/](https://www.notion.so/pricing/) 62 nginx.com [https://www.nginx.com/pricing/](https://www.nginx.com/pricing/) 63 eventbrite.com [https://www.eventbrite.com/organizer/pricing/](https://www.eventbrite.com/organizer/pricing/) 64 hubspot.fr [https://www.hubspot.fr/pricing/marketing/](https://www.hubspot.fr/pricing/marketing/) 65 on24.com [https://www.on24.com/pricing/](https://www.on24.com/pricing/) 66 box.com [https://www.box.com/pricing/](https://www.box.com/pricing/) 67 talend.com [https://www.talend.com/pricing/](https://www.talend.com/pricing/) 68 awario.com [https://awario.com/pricing/](https://awario.com/pricing/) 69 sproutsocial.com [https://sproutsocial.com/pricing/](https://sproutsocial.com/pricing/) 70 mongodb.com [https://www.mongodb.com/pricing/](https://www.mongodb.com/pricing/) 71 couchbase.com [https://www.couchbase.com/pricing/](https://www.couchbase.com/pricing/) 72 weebly.com [https://www.weebly.com/pricing/](https://www.weebly.com/pricing/) 73 crazyegg.com [https://crazyegg.com/pricing/](https://crazyegg.com/pricing/) 74 pepperdata.com [https://www.pepperdata.com/product/pricing/](https://www.pepperdata.com/product/pricing/) 75 activecampaign.com [https://www.activecampaign.com/pricing/](https://www.activecampaign.com/pricing/) 76 teachable.com [https://teachable.com/pricing/](https://teachable.com/pricing/) 77 invisionapp.com [https://www.invisionapp.com/freehand/pricing/](https://www.invisionapp.com/freehand/pricing/) 78 figma.com [https://www.figma.com/pricing/](https://www.figma.com/pricing/) 79 hotjar.com [https://www.hotjar.com/pricing/](https://www.hotjar.com/pricing/) 80 heroku.com [https://www.heroku.com/pricing/](https://www.heroku.com/pricing/) 81 jinshuju.net [https://jinshuju.net/plans/](https://jinshuju.net/plans/) 82 wrike.com [https://www.wrike.com/price/](https://www.wrike.com/price/) 83 unbounce.com [https://unbounce.com/pricing/](https://unbounce.com/pricing/) 84 craftcms.com [https://craftcms.com/pricing/](https://craftcms.com/pricing/) 85 coschedule.com [https://coschedule.com/pricing/](https://coschedule.com/pricing/) 86 broadstreetads.com [https://broadstreetads.com/pricing/](https://broadstreetads.com/pricing/) 87 vantagefit.io [https://www.vantagefit.io/pricing/](https://www.vantagefit.io/pricing/) 88 lastpass.com [https://www.lastpass.com/pricing/](https://www.lastpass.com/pricing/) 89 feedblitz.com [https://www.feedblitz.com/pricing/](https://www.feedblitz.com/pricing/) 90 elementor.com [https://elementor.com/pricing/](https://elementor.com/pricing/) 91 stripe.com [https://stripe.com/pricing/](https://stripe.com/pricing/) 92 basecamp.com [https://basecamp.com/pricing/](https://basecamp.com/pricing/) 93 tableau.com [https://www.tableau.com/pricing/individual/](https://www.tableau.com/pricing/individual/) 94 buzzsprout.com [https://www.buzzsprout.com/pricing/](https://www.buzzsprout.com/pricing/) 95 screamingfrog.co.uk [https://www.screamingfrog.co.uk/seo-spider/pricing/](https://www.screamingfrog.co.uk/seo-spider/pricing/) 96 sendinblue.com [https://fr.sendinblue.com/tarifs/](https://fr.sendinblue.com/tarifs/) 97 elastic.co [https://www.elastic.co/pricing/](https://www.elastic.co/pricing/) 98 grammarly.com [https://www.grammarly.com/plans/](https://www.grammarly.com/plans/) 99 monsterinsights.com [https://www.monsterinsights.com/pricing/](https://www.monsterinsights.com/pricing/) 100 lever.co [https://www.lever.co/pricing/](https://www.lever.co/pricing/)
-
-‍
+I opened each URL in headless Chrome in October 2026 and read the page's visible text. A price counts if the page shows a currency amount or a "per month" style figure. The toggle count looks for both a monthly and a yearly or annual option. "Free" and "contact sales or demo" counts are text matches, so a link in the nav counts. I checked the eight no-price pages by hand. Six pages blocked the bot or timed out (Moz, BoldSign, Bold BI, 2Checkout, Fiverr, Pepperdata) and are left out of the counts. Screenshots were taken on a 1440 pixel wide window with cookie banners removed.

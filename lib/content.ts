@@ -29,6 +29,7 @@ export interface BlogPost {
   slug: string;
   title: string;
   seoTitle?: string;
+  updated?: string;
   description: string;
   content: string;
   contentHtml?: string;
@@ -177,6 +178,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     slug,
     title: data.title || "",
     seoTitle: data.seoTitle,
+    updated: data.updated,
     description: data.description || "",
     content,
     contentHtml,
