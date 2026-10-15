@@ -38,6 +38,8 @@ The pages in this list that do all of that are not the prettiest ones. They're t
 
 ## The 100 pages
 
+I searched each page's text, so the Yes and No cells are matches, not judgments, and a nav link counts. Moz, BoldSign, Bold BI, 2Checkout, Fiverr and Pepperdata blocked the script and show n/a.
+
 | # | Site | Price shown | Yearly discount | Free plan or trial | Contact sales |
 |---|---|---|---|---|---|
 | 1 | [vantagecircle.com](https://www.vantagecircle.com/pricing/) | Yes | No | No | Yes |
@@ -140,7 +142,3 @@ The pages in this list that do all of that are not the prettiest ones. They're t
 | 98 | [framer.com](https://www.framer.com/pricing) | Yes | No | Yes | No |
 | 99 | [canva.com](https://www.canva.com/pricing/) | Yes | Yes | Yes | Yes |
 | 100 | [posthog.com](https://posthog.com/pricing) | Yes | No | Yes | No |
-
-## How I counted
-
-A script opened each page in Chrome and searched the text. A price is any currency amount or "per month" figure. A yearly discount is a monthly/yearly choice or a "save X%" line. "Free" and "Contact sales" are plain text matches, so a nav link counts and a few cells are probably off. I checked the eight no-price pages by hand. Moz, BoldSign, Bold BI, 2Checkout, Fiverr and Pepperdata blocked the script and show n/a.
