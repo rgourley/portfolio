@@ -30,6 +30,7 @@ export interface BlogPost {
   title: string;
   seoTitle?: string;
   updated?: string;
+  ogArt?: string;
   description: string;
   content: string;
   contentHtml?: string;
@@ -179,6 +180,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     title: data.title || "",
     seoTitle: data.seoTitle,
     updated: data.updated,
+    ogArt: data.ogArt,
     description: data.description || "",
     content,
     contentHtml,

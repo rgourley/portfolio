@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "fs/promises";
+import path from "path";
 import { getBlogPostBySlug } from "@/lib/content";
 
 export const alt = "Robert Gourley blog post";
@@ -13,7 +15,14 @@ const interMedium = fetch(
   "https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.19/files/inter-latin-500-normal.woff",
 ).then((res) => res.arrayBuffer());
 
-function titleSize(length: number): number {
+async function readArt(artPath: string | undefined): Promise<string | null> {
+  if (!artPath) return null;
+  const file = await readFile(path.join(process.cwd(), "public", artPath));
+  return `data:image/jpeg;base64,${file.toString("base64")}`;
+}
+
+function titleSize(length: number, hasArt: boolean): number {
+  if (hasArt) return length <= 40 ? 64 : 54;
   if (length <= 40) return 84;
   if (length <= 60) return 70;
   return 58;
@@ -26,6 +35,7 @@ export default async function OGImage({
 }): Promise<ImageResponse> {
   const post = await getBlogPostBySlug(params.slug);
   const title = post?.title ?? "Robert Gourley";
+  const art = await readArt(post?.ogArt);
   const [blackData, mediumData] = await Promise.all([interBlack, interMedium]);
 
   return new ImageResponse(
@@ -46,7 +56,7 @@ export default async function OGImage({
             flexDirection: "column",
             justifyContent: "space-between",
             padding: "64px 72px",
-            width: "780px",
+            width: art ? "570px" : "780px",
           }}
         >
           <div
@@ -64,7 +74,7 @@ export default async function OGImage({
           <div
             style={{
               display: "flex",
-              fontSize: titleSize(title.length),
+              fontSize: titleSize(title.length, art !== null),
               fontWeight: 900,
               color: "#e8e1d0",
               lineHeight: 1.02,
@@ -78,11 +88,22 @@ export default async function OGImage({
           </div>
         </div>
 
-        <div style={{ display: "flex", position: "absolute", right: 0, top: 0, width: 420, height: 630 }}>
-          <div style={{ position: "absolute", right: 90, top: 80, width: 220, height: 220, borderRadius: 110, background: "#d9472b", display: "flex" }} />
-          <div style={{ position: "absolute", right: 0, top: 300, width: 300, height: 120, background: "#e2a72e", display: "flex" }} />
-          <div style={{ position: "absolute", right: 150, top: 420, width: 270, height: 210, background: "#1f7a7a", display: "flex", borderTopLeftRadius: 135 }} />
-        </div>
+        {art ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={art}
+            width={630}
+            height={630}
+            alt=""
+            style={{ position: "absolute", right: 0, top: 0, width: 630, height: 630 }}
+          />
+        ) : (
+          <div style={{ display: "flex", position: "absolute", right: 0, top: 0, width: 420, height: 630 }}>
+            <div style={{ position: "absolute", right: 90, top: 80, width: 220, height: 220, borderRadius: 110, background: "#d9472b", display: "flex" }} />
+            <div style={{ position: "absolute", right: 0, top: 300, width: 300, height: 120, background: "#e2a72e", display: "flex" }} />
+            <div style={{ position: "absolute", right: 150, top: 420, width: 270, height: 210, background: "#1f7a7a", display: "flex", borderTopLeftRadius: 135 }} />
+          </div>
+        )}
       </div>
     ),
     {

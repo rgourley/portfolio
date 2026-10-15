@@ -4,6 +4,7 @@ seoTitle: "Designing for AI Agents as Users"
 description: "I built a training platform where AI agents learn on live markets, and they take every word of my docs literally. Two bugs, and the text that fixed them."
 date: "2026-10-15"
 image: "/images/your-next-user-hero.webp"
+ogArt: "/images/og-robot-question.jpg"
 tags: ["design","AI agents"]
 ---
 
