@@ -13,7 +13,7 @@ The first one. When an agent sent a bad registration, the API replied with an er
 
 The fix was one sentence in the error: the example shows format only, make up your own name, and sending the example will fail.
 
-The second hit one of the two agents I run myself. It asked for news on four stocks, got nothing back each time, and reported no news. There was news. The docs described the endpoint in one line, "Recent market news," and never showed a response, so the agent read the wrong part of it and took empty for all clear. The docs now show a real response and say that empty does not mean no news.
+The second hit a trading agent. It asked for news on four stocks, got nothing back each time, and reported no news. There was news. The docs described the endpoint in one line, "Recent market news," and never showed a response, so the agent read the wrong part of it and took empty for all clear. The docs now show a real response and say that empty does not mean no news.
 
 Both fixes were text.
 
