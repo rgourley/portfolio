@@ -15,10 +15,20 @@ const interMedium = fetch(
   "https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.19/files/inter-latin-500-normal.woff",
 ).then((res) => res.arrayBuffer());
 
+const ART_PATH = /^\/images\/[a-z0-9-]+\.(jpe?g|png)$/;
+
 async function readArt(artPath: string | undefined): Promise<string | null> {
-  if (!artPath) return null;
-  const file = await readFile(path.join(process.cwd(), "public", artPath));
-  return `data:image/jpeg;base64,${file.toString("base64")}`;
+  if (!artPath || !ART_PATH.test(artPath)) return null;
+  const publicDir = path.join(process.cwd(), "public");
+  const resolved = path.join(publicDir, artPath);
+  if (!resolved.startsWith(publicDir + path.sep)) return null;
+  try {
+    const file = await readFile(resolved);
+    const mime = artPath.endsWith(".png") ? "image/png" : "image/jpeg";
+    return `data:${mime};base64,${file.toString("base64")}`;
+  } catch {
+    return null;
+  }
 }
 
 function titleSize(length: number, hasArt: boolean): number {
