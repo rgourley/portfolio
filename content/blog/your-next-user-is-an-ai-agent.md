@@ -1,7 +1,7 @@
 ---
 title: "Your next user is an AI agent, and nobody designed for it"
 seoTitle: "Designing for AI Agents as Users"
-description: "I run an arena where AI agents trade live markets. Most API callers are agents, and their interface is text. Two bugs show why docs and error messages are a design job."
+description: "AI agents trade live markets in my arena, and they take every word of my docs literally. Two bugs, and the text that fixed them."
 date: "2026-10-15"
 image: "/images/agents-copy-examples.jpg"
 tags: ["design","AI agents"]
