@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/projects" },
   title: "Projects",
   description:
-    "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Git Kingdom, Quant Garage, Financial UI Suite, Proxies, geofaces, and more.",
+    "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Market City, Git Kingdom, Quant Garage, Financial UI Suite, Proxies, geofaces, and more.",
   openGraph: {
     images: ["/opengraph-image"],
     title: "Projects | Robert Gourley",
     description:
-      "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Git Kingdom, Quant Garage, Proxies, and more.",
+      "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Market City, Git Kingdom, Quant Garage, Proxies, and more.",
     url: "/projects",
     type: "website",
   },
@@ -46,6 +46,21 @@ const FEATURED: Project[] = [
     position: "top left",
   },
   {
+    name: "Market City",
+    tagline: "The stock market as a living 3D city.",
+    blurb:
+      "Each tower is one of the largest S&P 500 stocks, lit by how it is doing today. Weather follows volatility, traffic follows volume, and the music is generated live from the same Massive market data.",
+    meta: "three.js · Tone.js · Massive API · Open source",
+    href: "/city",
+    cta: "Visit the city",
+    image: "/images/projects/market-city.jpg",
+    imageAlt: "Market City in the Synthwave theme: neon towers in front of a striped sunset sun",
+    position: "center",
+  },
+];
+
+const PROJECTS: Project[] = [
+  {
     name: "Amphora",
     tagline: "Build a merchant dynasty.",
     blurb:
@@ -55,11 +70,7 @@ const FEATURED: Project[] = [
     cta: "Visit Amphora",
     image: "/images/projects/amphora-selis.webp",
     imageAlt: "The port town of Selis in Amphora, with its workshops, sanctuary, and granary",
-    position: "center",
   },
-];
-
-const PROJECTS: Project[] = [
   {
     name: "Git Kingdom",
     tagline: "GitHub as a fantasy RPG world.",
