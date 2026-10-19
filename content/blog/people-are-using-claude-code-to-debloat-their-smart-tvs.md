@@ -13,7 +13,7 @@ Design wanted the home screen to do one thing well: get you to what you wanted t
 
 So I wasn't surprised when people started pointing coding agents at their televisions.
 
-## What's going around
+## Who's doing this, and why now
 
 The one getting the most attention is [Clean Your TV](https://github.com/Gathin23/cleanyourtv), also called tv-vibehack. It's an open source repo built around one long prompt. You paste the prompt into Claude Code or a similar tool, tell it your TV model, and it connects to the set over Wi-Fi. It backs up what's installed, asks which apps you actually use, switches off the manufacturer's ad and telemetry packages, and installs a plain launcher as the home screen. The author says nothing gets deleted, and a restore script turns it all back on.
 
