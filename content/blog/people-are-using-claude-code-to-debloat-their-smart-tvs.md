@@ -9,7 +9,7 @@ tags: ["design","AI","smart TV"]
 
 Earlier in my career I designed part of a major smart TV interface. I won't say whose. What matters is the meeting that kept happening.
 
-Design wanted the home screen to do one thing well: get you to what you wanted to watch, fast. Product and the business side wanted a row for a partner, then a banner, then a promoted app, then a new data feature that needed a background service. Each request was reasonable on its own. Each came with a revenue number attached. I lost most of those arguments, and I don't think anyone was acting in bad faith. A TV is sold near cost, so the screen has to earn money after the sale. The slow TV you own now is what that math looks like from the couch.
+Design wanted the home screen to do one thing well: get you to what you wanted to watch, fast. Product and the business side wanted a row for a partner, then a banner, then a promoted app, then a new data feature that needed a background service. Each request was reasonable on its own. Each came with a revenue number attached. We lost many of those arguments, and I don't think anyone was acting in bad faith. A TV is sold near cost, so the screen has to earn money after the sale. The slow TV you own now is what that math looks like from the couch.
 
 So I wasn't surprised when people started pointing coding agents at their televisions.
 
@@ -37,9 +37,19 @@ Start here, because it takes five minutes and needs no code. Open the TV's setti
 
 **1. Turn on debugging.** Go to Settings, System, About, and tap Build several times until it says you're a developer. Then open Developer options and switch on USB debugging and, if it's listed, Network or Wireless debugging. Write down the TV's IP address from the network settings.
 
-**2. Put adb on your computer.** It's Google's free command-line tool for talking to Android devices, part of the platform-tools download. Check that it runs with `adb version`.
+**2. Put adb on your computer.** It's Google's free command-line tool for talking to Android devices, part of the platform-tools download. Check that it runs:
 
-**3. Connect.** Run `adb connect YOUR.TV.IP.ADDRESS:5555`. The TV will ask whether to allow this computer. Say yes. Newer versions of Android use a pairing code first, and your TV shows it on screen.
+```
+adb version
+```
+
+**3. Connect.** Use the IP address you wrote down:
+
+```
+adb connect YOUR.TV.IP.ADDRESS:5555
+```
+
+The TV will ask whether to allow this computer. Say yes. Newer versions of Android use a pairing code first, and your TV shows it on screen.
 
 **4. Back up before touching anything.** This is the step people skip. Save the full package list to a file:
 
@@ -51,7 +61,7 @@ Keep that file somewhere you'll find it.
 
 **5. Hand it to Claude Code.** Open a terminal in an empty folder and describe the job in plain words. Mine looked roughly like this:
 
-> My TV is connected over adb at this address. List every installed package and sort them into three groups: needed for the TV to boot and update, apps I use, and ads, telemetry or preloaded junk. Don't change anything yet. Show me the third group and explain each item. When I approve, disable packages with `pm disable-user`, never uninstall, do it in small batches, and write every change to a log file so it can be reversed.
+> My TV is connected over adb at this address. List every installed package and sort them into three groups: needed for the TV to boot and update, apps I use, and ads, telemetry or preloaded junk. Don't change anything yet. Show me the third group and explain each item. When I approve, disable packages with pm disable-user, never uninstall, do it in small batches, and write every change to a log file so it can be reversed.
 
 The important parts are "don't change anything yet" and "disable, never uninstall." A disabled package can come back with one command. An uninstalled one can't.
 
@@ -61,7 +71,13 @@ The important parts are "don't change anything yet" and "disable, never uninstal
 
 **8. Optional: swap the launcher.** This is what makes the TV feel different, since the ads live on the home screen. The projects above install a plain launcher with a few rows of apps. One warning from the Clean Your TV page is worth repeating: if you disable the stock launcher, make sure a replacement is already running and set as default, and don't disable the setup wizard along with it, or some Google TVs can end up in a crash loop.
 
-**9. Know your way back.** To undo a package, run `adb shell pm enable PACKAGE.NAME`. If the TV stops responding to your computer, go to Settings, Apps, find the disabled ones and re-enable them from the TV itself. When you're done, turn USB debugging off again.
+**9. Know your way back.** To undo a package, use the enable command with the package's name:
+
+```
+adb shell pm enable PACKAGE.NAME
+```
+
+If the TV stops responding to your computer, go to Settings, Apps, find the disabled ones and re-enable them from the TV itself. When you're done, turn USB debugging off again.
 
 ## If you have an LG
 
@@ -69,7 +85,7 @@ The webOS route is closer to installing an app than modifying the system. Here i
 
 1. Make a free account on LG's developer site, install the Developer Mode app from the LG Content Store on the TV, and sign in.
 2. Turn on Dev Mode Status (the TV restarts), then turn on Key Server and note the IP address and passphrase it shows.
-3. On a Mac on the same Wi-Fi, connect with LG's `ares` command-line tool, then clone the repo and run its install script. Right now the install steps are macOS only.
+3. On a Mac on the same Wi-Fi, connect with LG's ares command-line tool, then clone the repo and run its install script. Right now the install steps are macOS only.
 4. Accept the pairing prompt on the TV. The script reads your installed apps and builds the launcher around them.
 5. Optionally run the Home-button watcher on something that stays on, like a Raspberry Pi. Without it, Home still opens LG's screen and the new launcher is one more app you open yourself.
 
