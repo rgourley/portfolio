@@ -278,20 +278,22 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
               {children}
             </a>
           ),
-          code: ({ node, inline, children }: any) => {
-            if (inline) {
-              return (
-                <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90 text-sm font-mono">
-                  {children}
-                </code>
-              );
-            }
+          // react-markdown v9+ no longer passes an `inline` prop, so fenced blocks are styled
+          // on <pre> and `code` only ever handles inline spans.
+          pre: ({ node, children }: any) => {
+            const codeChild: any = React.Children.toArray(children)[0];
+            const text = codeChild?.props?.children ?? children;
             return (
-              <code className="block p-4 rounded-lg bg-muted text-foreground/90 text-sm font-mono overflow-x-auto mb-6">
-                {children}
-              </code>
+              <pre className="p-4 rounded-lg bg-muted text-foreground/90 text-sm font-mono overflow-x-auto mb-6">
+                <code>{text}</code>
+              </pre>
             );
           },
+          code: ({ node, children }: any) => (
+            <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90 text-sm font-mono">
+              {children}
+            </code>
+          ),
           table: ({ node, children }: any) => (
             <div className="overflow-x-auto mb-8">
               <table className="w-full text-left border-collapse text-base [&_a]:!text-base [&_a]:!leading-normal">{children}</table>
