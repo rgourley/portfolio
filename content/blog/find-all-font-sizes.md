@@ -23,10 +23,10 @@ Ensure you are familiar with your browser’s Developer Tools. For this guide, w
 
 ```
 
-(() =&gt; {
+(() => {
     const fontStyles = {};
 
-    document.querySelectorAll('*').forEach(node =&gt; {
+    document.querySelectorAll('*').forEach(node => {
         const computedStyle = window.getComputedStyle(node);
 
         const fontSize = `${parseFloat(computedStyle.getPropertyValue('font-size'))}px`;
@@ -43,8 +43,8 @@ Ensure you are familiar with your browser’s Developer Tools. For this guide, w
 
     const sortedFontStyles = [];
 
-    Object.keys(fontStyles).sort().forEach(key =&gt; {
-        const rules = Array.from(fontStyles[key]).sort((a, b) =&gt; a.localeCompare(b)); // Sort alphabetically
+    Object.keys(fontStyles).sort().forEach(key => {
+        const rules = Array.from(fontStyles[key]).sort((a, b) => a.localeCompare(b)); // Sort alphabetically
         const className = CSS.escape(key).replace(/\s+/g, '-').toLowerCase(); // Safe CSS class name
 
         sortedFontStyles.push(`.font-family-${className} {\n font-family: '${key}';\n ${rules.join('\n ')}\n}`);
