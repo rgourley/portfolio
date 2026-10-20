@@ -15,13 +15,38 @@ So I wasn't surprised when people started pointing coding agents at their televi
 
 ## How are people debloating their TVs?
 
-The one getting the most attention is [Clean Your TV](https://github.com/Gathin23/cleanyourtv), also called tv-vibehack. It's an open source repo built around one long prompt. You paste the prompt into Claude Code or a similar tool, tell it your TV model, and it connects to the set over Wi-Fi. It backs up what's installed, asks which apps you actually use, switches off the manufacturer's ad and telemetry packages, and installs a plain launcher as the home screen. The author says nothing gets deleted, and a restore script turns it all back on.
+Mostly through a few open source projects, and which one you use depends on your TV brand.
 
-The same thing is happening on LG. A developer named OmkarK97 ported that launcher to webOS as [webos-vibehack](https://github.com/OmkarK97/webos-vibehack), tested on an LG OLED C6. LG locks its system down far more than Google does, so the port works differently: you install it through LG's own Developer Mode, nothing is rooted, and firmware updates keep working. There's no package-disabling step at all, because webOS doesn't allow it. And because webOS always sends the Home button to LG's home screen, the project runs a small script on another device on your network that watches the TV and switches back to the new launcher within a fraction of a second. For people who want to go further there's [Glasshouse](https://github.com/rorygallagher2024/glasshouse), which needs a rooted LG and adds app removal, an ad and telemetry blocker and a dashboard. Rooting is a bigger step than anything in this post, so I'm only pointing at it.
+### Android TV and Google TV
 
-It's not the only one. A developer named Mert Cobanov [reportedly did something similar](https://www.itechpost.com/articles/237433/20260928/how-use-claude-code-debloat-your-smart-tv-without-removing-critical-tv-bloatware.htm) on a Google TV, telling Claude not to uninstall anything and to keep a change log. There are also non-AI tools that do the same job with buttons, like [ADB AppControl](https://adbappcontrol.com/en/tv/) and [Android TV Tools](https://www.androidauthority.com/android-tv-tools-windows-tool-3411045/). The scripts and package lists have existed for years. What changed is that you no longer need to know which of 200 cryptic package names is safe to turn off. The agent reads the list, sorts it, and asks you about the ones it isn't sure of.
+The one getting the most attention is [Clean Your TV](https://github.com/Gathin23/cleanyourtv), also called tv-vibehack. It's a repo built around one long prompt. You paste the prompt into Claude Code or a similar tool and tell it your TV model. It connects to the set over Wi-Fi and then:
 
-The timing isn't an accident either. Smart TVs track what's on your screen with a technology called automatic content recognition, and in December 2025 Texas [sued five TV makers over it](https://therecord.media/texas-sues-5-smart-tv-makers-over-acr-tech), alleging the feature was switched on during setup without clear consent. Those are allegations, and the cases are still moving. But a lot of people read the headlines and then looked at the settings on their own TV.
+- backs up what's installed
+- asks which apps you actually use
+- switches off the manufacturer's ad and telemetry packages
+- installs a plain launcher as the home screen
+
+The author says nothing gets deleted, and a restore script turns it all back on.
+
+A developer named Mert Cobanov [reportedly did something similar](https://www.itechpost.com/articles/237433/20260928/how-use-claude-code-debloat-your-smart-tv-without-removing-critical-tv-bloatware.htm) on a Google TV, telling Claude not to uninstall anything and to keep a change log.
+
+### LG webOS
+
+A similar repo is available for LG TVs. A developer named OmkarK97 ported the launcher to webOS as [webos-vibehack](https://github.com/OmkarK97/webos-vibehack), tested on an LG OLED C6. LG locks its system down more than Google does, so it works differently:
+
+- You install it through LG's own Developer Mode with a free developer account. Nothing is rooted, and firmware updates keep working.
+- There's no debloat step, because webOS can't disable packages. You turn off LG's ad and viewing-data options in the settings instead.
+- webOS always sends the Home button to LG's home screen. To get around that, a small script on another device on your network watches the TV and switches back to the new launcher within a fraction of a second.
+
+If you're willing to root the TV, [Glasshouse](https://github.com/rorygallagher2024/glasshouse) goes further, with app removal, an ad and telemetry blocker and a dashboard. I'm not covering that here.
+
+### Tools that don't use AI
+
+There are also tools that do the same job with buttons, like [ADB AppControl](https://adbappcontrol.com/en/tv/) and [Android TV Tools](https://www.androidauthority.com/android-tv-tools-windows-tool-3411045/). The scripts and package lists have existed for years. What changed is that you no longer need to know which of 200 cryptic package names is safe to turn off. The agent reads the list, sorts it, and asks you about the ones it isn't sure of.
+
+### Why now
+
+Smart TVs use a technology called automatic content recognition, or ACR, to track what's on your screen. In December 2025 Texas [sued five TV makers over it](https://therecord.media/texas-sues-5-smart-tv-makers-over-acr-tech), alleging it was switched on during setup without clear consent. Those are allegations, and the cases are still going. Turning ACR off is the first thing in the no-tools section below.
 
 ## Before you start
 
