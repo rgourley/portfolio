@@ -9,7 +9,7 @@ tags: ["design","AI","smart TV"]
 
 Earlier in my career I designed part of a major smart TV interface. I won't say whose. There was the same friction in every review.
 
-The design team wanted the home screen to do one thing well: get the user to what they wanted to watch, fast. Product and the business side wanted a row for a partner, then a banner, then a promoted app, then a new data feature that needed a background service. Each request was reasonable on its own. Each came with a revenue number attached. We lost many of those arguments, and I don't think anyone was acting in bad faith. A TV is sold near cost, so the screen has to earn money after the sale. The slow TV you own now is what that math looks like from the couch.
+The design team wanted the home screen to do one thing well: get the user to what they wanted to watch, fast. Product and the business side wanted a row for a partner, then a banner, then a promoted app, then a new data feature that needed a background service. Each request was reasonable on its own. Each came with a revenue number attached. We lost many of those arguments, and I don't think anyone was acting in bad faith. A TV is sold near cost, so the screen has to earn money after the sale.
 
 So I wasn't surprised when people started pointing coding agents at their televisions.
 
@@ -95,7 +95,7 @@ Keep that file somewhere you'll find it.
 
 > My TV is connected over adb at this address. List every installed package and sort them into three groups: needed for the TV to boot and update, apps I use, and ads, telemetry or preloaded junk. Don't change anything yet. Show me the third group and explain each item. When I approve, disable packages with pm disable-user, never uninstall, do it in small batches, and write every change to a log file so it can be reversed.
 
-The important parts are "don't change anything yet" and "disable, never uninstall." A disabled package can come back with one command. An uninstalled one can't.
+Two things matter in that prompt: don't change anything yet, and disable instead of uninstalling. A disabled package can come back with one command. An uninstalled one can't.
 
 **6. Read the list yourself.** The agent will be confident about most items and unsure about a few. Take the unsure ones seriously. Anything with "setup," "provision," "launcher," "update," or the manufacturer's name in it deserves a second look.
 
@@ -125,8 +125,8 @@ Two things to know. Developer Mode sessions expire, so every so often you'll ope
 
 ## What I take from this
 
-I keep thinking about how much work this takes. A person has to enable developer mode, run commands, and trust an AI with a device in their living room, all to get a home screen that doesn't show ads. That is a lot to ask for what used to be the default experience.
+Getting a home screen without ads now takes developer mode, a terminal and an AI agent working on a device in your living room. That's a lot of effort for something that used to come standard.
 
-None of those decisions were made by a villain, and I'd defend most of the people in those meetings. But every row added is a small trade between what the user needs and what the quarter needs, and the user doesn't get a vote. Now they're voting with a terminal.
+The people in those meetings weren't villains. Each row on the home screen was a small trade between what the user needed and what the quarter needed, and the user wasn't in the room. Now some of them are fixing it themselves.
 
-If you work on a product like this, treat that as a signal. When your customers start modifying the device to get the experience you shipped without the extras, the extras have a cost, and it isn't on your dashboard yet.
+If you work on a product like this, it's worth noticing when customers start modifying the device to remove what you shipped.
