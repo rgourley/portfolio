@@ -9,7 +9,7 @@ tags: ["design","AI","smart TV"]
 
 Earlier in my career I designed part of a major smart TV interface. I won't say whose. There was the same friction in every review.
 
-The design team wanted the home screen to do one thing well: get the user to what they wanted to watch, fast. Product and the business side wanted a row for a partner, then a banner, then a promoted app, then a new data feature that needed a background service. Each request made sense on its own, and each one was tied to revenue. We lost many of those arguments, and I don't think anyone was acting in bad faith. A TV is sold near cost, so the screen has to earn money after the sale.
+The design team wanted the home screen to do one thing well: get the user to what they wanted to watch, fast. Product and the business side wanted a spot for a partner, then a banner, then a promoted app, then a new data feature that needed a background service. Each request made sense on its own, and each one was tied to revenue. We lost many of those arguments, and I don't think anyone was acting in bad faith. A TV is sold near cost, so the screen has to earn money after the sale.
 
 So I wasn't surprised when people started pointing coding agents at their televisions.
 
@@ -127,6 +127,6 @@ Two things to know. Developer Mode sessions expire, so every so often you'll ope
 
 Getting a home screen without ads now takes developer mode, a terminal and an AI agent working on a device in your living room. That's a lot of effort for something that used to come standard.
 
-The people in those meetings weren't villains. Each row on the home screen was a small trade between what the user needed and what the quarter needed, and the user wasn't in the room. Now some of them are fixing it themselves.
+The people in those meetings weren't villains. Each thing added to the home screen was a small trade between what the user needed and what the quarter needed, and the user wasn't in the room. Now some of them are fixing it themselves.
 
 If you work on a product like this, it's worth noticing when customers start modifying the device to remove what you shipped.
