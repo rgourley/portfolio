@@ -1,5 +1,5 @@
 ---
-title: "Why people are using Claude Code to clean up their smart TVs"
+title: "How to Debloat a Smart TV With Claude Code"
 seoTitle: "How to Debloat a Smart TV With Claude Code (Android and LG)"
 description: "People are pointing Claude Code at their smart TVs to strip out the ads and trackers. I worked on a major smart TV interface, so here's why it happens, and how to do it on Android TV and LG without breaking anything."
 date: "2026-10-19"
