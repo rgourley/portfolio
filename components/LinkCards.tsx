@@ -47,7 +47,7 @@ export default function LinkCards({ cards }: LinkCardsProps) {
           href={card.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-start gap-3 rounded-lg border border-[color-mix(in_srgb,var(--foreground)_14%,transparent)] bg-[color-mix(in_srgb,var(--foreground)_4%,transparent)] px-4 py-3.5 transition-colors hover:border-[color-mix(in_srgb,var(--foreground)_30%,transparent)] hover:bg-[color-mix(in_srgb,var(--foreground)_7%,transparent)]"
+          className="group flex items-start gap-3 rounded-lg border border-[color-mix(in_srgb,var(--foreground)_9%,transparent)] bg-[color-mix(in_srgb,var(--foreground)_4%,transparent)] px-4 py-3.5 transition-colors hover:border-[color-mix(in_srgb,var(--foreground)_22%,transparent)] hover:bg-[color-mix(in_srgb,var(--foreground)_7%,transparent)]"
         >
           <span className="mt-0.5 flex-shrink-0 text-[color-mix(in_srgb,var(--foreground)_65%,transparent)]">
             {isGitHub(card.url) ? (
