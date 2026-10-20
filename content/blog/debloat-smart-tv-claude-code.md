@@ -7,7 +7,7 @@ image: "/images/debloat-tv-hero.webp"
 tags: ["design","AI","smart TV"]
 ---
 
-Earlier in my career I designed part of a major smart TV interface. I won't say whose. What matters is the meeting that kept happening.
+Earlier in my career I designed part of a major smart TV interface. I won't say whose. One meeting kept coming up.
 
 Design wanted the home screen to do one thing well: get you to what you wanted to watch, fast. Product and the business side wanted a row for a partner, then a banner, then a promoted app, then a new data feature that needed a background service. Each request was reasonable on its own. Each came with a revenue number attached. We lost many of those arguments, and I don't think anyone was acting in bad faith. A TV is sold near cost, so the screen has to earn money after the sale. The slow TV you own now is what that math looks like from the couch.
 
