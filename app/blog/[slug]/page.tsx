@@ -131,7 +131,7 @@ export default async function BlogPostPage({
           </div>
         )}
 
-        <div className="mb-8">
+        <div className="mb-8 max-w-[700px] mx-auto">
           <p className="text-xl text-foreground/60 mb-6">{post.description}</p>
           {post.date && (
             <span className="text-sm text-foreground/50">
@@ -140,7 +140,7 @@ export default async function BlogPostPage({
           )}
         </div>
 
-        <MarkdownContent content={post.content} />
+        <MarkdownContent content={post.content} variant="article" />
       </div>
     </article>
   );

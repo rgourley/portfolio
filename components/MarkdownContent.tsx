@@ -18,6 +18,8 @@ const TestimonialBlock = dynamic(() => import("./TestimonialBlock"), {
 
 interface MarkdownContentProps {
   content: string;
+  // "article" is the narrow, Medium-style reading column used by blog posts.
+  variant?: "default" | "article";
 }
 
 // Parse Solution Highlights section from markdown
@@ -156,7 +158,12 @@ function parseTestimonials(content: string): { parts: ContentPart[] } {
   return { parts };
 }
 
-export default function MarkdownContent({ content }: MarkdownContentProps) {
+export default function MarkdownContent({ content, variant = "default" }: MarkdownContentProps) {
+  const article = variant === "article";
+  const bodyText = article
+    ? "text-[19px] md:text-[20px] font-normal text-foreground/80 leading-[1.7]"
+    : "text-[21px] text-foreground/65 font-light leading-[1.7]";
+
   // Parse testimonials first, then parse Solution Highlights from each markdown part
   const { parts: testimonialParts } = useMemo(() => parseTestimonials(content), [content]);
 
@@ -245,38 +252,30 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
             if (childrenArray.some((child: any) => child?.props?.src || child?.type === "img")) {
               return <>{children}</>;
             }
-            return <p className="text-[21px] text-foreground/65 font-light leading-[1.7] mb-6">{children}</p>;
+            return <p className={`${bodyText} mb-6`}>{children}</p>;
           },
           h1: ({ node, children }: any) => (
             <h1 className="font-display text-4xl md:text-5xl font-medium mb-1 mt-4">{children}</h1>
           ),
           h2: ({ node, children }: any) => (
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-4 mt-10">{children}</h2>
+            <h2 className={`font-display text-3xl md:text-4xl font-medium mb-4 ${article ? "mt-12" : "mt-10"}`}>{children}</h2>
           ),
           h3: ({ node, children }: any) => (
-            <h3 className="flex items-center gap-2 mb-3 mt-8">
-              <div className="grid grid-cols-2 gap-0.5 w-2 h-2 flex-shrink-0">
-                <div className="w-0.5 h-0.5 bg-pink-400/40" />
-                <div className="w-0.5 h-0.5 bg-pink-400/40" />
-                <div className="w-0.5 h-0.5 bg-pink-400/40" />
-                <div className="w-0.5 h-0.5 bg-pink-400/40" />
-              </div>
-              <span className="text-lg font-semibold text-foreground/60">{children}</span>
-            </h3>
+            <h3 className="font-display text-2xl md:text-3xl font-medium text-foreground/90 mb-3 mt-8">{children}</h3>
           ),
           ul: ({ node, children }: any) => (
-            <ul className="list-disc list-inside mb-6 space-y-2 text-[21px] text-foreground/65 leading-[1.7]">{children}</ul>
+            <ul className={article ? `list-disc list-outside pl-6 mb-6 space-y-2 ${bodyText}` : "list-disc list-inside mb-6 space-y-2 text-[21px] text-foreground/65 leading-[1.7]"}>{children}</ul>
           ),
           ol: ({ node, children }: any) => (
-            <ol className="list-decimal list-inside mb-6 space-y-2 text-[21px] text-foreground/65 leading-[1.7]">{children}</ol>
+            <ol className={article ? `list-decimal list-outside pl-6 mb-6 space-y-2 ${bodyText}` : "list-decimal list-inside mb-6 space-y-2 text-[21px] text-foreground/65 leading-[1.7]"}>{children}</ol>
           ),
           li: ({ node, children }: any) => (
-            <li className="text-[21px] text-foreground/65 font-light leading-[1.7]">{children}</li>
+            <li className={bodyText}>{children}</li>
           ),
           a: ({ node, children, href }: any) => (
             <a
               href={href}
-              className="text-[21px] text-foreground/65 underline hover:text-foreground transition-colors leading-[1.7]"
+              className={article ? "text-[19px] md:text-[20px] text-foreground underline underline-offset-4 decoration-foreground/40 hover:decoration-foreground transition-colors leading-[1.7]" : "text-[21px] text-foreground/65 underline hover:text-foreground transition-colors leading-[1.7]"}
               target={href?.startsWith("http") ? "_blank" : undefined}
               rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
             >
@@ -311,7 +310,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
             <td className="py-2.5 pr-6 text-foreground/65 border-b border-foreground/10 whitespace-nowrap">{children}</td>
           ),
           blockquote: ({ node, children }: any) => (
-            <blockquote className="border-l-4 border-foreground/20 pl-6 italic text-[21px] text-foreground/60 my-6 leading-[1.7]">
+            <blockquote className={`border-l-4 border-foreground/20 pl-6 italic ${article ? "text-[19px] md:text-[20px] text-foreground/70" : "text-[21px] text-foreground/60"} my-6 leading-[1.7]`}>
               {children}
             </blockquote>
           ),
@@ -321,7 +320,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
   };
 
   return (
-    <div className="max-w-[1000px]">
+    <div className={article ? "max-w-[700px] mx-auto" : "max-w-[1000px]"}>
       {/* Render content with testimonials inline */}
       {testimonialParts.map((part, index) => {
         if (part.type === 'cards') {
