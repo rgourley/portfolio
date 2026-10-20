@@ -50,7 +50,7 @@ Smart TVs use a technology called automatic content recognition, or ACR, to trac
 
 ## Before you start
 
-This is for your own TV, for personal use and for learning how it works. I'm a designer, not a lawyer, and I'm not affiliated with any TV maker or any of the projects above. Changing system software can void a warranty, break an app, stop firmware updates, or in a bad case leave the TV stuck on a boot screen. Terms of service differ by manufacturer, so read yours. If you do this, you do it at your own risk.
+I'm a designer, not a lawyer, and I'm not affiliated with any TV maker or any of the projects above. This is for your own TV, for personal use and for learning how it works. Changing system software can void a warranty, break an app, stop firmware updates, or in a bad case leave the TV stuck on a boot screen. Terms of service differ by manufacturer, so read yours. If you do this, you do it at your own risk.
 
 The step-by-step below is for Android TV and Google TV, which covers Sony, TCL, Hisense, Philips, Nvidia Shield and a lot of others. LG has its own section after it. Fire TV gets the debloat half only, since Amazon won't let you swap the home screen. I haven't found a comparable project for Samsung's Tizen, so on a Samsung the settings route is your best option.
 
