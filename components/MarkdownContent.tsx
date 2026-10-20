@@ -11,6 +11,7 @@ import rehypeRaw from "rehype-raw";
 const SolutionHighlightsCarousel = dynamic(() => import("./SolutionHighlightsCarousel"), {
   loading: () => <div className="h-64 bg-muted/20 animate-pulse rounded-lg" />,
 });
+import LinkCards, { LinkCard } from "./LinkCards";
 const TestimonialBlock = dynamic(() => import("./TestimonialBlock"), {
   loading: () => <div className="h-48 bg-muted/20 animate-pulse rounded-lg" />,
 });
@@ -88,16 +89,32 @@ function parseSolutionHighlights(content: string): { highlights: Array<{ title: 
   return { highlights, restContent, contentAfter };
 }
 
-// Parse testimonials from markdown content
-// Syntax: :::testimonial\nimage: ...\nname: ...\nbio: ...\nquote: ...\n:::
-function parseTestimonials(content: string): { parts: Array<{ type: 'markdown' | 'testimonial'; content?: string; testimonial?: { image: string; name: string; bio: string; quote: string } }> } {
-  const testimonialRegex = /:::testimonial\n([\s\S]*?)\n:::/g;
-  const parts: Array<{ type: 'markdown' | 'testimonial'; content?: string; testimonial?: { image: string; name: string; bio: string; quote: string } }> = [];
+type Testimonial = { image: string; name: string; bio: string; quote: string };
+type ContentPart =
+  | { type: 'markdown'; content: string }
+  | { type: 'testimonial'; testimonial: Testimonial }
+  | { type: 'cards'; cards: LinkCard[] };
+
+// Parse custom blocks out of markdown content.
+// Testimonial: :::testimonial\nimage: ...\nname: ...\nbio: ...\nquote: ...\n:::
+// Link cards: :::cards\ntitle: ...\nurl: ...\nmeta: ...\ndescription: ...\n---\n(next card)\n:::
+function parseTestimonials(content: string): { parts: ContentPart[] } {
+  const blockRegex = /:::(testimonial|cards)\n([\s\S]*?)\n:::/g;
+  const parts: ContentPart[] = [];
   let lastIndex = 0;
   let match;
 
-  while ((match = testimonialRegex.exec(content)) !== null) {
-    // Add markdown before testimonial
+  const parseFields = (block: string): Record<string, string> => {
+    const fields: Record<string, string> = {};
+    for (const line of block.split('\n')) {
+      const m = line.match(/^(\w+):\s*(.+)$/);
+      if (m) fields[m[1]] = m[2].trim();
+    }
+    return fields;
+  };
+
+  while ((match = blockRegex.exec(content)) !== null) {
+    // Add markdown before the block
     if (match.index > lastIndex) {
       parts.push({
         type: 'markdown',
@@ -105,32 +122,20 @@ function parseTestimonials(content: string): { parts: Array<{ type: 'markdown' |
       });
     }
 
-    // Parse testimonial block
-    const testimonialContent = match[1];
-    const lines = testimonialContent.split('\n');
-    const testimonial: { image: string; name: string; bio: string; quote: string } = {
-      image: '',
-      name: '',
-      bio: '',
-      quote: ''
-    };
-
-    for (const line of lines) {
-      const imageMatch = line.match(/^image:\s*(.+)$/);
-      const nameMatch = line.match(/^name:\s*(.+)$/);
-      const bioMatch = line.match(/^bio:\s*(.+)$/);
-      const quoteMatch = line.match(/^quote:\s*(.+)$/);
-
-      if (imageMatch) testimonial.image = imageMatch[1].trim();
-      if (nameMatch) testimonial.name = nameMatch[1].trim();
-      if (bioMatch) testimonial.bio = bioMatch[1].trim();
-      if (quoteMatch) testimonial.quote = quoteMatch[1].trim();
+    if (match[1] === 'testimonial') {
+      const f = parseFields(match[2]);
+      parts.push({
+        type: 'testimonial',
+        testimonial: { image: f.image || '', name: f.name || '', bio: f.bio || '', quote: f.quote || '' }
+      });
+    } else {
+      const cards: LinkCard[] = match[2]
+        .split(/\n---\n/)
+        .map((chunk) => parseFields(chunk))
+        .filter((f) => f.title && f.url)
+        .map((f) => ({ title: f.title, url: f.url, meta: f.meta, description: f.description }));
+      parts.push({ type: 'cards', cards });
     }
-
-    parts.push({
-      type: 'testimonial',
-      testimonial
-    });
 
     lastIndex = match.index + match[0].length;
   }
@@ -143,7 +148,7 @@ function parseTestimonials(content: string): { parts: Array<{ type: 'markdown' |
     });
   }
 
-  // If no testimonials found, return entire content as markdown
+  // If no custom blocks found, return entire content as markdown
   if (parts.length === 0) {
     return { parts: [{ type: 'markdown', content }] };
   }
@@ -319,7 +324,9 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
     <div className="max-w-[1000px]">
       {/* Render content with testimonials inline */}
       {testimonialParts.map((part, index) => {
-        if (part.type === 'testimonial' && part.testimonial) {
+        if (part.type === 'cards') {
+          return <LinkCards key={`cards-${index}`} cards={part.cards} />;
+        } else if (part.type === 'testimonial' && part.testimonial) {
           return (
             <TestimonialBlock
               key={`testimonial-${index}`}

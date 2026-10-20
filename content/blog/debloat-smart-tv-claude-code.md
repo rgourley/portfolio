@@ -9,7 +9,7 @@ tags: ["design","AI","smart TV"]
 
 Earlier in my career I designed part of a major smart TV interface. I won't say whose. There was the same friction in every review.
 
-The design team wanted the home screen to do one thing well: get the user to what they wanted to watch, fast. Product and the business side wanted a row for a partner, then a banner, then a promoted app, then a new data feature that needed a background service. Each request made sense on its own, and each one was tied to revenue. We lost many of those arguments, and I don't think anyone was acting in bad faith. A TV is sold near cost, so the screen has to earn money after the sale.
+The design team wanted the home screen to do one thing well: get the user to what they wanted to watch, fast. Product and the business side wanted a spot for a partner, then a banner, then a promoted app, then a new data feature that needed a background service. Each request made sense on its own, and each one was tied to revenue. We lost many of those arguments, and I don't think anyone was acting in bad faith. A TV is sold near cost, so the screen has to earn money after the sale.
 
 So I wasn't surprised when people started pointing coding agents at their televisions.
 
@@ -17,9 +17,31 @@ So I wasn't surprised when people started pointing coding agents at their televi
 
 Mostly through a few open source projects, and which one you use depends on your TV brand.
 
+:::cards
+title: Clean Your TV
+meta: Android TV and Google TV
+url: https://github.com/Gathin23/cleanyourtv
+description: One long prompt for Claude Code. It debloats the TV over Wi-Fi and installs a plain launcher. Also called tv-vibehack.
+---
+title: webos-vibehack
+meta: LG webOS
+url: https://github.com/OmkarK97/webos-vibehack
+description: The same launcher, ported to LG TVs. It installs through LG's Developer Mode, with no root.
+---
+title: Glasshouse
+meta: Rooted LG webOS
+url: https://github.com/rorygallagher2024/glasshouse
+description: A dashboard, app removal and an ad and telemetry blocker. It needs a rooted TV, so I'm not covering it here.
+---
+title: ADB AppControl
+meta: Android TV, no AI
+url: https://adbappcontrol.com/en/tv/
+description: A desktop app that does the same job with buttons.
+:::
+
 ### Android TV and Google TV
 
-The one getting the most attention is [Clean Your TV](https://github.com/Gathin23/cleanyourtv), also called tv-vibehack. It's a repo built around one long prompt. You paste the prompt into Claude Code or a similar tool and tell it your TV model. It connects to the set over Wi-Fi and then:
+With Clean Your TV you paste the prompt into Claude Code or a similar tool and tell it your TV model. It connects to the set over Wi-Fi and then:
 
 - backs up what's installed
 - asks which apps you actually use
@@ -32,17 +54,15 @@ A developer named Mert Cobanov [reportedly did something similar](https://www.it
 
 ### LG webOS
 
-A similar repo is available for LG TVs. A developer named OmkarK97 ported the launcher to webOS as [webos-vibehack](https://github.com/OmkarK97/webos-vibehack), tested on an LG OLED C6. LG locks its system down more than Google does, so it works differently:
+A similar repo is available for LG TVs. It was ported by a developer named OmkarK97 and tested on an LG OLED C6. LG locks its system down more than Google does, so it works differently:
 
 - You install it through LG's own Developer Mode with a free developer account. Nothing is rooted, and firmware updates keep working.
 - There's no debloat step, because webOS can't disable packages. You turn off LG's ad and viewing-data options in the settings instead.
 - webOS always sends the Home button to LG's home screen. To get around that, a small script on another device on your network watches the TV and switches back to the new launcher within a fraction of a second.
 
-If you're willing to root the TV, [Glasshouse](https://github.com/rorygallagher2024/glasshouse) goes further, with app removal, an ad and telemetry blocker and a dashboard. I'm not covering that here.
-
 ### Tools that don't use AI
 
-There are also tools that do the same job with buttons, like [ADB AppControl](https://adbappcontrol.com/en/tv/) and [Android TV Tools](https://www.androidauthority.com/android-tv-tools-windows-tool-3411045/). The scripts and package lists have existed for years. What changed is that you no longer need to know which of 200 cryptic package names is safe to turn off. The agent reads the list, sorts it, and asks you about the ones it isn't sure of.
+[Android TV Tools](https://www.androidauthority.com/android-tv-tools-windows-tool-3411045/) and ADB AppControl do the same job with buttons. The scripts and package lists have existed for years. What changed is that you no longer need to know which of 200 cryptic package names is safe to turn off. The agent reads the list, sorts it, and asks you about the ones it isn't sure of.
 
 ### Why now
 
@@ -127,6 +147,6 @@ Two things to know. Developer Mode sessions expire, so every so often you'll ope
 
 Getting a home screen without ads now takes developer mode, a terminal and an AI agent working on a device in your living room. That's a lot of effort for something that used to come standard.
 
-The people in those meetings weren't villains. Each row on the home screen was a small trade between what the user needed and what the quarter needed, and the user wasn't in the room. Now some of them are fixing it themselves.
+The people in those meetings weren't villains. Each thing added to the home screen was a small trade-off between what the user needed and what the quarter needed, and the user wasn't in the room. Now some of them are fixing it themselves.
 
 If you work on a product like this, it's worth noticing when customers start modifying the device to remove what you shipped.
