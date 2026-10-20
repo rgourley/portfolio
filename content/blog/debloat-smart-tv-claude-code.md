@@ -9,7 +9,7 @@ tags: ["design","AI","smart TV"]
 
 Earlier in my career I designed part of a major smart TV interface. I won't say whose. There was the same friction in every review.
 
-The design team wanted the home screen to do one thing well: get the user to what they wanted to watch, fast. Product and the business side wanted a row for a partner, then a banner, then a promoted app, then a new data feature that needed a background service. Each request was reasonable on its own. Each came with a revenue number attached. We lost many of those arguments, and I don't think anyone was acting in bad faith. A TV is sold near cost, so the screen has to earn money after the sale.
+The design team wanted the home screen to do one thing well: get the user to what they wanted to watch, fast. Product and the business side wanted a row for a partner, then a banner, then a promoted app, then a new data feature that needed a background service. Each request made sense on its own, and each one was tied to revenue. We lost many of those arguments, and I don't think anyone was acting in bad faith. A TV is sold near cost, so the screen has to earn money after the sale.
 
 So I wasn't surprised when people started pointing coding agents at their televisions.
 
