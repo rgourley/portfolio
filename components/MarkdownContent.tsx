@@ -246,10 +246,10 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
             <h1 className="font-display text-4xl md:text-5xl font-medium mb-1 mt-4">{children}</h1>
           ),
           h2: ({ node, children }: any) => (
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-1 mt-4">{children}</h2>
+            <h2 className="font-display text-3xl md:text-4xl font-medium mb-4 mt-10">{children}</h2>
           ),
           h3: ({ node, children }: any) => (
-            <h3 className="inline-flex items-center gap-2 mb-1 mt-3">
+            <h3 className="flex items-center gap-2 mb-3 mt-8">
               <div className="grid grid-cols-2 gap-0.5 w-2 h-2 flex-shrink-0">
                 <div className="w-0.5 h-0.5 bg-pink-400/40" />
                 <div className="w-0.5 h-0.5 bg-pink-400/40" />
