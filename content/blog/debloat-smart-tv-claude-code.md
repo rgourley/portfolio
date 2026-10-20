@@ -56,7 +56,14 @@ The step-by-step below is for Android TV and Google TV, which covers Sony, TCL, 
 
 ## The no-tools version
 
-Start here, because it takes five minutes and needs no code. Open the TV's settings and look for a privacy or general section with options for viewing information, "live plus," interest-based ads, or content recognition. Turn them off. The names change by brand and the menus are buried, so search the settings for "ads" and "viewing." On an LG, the webos-vibehack docs point to Home Settings, where you turn off Home Promotion and Content Recommendation, and to the User Agreements page under Privacy & Terms, where you untick Viewing Information and Interest-Based Recommendations. If that's all you do, you've already dealt with the part the lawsuits are about.
+Start here. It takes five minutes and needs no code.
+
+Open your TV's settings and turn off anything about viewing information, interest-based ads, personalized recommendations or content recognition. The names change by brand and the menus are buried, so try searching the settings for "ads" and "viewing."
+
+On an LG, the webos-vibehack docs give these two places, though the names vary a little by webOS version:
+
+- Settings, General, System, Additional Settings, Home Settings: turn off Home Promotion and Content Recommendation.
+- Settings, Support, Privacy & Terms, User Agreements: untick Viewing Information and Interest-Based Recommendations.
 
 ## The step-by-step
 
