@@ -143,10 +143,6 @@ The webOS route is closer to installing an app than modifying the system. Here i
 
 Two things to know. Developer Mode sessions expire, so every so often you'll open the app and press Extend Session Time or your installed apps stop launching. And the README says deleting the Developer Mode app removes everything, which is the undo button here. It also says pairing can fail on newer firmware and offers a workaround, so read the troubleshooting section before you assume something is broken.
 
-## What I take from this
+## What this means for TV makers
 
-Getting a home screen without ads now takes developer mode, a terminal and an AI agent working on a device in your living room. That's a lot of effort for something that used to come standard.
-
-The people in those meetings weren't villains. Each thing added to the home screen was a small trade-off between what the user needed and what the quarter needed, and the user wasn't in the room. Now some of them are fixing it themselves.
-
-If you work on a product like this, it's worth noticing when customers start modifying the device to remove what you shipped.
+I sat on the maker's side of those arguments for a while. A home screen full of ads works as long as people leave it alone. An agent that can read the package list for you makes that a lot harder to count on, and I expect more people to try it.
