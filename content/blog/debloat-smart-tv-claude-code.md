@@ -3,7 +3,7 @@ title: "How to Debloat a Smart TV With Claude Code"
 seoTitle: "How to Debloat a Smart TV With Claude Code (Android and LG)"
 description: "Turn off the ads and tracking on your smart TV and replace the home screen with a plain launcher. Steps for Android TV, Google TV, LG and Fire TV, and how to undo each one."
 date: "2026-10-19"
-image: "/images/debloat-tv-hero.webp"
+image: "/images/debloat-tv-hero-quiet-coast.webp"
 tags: ["design","AI","smart TV"]
 ---
 
