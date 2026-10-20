@@ -62,7 +62,7 @@ A similar repo is available for LG TVs. It was ported by a developer named Omkar
 
 ### Tools that don't use AI
 
-[Android TV Tools](https://www.androidauthority.com/android-tv-tools-windows-tool-3411045/) and ADB AppControl do the same job with buttons. The scripts and package lists have existed for years. What changed is that you no longer need to know which of 200 cryptic package names is safe to turn off. The agent reads the list, sorts it, and asks you about the ones it isn't sure of.
+[Android TV Tools](https://www.androidauthority.com/android-tv-tools-windows-tool-3411045/) and ADB AppControl do the same job with buttons. Scripts and package lists for this have existed for years. The agent just does the sorting, which used to be the hard part, since you had to know which of 200 package names was safe to turn off.
 
 ### Why now
 
@@ -103,7 +103,7 @@ adb connect YOUR.TV.IP.ADDRESS:5555
 
 The TV will ask whether to allow this computer. Say yes. Newer versions of Android use a pairing code first, and your TV shows it on screen.
 
-**4. Back up before touching anything.** This is the step people skip. Save the full package list to a file:
+**4. Back up before touching anything.** Save the full package list to a file first, so you can see what changed later:
 
 ```
 adb shell pm list packages -f > before.txt
@@ -111,17 +111,17 @@ adb shell pm list packages -f > before.txt
 
 Keep that file somewhere you'll find it.
 
-**5. Hand it to Claude Code.** Open a terminal in an empty folder and describe the job in plain words. Mine looked roughly like this:
+**5. Hand it to Claude Code.** Open a terminal in an empty folder and describe the job in plain words. Something like this works:
 
 > My TV is connected over adb at this address. List every installed package and sort them into three groups: needed for the TV to boot and update, apps I use, and ads, telemetry or preloaded junk. Don't change anything yet. Show me the third group and explain each item. When I approve, disable packages with pm disable-user, never uninstall, do it in small batches, and write every change to a log file so it can be reversed.
 
-Two things matter in that prompt: don't change anything yet, and disable instead of uninstalling. A disabled package can come back with one command. An uninstalled one can't.
+Don't let it change anything until you've read the list, and have it disable packages instead of uninstalling them. A disabled package can be turned back on with one command. An uninstalled one can't.
 
-**6. Read the list yourself.** The agent will be confident about most items and unsure about a few. Take the unsure ones seriously. Anything with "setup," "provision," "launcher," "update," or the manufacturer's name in it deserves a second look.
+**6. Read the list yourself.** The agent will flag a few items it isn't sure about. Anything with "setup," "provision," "launcher," "update," or the manufacturer's name in it deserves a second look too.
 
 **7. Disable in small batches and test.** After each batch, check that the TV still wakes up, opens your streaming apps, and plays sound. If something breaks, you know which batch did it.
 
-**8. Optional: swap the launcher.** This is what makes the TV feel different, since the ads live on the home screen. The projects above install a plain launcher with a few rows of apps. One warning from the Clean Your TV page is worth repeating: if you disable the stock launcher, make sure a replacement is already running and set as default, and don't disable the setup wizard along with it, or some Google TVs can end up in a crash loop.
+**8. Optional: swap the launcher.** This is what makes the TV feel different, since the ads live on the home screen. The projects above install a plain launcher with a few rows of apps. The Clean Your TV page warns that if you disable the stock launcher, a replacement needs to be running and set as default first, and the setup wizard shouldn't be disabled along with it, or some Google TVs can end up in a crash loop.
 
 **9. Know your way back.** To undo a package, use the enable command with the package's name:
 
@@ -133,7 +133,7 @@ If the TV stops responding to your computer, go to Settings, Apps, find the disa
 
 ## If you have an LG
 
-The webOS route is closer to installing an app than modifying the system. Here is the short version of what webos-vibehack asks for, and its README has the exact commands.
+On an LG you're installing an app, not modifying the system. This is the short version, and the webos-vibehack README has the exact commands.
 
 1. Make a free account on LG's developer site, install the Developer Mode app from the LG Content Store on the TV, and sign in.
 2. Turn on Dev Mode Status (the TV restarts), then turn on Key Server and note the IP address and passphrase it shows.
@@ -141,8 +141,8 @@ The webOS route is closer to installing an app than modifying the system. Here i
 4. Accept the pairing prompt on the TV. The script reads your installed apps and builds the launcher around them.
 5. Optionally run the Home-button watcher on something that stays on, like a Raspberry Pi. Without it, Home still opens LG's screen and the new launcher is one more app you open yourself.
 
-Two things to know. Developer Mode sessions expire, so every so often you'll open the app and press Extend Session Time or your installed apps stop launching. And the README says deleting the Developer Mode app removes everything, which is the undo button here. It also says pairing can fail on newer firmware and offers a workaround, so read the troubleshooting section before you assume something is broken.
+Developer Mode sessions expire, so every so often you'll need to open the app and press Extend Session Time, or your installed apps stop launching. Deleting the Developer Mode app removes everything, which is how you undo it. The README also says pairing can fail on newer firmware and gives a workaround, so read its troubleshooting section before you assume something is broken.
 
 ## What this means for TV makers
 
-I sat on the maker's side of those arguments for a while. A home screen full of ads works as long as people leave it alone. An agent that can read the package list for you makes that a lot harder to count on, and I expect more people to try it.
+I sat on the maker's side of those arguments for a while. Removing this stuff used to take some skill, and now an agent can do most of it, so I expect more people to try it.
