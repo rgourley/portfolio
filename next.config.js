@@ -50,6 +50,7 @@ const nextConfig = {
     return [
       { source: '/amphora', destination: '/amphora/index.html' },
       { source: '/amphora/updates', destination: '/amphora/updates/index.html' },
+      { source: '/coaster', destination: '/coaster/index.html' },
       // Market City is its own Vercel project. The rewrite serves it at /city on this domain.
       { source: '/city', destination: 'https://market-city-tau.vercel.app/' },
       { source: '/city/:path*', destination: 'https://market-city-tau.vercel.app/:path*' },
