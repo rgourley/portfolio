@@ -806,7 +806,7 @@ const trackSpan = (lo, hi) => 10 + (RANGE_Y - 10) * clamp(Math.log1p((hi / lo - 
 
 // Pivot shaping keeps every move of PIVOT_M metres or more at its true height and irons out smaller wiggles.
 // It finds the turning points of those moves, then draws an S-curve between each pair, so crests and dips stay level.
-// Set PIVOT_SHAPING to false to go back to plain Gaussian smoothing for intraday rides.
+// Set PIVOT_SHAPING to false to go back to plain Gaussian smoothing.
 const PIVOT_SHAPING = true;
 const PIVOT_M = 3;
 function pivotShape(closes) {
@@ -840,7 +840,7 @@ function pivotShape(closes) {
 function buildTrack(ride) {
   const bars = ride.bars, n = bars.length;
   const closes = bars.map((b) => b.c);
-  const sm = PIVOT_SHAPING && ride.kind === 'intraday' ? pivotShape(closes) : gauss(closes, Math.max(0.7, n / 150));
+  const sm = PIVOT_SHAPING ? pivotShape(closes) : gauss(closes, Math.max(0.7, n / 150));
   const lo = Math.min(...sm), hi = Math.max(...sm);
   const ySpan = trackSpan(lo, hi);
   const hOf = (p) => BASE_Y + ((p - lo) / (hi - lo)) * ySpan;
