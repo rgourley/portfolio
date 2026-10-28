@@ -236,7 +236,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     <div class="shared" id="shared" hidden></div>
     <div class="brand">
       <h1><span class="m">Market</span> <span class="c">Coaster</span></h1>
-      <p>Ride real price history. Every hill is real trading.</p>
+      <p id="tagline">Ride the market.</p>
     </div>
     <section class="session" aria-labelledby="sessH">
       <div class="session-head">
@@ -2270,7 +2270,7 @@ const moveSpan = (m) => `<span class="mv ${m >= 0 ? 'up' : 'down'}">${fmtPct(m)}
 let symActive = 0;
 function buildSession() {
   $('sessDate').textContent = `${fmtDate(SESSION_DATE)} · 1-minute bars · ${API ? 'any ticker' : `${SYMS.length} symbols`}`;
-  if (API) $('sym').placeholder = 'Search any ticker, like NVDA or BRK.B';
+  if (API) { $('sym').placeholder = 'Search any ticker, like NVDA or BRK.B'; $('tagline').textContent = 'Ride any ticker.'; }
   const movers = [...SYMS].sort((a, b) => Math.abs(b.move) - Math.abs(a.move)).slice(0, 10);
   const wrap = $('movers');
   movers.forEach((m) => {
