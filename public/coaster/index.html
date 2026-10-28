@@ -1698,10 +1698,14 @@ const cars = [];
       const head = new THREE.Mesh(headG, skin);
       head.position.set(sx, 1.74, -0.42);
       riders.add(torso, head);
+      // each rider has a bravery level: low values throw their hands up early, high values hold on longer
+      const brave = 0.1 + Math.random() * 1.1;
       for (const ax of [-0.24, 0.24]) {
         const arm = new THREE.Mesh(armG, shirt);
         arm.position.set(sx + ax, 1.42, -0.37);
         arm.userData.side = Math.sign(ax);
+        arm.userData.brave = brave;
+        arm.userData.up = 0;
         riders.add(arm);
         arms.push(arm);
       }
@@ -1914,12 +1918,18 @@ function placeTrain() {
     car.position.copy(FC.p);
     car.quaternion.setFromRotationMatrix(carM);
     car.userData.riders.visible = !(k === state.seat && state.view === VIEW.RIDER && state.mode !== 'menu');
-    const excite = clamp((state.v - 12) / 18, 0, 1) + (state.g < 0.4 ? 0.6 : 0);
+    // excitement grows with speed, airtime and inversions; a rider lets go of the lap bar when it passes their bravery level
+    const inverted = state.tr && state.tr.elem[Math.max(0, Math.floor(state.s / state.tr.ds))] >= 0;
+    const excite = clamp((state.v - 10) / 22, 0, 1) + (state.g < 0.4 ? 0.5 : 0) + (inverted ? 0.6 : 0);
     car.userData.arms.forEach((arm, j) => {
-      const wave = Math.sin(state.time * 9 + j + k) * 0.15;
-      arm.rotation.z = arm.userData.side * (0.2 + clamp(excite, 0, 1) * 0.25 + wave * excite);
-      // calm riders reach forward toward the lap bar, excited riders throw their arms up (positive x tilts forward)
-      arm.rotation.x = 1.3 - clamp(excite, 0, 1) * 1.15;
+      const ud = arm.userData;
+      const target = state.mode === 'riding' && excite > ud.brave ? 1 : 0;
+      ud.up += (target - ud.up) * 0.08;
+      const wave = Math.sin(state.time * 7 + j * 1.7 + k) * 0.18 * ud.up;
+      // holding the lap bar: angled forward and down (about 2.3 rad); hands up: straight up and a little forward
+      arm.rotation.x = 2.3 + (0.12 - 2.3) * ud.up;
+      // positive z tilts an arm toward -x, so the right arm (side +1) needs a negative angle to open outward
+      arm.rotation.z = -ud.side * (-0.08 + 0.6 * ud.up + wave);
     });
   });
 }
