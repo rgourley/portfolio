@@ -90,7 +90,8 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .controls button { background: none; border: 0; border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--muted); }
 .controls button:hover { color: var(--text); }
 .controls button[aria-pressed="true"] { background: var(--gold); color: #1c1606; }
-.controls .seat { border-left: 1px solid var(--edge); border-radius: 0 999px 999px 0; margin-left: 2px; padding-left: 10px; font-family: var(--mono); font-size: 12px; }
+.controls kbd { font-family: var(--mono); font-size: 10px; opacity: 0.6; margin-right: 5px; }
+.controls button { display: inline-flex; align-items: baseline; }
 .rail { position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%); display: grid; gap: 8px; }
 .rail button { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--edge); background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--text); font-size: 15px; font-family: var(--mono); display: grid; place-items: center; }
 .rail button:hover { border-color: var(--gold); }
@@ -232,10 +233,9 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     </div>
     <div class="panel mini"><canvas id="mini"></canvas><span class="status" id="status"></span></div>
     <div class="panel controls" role="group" aria-label="Camera">
-      <button id="v0" data-view="0" aria-pressed="true" title="Rider view (1)">Rider</button>
-      <button id="v1" data-view="1" aria-pressed="false" title="Chase view (2)">Chase</button>
-      <button id="v2" data-view="2" aria-pressed="false" title="Cinema view (3)">Cinema</button>
-      <button id="bSeat" class="seat" title="Change car (C)" aria-label="Change car for the rider view"><span id="seatTxt">Car 1</span></button>
+      <button id="v0" data-view="0" aria-pressed="true"><kbd>1</kbd>Rider</button>
+      <button id="v1" data-view="1" aria-pressed="false"><kbd>2</kbd>Chase</button>
+      <button id="v2" data-view="2" aria-pressed="false"><kbd>3</kbd>Cinema</button>
     </div>
   </div>
 </div>
@@ -2333,10 +2333,8 @@ function setView(v) {
 }
 function cycleSeat() {
   state.seat = (state.seat + 1) % CARS;
-  $('seatTxt').textContent = `Car ${state.seat + 1}`;
   if (state.view !== VIEW.RIDER) setView(VIEW.RIDER);
 }
-$('bSeat').addEventListener('click', cycleSeat);
 function setPaused(p) {
   state.paused = p;
   $('pauseTxt').textContent = p ? '▶' : '❚❚';
