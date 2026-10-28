@@ -868,14 +868,15 @@ function detectElements(ride) {
   return top3(gaps).concat(top3(ranges));
 }
 
-// the height scales with how far the price moved: a flat session is a 10 m kiddie ride, a doubling is the full 105 m
-const trackSpan = (lo, hi) => 10 + (RANGE_Y - 10) * clamp(Math.log1p((hi / lo - 1) * 50) / Math.log1p(50), 0, 1);
+// The height scales with how far the price moved. A 0.5% session is about 50 m tall, a 7% session about 75 m, and a doubling is the full 105 m.
+// The low end is generous on purpose, so that an ordinary single session still gets real hills.
+const trackSpan = (lo, hi) => 45 + (RANGE_Y - 45) * clamp(Math.log1p((hi / lo - 1) * 150) / Math.log1p(150), 0, 1);
 
 // Pivot shaping keeps every move of PIVOT_M metres or more at its true height and irons out smaller wiggles.
 // It finds the turning points of those moves, then draws an S-curve between each pair, so crests and dips stay level.
 // Set PIVOT_SHAPING to false to go back to plain Gaussian smoothing.
 const PIVOT_SHAPING = true;
-const PIVOT_M = 3;
+const PIVOT_M = 6;
 function pivotShape(closes) {
   const s = gauss(closes, 0.7);
   const lo = Math.min(...s), hi = Math.max(...s);
@@ -911,7 +912,7 @@ function buildTrack(ride) {
   const lo = Math.min(...sm), hi = Math.max(...sm);
   const ySpan = trackSpan(lo, hi);
   const hOf = (p) => BASE_Y + ((p - lo) / (hi - lo)) * ySpan;
-  const base = 1600 / (n - 1);
+  const base = 1100 / (n - 1);
   let maxS = 0;
   for (let i = 1; i < n; i++) maxS = Math.max(maxS, Math.abs(hOf(sm[i]) - hOf(sm[i - 1])) / base);
   const dx = base * clamp(maxS / 1.4, 1, 1.6);
