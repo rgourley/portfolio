@@ -108,8 +108,14 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .brand h1 .m { background-image: linear-gradient(180deg, #ffffff 0%, #e8f4ff 55%, #a9cdee 100%); }
 .brand h1 .c { background-image: linear-gradient(180deg, #fff3b0 0%, #ffd166 50%, #f08c1a 100%); }
 .brand p { margin: 0; color: var(--muted); max-width: 40ch; }
-.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-@media (max-width: 760px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.carousel { position: relative; min-width: 0; }
+.cards { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-bottom: 6px; scrollbar-width: thin; }
+.cards .card { flex: 0 0 210px; scroll-snap-align: start; }
+.carousel .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--edge); background: var(--panel-solid); color: var(--text); font-size: 22px; line-height: 1; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.35); }
+.carousel .nav:hover { border-color: var(--gold); }
+.carousel .prev { left: -14px; }
+.carousel .next { right: -14px; }
+@media (prefers-reduced-motion: reduce) { .cards { scroll-behavior: auto; } }
 .card { text-align: left; background: rgba(255,255,255,0.05); border: 1px solid var(--edge); border-radius: 12px; padding: 12px; display: grid; gap: 6px; transition: transform 0.15s, border-color 0.15s, background 0.15s; }
 .card:hover { transform: translateY(-2px); border-color: var(--gold); background: rgba(255,255,255,0.09); }
 .card .tk { font-family: var(--display); font-size: 18px; }
@@ -136,8 +142,6 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .chip-btn { display: inline-flex; gap: 6px; align-items: baseline; background: rgba(255,255,255,0.05); border: 1px solid var(--edge); border-radius: 999px; padding: 5px 11px; font-size: 13px; }
 .chip-btn:hover { border-color: var(--gold); }
 .chip-btn b { font-family: var(--mono); }
-.help { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
-.help kbd { font-family: var(--mono); background: rgba(255,255,255,0.08); border: 1px solid var(--edge); border-radius: 4px; padding: 0 5px; color: var(--text); }
 .note { font-size: 12px; color: var(--muted); margin: 0; }
 
 .results { width: min(640px, 100%); }
@@ -240,16 +244,10 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
       <div class="chips" id="movers" aria-label="Biggest movers"></div>
     </section>
     <h2 class="section-h">Famous rides</h2>
-    <div class="cards" id="cards"></div>
-    <div class="help">
-      <span><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> rider, chase, park view</span>
-      <span>park view: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrows to pan, drag to rotate and tilt, <kbd>Q</kbd> <kbd>E</kbd> turn 90°, scroll to zoom, <kbd>T</kbd> follow the train</span>
-      <span><kbd>F</kbd> speed up</span>
-      <span><kbd>R</kbd> restart</span>
-      <span><kbd>M</kbd> mute music</span>
-      <span><kbd>C</kbd> change car</span>
-      <span>drag to look around in the rider view</span>
-      <span><kbd>D</kbd> collapse day card, <kbd>H</kbd> hide HUD</span>
+    <div class="carousel">
+      <div class="cards" id="cards"></div>
+      <button class="nav prev" id="cPrev" aria-label="Previous rides">‹</button>
+      <button class="nav next" id="cNext" aria-label="More rides">›</button>
     </div>
     <p class="note">Bars from Massive, split-adjusted. The track follows a lightly smoothed close so it stays rideable, and its height scales with how far the price moved. The day card shows the exact bar.</p>
   </div>
@@ -2167,12 +2165,23 @@ function startRide(ride) {
   $('hud').hidden = false;
 }
 function openMenu() {
+  requestAnimationFrame(updateCarouselNav);
   state.mode = 'menu';
   resetRide();
   $('hud').hidden = true;
   $('done').hidden = true;
   $('menu').hidden = false;
 }
+
+function updateCarouselNav() {
+  const c = $('cards');
+  $('cPrev').hidden = c.scrollLeft < 8;
+  $('cNext').hidden = c.scrollLeft + c.clientWidth > c.scrollWidth - 8;
+}
+$('cPrev').addEventListener('click', () => { $('cards').scrollBy({ left: -440 }); });
+$('cNext').addEventListener('click', () => { $('cards').scrollBy({ left: 440 }); });
+$('cards').addEventListener('scroll', updateCarouselNav, { passive: true });
+window.addEventListener('resize', updateCarouselNav);
 
 function buildCards() {
   const wrap = $('cards');
@@ -2241,35 +2250,52 @@ async function rideAnyTicker(sym) {
     list.innerHTML = `<div class="opt"><span>${err.message}</span></div>`;
   }
 }
+// On the hosted site, search also asks the search route, which matches any ticker's symbol or company name.
+const remoteHits = new Map();
+let remoteTimer = 0;
+function remoteSearch(q) {
+  const key = q.trim().toLowerCase();
+  if (!API || key.length < 2 || remoteHits.has(key)) return;
+  clearTimeout(remoteTimer);
+  remoteTimer = setTimeout(async () => {
+    try {
+      const res = await fetch(`${API.replace(/bars$/, 'search')}?q=${encodeURIComponent(key)}`);
+      const body = await res.json();
+      remoteHits.set(key, res.ok ? body.results : []);
+    } catch (err) {
+      console.warn('ticker search failed', err);
+      remoteHits.set(key, []);
+    }
+    if ($('sym').value.trim().toLowerCase() === key) renderList();
+  }, 180);
+}
+function options(q) {
+  const out = matches(q).map((h) => ({ sym: h.sym, name: h.name, move: h.move }));
+  if (!API) return out;
+  for (const r of remoteHits.get(q.trim().toLowerCase()) || []) {
+    if (!out.some((o) => o.sym === r.ticker)) out.push({ sym: r.ticker, name: r.name, move: null });
+  }
+  const typed = q.trim().toUpperCase();
+  // a symbol the search does not know is still worth one try, so offer it when nothing matched
+  const searched = remoteHits.has(q.trim().toLowerCase()) || q.trim().length < 2;
+  if (!out.length && searched && /^[A-Z][A-Z0-9.]{0,9}$/.test(typed)) out.push({ sym: typed, name: `Try ${typed} for the ${fmtShort(SESSION_DATE)} session`, move: null });
+  out.sort((a, b) => (b.sym === typed) - (a.sym === typed));
+  return out.slice(0, 8);
+}
 function renderList() {
   const list = $('symList');
-  const hits = matches($('sym').value);
-  const typed = $('sym').value.trim().toUpperCase();
-  if (API && /^[A-Z][A-Z0-9.]{0,9}$/.test(typed) && !hits.some((h) => h.sym === typed)) {
-    list.hidden = false;
-    list.innerHTML = '';
-    const b = document.createElement('button');
-    b.className = 'opt active';
-    b.innerHTML = `<b>${typed}</b><span>Ride the ${fmtShort(SESSION_DATE)} session</span><span></span>`;
-    b.addEventListener('click', () => rideAnyTicker(typed));
-    list.appendChild(b);
-    hits.forEach((h) => {
-      const o = document.createElement('button');
-      o.className = 'opt';
-      o.innerHTML = `<b>${h.sym}</b><span>${h.name}</span>${moveSpan(h.move)}`;
-      o.addEventListener('click', () => rideSessionTicker(h.sym));
-      list.appendChild(o);
-    });
-    return hits;
-  }
+  const q = $('sym').value;
+  const hits = options(q);
+  remoteSearch(q);
   symActive = clamp(symActive, 0, Math.max(0, hits.length - 1));
-  list.hidden = !$('sym').value.trim();
-  list.innerHTML = hits.length ? '' : '<div class="opt"><span>No match in this session’s list</span></div>';
+  list.hidden = !q.trim();
+  const waiting = API && q.trim().length >= 2 && !remoteHits.has(q.trim().toLowerCase());
+  list.innerHTML = hits.length ? '' : `<div class="opt"><span>${waiting ? 'Searching…' : API ? 'No matching ticker' : 'No match in this session’s list'}</span></div>`;
   hits.forEach((h, k) => {
     const b = document.createElement('button');
     b.className = 'opt' + (k === symActive ? ' active' : '');
     b.setAttribute('role', 'option');
-    b.innerHTML = `<b>${h.sym}</b><span>${h.name}</span>${moveSpan(h.move)}`;
+    b.innerHTML = `<b>${h.sym}</b><span>${h.name}</span>${h.move === null ? '<span></span>' : moveSpan(h.move)}`;
     b.addEventListener('click', () => rideSessionTicker(h.sym));
     list.appendChild(b);
   });
@@ -2280,9 +2306,8 @@ $('sym').addEventListener('keydown', (e) => {
   if (e.key === 'ArrowDown') { symActive++; renderList(); e.preventDefault(); }
   else if (e.key === 'ArrowUp') { symActive--; renderList(); e.preventDefault(); }
   else if (e.key === 'Enter') {
-    const hits = matches($('sym').value), typed = $('sym').value.trim().toUpperCase();
-    if (API && /^[A-Z][A-Z0-9.]{0,9}$/.test(typed) && !hits.some((h) => h.sym === typed)) rideAnyTicker(typed);
-    else if (hits[symActive]) rideSessionTicker(hits[symActive].sym);
+    const hits = options($('sym').value);
+    if (hits[symActive]) rideSessionTicker(hits[symActive].sym);
   }
   e.stopPropagation();
 });
@@ -2497,6 +2522,7 @@ async function boot() {
   else {
     if (shared && shared.miss) showShared(shared.miss);
     $('menu').hidden = false;
+    requestAnimationFrame(updateCarouselNav);
   }
   requestAnimationFrame(frame);
 }
