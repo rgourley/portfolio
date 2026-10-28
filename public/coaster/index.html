@@ -801,12 +801,48 @@ function detectElements(ride) {
   return top3(gaps).concat(top3(ranges));
 }
 
+// the height scales with how far the price moved: a flat session is a 10 m kiddie ride, a doubling is the full 105 m
+const trackSpan = (lo, hi) => 10 + (RANGE_Y - 10) * clamp(Math.log1p((hi / lo - 1) * 50) / Math.log1p(50), 0, 1);
+
+// Pivot shaping keeps every move of PIVOT_M metres or more at its true height and irons out smaller wiggles.
+// It finds the turning points of those moves, then draws an S-curve between each pair, so crests and dips stay level.
+// Set PIVOT_SHAPING to false to go back to plain Gaussian smoothing for intraday rides.
+const PIVOT_SHAPING = true;
+const PIVOT_M = 3;
+function pivotShape(closes) {
+  const s = gauss(closes, 0.7);
+  const lo = Math.min(...s), hi = Math.max(...s);
+  const th = (hi - lo) * (PIVOT_M / trackSpan(lo, hi));
+  const piv = [0];
+  let trend = 0, hiI = 0, loI = 0;
+  for (let i = 1; i < s.length; i++) {
+    if (s[i] >= s[hiI]) hiI = i;
+    if (s[i] <= s[loI]) loI = i;
+    if (trend >= 0 && s[hiI] - s[i] >= th) {
+      if (hiI > piv[piv.length - 1]) piv.push(hiI);
+      trend = -1; loI = i;
+    } else if (trend <= 0 && s[i] - s[loI] >= th) {
+      if (loI > piv[piv.length - 1]) piv.push(loI);
+      trend = 1; hiI = i;
+    }
+  }
+  const last = trend > 0 ? hiI : loI;
+  if (last > piv[piv.length - 1]) piv.push(last);
+  if (piv[piv.length - 1] !== s.length - 1) piv.push(s.length - 1);
+  const out = new Array(s.length);
+  for (let k = 0; k + 1 < piv.length; k++) {
+    const a = piv[k], b = piv[k + 1];
+    for (let i = a; i <= b; i++) out[i] = s[a] + (s[b] - s[a]) * smoothstep((i - a) / (b - a));
+  }
+  return out;
+}
+
 function buildTrack(ride) {
   const bars = ride.bars, n = bars.length;
-  const sm = gauss(bars.map((b) => b.c), Math.max(0.7, n / 150));
+  const closes = bars.map((b) => b.c);
+  const sm = PIVOT_SHAPING && ride.kind === 'intraday' ? pivotShape(closes) : gauss(closes, Math.max(0.7, n / 150));
   const lo = Math.min(...sm), hi = Math.max(...sm);
-  // the height scales with how far the price moved: a flat session is a 10 m kiddie ride, a doubling is the full 105 m
-  const ySpan = 10 + (RANGE_Y - 10) * clamp(Math.log1p((hi / lo - 1) * 50) / Math.log1p(50), 0, 1);
+  const ySpan = trackSpan(lo, hi);
   const hOf = (p) => BASE_Y + ((p - lo) / (hi - lo)) * ySpan;
   const base = 1600 / (n - 1);
   let maxS = 0;
