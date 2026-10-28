@@ -2537,9 +2537,19 @@ $('cNext').addEventListener('click', () => { $('cards').scrollBy({ left: 440 });
 $('cards').addEventListener('scroll', updateCarouselNav, { passive: true });
 window.addEventListener('resize', updateCarouselNav);
 
+// The famous rides show in a new random order on each load, so every ride gets a turn at the front.
+// The shuffle tries again until no two rides of the same ticker sit next to each other.
+function shuffledRides() {
+  let order = RIDES;
+  for (let tries = 0; tries < 50; tries++) {
+    order = RIDES.map((r) => [Math.random(), r]).sort((a, b) => a[0] - b[0]).map(([, r]) => r);
+    if (order.every((r, i) => i === 0 || r.label !== order[i - 1].label)) break;
+  }
+  return order;
+}
 function buildCards() {
   const wrap = $('cards');
-  RIDES.forEach((r) => {
+  shuffledRides().forEach((r) => {
     const b0 = r.bars[0], bN = r.bars[r.bars.length - 1], pk = r.bars[r.peakI];
     const card = document.createElement('button');
     card.className = 'card';
