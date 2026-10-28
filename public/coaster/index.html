@@ -235,7 +235,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     </button>
     <div class="panel mini"><canvas id="mini"></canvas><span class="status" id="status"></span></div>
     <div class="panel controls" role="group" aria-label="Camera">
-      <button id="v0" data-view="0" aria-pressed="true"><kbd>1</kbd>Rider</button>
+      <button id="v0" data-view="0" aria-pressed="true" title="Rider view. Click again to change car (C)"><kbd>1</kbd>Rider</button>
       <button id="v1" data-view="1" aria-pressed="false"><kbd>2</kbd>Chase</button>
       <button id="v2" data-view="2" aria-pressed="false"><kbd>3</kbd>Cinema</button>
     </div>
@@ -519,6 +519,59 @@ const ground = new THREE.Mesh(new THREE.PlaneGeometry(9000, 9000), new THREE.Mes
 ground.rotation.x = -Math.PI / 2;
 ground.receiveShadow = true;
 scene.add(ground);
+
+// Mountains ring the park far beyond the trees, in three layers: green hills, grey ridges and snowy peaks.
+// The scene fog would hide them, so they skip fog and bake their own haze into the vertex colours.
+// Each layer fades fully into the horizon colour at its base, so it rises out of the fogged ground with no seam.
+function mountainLayer(rnd, r0, depth, hMin, hMax, rock, haze, snow) {
+  const N = 384, ROWS = 10;
+  const waves = Array.from({ length: 7 }, (_, k) => ({ f: 3 + Math.floor(rnd() * (6 + k * 5)), ph: rnd() * TAU, a: 1 / (1 + k * 0.7) }));
+  const asum = waves.reduce((t, w) => t + w.a, 0);
+  const prof = (th) => {
+    let v = 0;
+    for (const w of waves) v += w.a * (1 - Math.abs(Math.sin(w.f * th * 0.5 + w.ph)));
+    return hMin + (hMax - hMin) * Math.pow(v / asum, 1.6);
+  };
+  const pos = [], col = [], idx = [];
+  const c = new THREE.Color();
+  const tops = Array.from({ length: N + 1 }, (_, i) => prof((i / N) * TAU));
+  for (let i = 0; i <= N; i++) {
+    const th = (i / N) * TAU, h = tops[i];
+    // the side of a peak that faces the sun is lighter
+    const slope = (tops[(i + 1) % N] - tops[(i + N - 1) % N]) / ((2 * TAU * r0) / N);
+    const sunSide = -Math.sin(th) * SUN_DIR.x + Math.cos(th) * SUN_DIR.z;
+    const shade = clamp(0.92 + slope * sunSide * 0.9, 0.6, 1.2);
+    for (let k = 0; k <= ROWS; k++) {
+      const t = k / ROWS, y = h * t;
+      const r = r0 - depth * (1 - t);
+      pos.push(Math.cos(th) * r, y - 8, Math.sin(th) * r);
+      c.copy(rock);
+      if (snow && y > snow * h + hMax * 0.25 && y > hMax * 0.45) c.set(0xf2f6fb);
+      c.multiplyScalar(shade * (0.82 + 0.18 * t));
+      c.lerp(HORIZON, haze + (1 - haze) * (1 - smoothstep(clamp(t / 0.25, 0, 1))));
+      col.push(c.r, c.g, c.b);
+    }
+  }
+  for (let i = 0; i < N; i++) for (let k = 0; k < ROWS; k++) {
+    const a = i * (ROWS + 1) + k, b = a + ROWS + 1;
+    idx.push(a, b, a + 1, b, b + 1, a + 1);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  g.setIndex(idx);
+  const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ vertexColors: true, fog: false, side: THREE.DoubleSide }));
+  m.frustumCulled = false;
+  return m;
+}
+{
+  const rnd = mulberry32(42);
+  scene.add(
+    mountainLayer(rnd, 4300, 700, 380, 1150, new THREE.Color(0x71829c), 0.32, 0.55),
+    mountainLayer(rnd, 3200, 600, 160, 520, new THREE.Color(0x587066), 0.2, 0),
+    mountainLayer(rnd, 2350, 450, 50, 190, new THREE.Color(0x4f7f3a), 0.1, 0),
+  );
+}
 
 // Volumetric clouds: the page bakes tileable FBM + Worley noise into a 3D texture.
 // Each cloud is a box. The fragment shader raymarches the density inside the box and marches toward the sun for light.
@@ -2613,7 +2666,12 @@ $('sym').addEventListener('keydown', (e) => {
   e.stopPropagation();
 });
 
-document.querySelectorAll('[data-view]').forEach((b) => b.addEventListener('click', () => setView(Number(b.dataset.view))));
+// a click on Rider while the view is already Rider moves to the next car, like the C key
+document.querySelectorAll('[data-view]').forEach((b) => b.addEventListener('click', () => {
+  const v = Number(b.dataset.view);
+  if (v === VIEW.RIDER && state.view === VIEW.RIDER) cycleSeat();
+  else setView(v);
+}));
 $('bPause').addEventListener('click', () => setPaused(!state.paused));
 $('bFast').addEventListener('click', cycleFast);
 $('bMenu').addEventListener('click', openMenu);
