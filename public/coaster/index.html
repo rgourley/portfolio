@@ -57,7 +57,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .ride-tag .sym { font-family: var(--display); font-size: 15px; line-height: 1; }
 .ride-tag .rname { font-size: 11px; color: var(--muted); }
 .ride-tag .dayn { font-size: 11px; color: var(--muted); }
-.daycard { position: absolute; top: calc(10px + env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); padding: 7px 10px; width: 200px; display: grid; gap: 5px; }
+.daycard { position: absolute; top: calc(10px + env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); padding: 7px 10px; width: 200px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 5px; }
 .dc-top { display: flex; align-items: center; gap: 6px; }
 .dc-date { font-weight: 700; font-size: 12px; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .chip { font-family: var(--mono); font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 999px; background: rgba(255,255,255,0.08); }
@@ -68,7 +68,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 #hud.bare .ride-tag, #hud.bare .daycard, #hud.bare .gauges, #hud.bare .mini, #hud.bare .controls { display: none; }
 .chip.up { color: #0b2216; background: var(--up); }
 .chip.down { color: #2a0607; background: var(--down); }
-.ohlc { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 10px; margin: 0; }
+.ohlc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3px 10px; margin: 0; }
 .ohlc div { display: flex; justify-content: space-between; gap: 6px; }
 .ohlc dt { font-size: 10px; color: var(--muted); }
 .ohlc dd { margin: 0; font-family: var(--mono); font-size: 11px; font-variant-numeric: tabular-nums; }
