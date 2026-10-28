@@ -357,9 +357,9 @@ const fmtDT = (d) => `${d.toLocaleDateString('en-US', { weekday: 'short', month:
 // Famous rides carry their own bar size. "date" rides use daily bars, "time" rides are one session
 // of minute bars, and "datetime" rides span several days of intraday bars.
 const RIDE_FMT = {
-  date: { when: fmtDate, whenShort: fmtShort, stepName: 'Day', minThr: 0.03, kind: 'daily', session: false },
-  time: { when: fmtTime, whenShort: (d) => `${fmtMD(d)}, ${fmtTime(d)}`, stepName: 'Minute', minThr: 0.004, kind: 'intraday', session: true },
-  datetime: { when: fmtDT, whenShort: fmtDT, stepName: 'Bar', minThr: 0.006, kind: 'intraday', session: false },
+  date: { when: fmtDate, whenShort: fmtShort, minThr: 0.03, kind: 'daily', session: false },
+  time: { when: fmtTime, whenShort: (d) => `${fmtMD(d)}, ${fmtTime(d)}`, minThr: 0.004, kind: 'intraday', session: true },
+  datetime: { when: fmtDT, whenShort: fmtDT, minThr: 0.006, kind: 'intraday', session: false },
 };
 function prepRide(id) {
   const r = RAW[id];
@@ -1838,7 +1838,7 @@ function showDay(i) {
   const sb = $('dSince');
   sb.textContent = fmtPct(since);
   sb.style.color = since >= 0 ? 'var(--up)' : 'var(--down)';
-  hud.dayn.textContent = `${r.stepName} ${i + 1} of ${r.bars.length}`;
+  hud.dayn.textContent = r.when(b.date);
 }
 
 let bannerTimer = 0;
