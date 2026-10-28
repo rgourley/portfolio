@@ -84,8 +84,8 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .gauge .label { font-size: 9px; }
 .gauge b { font-family: var(--mono); font-size: 16px; font-variant-numeric: tabular-nums; line-height: 1; }
 .gauge small { font-size: 10px; color: var(--muted); }
-.mini { flex: 1 1 220px; min-width: 0; position: relative; height: 50px; }
-#mini { position: absolute; inset: 4px; width: calc(100% - 8px); height: calc(100% - 8px); display: block; }
+.mini { flex: 1 1 260px; min-width: 0; position: relative; height: 56px; }
+#mini { position: absolute; inset: 3px 4px; width: calc(100% - 8px); height: calc(100% - 6px); display: block; }
 .status { position: absolute; top: 6px; left: 10px; font-family: var(--display); font-size: 11px; letter-spacing: 0.06em; color: var(--gold); }
 .controls { display: flex; gap: 2px; padding: 4px; align-items: center; }
 .controls button { background: none; border: 0; border-radius: 7px; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--muted); }
@@ -218,7 +218,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
       <div><dt>Low</dt><dd id="dL"></dd></div>
       <div><dt>Volume</dt><dd id="dV"></dd></div>
     </dl>
-    <div class="dc-close"><span class="label">Close</span><b id="dC"></b></div>
+    <div class="dc-close"><span class="label">Price</span><b id="dC"></b></div>
     <div class="dc-since">Since boarding <b id="dSince"></b></div>
   </div>
   <div id="banner"></div>
@@ -1850,8 +1850,28 @@ function banner(b, up) {
   bannerTimer = setTimeout(() => { el.className = up ? 'up' : 'down'; }, 2200);
 }
 
+// The strip under the ride is a small price chart of the whole ride.
+// The played part of the line is green above the first close and red below it.
+// Volume bars sit along the bottom. The right edge shows the high, the low and a tag with the current close.
+// The bottom edge shows a tick at the first bar of each hour, day or month.
 const mini = $('mini');
 const mctx = mini.getContext('2d');
+const MINI_FONT = "10px 'IBM Plex Mono', ui-monospace, Menlo, monospace";
+const MINI_UP = '#3ddc84', MINI_DOWN = '#ff5a5f';
+let miniCache = null;
+function miniTicks(r) {
+  const label = r.session ? (d) => d.toLocaleTimeString('en-US', { hour: 'numeric', timeZone: 'America/New_York' })
+    : r.kind === 'daily' ? (d) => d.toLocaleDateString('en-US', { month: 'short', year: '2-digit', timeZone: 'UTC' })
+    : (d) => d.toLocaleDateString('en-US', { weekday: 'short', timeZone: 'America/New_York' });
+  const out = [];
+  let prev = label(r.bars[0].date);
+  r.bars.forEach((b, i) => {
+    const s = label(b.date);
+    if (s !== prev) out.push({ i, s });
+    prev = s;
+  });
+  return out;
+}
 function drawMini(barF) {
   const r = state.ride;
   const dpr = Math.min(window.devicePixelRatio, 2);
@@ -1859,40 +1879,93 @@ function drawMini(barF) {
   if (mini.width !== Math.round(W * dpr) || mini.height !== Math.round(H * dpr)) { mini.width = Math.round(W * dpr); mini.height = Math.round(H * dpr); }
   mctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   mctx.clearRect(0, 0, W, H);
-  const n = r.bars.length;
-  let lo = Infinity, hi = -Infinity;
-  for (const b of r.bars) { lo = Math.min(lo, b.c); hi = Math.max(hi, b.c); }
-  const pad = 6, top = 18;
-  const X = (i) => pad + (i / (n - 1)) * (W - pad * 2);
-  const Yp = (p) => H - pad - ((p - lo) / (hi - lo)) * (H - pad - top);
-  const cut = Math.floor(barF);
-  mctx.lineWidth = 1.5;
-  mctx.strokeStyle = 'rgba(255,255,255,0.25)';
-  mctx.beginPath();
-  r.bars.forEach((b, i) => (i ? mctx.lineTo(X(i), Yp(b.c)) : mctx.moveTo(X(i), Yp(b.c))));
-  mctx.stroke();
-  if (cut > 0) {
-    const grad = mctx.createLinearGradient(0, top, 0, H);
-    grad.addColorStop(0, 'rgba(255,209,102,0.35)');
-    grad.addColorStop(1, 'rgba(255,209,102,0)');
-    mctx.beginPath();
-    for (let i = 0; i <= cut; i++) (i ? mctx.lineTo(X(i), Yp(r.bars[i].c)) : mctx.moveTo(X(i), Yp(r.bars[i].c)));
-    mctx.lineTo(X(cut), H - pad);
-    mctx.lineTo(X(0), H - pad);
-    mctx.closePath();
-    mctx.fillStyle = grad;
-    mctx.fill();
-    mctx.strokeStyle = '#ffd166';
-    mctx.lineWidth = 2;
-    mctx.beginPath();
-    for (let i = 0; i <= cut; i++) (i ? mctx.lineTo(X(i), Yp(r.bars[i].c)) : mctx.moveTo(X(i), Yp(r.bars[i].c)));
-    mctx.stroke();
+  if (miniCache?.r !== r) {
+    let lo = Infinity, hi = -Infinity, vmax = 0;
+    for (const b of r.bars) { lo = Math.min(lo, b.c); hi = Math.max(hi, b.c); vmax = Math.max(vmax, b.v); }
+    miniCache = { r, lo, hi, vmax, ticks: miniTicks(r) };
   }
-  const ci = clamp(cut, 0, n - 1);
+  const { lo, hi, vmax, ticks } = miniCache;
+  const n = r.bars.length, base = r.bars[0].c;
+  const left = 6, right = 56, top = 16, bottom = 12, volH = 7;
+  const pw = W - left - right, ph = H - top - bottom;
+  const X = (i) => left + (i / (n - 1)) * pw;
+  const Yp = (p) => top + ((hi - p) / (hi - lo || 1)) * ph;
+  const cut = clamp(Math.floor(barF), 0, n - 1);
+  const yBase = Yp(base), floor = top + ph;
+  mctx.font = MINI_FONT;
+
+  // volume
+  const bw = Math.max(1, pw / n);
+  for (let i = 0; i < n; i++) {
+    const h = Math.max(0.5, (r.bars[i].v / vmax) * volH);
+    mctx.fillStyle = i <= cut ? 'rgba(255,255,255,0.28)' : 'rgba(255,255,255,0.1)';
+    mctx.fillRect(X(i) - bw / 2, floor - h, bw, h);
+  }
+
+  // time ticks
+  mctx.fillStyle = 'rgba(167,181,194,0.85)';
+  mctx.textAlign = 'center';
+  mctx.textBaseline = 'bottom';
+  let lastX = -Infinity;
+  for (const t of ticks) {
+    const x = X(t.i);
+    if (x - lastX < 42 || x < left + 12 || x > left + pw - 12) continue;
+    mctx.fillRect(x - 0.5, floor, 1, 3);
+    mctx.fillText(t.s, x, H);
+    lastX = x;
+  }
+
+  // first close
+  mctx.strokeStyle = 'rgba(255,255,255,0.3)';
+  mctx.lineWidth = 1;
+  mctx.setLineDash([3, 3]);
+  mctx.beginPath(); mctx.moveTo(left, yBase); mctx.lineTo(left + pw, yBase); mctx.stroke();
+  mctx.setLineDash([]);
+
+  // the whole ride, faint
+  const path = (to) => { mctx.beginPath(); for (let i = 0; i <= to; i++) (i ? mctx.lineTo(X(i), Yp(r.bars[i].c)) : mctx.moveTo(X(i), Yp(r.bars[i].c))); };
+  mctx.strokeStyle = 'rgba(255,255,255,0.22)';
+  mctx.lineWidth = 1.25;
+  path(n - 1); mctx.stroke();
+
+  // the played part, green above the first close and red below it
+  if (cut > 0) {
+    for (const [y0, y1, col] of [[0, yBase, MINI_UP], [yBase, H, MINI_DOWN]]) {
+      mctx.save();
+      mctx.beginPath(); mctx.rect(0, y0, W, y1 - y0); mctx.clip();
+      path(cut); mctx.lineTo(X(cut), yBase); mctx.lineTo(X(0), yBase); mctx.closePath();
+      mctx.globalAlpha = 0.18; mctx.fillStyle = col; mctx.fill();
+      mctx.globalAlpha = 1; mctx.strokeStyle = col; mctx.lineWidth = 2;
+      path(cut); mctx.stroke();
+      mctx.restore();
+    }
+  }
+
+  // crosshair and dot at the train
+  const cur = r.bars[cut].c, cx = X(cut), cy = Yp(cur), col = cur >= base ? MINI_UP : MINI_DOWN;
+  mctx.fillStyle = 'rgba(255,255,255,0.25)';
+  mctx.fillRect(cx - 0.5, top - 2, 1, ph + 2);
   mctx.fillStyle = '#ffffff';
-  mctx.beginPath();
-  mctx.arc(X(ci), Yp(r.bars[ci].c), 4, 0, TAU);
-  mctx.fill();
+  mctx.beginPath(); mctx.arc(cx, cy, 3.5, 0, TAU); mctx.fill();
+
+  // change since the first close, top right of the plot
+  mctx.textAlign = 'right';
+  mctx.textBaseline = 'top';
+  mctx.fillStyle = col;
+  mctx.fillText(fmtPct(cur / base - 1), left + pw, 3);
+
+  // price axis: high, low and the current close tag
+  const gx = left + pw + 6, tagY = clamp(cy, top + 5, floor - 5);
+  mctx.textAlign = 'left';
+  mctx.textBaseline = 'middle';
+  mctx.fillStyle = 'rgba(167,181,194,0.85)';
+  if (Math.abs(tagY - Yp(hi)) > 12) mctx.fillText(fmtP(hi), gx, Yp(hi));
+  if (Math.abs(tagY - Yp(lo)) > 12) mctx.fillText(fmtP(lo), gx, Yp(lo));
+  const label = fmtP(cur), tw = mctx.measureText(label).width + 8;
+  mctx.fillStyle = col;
+  mctx.beginPath(); mctx.roundRect(gx - 4, tagY - 7, tw, 14, 3); mctx.fill();
+  mctx.fillStyle = '#0b1218';
+  mctx.fillText(label, gx, tagY + 0.5);
 }
 
 // ---------- units ----------
