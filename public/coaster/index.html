@@ -173,6 +173,9 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .rating .bar i { display: block; height: 100%; border-radius: 999px; }
 .rating b { font-family: var(--mono); font-size: 18px; text-align: right; font-variant-numeric: tabular-nums; }
 .rating small { color: var(--muted); font-size: 13px; }
+.rhead-row { display: flex; justify-content: space-between; align-items: center; }
+.unit-switch { background: rgba(255,255,255,0.06); border: 1px solid var(--edge); border-radius: 7px; padding: 3px 9px; font: 12px var(--mono); color: var(--text); }
+.unit-switch:hover { border-color: var(--gold); }
 .rhead { margin: 0; font-family: var(--display); font-weight: 400; font-size: 14px; color: var(--muted); }
 @media (max-width: 480px) { .rating { grid-template-columns: 104px 1fr 46px; } .rating small { grid-column: 2 / -1; } }
 .rgrid div { background: rgba(255,255,255,0.05); border: 1px solid var(--edge); border-radius: 10px; padding: 8px 10px; display: grid; gap: 3px; }
@@ -284,7 +287,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     </div>
     <p class="note">Ratings and stats cover the market part of the ride, from the open to the close.</p>
     <div class="ratings" id="rRatings"></div>
-    <h3 class="rhead">Ride stats</h3>
+    <div class="rhead-row"><h3 class="rhead">Ride stats</h3><button class="unit-switch" id="rUnits" title="Switch mph and km/h (U)"></button></div>
     <div class="rgrid" id="rGrid"></div>
     <h3 class="rhead">Market</h3>
     <div class="rgrid" id="rMarket"></div>
@@ -1908,6 +1911,7 @@ function toggleUnits() {
   unitName = unitName === 'metric' ? 'imperial' : 'metric';
   try { localStorage.setItem('mc-units', unitName); } catch (err) { /* storage is optional */ }
   showUnits();
+  renderStats();
 }
 
 // ---------- update ----------
@@ -2205,7 +2209,6 @@ function finishRide() {
   setView(VIEW.CINE);
   const r = state.ride, tr = state.tr, b0 = r.bars[0], bN = r.bars[r.bars.length - 1];
   const kmh = state.maxV * 3.6;
-  const U = UNIT();
   const inversions = tr.elements.filter((e) => e.j >= 0).length;
   const drops = trackDrops(tr);
   const neg = Math.max(0, -state.minG);
@@ -2221,30 +2224,41 @@ function finishRide() {
   const ratings = [['🤩 Excitement', excitement, 'var(--up)'], ['😱 Intensity', intensity, 'var(--gold)'], ['🤢 Nausea', nausea, 'var(--down)']];
   $('rSub').textContent = `${r.label} · ${r.name} · ${r.range}`;
   $('rRatings').innerHTML = ratings.map(([k, v, c]) => `<div class="rating"><span class="label">${k}</span><div class="bar"><i style="width:${Math.min(100, v * 10)}%;background:${c}"></i></div><b>${v.toFixed(2)}</b><small>${ratingWord(v)}</small></div>`).join('');
-  const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
-  const stats = [
-    ['🚀 Top speed', Math.round(state.maxV * U.speed), U.speedLabel],
-    ['🏁 Average speed', Math.round((marketLen / Math.max(1, state.marketTime)) * U.speed), U.speedLabel],
-    ['⏱️ Market time', mmss(state.marketTime), 'min:sec'],
-    ['📏 Market track', Math.round(marketLen * U.length).toLocaleString('en-US'), U.lengthLabel],
-    ['🏋️ Max positive', state.maxG.toFixed(2), 'vertical g'],
-    ['🪶 Max negative', state.minG.toFixed(2), 'vertical g'],
-    ['↔️ Max lateral', state.maxLat.toFixed(2), 'g'],
-    ['🎈 Airtime', state.air.toFixed(1), 's'],
-    ['🎢 Drops', drops.count, U.metric ? '10 m or more' : '33 ft or more'],
-    ['⬇️ Highest drop', Math.round(drops.highest * U.length), U.lengthLabel],
-    ['🗼 Height range', Math.round((marketTop - marketLow) * U.length), `${U.lengthLabel}, low to high`],
-    ['🔄 Inversions', inversions, 'loops and corkscrews'],
-  ];
+  // the stats keep raw metric values, so the card can redraw in either unit system
+  lastStats = { marketLen, marketTop, marketLow, drops, inversions, maxV: state.maxV, marketTime: state.marketTime,
+    maxG: state.maxG, minG: state.minG, maxLat: state.maxLat, air: state.air };
+  renderStats();
   const market = [
     [bN.c >= b0.c ? '📈 Price change' : '📉 Price change', fmtPct(bN.c / b0.c - 1), `${fmtP(b0.c)} to ${fmtP(bN.c)}`],
     ['🕳️ Worst drawdown', fmtPct(r.maxDD), 'peak to trough'],
     ['🏔️ Peak', fmtP(r.bars[r.peakI].c), r.whenShort(r.bars[r.peakI].date)],
   ];
-  const cell = ([k, v, u]) => `<div><span class="label">${k}</span><b>${v}</b><small class="label">${u}</small></div>`;
-  $('rGrid').innerHTML = stats.map(cell).join('');
-  $('rMarket').innerHTML = market.map(cell).join('');
+  $('rMarket').innerHTML = market.map(statCell).join('');
   $('done').hidden = false;
+}
+
+let lastStats = null;
+const statCell = ([k, v, u]) => `<div><span class="label">${k}</span><b>${v}</b><small class="label">${u}</small></div>`;
+function renderStats() {
+  if (!lastStats) return;
+  const s = lastStats, U = UNIT();
+  const mmss = (x) => `${Math.floor(x / 60)}:${String(Math.round(x % 60)).padStart(2, '0')}`;
+  $('rUnits').textContent = U.metric ? 'km/h · m' : 'mph · ft';
+  const stats = [
+    ['🚀 Top speed', Math.round(s.maxV * U.speed), U.speedLabel],
+    ['🏁 Average speed', Math.round((s.marketLen / Math.max(1, s.marketTime)) * U.speed), U.speedLabel],
+    ['⏱️ Market time', mmss(s.marketTime), 'min:sec'],
+    ['📏 Market track', Math.round(s.marketLen * U.length).toLocaleString('en-US'), U.lengthLabel],
+    ['🏋️ Max positive', s.maxG.toFixed(2), 'vertical g'],
+    ['🪶 Max negative', s.minG.toFixed(2), 'vertical g'],
+    ['↔️ Max lateral', s.maxLat.toFixed(2), 'g'],
+    ['🎈 Airtime', s.air.toFixed(1), 's'],
+    ['🎢 Drops', s.drops.count, U.metric ? '10 m or more' : '33 ft or more'],
+    ['⬇️ Highest drop', Math.round(s.drops.highest * U.length), U.lengthLabel],
+    ['🗼 Height range', Math.round((s.marketTop - s.marketLow) * U.length), `${U.lengthLabel}, low to high`],
+    ['🔄 Inversions', s.inversions, 'loops and corkscrews'],
+  ];
+  $('rGrid').innerHTML = stats.map(statCell).join('');
 }
 
 // ---------- main loop ----------
@@ -2554,6 +2568,7 @@ function setMuted(m) {
 }
 $('bMute').addEventListener('click', () => setMuted(!music.muted));
 $('bUnits').addEventListener('click', toggleUnits);
+$('rUnits').addEventListener('click', toggleUnits);
 showUnits();
 try { music.muted = localStorage.getItem('mc-muted') === '1'; } catch (err) { music.muted = false; }
 setMuted(music.muted);
@@ -2692,6 +2707,7 @@ $('bShare').addEventListener('click', () => {
 });
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { openMenu(); return; }
+  if ((e.key === 'u' || e.key === 'U') && state.mode === 'done') { toggleUnits(); return; }
   if (state.mode !== 'riding') return;
   const k = e.key.toLowerCase();
   if (state.view === VIEW.CINE && PAN_KEYS[k]) { takeControl(); panKeys.add(k); e.preventDefault(); return; }
