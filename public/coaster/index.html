@@ -109,7 +109,6 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .brand h1 span { background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-stroke: 1.5px #0e1822; paint-order: stroke fill; padding-top: 0.08em; }
 .brand h1 .m { background-image: linear-gradient(180deg, #ffffff 0%, #e8f4ff 55%, #a9cdee 100%); }
 .brand h1 .c { background-image: linear-gradient(180deg, #fff3b0 0%, #ffd166 50%, #f08c1a 100%); }
-.brand p { margin: 0; color: var(--muted); max-width: 52ch; }
 .carousel { position: relative; min-width: 0; }
 .cards { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-bottom: 6px; scrollbar-width: thin; }
 .cards .card { flex: 0 0 210px; scroll-snap-align: start; }
@@ -236,7 +235,6 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     <div class="shared" id="shared" hidden></div>
     <div class="brand">
       <h1><span class="m">Market</span> <span class="c">Coaster</span></h1>
-      <p id="tagline">Ride the market.</p>
     </div>
     <section class="session" aria-labelledby="sessH">
       <div class="session-head">
@@ -2270,7 +2268,7 @@ const moveSpan = (m) => `<span class="mv ${m >= 0 ? 'up' : 'down'}">${fmtPct(m)}
 let symActive = 0;
 function buildSession() {
   $('sessDate').textContent = `${fmtDate(SESSION_DATE)} · 1-minute bars · ${API ? 'any ticker' : `${SYMS.length} symbols`}`;
-  if (API) { $('sym').placeholder = 'Search any ticker, like NVDA or BRK.B'; $('tagline').textContent = 'Ride any ticker.'; }
+  if (API) $('sym').placeholder = 'Search any ticker, like NVDA or BRK.B';
   const movers = [...SYMS].sort((a, b) => Math.abs(b.move) - Math.abs(a.move)).slice(0, 10);
   const wrap = $('movers');
   movers.forEach((m) => {
