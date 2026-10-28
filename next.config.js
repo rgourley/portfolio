@@ -46,6 +46,15 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
+  async headers() {
+    return [
+      // Market Coaster sounds never change in place, so browsers keep them for 30 days
+      {
+        source: '/coaster/:file(.*\\.(?:mp3|mp4))',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=2592000, immutable' }],
+      },
+    ];
+  },
   async rewrites() {
     return [
       { source: '/amphora', destination: '/amphora/index.html' },
