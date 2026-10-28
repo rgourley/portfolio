@@ -206,7 +206,6 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     <button id="bMenu" class="back" title="Back to rides (Esc)">← Rides</button>
     <div class="sym" id="hSym"></div>
     <div class="rname" id="hName"></div>
-    <div class="dayn" id="hRange"></div>
     <div class="dayn num" id="hDayN"></div>
   </div>
   <div class="panel daycard" id="daycard" aria-live="off">
@@ -1756,7 +1755,6 @@ function loadRide(ride) {
   blimpPath.alt = Math.max(...tr.P.map((q) => q.y)) + 40;
   document.getElementById('hSym').textContent = ride.label;
   document.getElementById('hName').textContent = ride.name;
-  document.getElementById('hRange').textContent = ride.range;
   resetRide();
 }
 
@@ -1837,7 +1835,7 @@ function showDay(i) {
   const sb = $('dSince');
   sb.textContent = fmtPct(since);
   sb.style.color = since >= 0 ? 'var(--up)' : 'var(--down)';
-  hud.dayn.textContent = r.when(b.date);
+  hud.dayn.textContent = r.session ? `${fmtShort(b.date)}, ${fmtTime(b.date)}` : r.when(b.date);
 }
 
 let bannerTimer = 0;
