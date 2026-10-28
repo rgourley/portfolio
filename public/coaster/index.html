@@ -1895,12 +1895,12 @@ function drawMini(barF) {
 }
 
 // ---------- units ----------
-// Speeds and heights show in metric or imperial. The first visit picks by browser locale; a click or U switches.
+// Speeds and heights show in imperial (mph, ft) by default. A click on the gauges or U switches to metric.
 const UNITS = {
   metric: { metric: true, speed: 3.6, speedLabel: 'km/h', length: 1, lengthLabel: 'm' },
   imperial: { metric: false, speed: 2.23694, speedLabel: 'mph', length: 3.28084, lengthLabel: 'ft' },
 };
-let unitName = (navigator.language || '').toLowerCase() === 'en-us' ? 'imperial' : 'metric';
+let unitName = 'imperial';
 try { unitName = localStorage.getItem('mc-units') || unitName; } catch (err) { /* storage is optional */ }
 const UNIT = () => UNITS[unitName] || UNITS.metric;
 function showUnits() {
