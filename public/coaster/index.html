@@ -143,7 +143,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .chips::-webkit-scrollbar { display: none; }
 .chip-btn { flex: 0 0 auto; }
 .chips-label { flex: 0 0 auto; align-self: center; margin-right: 2px; }
-.mv.rng { color: var(--gold); }
+.mv.rng { color: var(--muted); font-size: 11px; }
 .chip-btn { display: inline-flex; gap: 6px; align-items: baseline; background: rgba(255,255,255,0.05); border: 1px solid var(--edge); border-radius: 999px; padding: 5px 11px; font-size: 13px; }
 .chip-btn:hover { border-color: var(--gold); }
 .chip-btn b { font-family: var(--mono); }
@@ -2321,7 +2321,7 @@ function buildSession() {
     const b = document.createElement('button');
     b.className = 'chip-btn';
     b.title = `${m.act.legs} big swings, ${(m.act.range * 100).toFixed(1)}% high to low`;
-    b.innerHTML = `<b>${m.sym}</b><span class="mv rng">↕${(m.act.range * 100).toFixed(1)}%</span>`;
+    b.innerHTML = `<b>${m.sym}</b>${moveSpan(m.move)}<span class="mv rng">↕${(m.act.range * 100).toFixed(1)}%</span>`;
     b.addEventListener('click', () => rideSessionTicker(m.sym));
     wrap.appendChild(b);
   });
