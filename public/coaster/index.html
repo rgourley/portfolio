@@ -78,7 +78,8 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .dc-since b { font-family: var(--mono); color: var(--text); }
 
 .bottom { position: absolute; left: 0; right: 0; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
-.gauges { display: flex; gap: 12px; padding: 6px 10px; align-items: center; }
+.gauges { display: flex; gap: 12px; padding: 6px 10px; align-items: center; color: var(--text); font: inherit; text-align: left; cursor: pointer; }
+.gauges:hover { border-color: var(--gold); }
 .gauge { display: grid; gap: 1px; min-width: 44px; }
 .gauge .label { font-size: 9px; }
 .gauge b { font-family: var(--mono); font-size: 16px; font-variant-numeric: tabular-nums; line-height: 1; }
@@ -226,11 +227,11 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   </div>
   <button id="soundChip" class="sound-chip" hidden>🔊 Tap for sound</button>
   <div class="bottom">
-    <div class="panel gauges">
-      <div class="gauge"><span class="label">Speed</span><b id="gSpd">0</b><small>km/h</small></div>
+    <button class="panel gauges" id="bUnits" title="Switch mph and km/h (U)">
+      <div class="gauge"><span class="label">Speed</span><b id="gSpd">0</b><small id="gSpdU">km/h</small></div>
       <div class="gauge"><span class="label">Force</span><b id="gG">1.0</b><small>g</small></div>
-      <div class="gauge"><span class="label">Height</span><b id="gH">0</b><small>m</small></div>
-    </div>
+      <div class="gauge"><span class="label">Height</span><b id="gH">0</b><small id="gHU">m</small></div>
+    </button>
     <div class="panel mini"><canvas id="mini"></canvas><span class="status" id="status"></span></div>
     <div class="panel controls" role="group" aria-label="Camera">
       <button id="v0" data-view="0" aria-pressed="true"><kbd>1</kbd>Rider</button>
@@ -1890,6 +1891,25 @@ function drawMini(barF) {
   mctx.fill();
 }
 
+// ---------- units ----------
+// Speeds and heights show in metric or imperial. The first visit picks by browser locale; a click or U switches.
+const UNITS = {
+  metric: { metric: true, speed: 3.6, speedLabel: 'km/h', length: 1, lengthLabel: 'm' },
+  imperial: { metric: false, speed: 2.23694, speedLabel: 'mph', length: 3.28084, lengthLabel: 'ft' },
+};
+let unitName = (navigator.language || '').toLowerCase() === 'en-us' ? 'imperial' : 'metric';
+try { unitName = localStorage.getItem('mc-units') || unitName; } catch (err) { /* storage is optional */ }
+const UNIT = () => UNITS[unitName] || UNITS.metric;
+function showUnits() {
+  $('gSpdU').textContent = UNIT().speedLabel;
+  $('gHU').textContent = UNIT().lengthLabel;
+}
+function toggleUnits() {
+  unitName = unitName === 'metric' ? 'imperial' : 'metric';
+  try { localStorage.setItem('mc-units', unitName); } catch (err) { /* storage is optional */ }
+  showUnits();
+}
+
 // ---------- update ----------
 const peepM = new THREE.Matrix4(), peepQ = new THREE.Quaternion(), peepE = new THREE.Euler(0, 0, 0, 'YXZ'), peepPos = new THREE.Vector3(), peepLeg = new THREE.Vector3(), peepScale = new THREE.Vector3(), peepDir = new THREE.Vector3();
 const tmpV = new THREE.Vector3(), tmpU = new THREE.Vector3(), tmpR = new THREE.Vector3(), tmpF = new THREE.Vector3();
@@ -2124,9 +2144,9 @@ function updateHud() {
     state.lastBar = bi;
     showDay(bi);
   }
-  hud.spd.textContent = Math.round(state.v * 3.6);
+  hud.spd.textContent = Math.round(state.v * UNIT().speed);
   hud.g.textContent = state.g.toFixed(1);
-  hud.h.textContent = Math.round(F0.p.y);
+  hud.h.textContent = Math.round(F0.p.y * UNIT().length);
   const sec = tr.sec[F0.i];
   const intra = state.ride.session;
   if (sec === SEC.PRICE && !state.openRung) {
@@ -2185,6 +2205,7 @@ function finishRide() {
   setView(VIEW.CINE);
   const r = state.ride, tr = state.tr, b0 = r.bars[0], bN = r.bars[r.bars.length - 1];
   const kmh = state.maxV * 3.6;
+  const U = UNIT();
   const inversions = tr.elements.filter((e) => e.j >= 0).length;
   const drops = trackDrops(tr);
   const neg = Math.max(0, -state.minG);
@@ -2202,17 +2223,17 @@ function finishRide() {
   $('rRatings').innerHTML = ratings.map(([k, v, c]) => `<div class="rating"><span class="label">${k}</span><div class="bar"><i style="width:${Math.min(100, v * 10)}%;background:${c}"></i></div><b>${v.toFixed(2)}</b><small>${ratingWord(v)}</small></div>`).join('');
   const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
   const stats = [
-    ['🚀 Top speed', Math.round(kmh), 'km/h'],
-    ['🏁 Average speed', Math.round((marketLen / Math.max(1, state.marketTime)) * 3.6), 'km/h'],
+    ['🚀 Top speed', Math.round(state.maxV * U.speed), U.speedLabel],
+    ['🏁 Average speed', Math.round((marketLen / Math.max(1, state.marketTime)) * U.speed), U.speedLabel],
     ['⏱️ Market time', mmss(state.marketTime), 'min:sec'],
-    ['📏 Market track', Math.round(marketLen).toLocaleString('en-US'), 'm'],
+    ['📏 Market track', Math.round(marketLen * U.length).toLocaleString('en-US'), U.lengthLabel],
     ['🏋️ Max positive', state.maxG.toFixed(2), 'vertical g'],
     ['🪶 Max negative', state.minG.toFixed(2), 'vertical g'],
     ['↔️ Max lateral', state.maxLat.toFixed(2), 'g'],
     ['🎈 Airtime', state.air.toFixed(1), 's'],
-    ['🎢 Drops', drops.count, '10 m or more'],
-    ['⬇️ Highest drop', Math.round(drops.highest), 'm'],
-    ['🗼 Height range', Math.round(marketTop - marketLow), 'm, low to high'],
+    ['🎢 Drops', drops.count, U.metric ? '10 m or more' : '33 ft or more'],
+    ['⬇️ Highest drop', Math.round(drops.highest * U.length), U.lengthLabel],
+    ['🗼 Height range', Math.round((marketTop - marketLow) * U.length), `${U.lengthLabel}, low to high`],
     ['🔄 Inversions', inversions, 'loops and corkscrews'],
   ];
   const market = [
@@ -2532,6 +2553,8 @@ function setMuted(m) {
   if (!m && music.paused && state.mode === 'riding') music.play().catch((err) => console.warn('music did not start', err));
 }
 $('bMute').addEventListener('click', () => setMuted(!music.muted));
+$('bUnits').addEventListener('click', toggleUnits);
+showUnits();
 try { music.muted = localStorage.getItem('mc-muted') === '1'; } catch (err) { music.muted = false; }
 setMuted(music.muted);
 // ---------- ride sounds ----------
@@ -2680,6 +2703,7 @@ window.addEventListener('keydown', (e) => {
   else if (e.key === 'f' || e.key === 'F') cycleFast();
   else if (e.key === 'r' || e.key === 'R') resetRide();
   else if (e.key === 'h' || e.key === 'H') toggleBare();
+  else if (e.key === 'u' || e.key === 'U') toggleUnits();
   else if (e.key === 'c' || e.key === 'C') cycleSeat();
   else if (e.key === 'm' || e.key === 'M') setMuted(!music.muted);
   else if (e.key === 'd' || e.key === 'D') setCollapsed(!$('daycard').classList.contains('collapsed'));
