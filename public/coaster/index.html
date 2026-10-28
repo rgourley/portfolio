@@ -1329,6 +1329,15 @@ function buildWorld(ride, tr) {
   }
   // hook supports for loops and corkscrews: a column beside the element and an arm to the track spine.
   // On inverted track the spine faces outward, so the arm holds the track from outside the ride path.
+  // The entry and exit of a loop are offset along its axis, so a loop column stands outside the full width of the loop.
+  // A column closer in would go through the lower track.
+  const loopWidth = new Map();
+  for (let i = 0; i < M; i++) {
+    const k = tr.elem[i];
+    if (k < 0) continue;
+    const w = Math.abs(P[i].clone().sub(tr.axisP[i]).dot(tr.axisD[i]));
+    loopWidth.set(k, Math.max(loopWidth.get(k) ?? 0, w));
+  }
   for (let i = 0; i < M; i += 10) {
     const k = tr.elem[i];
     if (k < 0 || U[i].y >= 0.85) continue;
@@ -1341,7 +1350,8 @@ function buildWorld(ride, tr) {
       out = v3(ad.x, 0, ad.z).normalize();
       const off = spine.clone().sub(onAxis);
       if (off.dot(out) < 0) out.negate();
-      const col = v3(spine.x + out.x * 3.2, spine.y, spine.z + out.z * 3.2);
+      const reach = loopWidth.get(k) + 2.6 - off.dot(out);
+      const col = v3(spine.x + out.x * reach, spine.y, spine.z + out.z * reach);
       braceSegs.push([spine, col]);
       legSegs.push([v3(col.x, 0, col.z), col]);
       feetAt.push([col.x, col.z]);
