@@ -445,7 +445,7 @@ function sessionRide(sym, date, t0, p0, rows, scale = 100) {
   const key = `${sym}:${date}`;
   if (!intradayCache.has(key)) {
     const day = fmtShort(new Date(date + 'T12:00:00Z'));
-    const name = tickerNames.get(sym) || (INTRA.tickers[sym] || {}).name || sym;
+    const name = tickerNames.get(sym) || (INTRA.tickers[sym] || {}).name || (isCrypto(sym) ? cryptoLabel(sym) : sym);
     const meta = isCrypto(sym)
       ? { id: 'i-' + sym, sym, crypto: true, label: cryptoLabel(sym), name, sessionDate: date, range: `${day}, midnight to midnight ET`, unit: sym.slice(2, -3), trackLen: CRYPTO_TRACK, color: '#f7931a', ...RIDE_FMT.time }
       : (() => {
@@ -1732,18 +1732,34 @@ function buildWorld(ride, tr) {
 const CAR_GAP = 2.6, CARS = 4;
 const train = new THREE.Group();
 // Car paint changes with the ride. Famous rides use their ticker color, like red for GME and orange for BTC.
-// A ticker with a famous ride keeps that color. Other tickers get a coaster color picked from the symbol, so a ticker always rides the same color.
+// A ticker with a famous ride keeps that color, then a well-known brand gets its brand color.
+// Other tickers get a coaster color picked from the symbol, so a ticker always rides the same color.
 const CAR_PAINT = {
   body: new THREE.MeshPhysicalMaterial({ color: 0xd62839, roughness: 0.28, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.12 }),
   stripe: new THREE.MeshStandardMaterial({ color: 0xffd166, roughness: 0.4 }),
 };
 const CAR_COLORS = [0xd62839, 0x1f6fd1, 0x1f9e55, 0xf28c28, 0x7b3fc4, 0x109a9a, 0xf2c230, 0xe0457b];
+// Brand colors for well-known tickers and coins, so Starbucks rides green and Coca-Cola rides red.
+const BRAND_COLORS = {
+  SBUX: 0x00704a, KO: 0xf40009, PEP: 0x004b93, MCD: 0xda291c, CMG: 0xa81612, DPZ: 0x006491, YUM: 0x6b2c8f,
+  AAPL: 0xa2aaad, MSFT: 0x0078d4, GOOGL: 0x4285f4, GOOG: 0x4285f4, AMZN: 0xff9900, META: 0x0866ff, NFLX: 0xe50914,
+  ORCL: 0xc74634, CRM: 0x00a1e0, ADBE: 0xfa0f00, INTC: 0x0071c5, AMD: 0xed1c24, IBM: 0x0f62fe, CSCO: 0x049fd9,
+  AVGO: 0xcc092f, MU: 0x0072bc, TSM: 0xc4161c, ARM: 0x0091bd, SMCI: 0x0072ce, PLTR: 0x101113, SNOW: 0x29b5e8,
+  SHOP: 0x5e8e3e, UBER: 0x111111, ABNB: 0xff5a5f, SPOT: 0x1db954, PYPL: 0x003087, COIN: 0x0052ff, HOOD: 0x00c805,
+  SOFI: 0x00a9ce, V: 0x1a1f71, MA: 0xeb001b, JPM: 0x6e5a4b, BAC: 0xe31837, WFC: 0xd71e28, GS: 0x7399c6,
+  WMT: 0x0071ce, COST: 0xe31837, TGT: 0xcc0000, HD: 0xf96302, LOW: 0x004990, NKE: 0xf26522, DIS: 0x113ccf,
+  F: 0x003478, GM: 0x0170ce, RIVN: 0xffd200, BA: 0x0039a6, CAT: 0xffcd11, DE: 0x367c2b, GE: 0x3b73b9,
+  UPS: 0x644117, FDX: 0x4d148c, XOM: 0xed1b2d, CVX: 0x0054a4, JNJ: 0xd51900, PFE: 0x0093d0, LLY: 0xd52b1e,
+  UNH: 0x002677, PG: 0x003da5, HSY: 0x4f2c1d, 'BRK.B': 0x2a3d6b, MSTR: 0xd9232e,
+  ETH: 0x627eea, SOL: 0x9945ff, DOGE: 0xc2a633, XRP: 0x23292f, ADA: 0x0033ad, LTC: 0x345d9d, AVAX: 0xe84142, LINK: 0x2a5ada,
+};
 function carColor(ride) {
   if (!ride.id.startsWith('i-')) return new THREE.Color(ride.color);
   // a ticker with a famous ride, like TSLA or BTC, keeps that ride's color in its session rides too
   const base = ride.crypto ? ride.sym.slice(2, -3) : ride.sym;
   const famous = RIDES.find((r) => r.label === base);
   if (famous) return new THREE.Color(famous.color);
+  if (BRAND_COLORS[base]) return new THREE.Color(BRAND_COLORS[base]);
   let h = 0;
   for (const ch of ride.sym) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
   return new THREE.Color(CAR_COLORS[h % CAR_COLORS.length]);
