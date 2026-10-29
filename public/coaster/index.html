@@ -1384,6 +1384,53 @@ function buildWorld(ride, tr) {
   ties.frustumCulled = false;
   world.add(ties);
 
+  // A buffer stop closes the end of the track, like at a railway terminal.
+  // A striped beam with two round pads faces the train, and a steel frame holds the beam on the track end.
+  {
+    const e = M - 1;
+    const stop = new THREE.Group();
+    L.crossVectors(U[e], T[e]);
+    stop.quaternion.setFromRotationMatrix(m4.makeBasis(L, U[e], T[e]));
+    stop.position.copy(P[e]);
+    const stripe = document.createElement('canvas');
+    stripe.width = 256; stripe.height = 32;
+    const sg = stripe.getContext('2d');
+    sg.fillStyle = '#ffd166';
+    sg.fillRect(0, 0, 256, 32);
+    sg.fillStyle = '#14181d';
+    for (let x = -32; x < 256; x += 32) { sg.beginPath(); sg.moveTo(x, 32); sg.lineTo(x + 16, 32); sg.lineTo(x + 32, 0); sg.lineTo(x + 16, 0); sg.fill(); }
+    const stripeTex = new THREE.CanvasTexture(stripe);
+    stripeTex.colorSpace = THREE.SRGBColorSpace;
+    const steelM = new THREE.MeshStandardMaterial({ color: 0x39434d, roughness: 0.6, metalness: 0.4 });
+    const padM = new THREE.MeshStandardMaterial({ color: 0x1b1f24, roughness: 0.8 });
+    const faceM = new THREE.MeshStandardMaterial({ color: 0xdfe4ea, roughness: 0.25, metalness: 0.9 });
+    const box = (w, h, d, mat, x, y, z) => { const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); b.position.set(x, y, z); stop.add(b); return b; };
+    // box faces run +x, -x, +y, -y, +z, -z. The stripes go on the ends that face along the track.
+    const stripeM = new THREE.MeshStandardMaterial({ map: stripeTex, roughness: 0.5 });
+    box(2.3, 0.5, 0.35, [steelM, steelM, steelM, steelM, stripeM, stripeM], 0, 0.55, 0.2);
+    box(1.9, 0.16, 1.2, steelM, 0, -0.2, 0.55);
+    // a column under the base plate carries the buffer stop down to the ground
+    box(0.5, P[e].y, 0.5, steelM, 0, -0.28 - P[e].y / 2, 0.55);
+    for (const x of [-0.8, 0.8]) {
+      box(0.18, 0.95, 0.18, steelM, x, 0.3, 0.3);
+      // the brace runs from the back of the beam down to the back of the base plate
+      const brace = box(0.14, 0.14, 0.95, steelM, x, 0.2, 0.68);
+      brace.rotation.x = 0.78;
+      const pad = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.34, 16), padM);
+      pad.rotation.x = Math.PI / 2;
+      pad.position.set(x * 0.7, 0.55, -0.12);
+      const face = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.21, 0.06, 20), faceM);
+      face.rotation.x = Math.PI / 2;
+      face.position.set(x * 0.7, 0.55, -0.31);
+      stop.add(pad, face);
+    }
+    const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.13, 12, 8), new THREE.MeshStandardMaterial({ color: 0xff3b3b, emissive: 0xff2020, emissiveIntensity: 1.6 }));
+    lamp.position.set(0, 0.92, 0.2);
+    stop.add(lamp);
+    stop.traverse((o) => { if (o.isMesh) o.castShadow = true; });
+    world.add(stop);
+  }
+
   // supports every 7 m. Short ones are single columns. Tall ones become braced towers
   // with splayed legs, horizontal struts and X-braces, like a steel coaster.
   const legSegs = [], braceSegs = [], feetAt = [];
@@ -2046,8 +2093,8 @@ function physics(h) {
   state.launching = false;
   if (sec === SEC.BRAKE) {
     const left = tr.len - state.s;
-    // brake at 3.5 m/s² down to a stopping curve, then follow the curve, which reaches zero at the end of the run
-    const stopCurve = Math.sqrt(2 * 1.6 * Math.max(0, left - 1));
+    // brake at 3.5 m/s² down to a stopping curve, then follow the curve, which reaches zero 3 m before the buffer stop
+    const stopCurve = Math.sqrt(2 * 1.6 * Math.max(0, left - 3));
     v = v > stopCurve ? Math.max(stopCurve, v - 3.5 * h) : stopCurve;
   } else if (tr.elem[F0.i] >= 0) {
     // A slow train must never stall upside down. A hidden booster holds the speed that a loop top needs.
