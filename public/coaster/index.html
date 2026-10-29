@@ -2568,6 +2568,8 @@ function openMenu() {
   resetRide();
   $('hud').hidden = true;
   $('done').hidden = true;
+  // the search list can still hold a "Loading" row from the last ride, so the menu always opens with it closed
+  $('symList').hidden = true;
   $('menu').hidden = false;
 }
 
@@ -2655,7 +2657,10 @@ async function rideAnyTicker(sym) {
   list.hidden = false;
   list.innerHTML = `<div class="opt"><span>Loading ${sym}…</span></div>`;
   try {
-    startRide(await fetchSessionRide(sym, INTRA.date));
+    const ride = await fetchSessionRide(sym, INTRA.date);
+    list.hidden = true;
+    list.innerHTML = '';
+    startRide(ride);
   } catch (err) {
     list.innerHTML = `<div class="opt"><span>${err.message}</span></div>`;
   }
