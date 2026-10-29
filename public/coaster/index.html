@@ -4,14 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <base href="/coaster/">
-<title>Market Coaster: ride real price history</title>
-<meta name="description" content="Ride real stock and crypto price history as a 3D roller coaster. Every hill is real market data from Massive.">
+<title>Market Coaster: ride a real stock chart as a roller coaster</title>
+<meta name="description" content="A free 3D roller coaster built from real market data. Ride the GME squeeze, the Flash Crash, or any US stock's last session minute by minute. Price gaps become loops.">
 <link rel="canonical" href="https://www.robertcreative.com/coaster">
-<meta property="og:title" content="Market Coaster">
-<meta property="og:description" content="Ride real price history as a roller coaster: the GME squeeze, the Flash Crash, or any ticker's last session.">
+<link rel="alternate" href="https://www.robertcreative.com/coaster/about" title="How Market Coaster works">
+<meta property="og:site_name" content="Robert Gourley">
+<meta property="og:title" content="Market Coaster: ride a real stock chart">
+<meta property="og:description" content="The GME squeeze, the Flash Crash, or any stock's last session, built into a roller coaster from real market data.">
 <meta property="og:url" content="https://www.robertcreative.com/coaster">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://www.robertcreative.com/images/coaster/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Market Coaster sign over a front-seat view of the track climbing between blue supports, with another track sweeping overhead">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@rgourley">
+<meta name="twitter:title" content="Market Coaster: ride a real stock chart">
+<meta name="twitter:description" content="The GME squeeze, the Flash Crash, or any stock's last session, built into a roller coaster from real market data.">
+<meta name="twitter:image" content="https://www.robertcreative.com/images/coaster/og.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Market Coaster","url":"https://www.robertcreative.com/coaster","image":"https://www.robertcreative.com/images/coaster/og.jpg","description":"A 3D roller coaster built from real market data. Ride famous market moments or any US stock's last session.","gamePlatform":"Web browser","applicationCategory":"Game","isAccessibleForFree":true,"author":{"@type":"Person","name":"Robert Gourley","url":"https://www.robertcreative.com"}}</script>
 <style>[hidden]{display:none!important}body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:14px}img{max-width:100%}</style>
 <script>window.MC_API = '/api/coaster/bars';</script>
 </head>
@@ -110,7 +121,21 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .overlay { position: fixed; inset: 0; display: grid; place-items: center; overflow-y: auto; padding-block: calc(24px + env(safe-area-inset-top, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: linear-gradient(180deg, rgba(8,16,26,0.15), rgba(8,16,26,0.55)); }
 .sheet { background: var(--panel); border: 1px solid var(--edge); border-radius: 16px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 24px; width: min(980px, 100%); display: grid; gap: 18px; }
 /* game title: the logo is centered and sits half above the panel's top edge */
-.brand { display: grid; justify-items: center; gap: 6px; text-align: center; margin-top: calc(-24px - 0.62 * clamp(40px, 8.4vw, 88px)); }
+.brand { display: grid; justify-items: center; gap: 6px; text-align: center; margin-top: calc(-40px - 0.62 * clamp(40px, 8.4vw, 88px)); }
+/* The title sits on a wooden park sign: three planks, corner bolts, and grain from stretched SVG noise. */
+.sign { --bolt: 18px; position: relative; padding: 27px 36px 10px; border-radius: 12px; transform: rotate(-1.2deg);
+  background:
+    radial-gradient(circle at var(--bolt) var(--bolt), #e6d6b0 0 2.5px, #6b4a22 3px, #2a1808 4px, transparent 4.6px), radial-gradient(circle at calc(100% - var(--bolt)) var(--bolt), #e6d6b0 0 2.5px, #6b4a22 3px, #2a1808 4px, transparent 4.6px),
+    radial-gradient(circle at var(--bolt) calc(100% - var(--bolt)), #e6d6b0 0 2.5px, #6b4a22 3px, #2a1808 4px, transparent 4.6px), radial-gradient(circle at calc(100% - var(--bolt)) calc(100% - var(--bolt)), #e6d6b0 0 2.5px, #6b4a22 3px, #2a1808 4px, transparent 4.6px),
+    linear-gradient(180deg, transparent 0 calc(33.3% - 1px), rgba(30,14,3,0.75) calc(33.3% - 1px) calc(33.3% + 1px), transparent calc(33.3% + 1px) calc(66.6% - 1px), rgba(30,14,3,0.75) calc(66.6% - 1px) calc(66.6% + 1px), transparent calc(66.6% + 1px)),
+    linear-gradient(180deg, rgba(255,230,190,0.07) 0 33.3%, rgba(0,0,0,0.07) 33.3% 66.6%, rgba(255,230,190,0.03) 66.6%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0035 0.09' numOctaves='4' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 0.22  0 0 0 0 0.12  0 0 0 0 0.04  0 0 0 -2.6 1.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23g%29'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #a86d33, #8a5626 60%, #774820);
+  border: 3px solid #4a2c10;
+  box-shadow: inset 0 2px 0 rgba(255,220,170,0.28), inset 0 -3px 0 rgba(0,0,0,0.28), 0 10px 24px rgba(0,0,0,0.45); }
+.sign h1 { position: relative; }
+@media (max-width: 480px) { .sign { --bolt: 8px; padding: 13px 14px 5px; } .brand .sign h1 { font-size: 30px; } }
+
 #menu { padding-top: calc(72px + env(safe-area-inset-top, 0px)); }
 .brand h1 { margin: 0; font-family: var(--logo); font-weight: 400; font-size: clamp(40px, 8.4vw, 88px); line-height: 1; letter-spacing: 0.02em; white-space: nowrap; filter: drop-shadow(0 3px 0 #0e1822) drop-shadow(0 4px 0 #7a3410) drop-shadow(0 8px 10px rgba(0,0,0,0.35)); }
 .brand h1 span { background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-stroke: 1.5px #0e1822; paint-order: stroke fill; padding-top: 0.08em; }
@@ -251,7 +276,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   <div class="sheet">
     <div class="shared" id="shared" hidden></div>
     <div class="brand">
-      <h1><span class="m">Market</span> <span class="c">Coaster</span></h1>
+      <div class="sign"><h1><span class="m">Market</span> <span class="c">Coaster</span></h1></div>
     </div>
     <section class="session" aria-labelledby="sessH">
       <div class="session-head">
@@ -278,7 +303,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 <path d="M389.474 29.4737H435.789C445.614 29.4737 465.263 37.2631 465.263 55.7894C465.263 74.3157 445.614 79.9999 435.789 79.9999H360V58.9473H435.789V50.5263H389.474C379.649 50.5263 360 42.7368 360 24.2105C360 5.68421 379.649 0 389.474 0H465.263V21.0526H389.474V29.4737Z" fill="currentColor"></path>
 <path d="M172.631 79.9999H138.947L176.842 0H208.421L246.316 79.9999H212.631L193.684 29.4737L172.631 79.9999Z" fill="currentColor"></path>
 <path d="M0 0V79.9999H29.4737V29.4737L52.6316 79.9999H82.1053L105.263 29.4737V79.9999H134.737V0H90.5263L67.3684 50.5263L44.2105 0H0Z" fill="currentColor"></path>
-</svg></a><span class="sep" aria-hidden="true">·</span>Created by <a class="by" href="https://robertcreative.com" target="_blank" rel="noopener">Rob Gourley</a></p>
+</svg></a><span class="sep" aria-hidden="true">·</span>Created by <a class="by" href="https://robertcreative.com" target="_blank" rel="noopener">Rob Gourley</a><span id="aboutLink" hidden><span class="sep" aria-hidden="true">·</span><a class="by" href="about">How it works</a></span></p>
   </div>
   <p class="note legal">Historical prices from finished sessions, never live. For fun only, not financial advice.</p>
 </div>
@@ -377,6 +402,8 @@ const INTRA = JSON.parse(document.getElementById('intraday-data').textContent);
 const SESSION_DATE = new Date(INTRA.date + 'T12:00:00Z');
 // On the hosted site, MC_API points at the bars route, and any ticker and finished session can be fetched.
 const API = window.MC_API || null;
+// The about page lives on the hosted site only, so the link shows only there.
+if (API) document.getElementById('aboutLink').hidden = false;
 const intradayCache = new Map();
 function decodeSession(t0, p0, rows) {
   let prev = p0;
