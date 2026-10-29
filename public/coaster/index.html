@@ -27,6 +27,8 @@
 <meta name="twitter:image" content="https://www.robertcreative.com/images/coaster/og.jpg">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Market Coaster","url":"https://www.robertcreative.com/coaster","image":"https://www.robertcreative.com/images/coaster/og.jpg","description":"A 3D roller coaster built from real market data. Ride famous market moments or any US stock's last session.","gamePlatform":"Web browser","applicationCategory":"Game","isAccessibleForFree":true,"author":{"@type":"Person","name":"Robert Gourley","url":"https://www.robertcreative.com"}}</script>
 <style>[hidden]{display:none!important}body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:14px}img{max-width:100%}</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MC70FP4W2T"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-MC70FP4W2T');</script>
 <script>window.MC_API = '/api/coaster/bars'; window.MC_LOGOS = ["AAPL", "ADBE", "AMC", "AMD", "AMZN", "ARM", "AVGO", "BA", "BRK.B", "COIN", "COST", "DIS", "GME", "GOOGL", "HOOD", "INTC", "JNJ", "JPM", "KO", "LLY", "MA", "MCD", "META", "MSFT", "MSTR", "MU", "NFLX", "NKE", "NVDA", "ORCL", "PLTR", "RIVN", "SBUX", "SHOP", "SMCI", "SNOW", "SOFI", "TSLA", "UBER", "UNH", "V", "WMT", "XOM"];</script>
 </head>
 <body>
@@ -2575,6 +2577,7 @@ function trackDrops(tr) {
 
 function finishRide() {
   if (state.mode !== 'riding') return;
+  trackRideEnd('finished');
   state.mode = 'done';
   // the results card sits over cinema shots of the parked train; the viewer's own view comes back on the next ride
   state.endView = state.view;
@@ -2729,6 +2732,20 @@ const endLook = (e) => { look.dragging = false; if (canvas.hasPointerCapture(e.p
 canvas.addEventListener('pointerup', endLook);
 canvas.addEventListener('pointercancel', endLook);
 
+// ---------- analytics ----------
+// The hosted page loads Google Analytics and defines gtag. The artifact does not, so track does nothing there.
+// rideSource tells ride_start where the ride came from: a card, a chip, search, a share link or the Ride again button.
+let rideSource = 'card';
+function track(name, params) {
+  if (typeof window.gtag === 'function') window.gtag('event', name, params);
+}
+const VIEW_NAMES = ['rider', 'chase', 'cinema'];
+const rideKind = (r) => (r.id.startsWith('i-') ? (r.crypto ? 'crypto' : 'session') : 'famous');
+function trackRideEnd(how) {
+  const r = state.ride;
+  track('ride_end', { ride_id: shareToken(r), ticker: r.label, how, progress: Math.round((100 * state.s) / state.tr.len), seconds: Math.round(state.rideTime), transport_type: 'beacon' });
+}
+
 // ---------- UI ----------
 function setView(v) {
   state.view = v;
@@ -2741,6 +2758,12 @@ function setView(v) {
 function cycleSeat() {
   state.seat = (state.seat + 1) % CARS;
   if (state.view !== VIEW.RIDER) setView(VIEW.RIDER);
+  track('camera', { view: 'rider', seat: state.seat + 1 });
+}
+// the viewer picks a camera with a button or a key
+function chooseView(v) {
+  setView(v);
+  track('camera', { view: VIEW_NAMES[v], seat: state.seat + 1 });
 }
 function setPaused(p) {
   state.paused = p;
@@ -2763,6 +2786,7 @@ function startRide(ride) {
   $('shareRow').hidden = true;
   $('hud').hidden = false;
   syncUrl(ride);
+  track('ride_start', { ride_id: shareToken(ride), ticker: ride.label, ride_kind: rideKind(ride), source: rideSource });
 }
 // On the hosted site the address bar shows the ride's share link, so a reload or a copied URL opens the same ride.
 // The menu shows the plain page URL. The artifact runs in a frame and does not change its URL.
@@ -2774,6 +2798,7 @@ function syncUrl(ride) {
   document.title = ride ? `${ride.label}: ${ride.name} | Market Coaster` : 'Market Coaster: ride a real stock chart as a roller coaster';
 }
 function openMenu() {
+  if (state.mode === 'riding') trackRideEnd('left');
   requestAnimationFrame(updateCarouselNav);
   state.mode = 'menu';
   resetRide();
@@ -2813,7 +2838,7 @@ function buildCards() {
     card.className = 'card';
     card.innerHTML = `<span class="tk" style="color:${r.color}">${r.label}</span><span class="nm">${r.name}</span><span class="rg">${r.range}</span><canvas></canvas><span class="bl">${r.blurb}</span>
       <span class="st"><span>Peak ${fmtPct(pk.c / b0.c - 1)}</span><span style="color:var(--down)">DD ${fmtPct(r.maxDD)}</span></span>`;
-    card.addEventListener('click', () => startRide(r));
+    card.addEventListener('click', () => { rideSource = 'card'; startRide(r); });
     wrap.appendChild(card);
     sparkObserver.observe(card.querySelector('canvas'));
     sparkRides.set(card.querySelector('canvas'), r);
@@ -2884,7 +2909,7 @@ function buildSession() {
     b.className = 'chip-btn';
     b.title = `${m.act.legs === null ? '' : `${m.act.legs} big swings, `}${(m.act.range * 100).toFixed(1)}% high to low`;
     b.innerHTML = `<b>${m.sym}</b>${moveSpan(m.move)}<span class="mv rng">↕${(m.act.range * 100).toFixed(1)}%</span>`;
-    b.addEventListener('click', () => rideSessionTicker(m.sym));
+    b.addEventListener('click', () => { rideSource = 'chip'; rideSessionTicker(m.sym); });
     wrap.appendChild(b);
   });
 }
@@ -2963,18 +2988,29 @@ function renderList() {
     b.className = 'opt' + (k === symActive ? ' active' : '');
     b.setAttribute('role', 'option');
     b.innerHTML = `<b>${isCrypto(h.sym) ? cryptoLabel(h.sym) : h.sym}</b><span>${h.name}</span>${h.move === null ? '<span></span>' : moveSpan(h.move)}`;
-    b.addEventListener('click', () => rideSessionTicker(h.sym));
+    b.addEventListener('click', () => { rideSource = 'search'; rideSessionTicker(h.sym); });
     list.appendChild(b);
   });
   return hits;
 }
-$('sym').addEventListener('input', () => { symActive = 0; renderList(); });
+// One search event goes out after the viewer stops typing, so partial words like "app" for "apple" are not counted.
+// The term is cut to 40 characters, which keeps ticker and company names and drops long pasted text.
+let searchTimer = 0;
+$('sym').addEventListener('input', () => {
+  symActive = 0;
+  renderList();
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    const q = $('sym').value.trim();
+    if (q.length >= 2) track('search', { search_term: q.slice(0, 40), results: options(q).length });
+  }, 1500);
+});
 $('sym').addEventListener('keydown', (e) => {
   if (e.key === 'ArrowDown') { symActive++; renderList(); e.preventDefault(); }
   else if (e.key === 'ArrowUp') { symActive--; renderList(); e.preventDefault(); }
   else if (e.key === 'Enter') {
     const hits = options($('sym').value);
-    if (hits[symActive]) rideSessionTicker(hits[symActive].sym);
+    if (hits[symActive]) { rideSource = 'search'; rideSessionTicker(hits[symActive].sym); }
   }
   e.stopPropagation();
 });
@@ -2983,7 +3019,7 @@ $('sym').addEventListener('keydown', (e) => {
 document.querySelectorAll('[data-view]').forEach((b) => b.addEventListener('click', () => {
   const v = Number(b.dataset.view);
   if (v === VIEW.RIDER && state.view === VIEW.RIDER) cycleSeat();
-  else setView(v);
+  else chooseView(v);
 }));
 $('bPause').addEventListener('click', () => setPaused(!state.paused));
 $('bFast').addEventListener('click', cycleFast);
@@ -3011,8 +3047,12 @@ function setMuted(m) {
   try { localStorage.setItem('mc-muted', m ? '1' : '0'); } catch (err) { /* storage is optional */ }
   if (!m && music.paused && state.mode === 'riding') music.play().catch((err) => console.warn('music did not start', err));
 }
-$('bMute').addEventListener('click', () => setMuted(!music.muted));
-$('menuSound').addEventListener('click', () => setMuted(!music.muted));
+function toggleSound(where) {
+  setMuted(!music.muted);
+  track('sound', { sound: music.muted ? 'off' : 'on', where });
+}
+$('bMute').addEventListener('click', () => toggleSound('ride'));
+$('menuSound').addEventListener('click', () => toggleSound('menu'));
 $('bUnits').addEventListener('click', toggleUnits);
 $('rUnits').addEventListener('click', toggleUnits);
 showUnits();
@@ -3095,7 +3135,7 @@ function toggleBare() {
 $('bMin').addEventListener('click', () => setCollapsed(!$('daycard').classList.contains('collapsed')));
 $('bHud').addEventListener('click', toggleBare);
 try { setCollapsed(localStorage.getItem('mc-collapsed') === '1'); } catch (err) { setCollapsed(false); }
-$('bAgain').addEventListener('click', () => startRide(state.ride));
+$('bAgain').addEventListener('click', () => { rideSource = 'again'; startRide(state.ride); });
 $('bOther').addEventListener('click', openMenu);
 
 // ---------- share links ----------
@@ -3135,7 +3175,9 @@ async function copyText(text) {
 // Mid-ride sharing: phones open the system share sheet, and other devices copy the link.
 async function shareFromRide() {
   const url = shareUrl(state.ride);
-  if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+  const native = Boolean(navigator.share && matchMedia('(pointer: coarse)').matches);
+  track('share', { method: native ? 'native' : 'copy', content_type: 'ride', item_id: shareToken(state.ride), where: 'ride' });
+  if (native) {
     try { await navigator.share({ title: `${state.ride.label} · Market Coaster`, url }); } catch (err) { if (err.name !== 'AbortError') console.warn('share failed', err); }
     return;
   }
@@ -3178,9 +3220,12 @@ function unlockSound() {
 window.addEventListener('hashchange', () => location.reload());
 window.addEventListener('pointerdown', unlockSound, { once: true });
 window.addEventListener('keydown', unlockSound, { once: true });
+// a viewer who closes the tab mid-ride still sends ride_end, so short rides show up as drop-offs
+window.addEventListener('pagehide', () => { if (state.mode === 'riding') trackRideEnd('closed'); });
 $('bShareRide').addEventListener('click', shareFromRide);
 $('bShare').addEventListener('click', async () => {
   const url = shareUrl(state.ride);
+  track('share', { method: 'copy', content_type: 'ride', item_id: shareToken(state.ride), where: 'results' });
   const input = $('shareLink');
   input.value = url;
   $('shareRow').hidden = false;
@@ -3197,8 +3242,8 @@ window.addEventListener('keydown', (e) => {
   if (state.view === VIEW.CINE && PAN_KEYS[k]) { takeControl(); panKeys.add(k); e.preventDefault(); return; }
   if (state.view === VIEW.CINE && (k === 'q' || k === 'e')) { takeControl(); state.parkAng += (k === 'e' ? 1 : -1) * (Math.PI / 2); return; }
   if (k === 't') { state.cineManual = false; cine.shot = ''; return; }
-  if (e.key === '1' || e.key === '2' || e.key === '3') setView(Number(e.key) - 1);
-  else if (e.key === 'v' || e.key === 'V') setView((state.view + 1) % 3);
+  if (e.key === '1' || e.key === '2' || e.key === '3') chooseView(Number(e.key) - 1);
+  else if (e.key === 'v' || e.key === 'V') chooseView((state.view + 1) % 3);
   else if (e.key === ' ') { e.preventDefault(); setPaused(!state.paused); }
   else if (e.key === 'f' || e.key === 'F') cycleFast();
   else if (e.key === 'r' || e.key === 'R') resetRide();
@@ -3240,6 +3285,7 @@ async function boot() {
   }
   $('loading').hidden = true;
   if (shared && shared.ride) {
+    rideSource = 'share';
     startRide(shared.ride);
     $('soundChip').hidden = music.muted;
   }
