@@ -2805,9 +2805,6 @@ function options(q) {
     if (!out.some((o) => o.sym === r.ticker)) out.push({ sym: r.ticker, name: r.name, move: null });
   }
   const typed = q.trim().toUpperCase();
-  // a symbol the search does not know is still worth one try, so offer it when nothing matched
-  const searched = remoteHits.has(q.trim().toLowerCase()) || q.trim().length < 2;
-  if (!out.length && searched && /^[A-Z][A-Z0-9.]{0,9}$/.test(typed)) out.push({ sym: typed, name: `Try ${typed} for the ${fmtShort(SESSION_DATE)} session`, move: null });
   out.sort((a, b) => (b.sym === typed) - (a.sym === typed));
   return out.slice(0, 8);
 }
@@ -2819,7 +2816,8 @@ function renderList() {
   symActive = clamp(symActive, 0, Math.max(0, hits.length - 1));
   list.hidden = !q.trim();
   const waiting = API && q.trim().length >= 2 && !remoteHits.has(q.trim().toLowerCase());
-  list.innerHTML = hits.length ? '' : `<div class="opt"><span>${waiting ? 'Searching…' : API ? 'No matching ticker' : 'No match in this session’s list'}</span></div>`;
+  list.innerHTML = hits.length ? '' : '<div class="opt"><span></span></div>';
+  if (!hits.length) list.querySelector('span').textContent = waiting ? 'Searching…' : API ? `No stock or coin matches “${q.trim()}”` : 'No match in this session’s list';
   hits.forEach((h, k) => {
     const b = document.createElement('button');
     b.className = 'opt' + (k === symActive ? ' active' : '');
