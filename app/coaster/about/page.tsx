@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "How Market Coaster works",
     description: PAGE_DESCRIPTION,
     url: PAGE_PATH,
-    siteName: "Robert Gourley",
+    siteName: "Market Coaster",
     type: "website",
     locale: "en_US",
     images: [{ url: `${SITE_URL}${OG_IMAGE}`, width: 1200, height: 630, alt: OG_IMAGE_ALT }],

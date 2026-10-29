@@ -31,7 +31,8 @@ async function companyName(ticker: string): Promise<string | null> {
   const res = await fetch(`${MASSIVE}/v3/reference/tickers/${encodeURIComponent(ticker)}`, { headers: { Authorization: `Bearer ${apiKey}` }, cache: "no-store" });
   if (!res.ok) return null;
   const body = (await res.json().catch(() => ({}))) as { results?: { name?: string } };
-  return body.results?.name?.replace(/ - United States dollar$/i, "") ?? null;
+  // "Akari Therapeutics plc ADR (0.01 USD)" carries a share-class detail that does not belong in a share title
+  return body.results?.name?.replace(/ - United States dollar$/i, "").replace(/\s*\([^)]*\)$/, "") ?? null;
 }
 
 // A crypto ride (X:BTCUSD) is one ET calendar day. A stock ride is the regular session.
