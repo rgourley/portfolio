@@ -2683,25 +2683,32 @@ function buildCards() {
       <span class="st"><span>Peak ${fmtPct(pk.c / b0.c - 1)}</span><span style="color:var(--down)">DD ${fmtPct(r.maxDD)}</span></span>`;
     card.addEventListener('click', () => startRide(r));
     wrap.appendChild(card);
-    requestAnimationFrame(() => {
-      const c = card.querySelector('canvas');
-      const dpr = Math.min(window.devicePixelRatio, 2);
-      const W = c.clientWidth, H = c.clientHeight;
-      c.width = W * dpr; c.height = H * dpr;
-      const g = c.getContext('2d');
-      g.scale(dpr, dpr);
-      let lo = Infinity, hi = -Infinity;
-      r.bars.forEach((b) => { lo = Math.min(lo, b.c); hi = Math.max(hi, b.c); });
-      g.strokeStyle = r.color;
-      g.lineWidth = 1.6;
-      g.beginPath();
-      r.bars.forEach((b, i) => {
-        const x = (i / (r.bars.length - 1)) * W, y = H - 3 - ((b.c - lo) / (hi - lo)) * (H - 6);
-        i ? g.lineTo(x, y) : g.moveTo(x, y);
-      });
-      g.stroke();
-    });
+    sparkObserver.observe(card.querySelector('canvas'));
+    sparkRides.set(card.querySelector('canvas'), r);
   });
+}
+// A sparkline draws when its canvas has a size. The menu can still be hidden when the cards are built,
+// so a ResizeObserver draws each one when it first gets a size, and again after a resize.
+const sparkRides = new Map();
+const sparkObserver = new ResizeObserver((entries) => {
+  for (const e of entries) if (e.contentRect.width > 0) drawSpark(e.target, sparkRides.get(e.target));
+});
+function drawSpark(c, r) {
+  const dpr = Math.min(window.devicePixelRatio, 2);
+  const W = c.clientWidth, H = c.clientHeight;
+  c.width = W * dpr; c.height = H * dpr;
+  const g = c.getContext('2d');
+  g.scale(dpr, dpr);
+  let lo = Infinity, hi = -Infinity;
+  r.bars.forEach((b) => { lo = Math.min(lo, b.c); hi = Math.max(hi, b.c); });
+  g.strokeStyle = r.color;
+  g.lineWidth = 1.6;
+  g.beginPath();
+  r.bars.forEach((b, i) => {
+    const x = (i / (r.bars.length - 1)) * W, y = H - 3 - ((b.c - lo) / (hi - lo)) * (H - 6);
+    i ? g.lineTo(x, y) : g.moveTo(x, y);
+  });
+  g.stroke();
 }
 
 // ---------- symbol search over the baked session ----------
