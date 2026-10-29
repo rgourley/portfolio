@@ -421,12 +421,17 @@ function decodeSession(t0, p0, rows) {
     return { date: new Date((t0 + m * 60) * 1000), o: o / 100, h: h / 100, l: l / 100, c: c / 100, v };
   });
 }
+// US stocks close at 4:00 PM ET, or at 1:00 PM ET on early-close days such as the day after Thanksgiving.
+// A session whose last bar is at or before 1:00 PM is an early close. The close is never read from a thin stock's last trade.
+const EARLY_CLOSE_MIN = 210, CLOSE_MIN = 390;
+const sessionClose = (t0, rows) => new Date((t0 + (rows[rows.length - 1][0] <= EARLY_CLOSE_MIN ? EARLY_CLOSE_MIN : CLOSE_MIN) * 60) * 1000);
 function sessionRide(sym, date, t0, p0, rows) {
   const key = `${sym}:${date}`;
   if (!intradayCache.has(key)) {
+    const close = sessionClose(t0, rows);
     intradayCache.set(key, finishPrep({
-      id: 'i-' + sym, label: sym, name: (INTRA.tickers[sym] || {}).name || sym, sessionDate: date,
-      range: `${fmtShort(new Date(date + 'T12:00:00Z'))}, 9:30 to 4:00 ET`, unit: 'sh', color: '#ffd166', ...RIDE_FMT.time,
+      id: 'i-' + sym, label: sym, name: (INTRA.tickers[sym] || {}).name || sym, sessionDate: date, sessionClose: close,
+      range: `${fmtShort(new Date(date + 'T12:00:00Z'))}, 9:30 to ${fmtTime(close).replace(/ [AP]M ET$/, '')} ET`, unit: 'sh', color: '#ffd166', ...RIDE_FMT.time,
     }, decodeSession(t0, p0, rows)));
   }
   return intradayCache.get(key);
@@ -1663,7 +1668,7 @@ function buildWorld(ride, tr) {
   }
   if (ride.session) {
     floatSign(first, ['MARKET OPEN', `${fmtP(b0.o)} · ${fmtMD(b0.date)}, 9:30 AM ET`], '#3ddc84');
-    floatSign(last, ['MARKET CLOSE', `${fmtP(bN.c)} · ${fmtMD(bN.date)}, 4:00 PM ET`], '#ff5a5f');
+    floatSign(last, ['MARKET CLOSE', `${fmtP(bN.c)} · ${fmtMD(bN.date)}, ${ride.sessionClose ? fmtTime(ride.sessionClose) : '4:00 PM ET'}`], '#ff5a5f');
   } else {
     const word = ride.kind === 'daily' ? 'DAY' : 'BAR';
     floatSign(first, [`FIRST ${word}`, `${fmtP(b0.o)} · ${ride.whenShort(b0.date)}`], '#3ddc84');
