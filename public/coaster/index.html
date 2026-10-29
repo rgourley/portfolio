@@ -1748,8 +1748,15 @@ function carColor(ride) {
   for (const ch of ride.sym) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
   return new THREE.Color(CAR_COLORS[h % CAR_COLORS.length]);
 }
+// The ride colors are light, for text on dark panels. Train paint is deep and glossy, so the hue stays and the color deepens.
+// A near-white color stays white, as on many real trains, but a little darker so it does not glare from the front seat.
+function paintColor(c) {
+  const hsl = c.getHSL({ h: 0, s: 0, l: 0 });
+  if (hsl.s < 0.15) return new THREE.Color().setHSL(hsl.h, hsl.s, Math.min(hsl.l, 0.78));
+  return new THREE.Color().setHSL(hsl.h, Math.max(hsl.s, 0.78), clamp(hsl.l, 0.3, 0.44));
+}
 function paintCars(ride) {
-  const c = carColor(ride);
+  const c = paintColor(carColor(ride));
   CAR_PAINT.body.color.copy(c);
   // a light body hides the gold stripe, so it gets a dark one
   const hsl = c.getHSL({ h: 0, s: 0, l: 0 });
