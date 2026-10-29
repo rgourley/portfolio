@@ -39,6 +39,7 @@ export const metadata: Metadata = {
   publisher: "Robert Gourley",
   category: "games",
   alternates: { canonical: PAGE_PATH },
+  icons: { icon: "/coaster/favicon.svg", apple: "/coaster/apple-touch-icon.png" },
   openGraph: {
     title: "How Market Coaster works",
     description: PAGE_DESCRIPTION,
