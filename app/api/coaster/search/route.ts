@@ -20,6 +20,10 @@ const RIDEABLE = new Set(["CS", "ETF", "ETN", "ETS", "ADRC", "PFD", "FUND"]);
 const DAY = "public, s-maxage=86400, stale-while-revalidate=604800";
 // Coins pegged to a currency, by base symbol: USDT, PYUSD, DAI, EURC and the like.
 const STABLE = /^(USD[A-Z0-9]*|[A-Z0-9]*USD|DAI|EUR[A-Z]?|VEUR|VCHF|XSGD|GYEN|CNHT|MXNT|UST|USTBL)$/;
+// Well-known names that Massive's search cannot match, because the listing uses the legal name or a parent company.
+const NICKNAMES: Record<string, string> = {
+  spacex: "SPCX", facebook: "META", instagram: "META", whatsapp: "META", google: "GOOGL", youtube: "GOOGL", coke: "KO",
+};
 // A crypto ride is one day of 1-minute bars and needs at least 200 of them. Coins with 1,000 trades in a day
 // fill about 250 minutes or more, and coins near 500 trades often fall short.
 const MIN_TRADES = 1000;
@@ -38,6 +42,19 @@ async function activeCoins(apiKey: string): Promise<Set<string>> {
   const active = new Set((body.results ?? []).filter((b) => b.n >= MIN_TRADES).map((b) => b.T));
   coinDay = { date, active };
   return active;
+}
+
+// The listing behind a nickname, like SPCX for "spacex". It comes first in the results.
+async function nicknameMatch(q: string, apiKey: string): Promise<TickerRef | null> {
+  const ticker = NICKNAMES[q];
+  if (!ticker) return null;
+  const res = await fetch(`${MASSIVE}/v3/reference/tickers/${encodeURIComponent(ticker)}`, { headers: { Authorization: `Bearer ${apiKey}` }, cache: "no-store" });
+  const body = (await res.json().catch(() => ({}))) as { status?: string; results?: TickerRef };
+  if (!res.ok || body.status !== "OK" || !body.results) {
+    console.error(JSON.stringify({ event: "coaster_nickname_failed", q, ticker, status: res.status }));
+    return null;
+  }
+  return body.results;
 }
 
 // Lower ranks first. Inside a tier, a closer match wins: "apple" beats "applied" for "appl",
@@ -71,13 +88,14 @@ export async function GET(request: Request): Promise<NextResponse> {
     return { ...body, ok: res.ok && body.status === "OK", code: res.status };
   };
   // When the day's trade counts do not load, search shows no coins rather than coins that may ride empty.
-  const [stocks, crypto, coins] = await Promise.all([
+  const [stocks, crypto, coins, nickname] = await Promise.all([
     lookup("stocks"),
     lookup("crypto"),
     activeCoins(apiKey).catch((err: Error) => {
       console.error(JSON.stringify({ event: "coaster_coin_activity_failed", error: err.message }));
       return new Set<string>();
     }),
+    nicknameMatch(q, apiKey),
   ]);
   if (!stocks.ok && !crypto.ok) {
     console.error(JSON.stringify({ event: "coaster_search_failed", q, stocks: stocks.code, crypto: crypto.code }));
@@ -90,8 +108,8 @@ export async function GET(request: Request): Promise<NextResponse> {
       .filter((m) => CRYPTO_TICKER.test(m.ticker) && !STABLE.test(m.ticker.slice(2, -3)) && coins.has(m.ticker))
       .map((m) => ({ ...m, market: "crypto" })),
   ];
-  const results: Match[] = found
-    .sort((a, b) => rank(q, a) - rank(q, b))
+  const ranked = found.sort((a, b) => rank(q, a) - rank(q, b));
+  const results: Match[] = (nickname ? [nickname, ...ranked.filter((m) => m.ticker !== nickname.ticker)] : ranked)
     .slice(0, 8)
     .map((m) => ({ ticker: m.ticker, name: (m.name ?? m.ticker).replace(/ - United States dollar$/i, "") }));
   return NextResponse.json({ results }, { headers: { "Cache-Control": DAY } });
