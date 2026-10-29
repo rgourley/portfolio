@@ -2093,9 +2093,11 @@ function physics(h) {
   state.launching = false;
   if (sec === SEC.BRAKE) {
     const left = tr.len - state.s;
-    // brake at 3.5 m/s² down to a stopping curve, then follow the curve, which reaches zero 3 m before the buffer stop
+    // brake at 3.5 m/s² down to a stopping curve, then follow the curve, which reaches zero 3 m before the buffer stop.
+    // A fast train brakes harder, so it always stops in the track that is left.
     const stopCurve = Math.sqrt(2 * 1.6 * Math.max(0, left - 3));
-    v = v > stopCurve ? Math.max(stopCurve, v - 3.5 * h) : stopCurve;
+    const decel = Math.max(3.5, (v * v) / (2 * Math.max(0.5, left - 3)));
+    v = v > stopCurve ? Math.max(stopCurve, v - decel * h) : stopCurve;
   } else if (tr.elem[F0.i] >= 0) {
     // A slow train must never stall upside down. A hidden booster holds the speed that a loop top needs.
     v = Math.max(v, Math.sqrt(GRAV * LOOP_R) + 1);
@@ -2109,7 +2111,8 @@ function physics(h) {
     v = Math.min(CRUISE_V, v + 4 * h);
   }
   state.v = Math.max(0, v);
-  state.s = Math.min(tr.len - 0.01, state.s + state.v * h);
+  // the lead car's nose reaches 1.6 m ahead of its centre, so the train never goes past 3 m before the buffer stop
+  state.s = Math.min(tr.len - 3, state.s + state.v * h);
   if (sec === SEC.BRAKE && state.v < 0.05) finishRide();
 }
 
@@ -2759,6 +2762,16 @@ function startRide(ride) {
   $('done').hidden = true;
   $('shareRow').hidden = true;
   $('hud').hidden = false;
+  syncUrl(ride);
+}
+// On the hosted site the address bar shows the ride's share link, so a reload or a copied URL opens the same ride.
+// The menu shows the plain page URL. The artifact runs in a frame and does not change its URL.
+function syncUrl(ride) {
+  if (!API) return;
+  const tok = ride ? shareToken(ride) : '';
+  const url = tok ? `/coaster/r/${tok}#${tok}` : '/coaster';
+  if (location.pathname + location.hash !== url) history.replaceState(null, '', url);
+  document.title = ride ? `${ride.label}: ${ride.name} | Market Coaster` : 'Market Coaster: ride a real stock chart as a roller coaster';
 }
 function openMenu() {
   requestAnimationFrame(updateCarouselNav);
@@ -2769,6 +2782,7 @@ function openMenu() {
   // the search list can still hold a "Loading" row from the last ride, so the menu always opens with it closed
   $('symList').hidden = true;
   $('menu').hidden = false;
+  syncUrl(null);
 }
 
 function updateCarouselNav() {
