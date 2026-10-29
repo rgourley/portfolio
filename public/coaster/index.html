@@ -224,7 +224,20 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .shared b { font-family: var(--display); font-weight: 400; }
 .btn.primary { background: var(--gold); color: #1c1606; border-color: var(--gold); }
 
-#loading { position: fixed; inset: 0; display: grid; place-items: center; font-family: var(--display); font-size: 22px; color: #0e1822; }
+/* The loading screen shows the park sign and a small car that rides a chart-shaped track.
+   It covers the page while the park builds and while a ticker's bars load. */
+#loading { position: fixed; inset: 0; z-index: 10; display: grid; place-content: center; justify-items: center; gap: 26px; padding: 16px; background: linear-gradient(180deg, #9fd8ff 0%, #c9ecff 62%, #e8f6ff 100%); }
+#loading .brand { margin-top: 0; }
+.load-ride { position: relative; width: 300px; height: 96px; }
+@media (min-width: 560px) { .load-ride { transform: scale(1.25); margin: 12px 0; } }
+.load-ride svg { position: absolute; inset: 0; overflow: visible; }
+.load-ride .load-rail { fill: none; stroke: #0e1822; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.load-ride .load-tie { fill: none; stroke: #e8f6ff; stroke-width: 1.5; stroke-dasharray: 2 7; }
+.load-car { position: absolute; left: 0; top: 0; width: 26px; height: 12px; border-radius: 4px 7px 3px 3px; background: linear-gradient(180deg, #ff5a68 0%, #d62839 60%, #9c1626 100%); box-shadow: inset 0 -3px 0 #ffd166, 0 2px 0 #0e1822;
+  offset-path: path('M6 78 C30 78 40 30 66 30 S96 70 120 64 C150 56 150 14 170 14 C190 14 196 46 178 50 C160 54 160 22 190 20 C220 18 232 78 256 72 S282 40 296 34'); offset-rotate: auto; offset-anchor: 50% 100%; animation: ride 2.6s cubic-bezier(.45,.05,.55,.95) infinite; }
+@keyframes ride { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+#loadMsg { margin: 0; font: 600 15px var(--body); color: #0e1822; min-height: 1.4em; text-align: center; }
+@media (prefers-reduced-motion: reduce) { .load-car { animation: none; offset-distance: 52%; } }
 
 @media (max-width: 720px) {
   .daycard { width: 180px; }
@@ -236,7 +249,17 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 <canvas id="gl"></canvas>
 <audio id="music" src="music.mp4" loop preload="none"></audio>
-<div id="loading">Building the park…</div>
+<div id="loading" role="status" aria-live="polite">
+  <div class="brand"><div class="sign"><h1><span class="m">Market</span> <span class="c">Coaster</span></h1></div></div>
+  <div class="load-ride" aria-hidden="true">
+    <svg viewBox="0 0 300 96" width="300" height="96">
+      <path class="load-rail" d="M6 78 C30 78 40 30 66 30 S96 70 120 64 C150 56 150 14 170 14 C190 14 196 46 178 50 C160 54 160 22 190 20 C220 18 232 78 256 72 S282 40 296 34"/>
+      <path class="load-tie" d="M6 78 C30 78 40 30 66 30 S96 70 120 64 C150 56 150 14 170 14 C190 14 196 46 178 50 C160 54 160 22 190 20 C220 18 232 78 256 72 S282 40 296 34"/>
+    </svg>
+    <div class="load-car"></div>
+  </div>
+  <p id="loadMsg">Building the park…</p>
+</div>
 
 <div id="hud" hidden>
   <div class="panel ride-tag">
@@ -2068,7 +2091,7 @@ function showDay(i) {
 let bannerTimer = 0;
 function banner(b, up) {
   const el = $('banner');
-  el.innerHTML = `${fmtPct(b.ret)}<small>${state.ride.when(b.date)} · closed ${fmtP(b.c)}</small>`;
+  el.innerHTML = `${fmtPct(b.ret)}<small>${state.ride.when(b.date)} · ${fmtP(b.c)}</small>`;
   el.className = 'show ' + (up ? 'up' : 'down');
   clearTimeout(bannerTimer);
   bannerTimer = setTimeout(() => { el.className = up ? 'up' : 'down'; }, 2200);
@@ -2813,18 +2836,26 @@ function rideSessionTicker(sym) {
   if (hasBars(sym)) startRide(intradayRide(sym));
   else rideAnyTicker(sym);
 }
+// The loading screen covers the page while a ride's bars load.
+function showLoading(text) {
+  $('loadMsg').textContent = text;
+  $('loading').hidden = false;
+}
+const loadingText = (sym, date) => `Loading ${isCrypto(sym) ? cryptoLabel(sym) : sym}, ${fmtShort(new Date(date + 'T12:00:00Z'))}…`;
 async function rideAnyTicker(sym) {
   const list = $('symList');
-  list.hidden = false;
-  list.innerHTML = `<div class="opt"><span>Loading ${sym}…</span></div>`;
+  const date = isCrypto(sym) ? cryptoDate() : INTRA.date;
+  list.hidden = true;
+  showLoading(loadingText(sym, date));
   try {
-    const ride = await fetchSessionRide(sym, isCrypto(sym) ? cryptoDate() : INTRA.date);
-    list.hidden = true;
+    const ride = await fetchSessionRide(sym, date);
     list.innerHTML = '';
     startRide(ride);
   } catch (err) {
+    list.hidden = false;
     list.innerHTML = `<div class="opt"><span>${err.message}</span></div>`;
   }
+  $('loading').hidden = true;
 }
 // On the hosted site, search also asks the search route, which matches any ticker's symbol or company name.
 const remoteHits = new Map();
@@ -3131,10 +3162,11 @@ async function boot() {
   const shared = readShareToken();
   loadRide(shared && shared.ride ? shared.ride : RIDES[0]);
   buildCards();
+  if (API) $('loadMsg').textContent = 'Checking the latest session…';
   await loadLatestSession();
   buildSession();
   if (shared && shared.fetch) {
-    $('loading').textContent = `Loading ${shared.fetch.sym}…`;
+    $('loadMsg').textContent = loadingText(shared.fetch.sym, shared.fetch.date);
     try {
       const r = await fetchSessionRide(shared.fetch.sym, shared.fetch.date);
       loadRide(r);
@@ -3145,7 +3177,7 @@ async function boot() {
       $('shared').hidden = false;
     }
   }
-  $('loading').remove();
+  $('loading').hidden = true;
   if (shared && shared.ride) {
     startRide(shared.ride);
     $('soundChip').hidden = music.muted;
