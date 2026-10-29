@@ -384,7 +384,7 @@ function gauss(arr, sigma) {
   });
 }
 
-const fmtP = (p) => '$' + (p >= 1000 ? Math.round(p).toLocaleString('en-US') : p.toFixed(2));
+const fmtP = (p) => '$' + (p >= 1000 ? Math.round(p).toLocaleString('en-US') : p >= 1 ? p.toFixed(2) : p.toPrecision(3));
 const fmtPct = (x) => (x >= 0 ? '+' : '−') + Math.abs(x * 100).toFixed(1) + '%';
 const fmtVol = (v) => v >= 1e9 ? (v / 1e9).toFixed(2) + 'B' : v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? (v / 1e3).toFixed(1) + 'K' : String(Math.round(v));
 const fmtDate = (d) => d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
@@ -416,26 +416,43 @@ const API = window.MC_API || null;
 // The about page lives on the hosted site only, so the link shows only there.
 if (API) document.getElementById('aboutLink').hidden = false;
 const intradayCache = new Map();
-function decodeSession(t0, p0, rows) {
+// Prices arrive as integers in units of 1/scale dollars. Stocks use cents or finer, and cheap coins use more decimal places.
+function decodeSession(t0, p0, rows, scale = 100) {
   let prev = p0;
   return rows.map(([m, dO, dH, dL, dC, v]) => {
     const o = prev + dO, c = o + dC, h = Math.max(o, c) + dH, l = Math.min(o, c) - dL;
     prev = c;
-    return { date: new Date((t0 + m * 60) * 1000), o: o / 100, h: h / 100, l: l / 100, c: c / 100, v };
+    return { date: new Date((t0 + m * 60) * 1000), o: o / scale, h: h / scale, l: l / scale, c: c / scale, v };
   });
 }
+// Crypto tickers look like X:BTCUSD. A crypto ride is the last finished ET calendar day, midnight to midnight,
+// on a longer track, because the market never closes and the day is 24 hours instead of 6.5.
+const isCrypto = (sym) => sym.startsWith('X:');
+const cryptoLabel = (sym) => `${sym.slice(2, -3)}/USD`;
+const CRYPTO_TRACK = 2600;
+const ET_DAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' });
+function cryptoDate() {
+  const today = ET_DAY.format(new Date(Date.now() - 20 * 60 * 1000));
+  return new Date(Date.parse(today + 'T12:00:00Z') - 86400 * 1000).toISOString().slice(0, 10);
+}
+// names from search results, so a ride outside the baked list still shows the company or coin name
+const tickerNames = new Map();
 // US stocks close at 4:00 PM ET, or at 1:00 PM ET on early-close days such as the day after Thanksgiving.
 // A session whose last bar is at or before 1:00 PM is an early close. The close is never read from a thin stock's last trade.
 const EARLY_CLOSE_MIN = 210, CLOSE_MIN = 390;
 const sessionClose = (t0, rows) => new Date((t0 + (rows[rows.length - 1][0] <= EARLY_CLOSE_MIN ? EARLY_CLOSE_MIN : CLOSE_MIN) * 60) * 1000);
-function sessionRide(sym, date, t0, p0, rows) {
+function sessionRide(sym, date, t0, p0, rows, scale = 100) {
   const key = `${sym}:${date}`;
   if (!intradayCache.has(key)) {
-    const close = sessionClose(t0, rows);
-    intradayCache.set(key, finishPrep({
-      id: 'i-' + sym, label: sym, name: (INTRA.tickers[sym] || {}).name || sym, sessionDate: date, sessionClose: close,
-      range: `${fmtShort(new Date(date + 'T12:00:00Z'))}, 9:30 to ${fmtTime(close).replace(/ [AP]M ET$/, '')} ET`, unit: 'sh', color: '#ffd166', ...RIDE_FMT.time,
-    }, decodeSession(t0, p0, rows)));
+    const day = fmtShort(new Date(date + 'T12:00:00Z'));
+    const name = tickerNames.get(sym) || (INTRA.tickers[sym] || {}).name || sym;
+    const meta = isCrypto(sym)
+      ? { id: 'i-' + sym, sym, crypto: true, label: cryptoLabel(sym), name, sessionDate: date, range: `${day}, midnight to midnight ET`, unit: sym.slice(2, -3), trackLen: CRYPTO_TRACK, color: '#f7931a', ...RIDE_FMT.time }
+      : (() => {
+        const close = sessionClose(t0, rows);
+        return { id: 'i-' + sym, sym, label: sym, name, sessionDate: date, sessionClose: close, range: `${day}, 9:30 to ${fmtTime(close).replace(/ [AP]M ET$/, '')} ET`, unit: 'sh', color: '#ffd166', ...RIDE_FMT.time };
+      })();
+    intradayCache.set(key, finishPrep(meta, decodeSession(t0, p0, rows, scale)));
   }
   return intradayCache.get(key);
 }
@@ -456,7 +473,7 @@ async function fetchSessionRide(sym, date) {
     data = body;
     try { localStorage.setItem(key, JSON.stringify(data)); } catch (err) { /* storage is optional */ }
   }
-  return sessionRide(sym, date, data.t0, data.p0, data.b);
+  return sessionRide(sym, date, data.t0, data.p0, data.b, data.scale ?? 100);
 }
 // The hosted page carries only each ticker's name, session move ("mv") and action ("act"), and fetches bars on demand.
 // Action counts the session's big reversals (each at least a tenth of the day's range), weighted by the range,
@@ -1013,7 +1030,7 @@ function buildTrack(ride) {
   const lo = Math.min(...sm), hi = Math.max(...sm);
   const ySpan = trackSpan(lo, hi);
   const hOf = (p) => BASE_Y + ((p - lo) / (hi - lo)) * ySpan;
-  const base = 1100 / (n - 1);
+  const base = (ride.trackLen || 1100) / (n - 1);
   let maxS = 0;
   for (let i = 1; i < n; i++) maxS = Math.max(maxS, Math.abs(hOf(sm[i]) - hOf(sm[i - 1])) / base);
   const dx = base * clamp(maxS / 1.4, 1, 1.6);
@@ -1669,7 +1686,7 @@ function buildWorld(ride, tr) {
     if (e.type === 'loop') floatSign(mid, [`GAP ${fmtPct(e.mag)}`, `${when} · LOOP`], e.mag >= 0 ? '#3ddc84' : '#ff5a5f');
     else floatSign(mid, [`RANGE ${Math.round(e.mag * 100)}%`, `${when} · CORKSCREW`], '#ffd166');
   }
-  if (ride.session) {
+  if (ride.session && !ride.crypto) {
     floatSign(first, ['MARKET OPEN', `${fmtP(b0.o)} · ${fmtMD(b0.date)}, 9:30 AM ET`], '#3ddc84');
     floatSign(last, ['MARKET CLOSE', `${fmtP(bN.c)} · ${fmtMD(bN.date)}, ${ride.sessionClose ? fmtTime(ride.sessionClose) : '4:00 PM ET'}`], '#ff5a5f');
   } else {
@@ -1714,6 +1731,31 @@ function buildWorld(ride, tr) {
 // ---------- train ----------
 const CAR_GAP = 2.6, CARS = 4;
 const train = new THREE.Group();
+// Car paint changes with the ride. Famous rides use their ticker color, like red for GME and orange for BTC.
+// A ticker with a famous ride keeps that color. Other tickers get a coaster color picked from the symbol, so a ticker always rides the same color.
+const CAR_PAINT = {
+  body: new THREE.MeshPhysicalMaterial({ color: 0xd62839, roughness: 0.28, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.12 }),
+  stripe: new THREE.MeshStandardMaterial({ color: 0xffd166, roughness: 0.4 }),
+};
+const CAR_COLORS = [0xd62839, 0x1f6fd1, 0x1f9e55, 0xf28c28, 0x7b3fc4, 0x109a9a, 0xf2c230, 0xe0457b];
+function carColor(ride) {
+  if (!ride.id.startsWith('i-')) return new THREE.Color(ride.color);
+  // a ticker with a famous ride, like TSLA or BTC, keeps that ride's color in its session rides too
+  const base = ride.crypto ? ride.sym.slice(2, -3) : ride.sym;
+  const famous = RIDES.find((r) => r.label === base);
+  if (famous) return new THREE.Color(famous.color);
+  let h = 0;
+  for (const ch of ride.sym) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return new THREE.Color(CAR_COLORS[h % CAR_COLORS.length]);
+}
+function paintCars(ride) {
+  const c = carColor(ride);
+  CAR_PAINT.body.color.copy(c);
+  // a light body hides the gold stripe, so it gets a dark one
+  const hsl = c.getHSL({ h: 0, s: 0, l: 0 });
+  CAR_PAINT.stripe.color.set(hsl.l > 0.6 || (hsl.h > 0.1 && hsl.h < 0.2) ? 0x1d2733 : 0xffd166);
+}
+
 const cars = [];
 {
   // carBody extrudes a side profile across the car width. The lead car gets a long rounded nose.
@@ -1742,8 +1784,8 @@ const cars = [];
     g.computeVertexNormals();
     return g;
   };
-  const bodyM = new THREE.MeshPhysicalMaterial({ color: 0xd62839, roughness: 0.28, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.12 });
-  const stripeM = new THREE.MeshStandardMaterial({ color: 0xffd166, roughness: 0.4 });
+  const bodyM = CAR_PAINT.body;
+  const stripeM = CAR_PAINT.stripe;
   const seatM = new THREE.MeshStandardMaterial({ color: 0x1d2733, roughness: 0.85 });
   const chromeM = new THREE.MeshStandardMaterial({ color: 0xdfe4ea, roughness: 0.18, metalness: 1 });
   const wheelM = new THREE.MeshStandardMaterial({ color: 0x2b2b2b, roughness: 0.6, metalness: 0.4 });
@@ -1857,6 +1899,7 @@ function disposeGroup(g) {
 }
 
 function loadRide(ride) {
+  paintCars(ride);
   if (worldGroup) { scene.remove(worldGroup); disposeGroup(worldGroup); }
   const tr = buildTrack(ride);
   const w = buildWorld(ride, tr);
@@ -2337,7 +2380,7 @@ function updateHud() {
   hud.g.textContent = state.g.toFixed(1);
   hud.h.textContent = Math.round(F0.p.y * UNIT().length);
   const sec = tr.sec[F0.i];
-  const intra = state.ride.session;
+  const intra = state.ride.session && !state.ride.crypto;
   if (sec === SEC.PRICE && !state.openRung) {
     state.openRung = true;
     bell(intra ? 'OPENING BELL' : 'FIRST BAR', intra ? `${state.ride.label} · 9:30 AM ET` : `${state.ride.label} · ${state.ride.whenShort(state.ride.bars[0].date)}`, true);
@@ -2697,7 +2740,7 @@ async function rideAnyTicker(sym) {
   list.hidden = false;
   list.innerHTML = `<div class="opt"><span>Loading ${sym}…</span></div>`;
   try {
-    const ride = await fetchSessionRide(sym, INTRA.date);
+    const ride = await fetchSessionRide(sym, isCrypto(sym) ? cryptoDate() : INTRA.date);
     list.hidden = true;
     list.innerHTML = '';
     startRide(ride);
@@ -2728,6 +2771,7 @@ function options(q) {
   const out = matches(q).map((h) => ({ sym: h.sym, name: h.name, move: h.move }));
   if (!API) return out;
   for (const r of remoteHits.get(q.trim().toLowerCase()) || []) {
+    tickerNames.set(r.ticker, r.name);
     if (!out.some((o) => o.sym === r.ticker)) out.push({ sym: r.ticker, name: r.name, move: null });
   }
   const typed = q.trim().toUpperCase();
@@ -2750,7 +2794,7 @@ function renderList() {
     const b = document.createElement('button');
     b.className = 'opt' + (k === symActive ? ' active' : '');
     b.setAttribute('role', 'option');
-    b.innerHTML = `<b>${h.sym}</b><span>${h.name}</span>${h.move === null ? '<span></span>' : moveSpan(h.move)}`;
+    b.innerHTML = `<b>${isCrypto(h.sym) ? cryptoLabel(h.sym) : h.sym}</b><span>${h.name}</span>${h.move === null ? '<span></span>' : moveSpan(h.move)}`;
     b.addEventListener('click', () => rideSessionTicker(h.sym));
     list.appendChild(b);
   });
@@ -2895,7 +2939,10 @@ const SHARE_BASE = API ? `${location.origin}/coaster` : 'https://claude.ai/artif
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9.]+/g, '-').replace(/^-|-$/g, '');
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 const sessionSlug = (iso) => { const [y, m, d] = iso.split('-').map(Number); return `${MONTHS[m - 1]}-${d}-${y}`; };
-const shareToken = (r) => (r.id.startsWith('i-') ? `${r.label.toLowerCase()}-${sessionSlug(r.sessionDate)}` : slug(r.name));
+const shareToken = (r) => {
+  if (!r.id.startsWith('i-')) return slug(r.name);
+  return r.crypto ? `crypto-${r.sym.slice(2).toLowerCase()}-${sessionSlug(r.sessionDate)}` : `${r.sym.toLowerCase()}-${sessionSlug(r.sessionDate)}`;
+};
 const shareUrl = (r) => (API ? `${SHARE_BASE}/r/${shareToken(r)}` : `${SHARE_BASE}#${shareToken(r)}`);
 let toastTimer = 0;
 function toast(text, ms = 1800) {
@@ -2934,11 +2981,12 @@ function readShareToken() {
   // famous rides: "#flash-crash"
   const famous = RIDES.find((x) => slug(x.name) === tok);
   if (famous) return { ride: famous };
-  // session rides: "#avgo-oct-26-2026"
-  const m = /^([a-z0-9.]+)-([a-z]{3})-(\d{1,2})-(\d{4})$/.exec(tok);
-  if (!m || !MONTHS.includes(m[2])) return null;
-  const sym = m[1].toUpperCase();
-  const date = `${m[4]}-${String(MONTHS.indexOf(m[2]) + 1).padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+  // session rides: "#avgo-oct-26-2026", and crypto days: "#crypto-btcusd-oct-27-2026"
+  const m = /^(crypto-)?([a-z0-9.]+)-([a-z]{3})-(\d{1,2})-(\d{4})$/.exec(tok);
+  if (!m || !MONTHS.includes(m[3])) return null;
+  const sym = (m[1] ? 'X:' : '') + m[2].toUpperCase();
+  if (m[1] && !API) return null;
+  const date = `${m[5]}-${String(MONTHS.indexOf(m[3]) + 1).padStart(2, '0')}-${m[4].padStart(2, '0')}`;
   if (hasBars(sym) && INTRA.date === date) return { ride: intradayRide(sym) };
   if (API) return { fetch: { sym, date } };
   return { miss: { sym, date, known: Boolean(INTRA.tickers[sym]) } };

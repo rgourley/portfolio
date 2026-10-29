@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-// Market Coaster ride links: /coaster/r/orcl-oct-28-2026 or /coaster/r/flash-crash.
+// Market Coaster ride links: /coaster/r/orcl-oct-28-2026, /coaster/r/crypto-btcusd-oct-27-2026 or /coaster/r/flash-crash.
 // Link previews (Slack, iMessage, X) never see the part after "#", so each ride gets a real path.
 // The route serves the game page with that ride's title and description, and the page opens the ride from the hash.
 // The numbers in the description come from the same bars the ride uses. When they do not load, the description has no numbers.
@@ -12,7 +12,7 @@ type Meta = { title: string; ogTitle: string; description: string };
 const SITE = "https://www.robertcreative.com";
 const MASSIVE = "https://api.massive.com";
 const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
-const SESSION = /^([a-z0-9.]{1,10})-([a-z]{3})-(\d{1,2})-(\d{4})$/;
+const SESSION = /^(crypto-)?([a-z0-9.]{1,15})-([a-z]{3})-(\d{1,2})-(\d{4})$/;
 const SLUG = /^[a-z0-9.-]{1,60}$/;
 const DAY = "public, s-maxage=86400, stale-while-revalidate=604800";
 
@@ -31,21 +31,25 @@ async function companyName(ticker: string): Promise<string | null> {
   const res = await fetch(`${MASSIVE}/v3/reference/tickers/${encodeURIComponent(ticker)}`, { headers: { Authorization: `Bearer ${apiKey}` }, cache: "no-store" });
   if (!res.ok) return null;
   const body = (await res.json().catch(() => ({}))) as { results?: { name?: string } };
-  return body.results?.name ?? null;
+  return body.results?.name?.replace(/ - United States dollar$/i, "") ?? null;
 }
 
+// A crypto ride (X:BTCUSD) is one ET calendar day. A stock ride is the regular session.
 async function sessionMeta(origin: string, ticker: string, date: string, label: string): Promise<Meta> {
+  const crypto = ticker.startsWith("X:");
+  const shown = crypto ? `${ticker.slice(2, -3)}/USD` : ticker;
+  const span = crypto ? "from midnight to midnight ET" : "from the open to the close";
   const day = new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
   const [barsRes, name] = await Promise.all([
     fetch(`${origin}/api/coaster/bars?ticker=${encodeURIComponent(ticker)}&date=${date}`),
     companyName(ticker),
   ]);
-  const who = name ? `${name} (${ticker})` : ticker;
+  const who = name ? `${name} (${shown})` : shown;
   const subject = name ?? label;
   const plain: Meta = {
-    title: `${ticker} on ${day} | Market Coaster`,
+    title: `${shown} on ${day} | Market Coaster`,
     ogTitle: `Ride ${who} on ${day}`,
-    description: `Ride ${subject}'s real ${day} session as a roller coaster, built from 1-minute market data from Massive.`,
+    description: `Ride ${subject}'s real ${day} ${crypto ? "day" : "session"} as a roller coaster, built from 1-minute market data from Massive.`,
   };
   if (!barsRes.ok) return plain;
   const bars = (await barsRes.json()) as Bars;
@@ -60,9 +64,9 @@ async function sessionMeta(origin: string, ticker: string, date: string, label: 
   const move = prev / bars.p0 - 1, swing = hi / lo - 1;
   const dir = move >= 0 ? "up" : "down";
   return {
-    title: `${ticker} on ${day}: ${dir} ${pct(move)} | Market Coaster`,
+    title: `${shown} on ${day}: ${dir} ${pct(move)} | Market Coaster`,
     ogTitle: `Ride ${who} on ${day}: ${dir} ${pct(move)}`,
-    description: `${subject} went ${dir} ${pct(move)} from the open to the close, with a ${pct(swing)} swing from high to low. Ride the real 1-minute chart as a roller coaster.`,
+    description: `${subject} went ${dir} ${pct(move)} ${span}, with a ${pct(swing)} swing from high to low. Ride the real 1-minute chart as a roller coaster.`,
   };
 }
 
@@ -105,9 +109,9 @@ export async function GET(request: Request, { params }: { params: { slug: string
     };
   } else {
     const m = SESSION.exec(token);
-    if (m && MONTHS.includes(m[2])) {
-      const ticker = m[1].toUpperCase();
-      const date = `${m[4]}-${String(MONTHS.indexOf(m[2]) + 1).padStart(2, "0")}-${m[3].padStart(2, "0")}`;
+    if (m && MONTHS.includes(m[3])) {
+      const ticker = (m[1] ? "X:" : "") + m[2].toUpperCase();
+      const date = `${m[5]}-${String(MONTHS.indexOf(m[3]) + 1).padStart(2, "0")}-${m[4].padStart(2, "0")}`;
       const names = jsonScript<{ tickers: Record<string, { name: string }> }>(html, "intraday-data");
       meta = await sessionMeta(origin, ticker, date, names?.tickers[ticker]?.name ?? ticker);
     }

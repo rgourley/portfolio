@@ -34,3 +34,37 @@ export function recentWeekdays(nowSeconds: number, count: number): string[] {
   }
   return out;
 }
+
+// Crypto trades all day, so a crypto ride is one ET calendar day, midnight to midnight, in 1-minute bars.
+export const CRYPTO_TICKER = /^X:[A-Z0-9]{2,15}USD$/;
+export const DAY_SECONDS = 86400;
+
+// The epoch second of midnight ET at the start of the date, for both standard and daylight time.
+export function dayStart(date: string): number {
+  const [y, m, d] = date.split("-").map(Number);
+  for (const utcHour of [4, 5]) {
+    const t = Date.UTC(y, m - 1, d, utcHour, 0);
+    if (Number(ET_HOUR.format(new Date(t))) === 0) return t / 1000;
+  }
+  throw new Error(`no midnight ET found for date=${date}`);
+}
+
+// The date after the given date. An ET day is 23 or 25 hours long when the clocks change, so a day ends at the next midnight.
+export function nextDate(date: string): string {
+  return new Date(Date.parse(`${date}T12:00:00Z`) + DAY_SECONDS * 1000).toISOString().slice(0, 10);
+}
+
+export function dayEnd(date: string): number {
+  return dayStart(nextDate(date));
+}
+
+export function isDayFinished(date: string, nowSeconds: number): boolean {
+  return dayEnd(date) + SETTLE_SECONDS <= nowSeconds;
+}
+
+// Prices are stored as integers. Cents lose a coin like DOGE at $0.08, so a low price gets more decimal places.
+// The scale keeps at least five significant digits.
+export function priceScale(price: number): number {
+  const digits = Math.max(2, Math.ceil(5 - Math.log10(price)));
+  return 10 ** Math.min(digits, 10);
+}
