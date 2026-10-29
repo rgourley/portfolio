@@ -108,6 +108,10 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .rail { position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%); display: grid; gap: 8px; }
 .rail button { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--edge); background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--text); font-size: 15px; font-family: var(--mono); display: grid; place-items: center; }
 .rail button:hover { border-color: var(--gold); }
+/* sound toggle in the top right corner of the start screen. It shares the mute setting with the in-ride button. */
+.menu-sound { position: fixed; z-index: 2; top: calc(12px + env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); border: 1px solid var(--edge); border-radius: 999px; background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--text); padding: 7px 14px; font: 600 13px var(--body); }
+.menu-sound:hover { border-color: var(--gold); }
+.menu-sound[aria-pressed="true"] { color: var(--muted); }
 .rail button[aria-pressed="true"] { background: var(--gold); color: #1c1606; border-color: var(--gold); }
 .back { background: none; border: 0; padding: 0 0 4px; color: var(--muted); font-size: 11px; text-align: left; }
 .back:hover { color: var(--gold); }
@@ -275,6 +279,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 </div>
 
 <div class="overlay" id="menu" hidden>
+  <button class="menu-sound" id="menuSound" aria-pressed="false"><span id="menuSoundTxt">🔊 Sound on</span></button>
   <div class="sheet">
     <div class="shared" id="shared" hidden></div>
     <div class="brand">
@@ -2754,10 +2759,13 @@ function setMuted(m) {
   $('bMute').setAttribute('aria-pressed', String(m));
   $('muteTxt').textContent = m ? '🔇' : '🔊';
   $('bMute').setAttribute('aria-label', m ? 'Unmute' : 'Mute');
+  $('menuSound').setAttribute('aria-pressed', String(m));
+  $('menuSoundTxt').textContent = m ? '🔇 Sound off' : '🔊 Sound on';
   try { localStorage.setItem('mc-muted', m ? '1' : '0'); } catch (err) { /* storage is optional */ }
   if (!m && music.paused && state.mode === 'riding') music.play().catch((err) => console.warn('music did not start', err));
 }
 $('bMute').addEventListener('click', () => setMuted(!music.muted));
+$('menuSound').addEventListener('click', () => setMuted(!music.muted));
 $('bUnits').addEventListener('click', toggleUnits);
 $('rUnits').addEventListener('click', toggleUnits);
 showUnits();
