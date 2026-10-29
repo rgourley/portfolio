@@ -62,6 +62,15 @@ export function isDayFinished(date: string, nowSeconds: number): boolean {
   return dayEnd(date) + SETTLE_SECONDS <= nowSeconds;
 }
 
+// The newest ET calendar day that has finished. A crypto ride from search rides this day.
+export function lastCryptoDay(nowSeconds: number): string {
+  for (let back = 0; back < 3; back++) {
+    const date = ET_DATE.format(new Date((nowSeconds - back * DAY_SECONDS) * 1000));
+    if (isDayFinished(date, nowSeconds)) return date;
+  }
+  throw new Error(`no finished ET day found for nowSeconds=${nowSeconds}`);
+}
+
 // Prices are stored as integers. Cents lose a coin like DOGE at $0.08, so a low price gets more decimal places.
 // The scale keeps at least five significant digits.
 export function priceScale(price: number): number {
