@@ -405,8 +405,9 @@ function prepRide(id) {
 }
 
 // Intraday rides use the baked minute bars of the last complete session.
-const INTRA = JSON.parse(document.getElementById('intraday-data').textContent);
-const SESSION_DATE = new Date(INTRA.date + 'T12:00:00Z');
+// On the hosted site, loadLatestSession can replace this with a newer session from the session route.
+let INTRA = JSON.parse(document.getElementById('intraday-data').textContent);
+let SESSION_DATE = new Date(INTRA.date + 'T12:00:00Z');
 // On the hosted site, MC_API points at the bars route, and any ticker and finished session can be fetched.
 const API = window.MC_API || null;
 // The about page lives on the hosted site only, so the link shows only there.
@@ -2630,7 +2631,33 @@ function buildCards() {
 }
 
 // ---------- symbol search over the baked session ----------
-const SYMS = Object.keys(INTRA.tickers).map((s) => ({ sym: s, name: INTRA.tickers[s].name, move: sessionMove(s), act: sessionAction(s) }));
+const symList = () => Object.keys(INTRA.tickers).map((s) => ({ sym: s, name: INTRA.tickers[s].name, move: sessionMove(s), act: sessionAction(s) }));
+let SYMS = symList();
+// The hosted page asks the session route for the newest finished session, so the chips and ticker rides follow the market.
+// The route gives each ticker's open-to-close move and high-to-low range. The range ranks the chips.
+// If the route fails, the page keeps the baked session and shows its real date.
+async function loadLatestSession() {
+  if (!API) return;
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), 4000);
+  try {
+    const res = await fetch(`${API.replace(/bars$/, 'session')}?symbols=${Object.keys(INTRA.tickers).join(',')}`, { signal: ctl.signal });
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error || `status ${res.status}`);
+    if (body.date <= INTRA.date || !Object.keys(body.quotes).length) return;
+    const tickers = {};
+    for (const [sym, q] of Object.entries(body.quotes)) {
+      tickers[sym] = { name: (INTRA.tickers[sym] || {}).name || sym, mv: q.mv, act: { score: q.range, legs: null, range: q.range } };
+    }
+    INTRA = { date: body.date, t0: body.t0, tickers };
+    SESSION_DATE = new Date(INTRA.date + 'T12:00:00Z');
+    SYMS = symList();
+  } catch (err) {
+    console.warn('latest session did not load, so the page keeps the baked session', err);
+  } finally {
+    clearTimeout(timer);
+  }
+}
 const moveSpan = (m) => `<span class="mv ${m >= 0 ? 'up' : 'down'}">${fmtPct(m)}</span>`;
 let symActive = 0;
 function buildSession() {
@@ -2642,7 +2669,7 @@ function buildSession() {
   movers.forEach((m) => {
     const b = document.createElement('button');
     b.className = 'chip-btn';
-    b.title = `${m.act.legs} big swings, ${(m.act.range * 100).toFixed(1)}% high to low`;
+    b.title = `${m.act.legs === null ? '' : `${m.act.legs} big swings, `}${(m.act.range * 100).toFixed(1)}% high to low`;
     b.innerHTML = `<b>${m.sym}</b>${moveSpan(m.move)}<span class="mv rng">↕${(m.act.range * 100).toFixed(1)}%</span>`;
     b.addEventListener('click', () => rideSessionTicker(m.sym));
     wrap.appendChild(b);
@@ -2938,6 +2965,7 @@ async function boot() {
   const shared = readShareToken();
   loadRide(shared && shared.ride ? shared.ride : RIDES[0]);
   buildCards();
+  await loadLatestSession();
   buildSession();
   if (shared && shared.fetch) {
     $('loading').textContent = `Loading ${shared.fetch.sym}…`;

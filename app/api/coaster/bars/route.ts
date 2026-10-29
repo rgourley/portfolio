@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isFinished, sessionOpen } from "@/lib/coaster";
 
 // Market Coaster bars: regular-session 1-minute bars for one ticker and one finished session, from Massive.
 // A finished session never changes, so the edge caches a good response for a year.
@@ -18,17 +19,6 @@ const DAY = "public, s-maxage=86400";
 
 function fail(error: string, status: number, cache: string | null): NextResponse {
   return NextResponse.json({ error }, { status, headers: cache ? { "Cache-Control": cache } : {} });
-}
-
-// The epoch second of 9:30 ET on the date, for both standard and daylight time.
-function sessionOpen(date: string): number {
-  const [y, m, d] = date.split("-").map(Number);
-  const hour = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", hour: "numeric", hourCycle: "h23" });
-  for (const utcHour of [13, 14]) {
-    const t = Date.UTC(y, m - 1, d, utcHour, 30);
-    if (Number(hour.format(new Date(t))) === 9) return t / 1000;
-  }
-  throw new Error(`no 9:30 ET found for date=${date}`);
 }
 
 async function fetchAggs(ticker: string, date: string, apiKey: string): Promise<Agg[]> {
@@ -77,8 +67,7 @@ export async function GET(request: Request): Promise<NextResponse> {
   if (!DATE.test(date)) return fail("Use a date like 2026-10-26.", 400, DAY);
 
   // only finished sessions: the close plus 20 minutes must be in the past
-  const open = sessionOpen(date);
-  if (open + 390 * 60 + 20 * 60 > Date.now() / 1000) return fail(`The ${date} session is not finished yet.`, 400, null);
+  if (!isFinished(date, Date.now() / 1000)) return fail(`The ${date} session is not finished yet.`, 400, null);
 
   const apiKey = process.env.MASSIVE_API_KEY;
   if (!apiKey) return fail("Market data is not configured.", 503, null);
