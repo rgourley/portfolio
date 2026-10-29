@@ -108,6 +108,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .rail { position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%); display: grid; gap: 8px; }
 .rail button { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--edge); background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--text); font-size: 15px; font-family: var(--mono); display: grid; place-items: center; }
 .rail button:hover { border-color: var(--gold); }
+.toast { position: absolute; right: calc(max(16px, env(safe-area-inset-right, 0px)) + 52px); top: 50%; transform: translateY(-50%); background: var(--gold); color: #1c1606; border-radius: 12px; padding: 7px 14px; font-weight: 700; font-size: 13px; box-shadow: 0 4px 14px rgba(0,0,0,0.3); max-width: min(60vw, 420px); overflow-wrap: anywhere; }
 /* sound toggle in the top right corner of the start screen. It shares the mute setting with the in-ride button. */
 .menu-sound { position: fixed; z-index: 2; top: calc(12px + env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); border: 1px solid var(--edge); border-radius: 999px; background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--text); padding: 7px 14px; font: 600 13px var(--body); }
 .menu-sound:hover { border-color: var(--gold); }
@@ -261,7 +262,9 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     <button id="bFast" title="Speed (F)" aria-label="Ride speed"><span id="fastTxt">1×</span></button>
     <button id="bMute" title="Mute (M)" aria-label="Mute" aria-pressed="false"><span id="muteTxt">🔊</span></button>
     <button id="bHud" title="Hide HUD (H)" aria-label="Hide HUD"><span id="hudTxt">◐</span></button>
+    <button id="bShareRide" title="Share this ride" aria-label="Share this ride"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
   </div>
+  <div class="toast" id="toast" role="status" hidden></div>
   <button id="soundChip" class="sound-chip" hidden>🔊 Tap for sound</button>
   <div class="bottom">
     <button class="panel gauges" id="bUnits" title="Switch mph and km/h (U)">
@@ -2884,6 +2887,7 @@ $('bAgain').addEventListener('click', () => startRide(state.ride));
 $('bOther').addEventListener('click', openMenu);
 
 // ---------- share links ----------
+// On the hosted site a ride link is a real path, /coaster/r/<token>, so link previews show that ride's title.
 // A link opens the artifact at #token. Famous rides use the ride name, like "#flash-crash". Session rides add
 // the session date, like "#avgo-oct-26-2026", so an old link never opens a different day's bars under the same ticker.
 // The viewer passes only a plain #anchor to the page, so tokens use letters, digits, dots and dashes.
@@ -2892,6 +2896,38 @@ const slug = (s) => s.toLowerCase().replace(/[^a-z0-9.]+/g, '-').replace(/^-|-$/
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 const sessionSlug = (iso) => { const [y, m, d] = iso.split('-').map(Number); return `${MONTHS[m - 1]}-${d}-${y}`; };
 const shareToken = (r) => (r.id.startsWith('i-') ? `${r.label.toLowerCase()}-${sessionSlug(r.sessionDate)}` : slug(r.name));
+const shareUrl = (r) => (API ? `${SHARE_BASE}/r/${shareToken(r)}` : `${SHARE_BASE}#${shareToken(r)}`);
+let toastTimer = 0;
+function toast(text, ms = 1800) {
+  $('toast').textContent = text;
+  $('toast').hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { $('toast').hidden = true; }, ms);
+}
+// Some browsers block the clipboard API, so the copy falls back to a selected text field and the copy command.
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch (err) { /* try the older copy command next */ }
+  const field = document.createElement('textarea');
+  field.value = text;
+  field.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+  document.body.appendChild(field);
+  field.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+  field.remove();
+  return ok;
+}
+// Mid-ride sharing: phones open the system share sheet, and other devices copy the link.
+async function shareFromRide() {
+  const url = shareUrl(state.ride);
+  if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+    try { await navigator.share({ title: `${state.ride.label} · Market Coaster`, url }); } catch (err) { if (err.name !== 'AbortError') console.warn('share failed', err); }
+    return;
+  }
+  // when no copy works, the note shows the link long enough to copy it by hand
+  if (await copyText(url)) toast('Link copied');
+  else toast(url, 8000);
+}
 function readShareToken() {
   const tok = decodeURIComponent(location.hash.slice(1)).toLowerCase();
   if (!tok) return null;
@@ -2926,15 +2962,16 @@ function unlockSound() {
 window.addEventListener('hashchange', () => location.reload());
 window.addEventListener('pointerdown', unlockSound, { once: true });
 window.addEventListener('keydown', unlockSound, { once: true });
-$('bShare').addEventListener('click', () => {
-  const url = `${SHARE_BASE}#${shareToken(state.ride)}`;
+$('bShareRide').addEventListener('click', shareFromRide);
+$('bShare').addEventListener('click', async () => {
+  const url = shareUrl(state.ride);
   const input = $('shareLink');
   input.value = url;
   $('shareRow').hidden = false;
-  navigator.clipboard.writeText(url).then(
-    () => { $('shareMsg').textContent = 'Link copied'; },
-    () => { input.focus(); input.select(); $('shareMsg').textContent = 'Copy the link above'; },
-  );
+  if (await copyText(url)) { $('shareMsg').textContent = 'Link copied'; return; }
+  input.focus();
+  input.select();
+  $('shareMsg').textContent = 'Copy the link above';
 });
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { openMenu(); return; }
