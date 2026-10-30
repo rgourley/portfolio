@@ -1,4 +1,5 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
+import { isDayFinished, isFinished } from "@/lib/coaster";
 
 // Market Coaster ride counts in Upstash Redis, through its REST API.
 // Each UTC day has two ranked sets: rides started ("ridden") and shared ride links opened ("shared").
@@ -52,6 +53,30 @@ async function redis(commands: Array<Array<string | number>>): Promise<unknown[]
   return body.map((r) => r.result);
 }
 
+// A session token names a stock session ("orcl-oct-28-2026") or a crypto day ("crypto-btcusd-oct-27-2026").
+// The token counts only when the date is a real calendar date on a finished day. Stock sessions are weekdays only.
+const SESSION = /^(crypto-)?([a-z0-9.]{1,15})-([a-z]{3})-(\d{1,2})-(\d{4})$/;
+const STOCK = /^[a-z][a-z0-9.]{0,9}$/;
+const COIN = /^[a-z0-9]{2,15}usd$/;
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+const FIRST_YEAR = 2003;
+
+export function isSessionToken(token: string, nowMs: number): boolean {
+  const m = SESSION.exec(token);
+  if (!m) return false;
+  const crypto = Boolean(m[1]);
+  if (!(crypto ? COIN : STOCK).test(m[2])) return false;
+  const month = MONTHS.indexOf(m[3]);
+  const year = Number(m[5]);
+  if (month < 0 || year < FIRST_YEAR) return false;
+  const day = new Date(Date.UTC(year, month, Number(m[4]), 12));
+  if (day.getUTCMonth() !== month) return false;
+  const date = day.toISOString().slice(0, 10);
+  if (crypto) return isDayFinished(date, nowMs / 1000);
+  const weekday = day.getUTCDay();
+  return weekday !== 0 && weekday !== 6 && isFinished(date, nowMs / 1000);
+}
+
 const utcDate = (ms: number): string => new Date(ms).toISOString().slice(0, 10);
 const lastDays = (nowMs: number, count: number): string[] => Array.from({ length: count }, (_, i) => utcDate(nowMs - i * 86400000));
 const visitor = (address: string): string => createHash("sha256").update(`coaster:${address}`).digest("hex").slice(0, 16);
@@ -65,17 +90,26 @@ export async function countRide(rideId: string, shared: boolean, address: string
   return result === 1;
 }
 
-// ZUNION returns [member, score, member, score, ...] from the lowest score up.
+// ZRANGE ... WITHSCORES returns [member, score, member, score, ...].
 function ranked(flat: unknown): TopEntry[] {
-  if (!Array.isArray(flat)) throw new Error(`Upstash ZUNION returned ${JSON.stringify(flat).slice(0, 200)}`);
+  if (!Array.isArray(flat)) throw new Error(`Upstash ZRANGE returned ${JSON.stringify(flat).slice(0, 200)}`);
   const out: TopEntry[] = [];
   for (let i = 0; i < flat.length; i += 2) out.push({ id: String(flat[i]), n: Number(flat[i + 1]) });
-  return out.filter((e) => e.n >= MIN_COUNT).sort((a, b) => b.n - a.n).slice(0, LIST_SIZE);
+  return out;
 }
 
+// Redis adds the last 7 days into a short-lived key and returns only the top LIST_SIZE rides with MIN_COUNT or more.
 export async function topRides(nowMs: number): Promise<Top> {
   const days = lastDays(nowMs, 7);
-  const union = (kind: string): Array<string | number> => ["ZUNION", days.length, ...days.map((d) => `mc:${kind}:${d}`), "WITHSCORES"];
-  const [ridden, shared] = await redis([union("ridden"), union("shared")]);
-  return { ridden: ranked(ridden), shared: ranked(shared) };
+  const run = randomUUID();
+  const top = (kind: string): Array<Array<string | number>> => {
+    const tmp = `mc:tmp:${kind}:${run}`;
+    return [
+      ["ZUNIONSTORE", tmp, days.length, ...days.map((d) => `mc:${kind}:${d}`)],
+      ["ZRANGE", tmp, "+inf", MIN_COUNT, "BYSCORE", "REV", "LIMIT", 0, LIST_SIZE, "WITHSCORES"],
+      ["DEL", tmp],
+    ];
+  };
+  const replies = await redis([...top("ridden"), ...top("shared")]);
+  return { ridden: ranked(replies[1]), shared: ranked(replies[4]) };
 }
