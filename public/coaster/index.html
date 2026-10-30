@@ -80,7 +80,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .dc-min:hover { color: var(--text); }
 .daycard.collapsed .ohlc, .daycard.collapsed .dc-since { display: none; }
 .daycard.collapsed .dc-close { border-top: 0; padding-top: 0; }
-#hud.bare .ride-tag, #hud.bare .daycard, #hud.bare .gauges, #hud.bare .mini, #hud.bare .controls { display: none; }
+#hud.bare .ride-tag, #hud.bare .daycard, #hud.bare .gauges, #hud.bare .mini, #hud.bare .more, #hud.bare .controls { display: none; }
 .chip.up { color: #0b2216; background: var(--up); }
 .chip.down { color: #2a0607; background: var(--down); }
 .ohlc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3px 10px; margin: 0; }
@@ -241,10 +241,21 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 #loadMsg { margin: 0; font: 600 15px var(--body); color: #0e1822; min-height: 1.4em; text-align: center; }
 @media (prefers-reduced-motion: reduce) { .load-car { animation: none; offset-distance: 52%; } }
 
+.more { display: none; }
+/* Phones: the bottom shows only the mini chart and a button that opens the gauges and the camera buttons.
+   The day card starts collapsed, and the ride tag stops before the day card. */
 @media (max-width: 720px) {
-  .daycard { width: 180px; }
-  .gauges { gap: 10px; flex: 1 1 100%; justify-content: space-between; }
+  .daycard { width: 150px; }
+  .ride-tag { max-width: calc(100% - 150px - 3 * max(16px, env(safe-area-inset-left, 0px))); box-sizing: border-box; }
+  .ride-tag .rname, .ride-tag .dayn { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ride-tag .dayn { display: none; }
+  .sound-chip { top: calc(72px + env(safe-area-inset-top, 0px)); }
+  .gauges { gap: 10px; flex: 1 1 100%; justify-content: space-between; order: -1; }
   .controls { flex: 1 1 100%; justify-content: center; }
+  .mini { flex: 1 1 0; height: 48px; }
+  .more { display: grid; place-items: center; flex: 0 0 48px; padding: 0; color: var(--text); font-size: 16px; }
+  .more:hover { border-color: var(--gold); }
+  .bottom:not(.open) .gauges, .bottom:not(.open) .controls { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .card, #banner { transition: none; } }
 </style>
@@ -298,6 +309,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
       <div class="gauge"><span class="label">Height</span><b id="gH">0</b><small id="gHU">m</small></div>
     </button>
     <div class="panel mini"><canvas id="mini"></canvas><span class="status" id="status"></span></div>
+    <button class="panel more" id="bMore" aria-label="Show gauges and camera" aria-expanded="false" title="Gauges and camera (G)">▴</button>
     <div class="panel controls" role="group" aria-label="Camera">
       <button id="v0" data-view="0" aria-pressed="true" title="Rider view. Click again to change car (C)"><kbd>1</kbd>Rider</button>
       <button id="v1" data-view="1" aria-pressed="false"><kbd>2</kbd>Chase</button>
@@ -3132,9 +3144,22 @@ function toggleBare() {
   $('bHud').setAttribute('aria-label', bare ? 'Show HUD' : 'Hide HUD');
   $('bHud').title = bare ? 'Show HUD (H)' : 'Hide HUD (H)';
 }
+// On phones the gauges and the camera buttons stay closed until the rider opens them.
+function setBottomOpen(open) {
+  $('hud').querySelector('.bottom').classList.toggle('open', open);
+  $('bMore').textContent = open ? '▾' : '▴';
+  $('bMore').setAttribute('aria-expanded', String(open));
+  $('bMore').setAttribute('aria-label', open ? 'Hide gauges and camera' : 'Show gauges and camera');
+  try { localStorage.setItem('mc-bottom', open ? '1' : '0'); } catch (err) { /* storage is optional */ }
+}
+const toggleBottom = () => setBottomOpen(!$('hud').querySelector('.bottom').classList.contains('open'));
 $('bMin').addEventListener('click', () => setCollapsed(!$('daycard').classList.contains('collapsed')));
+$('bMore').addEventListener('click', toggleBottom);
 $('bHud').addEventListener('click', toggleBare);
-try { setCollapsed(localStorage.getItem('mc-collapsed') === '1'); } catch (err) { setCollapsed(false); }
+// A stored choice wins. Without one, a phone starts with the day card collapsed.
+const phone = matchMedia('(max-width: 720px)').matches;
+try { const s = localStorage.getItem('mc-collapsed'); setCollapsed(s === null ? phone : s === '1'); } catch (err) { setCollapsed(phone); }
+try { setBottomOpen(localStorage.getItem('mc-bottom') === '1'); } catch (err) { setBottomOpen(false); }
 $('bAgain').addEventListener('click', () => { rideSource = 'again'; startRide(state.ride); });
 $('bOther').addEventListener('click', openMenu);
 
@@ -3252,6 +3277,7 @@ window.addEventListener('keydown', (e) => {
   else if (e.key === 'c' || e.key === 'C') cycleSeat();
   else if (e.key === 'm' || e.key === 'M') setMuted(!music.muted);
   else if (e.key === 'd' || e.key === 'D') setCollapsed(!$('daycard').classList.contains('collapsed'));
+  else if (e.key === 'g' || e.key === 'G') toggleBottom();
 });
 window.addEventListener('keyup', (e) => panKeys.delete(e.key.toLowerCase()));
 window.addEventListener('blur', () => panKeys.clear());
