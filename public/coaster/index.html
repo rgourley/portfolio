@@ -166,6 +166,15 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .card canvas { width: 100%; height: 46px; display: block; }
 .card .bl { font-size: 12.5px; color: var(--muted); line-height: 1.35; }
 .card .st { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; }
+/* Ride tabs: with only Famous rides showing, the tab bar looks like the plain section heading. */
+.tabs { display: flex; gap: 18px; overflow-x: auto; scrollbar-width: none; margin-bottom: -8px; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: 0 0 auto; background: none; border: 0; border-bottom: 2px solid transparent; padding: 0 0 4px; color: var(--muted); white-space: nowrap; }
+.tab:hover { color: var(--text); }
+.tab[aria-selected="true"] { color: var(--text); }
+.tabs:has(.tab:not([hidden]) ~ .tab:not([hidden])) .tab[aria-selected="true"] { border-bottom-color: var(--gold); }
+.cards .note { padding: 12px 0; }
+@media (max-width: 480px) { .tabs { gap: 14px; } .tabs .tab { font-size: 14px; } .tab-tail { display: none; } }
 .session { display: grid; gap: 10px; }
 .session-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .session h2, .section-h { margin: 0; font-family: var(--display); font-weight: 400; font-size: 18px; }
@@ -336,7 +345,11 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
       </div>
       <div class="chips" id="movers" aria-label="Sessions with the most action"></div>
     </section>
-    <h2 class="section-h">Famous rides</h2>
+    <div class="tabs" role="tablist" aria-label="Rides">
+      <button class="section-h tab" role="tab" data-tab="famous" aria-selected="true" aria-controls="cards">Famous<span class="tab-tail"> rides</span></button>
+      <button class="section-h tab" role="tab" data-tab="ridden" aria-selected="false" aria-controls="cards" hidden>Most ridden</button>
+      <button class="section-h tab" role="tab" data-tab="shared" aria-selected="false" aria-controls="cards" hidden>Most shared</button>
+    </div>
     <div class="carousel">
       <div class="cards" id="cards"></div>
       <button class="nav prev" id="cPrev" aria-label="Previous rides">‹</button>
@@ -2799,6 +2812,7 @@ function startRide(ride) {
   $('hud').hidden = false;
   syncUrl(ride);
   track('ride_start', { ride_id: shareToken(ride), ticker: ride.label, ride_kind: rideKind(ride), source: rideSource });
+  countRide(ride);
 }
 // On the hosted site the address bar shows the ride's share link, so a reload or a copied URL opens the same ride.
 // The menu shows the plain page URL. The artifact runs in a frame and does not change its URL.
@@ -2842,19 +2856,86 @@ function shuffledRides() {
   }
   return order;
 }
+// A card shows the ride, its sparkline and a note line: the blurb for a famous ride, or the count in a counted tab.
+function makeCard(r, note, source) {
+  const b0 = r.bars[0], pk = r.bars[r.peakI];
+  const card = document.createElement('button');
+  card.className = 'card';
+  card.innerHTML = `<span class="tk" style="color:${r.color}">${r.label}</span><span class="nm">${r.name}</span><span class="rg">${r.range}</span><canvas></canvas><span class="bl">${note}</span>
+    <span class="st"><span>Peak ${fmtPct(pk.c / b0.c - 1)}</span><span style="color:var(--down)">DD ${fmtPct(r.maxDD)}</span></span>`;
+  card.addEventListener('click', () => { rideSource = source; startRide(r); });
+  sparkObserver.observe(card.querySelector('canvas'));
+  sparkRides.set(card.querySelector('canvas'), r);
+  return card;
+}
+const famousCards = [];
 function buildCards() {
+  shuffledRides().forEach((r) => famousCards.push(makeCard(r, r.blurb, 'card')));
+  $('cards').replaceChildren(...famousCards);
+}
+
+// ---------- most ridden and most shared ----------
+// The top route gives the rides with the most counts in the last 7 days. A tab shows only when its list has
+// at least TOP_MIN rides, so a quiet week shows Famous rides alone instead of a thin list.
+const TOP_MIN = 3;
+let TOP = null;
+const tabCards = new Map();
+const TAB_NOTE = { ridden: (n) => `${n} rides this week`, shared: (n) => `${n} shared link opens this week` };
+async function loadTop() {
+  if (!API) return;
+  try {
+    const res = await fetch(API.replace(/bars$/, 'top'));
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error || `status ${res.status}`);
+    TOP = body;
+    for (const kind of ['ridden', 'shared']) document.querySelector(`.tab[data-tab="${kind}"]`).hidden = TOP[kind].length < TOP_MIN;
+  } catch (err) {
+    console.warn('top rides did not load, so only Famous rides show', err);
+  }
+}
+// Each counted tab builds its cards the first time it opens. A ride whose bars do not load is left out.
+async function tabRides(kind) {
+  if (!tabCards.has(kind)) {
+    tabCards.set(kind, (async () => {
+      const loaded = await Promise.allSettled(TOP[kind].map(async (e) => {
+        const t = rideFromToken(e.id);
+        const r = t && (t.ride || (t.fetch && await fetchSessionRide(t.fetch.sym, t.fetch.date)));
+        if (!r) throw new Error(`no ride for token ${e.id}`);
+        return makeCard(r, TAB_NOTE[kind](e.n), `most_${kind}`);
+      }));
+      loaded.filter((x) => x.status === 'rejected').forEach((x) => console.warn('top ride did not load', x.reason));
+      return loaded.filter((x) => x.status === 'fulfilled').map((x) => x.value);
+    })());
+  }
+  return tabCards.get(kind);
+}
+async function showTab(kind) {
+  document.querySelectorAll('.tab').forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === kind)));
   const wrap = $('cards');
-  shuffledRides().forEach((r) => {
-    const b0 = r.bars[0], bN = r.bars[r.bars.length - 1], pk = r.bars[r.peakI];
-    const card = document.createElement('button');
-    card.className = 'card';
-    card.innerHTML = `<span class="tk" style="color:${r.color}">${r.label}</span><span class="nm">${r.name}</span><span class="rg">${r.range}</span><canvas></canvas><span class="bl">${r.blurb}</span>
-      <span class="st"><span>Peak ${fmtPct(pk.c / b0.c - 1)}</span><span style="color:var(--down)">DD ${fmtPct(r.maxDD)}</span></span>`;
-    card.addEventListener('click', () => { rideSource = 'card'; startRide(r); });
-    wrap.appendChild(card);
-    sparkObserver.observe(card.querySelector('canvas'));
-    sparkRides.set(card.querySelector('canvas'), r);
-  });
+  if (kind === 'famous') wrap.replaceChildren(...famousCards);
+  else {
+    wrap.innerHTML = '<p class="note">Loading rides…</p>';
+    const cards = await tabRides(kind);
+    if (document.querySelector('.tab[aria-selected="true"]').dataset.tab !== kind) return;
+    if (cards.length) wrap.replaceChildren(...cards);
+    else wrap.innerHTML = '<p class="note">These rides did not load. Try again in a minute.</p>';
+  }
+  wrap.scrollLeft = 0;
+  requestAnimationFrame(updateCarouselNav);
+}
+document.querySelectorAll('.tab').forEach((t) => t.addEventListener('click', () => {
+  track('rides_tab', { tab: t.dataset.tab });
+  showTab(t.dataset.tab);
+}));
+// The page counts each ride start, and a ride opened from a shared link also counts as a shared open.
+function countRide(ride) {
+  if (!API) return;
+  fetch(API.replace(/bars$/, 'count'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ride: shareToken(ride), shared: rideSource === 'share' }),
+    keepalive: true,
+  }).catch((err) => console.warn('ride count failed', err));
 }
 // A sparkline draws when its canvas has a size. The menu can still be hidden when the cards are built,
 // so a ResizeObserver draws each one when it first gets a size, and again after a resize.
@@ -3210,8 +3291,8 @@ async function shareFromRide() {
   if (await copyText(url)) toast('Link copied');
   else toast(url, 8000);
 }
-function readShareToken() {
-  const tok = decodeURIComponent(location.hash.slice(1)).toLowerCase();
+const readShareToken = () => rideFromToken(decodeURIComponent(location.hash.slice(1)).toLowerCase());
+function rideFromToken(tok) {
   if (!tok) return null;
   // famous rides: "#flash-crash"
   const famous = RIDES.find((x) => slug(x.name) === tok);
@@ -3295,7 +3376,7 @@ async function boot() {
   loadRide(shared && shared.ride ? shared.ride : RIDES[0]);
   buildCards();
   if (API) $('loadMsg').textContent = 'Checking the latest session…';
-  await loadLatestSession();
+  await Promise.all([loadLatestSession(), loadTop()]);
   buildSession();
   if (shared && shared.fetch) {
     $('loadMsg').textContent = loadingText(shared.fetch.sym, shared.fetch.date);
