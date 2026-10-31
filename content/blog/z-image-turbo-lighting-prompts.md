@@ -1,6 +1,6 @@
 ---
-title: "The best lighting prompts for realistic AI photos, 25 tested"
-seoTitle: "Best Lighting Prompts for Realistic AI Images (25 Tested)"
+title: "25 lighting prompts that make AI photos look real"
+seoTitle: "25 Lighting Prompts for Realistic AI Photos, Tested"
 description: "25 lighting prompts for realistic AI images, tested on two scenes where only the light changes. Golden hour, sunset, fog, streetlights, an open fridge at night, plus the prompts that failed and why. Made with Z-Image Turbo."
 date: "2026-10-31"
 image: "/images/lighting/light-kitchen-dawn.jpg"
