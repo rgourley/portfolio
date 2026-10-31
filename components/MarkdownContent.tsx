@@ -16,6 +16,38 @@ const TestimonialBlock = dynamic(() => import("./TestimonialBlock"), {
   loading: () => <div className="h-48 bg-muted/20 animate-pulse rounded-lg" />,
 });
 
+// Copies a code block's text, so readers can grab a prompt in one click.
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        const done = () => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1500);
+        };
+        // Older browsers and non-secure pages have no clipboard API, so fall back to a hidden textarea.
+        const fallback = () => {
+          const area = document.createElement("textarea");
+          area.value = text;
+          area.style.position = "fixed";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+          if (document.execCommand("copy")) done();
+          area.remove();
+        };
+        if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, fallback);
+        else fallback();
+      }}
+      className="absolute top-2 right-2 rounded-md border border-foreground/15 bg-background/80 px-2.5 py-1 text-xs text-foreground/70 hover:text-foreground"
+    >
+      {copied ? "Copied" : "Copy"}
+    </button>
+  );
+}
+
 interface MarkdownContentProps {
   content: string;
   // "article" is the narrow, Medium-style reading column used by blog posts.
@@ -371,9 +403,12 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             const codeChild: any = React.Children.toArray(children)[0];
             const text = codeChild?.props?.children ?? children;
             return (
-              <pre className="p-4 rounded-lg bg-muted text-foreground/90 text-sm font-mono overflow-x-auto mb-6">
-                <code>{text}</code>
-              </pre>
+              <div className="relative mb-6">
+                <pre className="p-4 pr-20 rounded-lg bg-muted text-foreground/90 text-sm font-mono overflow-x-auto whitespace-pre-wrap">
+                  <code>{text}</code>
+                </pre>
+                {article && <CopyButton text={String(text).replace(/\n$/, "")} />}
+              </div>
             );
           },
           code: ({ node, children }: any) => (

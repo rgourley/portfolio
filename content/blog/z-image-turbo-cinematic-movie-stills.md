@@ -42,29 +42,28 @@ The subway platform got green fluorescent tubes and a train's headlight coming o
 
 Z-Image still got details wrong. My tired detective in a motel room came out as a uniformed police officer in both versions. A family of four at dinner had five kids. An old propeller plane got a modern glass cockpit.
 
-## Genres and framing
+## A framing cheat sheet
 
-Next I tried bigger movies, each with one named framing technique. Most of the names worked.
+Next I tried bigger movies, each with one named framing technique. Most of the names worked. Each image below is captioned with the words that did the work. Click any one to see it full size.
 
-![Sci-fi: an extreme wide shot for scale](/images/movie-stills/movie-stills-scifi-desert.jpg#wide)
+![Extreme wide shot for scale: "extreme wide shot, the ship filling the top half of the frame, the people barely visible specks"](/images/movie-stills/movie-stills-scifi-desert.jpg#grid)
+![One-point perspective: "perfectly symmetrical one-point perspective shot down a long corridor, a lone figure in the exact center"](/images/movie-stills/movie-stills-scifi-corridor.jpg#grid)
+![Frame within a frame: "shot from inside a dark cabin looking out through the open doorway, the door frame a black border around the sunlit scene"](/images/movie-stills/movie-stills-western-cowboy.jpg#grid)
+![Low-angle wide shot: "low-angle wide shot, the knight small in the lower left corner, looking up at an enormous castle"](/images/movie-stills/movie-stills-fantasy-castle.jpg#grid)
+![Dutch angle: "tilted dutch angle shot, wide 21mm lens, the flashlight the only light"](/images/movie-stills/movie-stills-horror-hallway.jpg#grid)
+![Worm's-eye view: "worm's-eye view from the street looking up, ultra wide lens, people running past in the foreground"](/images/movie-stills/movie-stills-monster-city.jpg#grid)
+![Extreme close-up with patterned light: "extreme close-up, hard light through venetian blinds casting stripes of shadow across her face"](/images/movie-stills/movie-stills-noir-blinds.jpg#grid)
+![Silhouette against backlight: "the traveler a dark silhouette, shafts of golden light breaking through mist behind them"](/images/movie-stills/movie-stills-fantasy-forest.jpg#grid)
+![Over-the-shoulder: "over-the-shoulder shot, the captain a dark silhouette in the foreground, looking out a giant window"](/images/movie-stills/movie-stills-scifi-bridge.jpg#grid)
+![Foreground face, deep background: "a face in extreme close-up filling one side of the foreground while the scene stretches deep into the background"](/images/movie-stills/ms-explorer-leone.jpg#grid)
+![Handheld close-up: "handheld close-up, other soldiers out of focus behind him, eyes looking up past the camera"](/images/movie-stills/movie-stills-war-trench.jpg#grid)
+![Blocking on the thirds: "a detective standing in the foreground on the left third with her back half turned, a suspect sitting at a table on the right third"](/images/movie-stills/ms-crime-kurosawa.jpg#grid)
 
-"Extreme wide shot," "the ship filling the top half of the frame, the people barely visible specks." The line of robed figures walking toward it was in the prompt. The scale wasn't something I had to fight for.
+The scale in the sci-fi desert wasn't something I had to fight for. The white corridor is the cleanest composition in the whole test. The western doorway did exactly what it does in old westerns, though my first version had a rider in a modern helmet who looked ready for a dressage show. Adding "wide-brimmed hat, long dusty duster coat, worn leather saddle, 1880s frontier" fixed it on every seed I tried.
 
-![Sci-fi: a symmetrical one-point perspective corridor](/images/movie-stills/movie-stills-scifi-corridor.jpg#wide)
+The Dutch angle is subtler than I asked for, but it reads. The one that missed was a car chase I described as a "low-angle shot from the road surface," which came out at normal eye level.
 
-"Perfectly symmetrical one-point perspective shot down a long white spaceship corridor," with the orange suit as the only color. This is the cleanest composition in the whole test.
-
-![Western: a frame within a frame](/images/movie-stills/movie-stills-western-cowboy.jpg#wide)
-
-"Shot from inside a dark wooden cabin looking out through the open doorway." The black door frame around a bright desert did exactly what it does in old westerns. My first version had a rider in a modern helmet who looked ready for a dressage show. Adding "wide-brimmed hat, long dusty duster coat, worn leather saddle, 1880s frontier" fixed it on every seed I tried.
-
-![Noir: an extreme close-up with blind shadows](/images/movie-stills/movie-stills-noir-blinds.jpg#wide)
-
-![Monster movie: a worm's-eye view up a flooded street](/images/movie-stills/movie-stills-monster-city.jpg#wide)
-
-The Dutch angle in the horror hallway is subtler than I asked for, but it reads. The one that missed was a car chase I described as a "low-angle shot from the road surface," which came out at normal eye level.
-
-![Horror: a Dutch angle down a dark hallway](/images/movie-stills/movie-stills-horror-hallway.jpg#wide)
+The blocking shot is the one I'd copy most. Writing where each person stands, which way they face and what's between them held up in every version I ran.
 
 ## Naming a director does very little
 
@@ -84,18 +83,59 @@ These first tests also copied the directors' subjects, like samurai, gunfighters
 
 ## The same shot in eight film languages
 
-So I fixed the subject and the seed and changed only the camera, light, color and film. Each scene below ran with these eight additions:
+So I fixed the subject and the seed and changed only the camera, light, color and film. Each scene below ran with these eight additions, pasted after the scene description. Copy any of them:
 
-- Kurosawa cues: long telephoto lens, strong wind blowing dust, rain or cloth across the frame, deep focus, black and white, hard contrast, heavy 1950s grain
-- David Lean cues: extreme wide shot from very far away, the person tiny in the landscape, large-format 65mm film, low sun with a pink and gold sky
-- Sergio Leone cues: a face in extreme close-up on one side of the foreground with the scene stretching deep behind it, harsh light, bleached yellow and brown
-- Jean-Pierre Jeunet cues: wide-angle lens close to the subject, emerald green and golden amber grade with deep red accents, warm light, off-kilter composition
-- Barry Lyndon cues: lit only by candles and window light, very shallow focus, soft painterly look like an 18th-century oil painting
-- Wong Kar-wai cues: shot through smeared glass, step-printed motion blur, saturated red and green neon, tight handheld framing
-- A modern anamorphic blockbuster: oval bokeh, long horizontal blue lens flares, teal shadows and orange highlights, low camera angle
-- 1970s 35mm: slow zoom lens, warm faded browns and ambers, soft contrast, visible grain, available light only
+Kurosawa cues
+
+```text
+long telephoto lens compressing the background, strong wind blowing dust, rain or cloth across the frame, everything in deep focus, black and white, hard contrast, heavy 1950s film grain
+```
+
+David Lean cues
+
+```text
+extreme wide shot from very far away, the person tiny and the landscape filling almost the whole frame, large-format 65mm film, deep focus, low sun with a pink and gold sky and long blue shadows, rich saturated color
+```
+
+Sergio Leone cues
+
+```text
+a face in extreme close-up filling one side of the foreground while the rest of the scene stretches deep into the background, both in focus, harsh light, bleached yellow and brown palette, widescreen, coarse grain
+```
+
+Jean-Pierre Jeunet cues
+
+```text
+wide-angle lens close to the subject so the background bends around them, heavy saturated grade of emerald green and golden amber with deep red accents, warm glowing light, slightly off-kilter playful composition, film grain
+```
+
+Barry Lyndon cues
+
+```text
+lit only by candles and soft window light, very shallow focus from an extremely fast lens, everything outside the light falling into warm darkness, soft painterly look like an 18th-century oil painting, muted warm colors, fine grain
+```
+
+Wong Kar-wai cues
+
+```text
+shot through smeared glass, step-printed motion blur on everything moving, saturated red and green neon light, tight intimate handheld framing, heavy grain, 1990s
+```
+
+Modern anamorphic blockbuster
+
+```text
+anamorphic lens with oval bokeh and long horizontal blue lens flares, fast tungsten motion picture film, teal shadows and warm orange highlights, low camera angle, very wide widescreen framing, modern big-budget cinematography
+```
+
+1970s 35mm
+
+```text
+1970s 35mm film, slow zoom lens, warm faded colors with brown and amber tones, soft contrast, visible grain, available light only, gritty realism
+```
 
 Every subject was placed on the left or right third of the frame and told to look away from the camera.
+
+If you run ComfyUI, [download the workflow](/downloads/z-image-turbo-movie-stills-8-looks.json) and drag it onto the canvas. It has one box for your scene and makes all eight looks from the same seed in about a minute on a 16 GB card. It needs [Z-Image Turbo](https://huggingface.co/Tongyi-MAI/Z-Image-Turbo), the Qwen3 4B text encoder and the Z-Image VAE. With the scene and seed it ships with, it reproduces the rider below exactly.
 
 ![Rider, Kurosawa cues](/images/movie-stills/ms-rider-kurosawa.jpg#grid)
 ![Rider, David Lean cues](/images/movie-stills/ms-rider-lean.jpg#grid)
