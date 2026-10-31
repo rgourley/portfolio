@@ -3,7 +3,7 @@ title: "How to make open-source AI images look like movie stills: 100 Z-Image te
 seoTitle: "Cinematic Prompts for Open-Source AI Images (Z-Image)"
 description: "Typing 'cinematic' does almost nothing. I ran over 100 16:9 frames through Z-Image Turbo, a free open model that runs on your own GPU, to find what does: the lens, the light, the grade, the film and where everyone stands."
 date: "2026-10-31"
-image: "/images/movie-stills/movie-stills-hero.jpg"
+image: "/images/movie-stills/movie-stills-hero-r22.jpg"
 tags: ["AI images","ComfyUI"]
 ---
 
@@ -11,7 +11,7 @@ The best frame I got all day came from describing how Akira Kurosawa shot weathe
 
 I wanted 16:9 frames that look like they came out of a movie, made with an open model I can run at home, so I ran more than 100 of them through Z-Image Turbo on my RTX 5080. It's free, Apache 2.0, and makes an image in about 6 seconds. I think the word "cinematic" is close to useless. What works is writing down the decisions a cinematographer would make: where the camera sits, what lens is on it, where the light comes from, what the color grade is and where each person stands.
 
-![Z-Image Turbo, a man leaning on his car at a gas station, with Jean-Pierre Jeunet's color and lens cues](/images/movie-stills/movie-stills-hero.jpg#wide)
+![A worm's-eye view of a man at a gas station in light rain under red and green neon. The shot builder's Random setting picked the angle, lens and light.](/images/movie-stills/movie-stills-hero-r22.jpg#wide)
 
 ## How I tested
 
@@ -87,7 +87,7 @@ So I fixed the subject and the seed and changed only the camera, light, color an
 Kurosawa cues
 
 ```text
-long telephoto lens compressing the background, strong wind blowing dust, rain or cloth across the frame, everything in deep focus, black and white, hard contrast, heavy 1950s film grain
+long telephoto lens compressing the background, everything in deep focus, black and white, hard contrast, heavy 1950s film grain
 ```
 
 David Lean cues
@@ -111,7 +111,7 @@ wide-angle lens close to the subject so the background bends around them, heavy 
 Barry Lyndon cues
 
 ```text
-lit only by candles and soft window light, very shallow focus from an extremely fast lens, everything outside the light falling into warm darkness, muted warm colors, a real photograph on 35mm film, natural skin texture, fine grain
+lit only by one warm lamp already in the scene, deep warm shadows filling the rest of the frame, still and carefully composed like a tableau, very shallow focus, muted warm colors, a real photograph on 35mm film, natural skin texture, fine grain, clothes and setting exactly as described
 ```
 
 Wong Kar-wai cues
@@ -134,7 +134,9 @@ anamorphic lens with oval bokeh and long horizontal blue lens flares, fast tungs
 
 Every subject was placed on the left or right third of the frame and told to look away from the camera. My first Leone version asked for a face in extreme close-up in the foreground. Z-Image added a stranger's head to every single shot, even the wide ones, so the version above keeps only his light and color.
 
-If you run ComfyUI, [download the workflow](/downloads/z-image-turbo-movie-stills-8-looks.json) and drag it onto the canvas. You type the scene, then pick the shot from dropdowns: shot size, camera angle, lens, where the person sits in the frame, where they look, and the lighting. Each choice is the exact wording that worked in these tests, and you can add your own options to any list. It joins everything into one prompt and renders it in all eight looks from the same seed, in about a minute on a 16 GB card. It only uses nodes that ship with ComfyUI, so there's nothing to install besides [Z-Image Turbo](https://huggingface.co/Tongyi-MAI/Z-Image-Turbo), the Qwen3 4B text encoder and the Z-Image VAE.
+I changed two others after people started using these. The Kurosawa cues used to include strong wind blowing rain and cloth, which put weather into every scene, so weather is now its own choice. The Barry Lyndon cues used to say candles and an 18th-century oil painting, which put people in wigs and candles at bus stops. The blocks above are the fixed versions. The stills below were made with the earlier wording, so expect some wind and candlelight in them.
+
+If you run ComfyUI, [download the workflow](/downloads/z-image-turbo-movie-stills-8-looks.json) and drag it onto the canvas. You type the scene, then pick the shot from dropdowns: shot size, camera angle, lens, where the person sits in the frame, where they look, the lighting and the weather. The lighting list has 27 setups, more than half of them for night interiors, like a single table lamp, TV glow, a phone screen, an open fridge, streetlight through blinds and police lights through a window. Each choice is the exact wording that worked in these tests, and you can add your own options to any list. It joins everything into one prompt and renders it in all eight looks from the same seed, in about a minute on a 16 GB card. It only uses nodes that ship with ComfyUI, so there's nothing to install besides [Z-Image Turbo](https://huggingface.co/Tongyi-MAI/Z-Image-Turbo), the Qwen3 4B text encoder and the Z-Image VAE.
 
 ![Rider, Kurosawa cues](/images/movie-stills/ms-rider-kurosawa.jpg#grid)
 ![Rider, David Lean cues](/images/movie-stills/ms-rider-lean.jpg#grid)
@@ -202,8 +204,21 @@ This one tests blocking. The prompt put the detective in the left foreground wit
 
 In this earlier version I named the film and lens brands, "Panavision" and "Kodak Vision3 500T." The flares look right, and a garbled "Kodk" logo showed up on the bus. Brand names turn into text. Describing the lens and the film without the names kept the look and lost the logo.
 
+## Light matters more than the grade
+
+The film looks get the attention, but light did more work in these tests than anything else. Here is one scene and one seed, a woman waiting at a bus shelter at the edge of a small town, with only the light changed. I'm writing a separate post with many more lighting setups, inside and out.
+
+![Overcast: "flat gray overcast light, no shadows"](/images/movie-stills/ms-light-overcast.jpg#grid)
+![Golden hour: "golden hour, the warm sun low behind her, glowing backlight and soft lens flare, long shadows stretching across the road"](/images/movie-stills/ms-light-goldenhour.jpg#grid)
+![Blue hour: "deep blue hour sky with warm lit windows in the buildings behind"](/images/movie-stills/ms-light-bluehour.jpg#grid)
+![Neon: "saturated red and green neon light"](/images/movie-stills/ms-light-neon.jpg#grid)
+
+The shelter, the road and the woman barely move between versions. Everything you feel about the picture changes anyway. When some of my early tests looked like stock photos, I first blamed the grade. It wasn't the grade. Those prompts had no light source, so Z-Image lit everything evenly, and a film grade on top of flat, even light still looks like stock. Name where the light comes from first. The grade is the last ten percent.
+
 ## The fuel hose
 
-The header image took six rounds. The first version had the man holding the fuel nozzle against his chest. Describing the nozzle "plugged into the fuel cap on the rear fender" put it on the front door in four out of four seeds. Then I wrote "no fuel hose or nozzle in the frame," and got four pictures of fuel hoses. Naming a thing, even to rule it out, puts it in the picture. What finally worked was moving him to the hood and never mentioning the hose at all.
+My first header image took six rounds. The first version had the man holding the fuel nozzle against his chest. Describing the nozzle "plugged into the fuel cap on the rear fender" put it on the front door in four out of four seeds. Then I wrote "no fuel hose or nozzle in the frame," and got four pictures of fuel hoses. Naming a thing, even to rule it out, puts it in the picture. What finally worked was moving him to the hood and never mentioning the hose at all.
+
+The header I ended up using came from somewhere else. I set every menu in my shot builder to Random and ran it twice. The second run picked a worm's-eye view, an ultra wide lens, red and green neon and light rain, and it beat everything I'd planned.
 
 *Tested October 31, 2026, on an RTX 5080 with 16 GB of VRAM.*
