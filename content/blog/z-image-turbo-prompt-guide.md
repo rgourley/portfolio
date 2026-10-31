@@ -155,7 +155,7 @@ medium two-shot through the windshield of a father and his teenage daughter sitt
 My first two-shot was two old friends laughing in a red convertible on a coast road. It looked exactly like a prescription drug ad. A two-shot needs something between the people. Silence works.
 
 ![Over-the-shoulder](/images/prompt-guide/pg-shot-ots.jpg#grid)
-![Point of view](/images/prompt-guide/pg-shot-pov.jpg#grid)
+![Point of view](/images/prompt-guide/pg-shot-cliff.jpg#grid)
 
 ```text
 over-the-shoulder shot from behind a painter standing at an easel on a cliff above the sea, her shoulder and brush dark and soft in the foreground, the half-finished painting and the real sunset beyond, 50mm lens, 35mm motion picture film, fine grain
@@ -178,7 +178,7 @@ wide exterior shot of a 1960s mid-century modern house in the desert at blue hou
 
 The house took two tries. My first prompt asked for glass walls glowing with lamp light, and Z-Image opened the whole living room up to the camera like a dollhouse. Pushing the house back behind the garden and asking for "only hints of furniture inside" made it look like a real photo of a real house.
 
-![Architecture, interior](/images/prompt-guide/pg-shot-interior.jpg#wide)
+![Architecture, interior](/images/prompt-guide/pg-shot-library.jpg#wide)
 
 ```text
 wide shot of a grand old library hall, very wide and tall, two stories of wooden shelves with a balcony and rolling ladders, shafts of morning sunlight through high windows with dust in the air, in the middle distance a woman stands beside the shelves on the right, reading an open book in her hands, symmetrical one-point perspective, 35mm motion picture film, fine grain
