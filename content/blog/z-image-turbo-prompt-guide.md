@@ -3,15 +3,13 @@ title: "I put a deep-sea diver at a bus stop to learn how Z-Image reads a prompt
 seoTitle: "Z-Image Turbo Prompt Guide: What Each Part Actually Does"
 description: "One deep-sea diver, one bus stop, one seed. Each step adds one part of the prompt so you can see exactly what it changes, plus nine shot types to copy and the mistakes that cost me the most time."
 date: "2026-10-31"
-image: "/images/prompt-guide/prompt-guide-hero2.jpg"
+image: "/images/prompt-guide/prompt-guide-hero3.jpg"
 tags: ["AI images","ComfyUI"]
 ---
 
 I typed "a deep-sea diver at a bus stop" into Z-Image Turbo, and it put the bus stop at the bottom of the ocean.
 
 That's a fair reading of seven words. It's also the problem with most prompts. Z-Image fills every gap you leave with the most common version of the thing, and the most common version of a diver is underwater, in modern scuba gear, lit like an aquarium. Everything I wanted, the brass helmet, the empty country road, the sun going down behind him, had to be written down.
-
-![A deep-sea diver in a brass helmet at a rural bus stop at golden hour, seen from a low angle at the edge of the road](/images/prompt-guide/prompt-guide-hero2.jpg#wide)
 
 Most Z-Image prompt guides tell you to write four parts: subject, lighting, camera, film. That's right, as far as it goes. What they don't show you is what each part does to the picture, because they paste example prompts without the images that came out. So I built one prompt a piece at a time, on the same seed, and kept every result.
 
@@ -164,10 +162,8 @@ over-the-shoulder shot from behind a painter standing at an easel on a cliff abo
 ```
 
 ```text
-point of view shot looking straight down from the very top of a tall concrete diving tower, the outdoor pool tiny and far below, dizzying height, bare toes curled over the edge of the platform at the bottom of the frame, swimmers like specks in the turquoise water, golden hour, ultra wide lens, 35mm motion picture film, fine grain
+point of view shot looking straight down from the edge of a towering sea cliff, the toes of two worn leather hiking boots at the rocky edge at the bottom of the frame, a dizzying drop of hundreds of feet to the sea far below, the waves soft and hazy in the distance, sea spray mist hanging in the air, seabirds tiny beneath, golden hour, ultra wide lens, 35mm motion picture film, fine grain
 ```
-
-The first diving board version looked a meter above the water. "Very top of a tall concrete diving tower," "tiny and far below" and "swimmers like specks" gave it height.
 
 ![Overhead](/images/prompt-guide/pg-shot-overhead.jpg#grid)
 ![Architecture, exterior](/images/prompt-guide/pg-shot-exterior.jpg#grid)
@@ -185,7 +181,7 @@ The house took two tries. My first prompt asked for glass walls glowing with lam
 ![Architecture, interior](/images/prompt-guide/pg-shot-interior.jpg#wide)
 
 ```text
-wide shot of a grand empty old library with tall wooden shelves and rolling ladders, shafts of morning sunlight through high windows with dust in the air, one person reading at a long table far away, symmetrical one-point perspective, 35mm motion picture film, fine grain
+wide shot of a grand old library hall, very wide and tall, two stories of wooden shelves with a balcony and rolling ladders, shafts of morning sunlight through high windows with dust in the air, in the middle distance a woman stands beside the shelves on the right, reading an open book in her hands, symmetrical one-point perspective, 35mm motion picture film, fine grain
 ```
 
 ## The mistakes that cost me the most time
