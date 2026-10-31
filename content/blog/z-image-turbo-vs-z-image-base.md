@@ -3,7 +3,7 @@ title: "Z-Image Turbo vs Z-Image base: does the slow model look more real?"
 seoTitle: "Z-Image Turbo vs Z-Image Base: 5 Real Tests on 16 GB"
 description: "Five new prompts, same seeds, on a 16 GB RTX 5080. Base looks more like everyday snapshots; Turbo is 3x faster, more polished, and better at keeping the subject in frame."
 date: "2026-10-30"
-image: "/images/zimage-turbo-vs-base/zimage-turbo-vs-base-share.jpg"
+image: "/images/zimage-turbo-vs-base/zimage-turbo-vs-base-hero.jpg"
 tags: ["AI images","ComfyUI"]
 ---
 
