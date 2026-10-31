@@ -111,7 +111,7 @@ wide-angle lens close to the subject so the background bends around them, heavy 
 Barry Lyndon cues
 
 ```text
-lit only by candles and soft window light, very shallow focus from an extremely fast lens, everything outside the light falling into warm darkness, soft painterly look like an 18th-century oil painting, muted warm colors, fine grain
+lit only by candles and soft window light, very shallow focus from an extremely fast lens, everything outside the light falling into warm darkness, muted warm colors, a real photograph on 35mm film, natural skin texture, fine grain
 ```
 
 Wong Kar-wai cues
@@ -134,13 +134,13 @@ anamorphic lens with oval bokeh and long horizontal blue lens flares, fast tungs
 
 Every subject was placed on the left or right third of the frame and told to look away from the camera. My first Leone version asked for a face in extreme close-up in the foreground. Z-Image added a stranger's head to every single shot, even the wide ones, so the version above keeps only his light and color.
 
-If you run ComfyUI, [download the workflow](/downloads/z-image-turbo-movie-stills-8-looks.json) and drag it onto the canvas. It has one box for your scene and makes all eight looks from the same seed in about a minute on a 16 GB card. It needs [Z-Image Turbo](https://huggingface.co/Tongyi-MAI/Z-Image-Turbo), the Qwen3 4B text encoder and the Z-Image VAE. With the scene and seed it ships with, it reproduces the rider below exactly.
+If you run ComfyUI, [download the workflow](/downloads/z-image-turbo-movie-stills-8-looks.json) and drag it onto the canvas. You type the scene, then pick the shot from dropdowns: shot size, camera angle, lens, where the person sits in the frame, where they look, and the lighting. Each choice is the exact wording that worked in these tests, and you can add your own options to any list. It joins everything into one prompt and renders it in all eight looks from the same seed, in about a minute on a 16 GB card. It only uses nodes that ship with ComfyUI, so there's nothing to install besides [Z-Image Turbo](https://huggingface.co/Tongyi-MAI/Z-Image-Turbo), the Qwen3 4B text encoder and the Z-Image VAE.
 
 ![Rider, Kurosawa cues](/images/movie-stills/ms-rider-kurosawa.jpg#grid)
 ![Rider, David Lean cues](/images/movie-stills/ms-rider-lean.jpg#grid)
 ![Rider, Sergio Leone cues](/images/movie-stills/ms-rider-leone2.jpg#grid)
 ![Rider, Jean-Pierre Jeunet cues](/images/movie-stills/ms-rider-jeunet.jpg#grid)
-![Rider, Barry Lyndon cues](/images/movie-stills/ms-rider-lyndon.jpg#grid)
+![Rider, Barry Lyndon cues](/images/movie-stills/ms-rider-lyndon2.jpg#grid)
 ![Rider, Wong Kar-wai cues](/images/movie-stills/ms-rider-wkw.jpg#grid)
 ![Rider, Modern anamorphic blockbuster](/images/movie-stills/ms-rider-anamorphic.jpg#grid)
 ![Rider, 1970s 35mm](/images/movie-stills/ms-rider-seventies.jpg#grid)
@@ -151,7 +151,7 @@ The Kurosawa version of the rider is the one I described at the top of this post
 ![Explorer, David Lean cues](/images/movie-stills/ms-explorer-lean.jpg#grid)
 ![Explorer, Sergio Leone cues](/images/movie-stills/ms-explorer-leone2.jpg#grid)
 ![Explorer, Jean-Pierre Jeunet cues](/images/movie-stills/ms-explorer-jeunet.jpg#grid)
-![Explorer, Barry Lyndon cues](/images/movie-stills/ms-explorer-lyndon.jpg#grid)
+![Explorer, Barry Lyndon cues](/images/movie-stills/ms-explorer-lyndon2.jpg#grid)
 ![Explorer, Wong Kar-wai cues](/images/movie-stills/ms-explorer-wkw.jpg#grid)
 ![Explorer, Modern anamorphic blockbuster](/images/movie-stills/ms-explorer-anamorphic.jpg#grid)
 ![Explorer, 1970s 35mm](/images/movie-stills/ms-explorer-seventies.jpg#grid)
@@ -162,18 +162,18 @@ The David Lean cues only work when there's a landscape to get lost in. Here they
 ![Kitchen, David Lean cues](/images/movie-stills/ms-kitchen-lean.jpg#grid)
 ![Kitchen, Sergio Leone cues](/images/movie-stills/ms-kitchen-leone2.jpg#grid)
 ![Kitchen, Jean-Pierre Jeunet cues](/images/movie-stills/ms-kitchen-jeunet.jpg#grid)
-![Kitchen, Barry Lyndon cues](/images/movie-stills/ms-kitchen-lyndon.jpg#grid)
+![Kitchen, Barry Lyndon cues](/images/movie-stills/ms-kitchen-lyndon2.jpg#grid)
 ![Kitchen, Wong Kar-wai cues](/images/movie-stills/ms-kitchen-wkw.jpg#grid)
 ![Kitchen, Modern anamorphic blockbuster](/images/movie-stills/ms-kitchen-anamorphic.jpg#grid)
 ![Kitchen, 1970s 35mm](/images/movie-stills/ms-kitchen-seventies.jpg#grid)
 
-Barry Lyndon cues finally made sense indoors at night: a single candle on the table and warm darkness around her. Lean's cues had nothing to work with in a kitchen, so Z-Image put a giant sunset in the window.
+Barry Lyndon cues finally made sense indoors at night: a single candle on the table and warm darkness around her. My first wording said "like an 18th-century oil painting," and some frames came out looking painted. "A real photograph on 35mm film" fixed that. Lean's cues had nothing to work with in a kitchen, so Z-Image put a giant sunset in the window.
 
 ![Alley, Kurosawa cues](/images/movie-stills/ms-alley-kurosawa.jpg#grid)
 ![Alley, David Lean cues](/images/movie-stills/ms-alley-lean.jpg#grid)
 ![Alley, Sergio Leone cues](/images/movie-stills/ms-alley-leone2.jpg#grid)
 ![Alley, Jean-Pierre Jeunet cues](/images/movie-stills/ms-alley-jeunet.jpg#grid)
-![Alley, Barry Lyndon cues](/images/movie-stills/ms-alley-lyndon.jpg#grid)
+![Alley, Barry Lyndon cues](/images/movie-stills/ms-alley-lyndon2.jpg#grid)
 ![Alley, Wong Kar-wai cues](/images/movie-stills/ms-alley-wkw.jpg#grid)
 ![Alley, Modern anamorphic blockbuster](/images/movie-stills/ms-alley-anamorphic.jpg#grid)
 ![Alley, 1970s 35mm](/images/movie-stills/ms-alley-seventies.jpg#grid)
@@ -184,7 +184,7 @@ Wong Kar-wai's red and green split light is the strongest version of the alley.
 ![Interrogation, David Lean cues](/images/movie-stills/ms-crime-lean.jpg#grid)
 ![Interrogation, Sergio Leone cues](/images/movie-stills/ms-crime-leone2.jpg#grid)
 ![Interrogation, Jean-Pierre Jeunet cues](/images/movie-stills/ms-crime-jeunet.jpg#grid)
-![Interrogation, Barry Lyndon cues](/images/movie-stills/ms-crime-lyndon.jpg#grid)
+![Interrogation, Barry Lyndon cues](/images/movie-stills/ms-crime-lyndon2.jpg#grid)
 ![Interrogation, Wong Kar-wai cues](/images/movie-stills/ms-crime-wkw.jpg#grid)
 ![Interrogation, Modern anamorphic blockbuster](/images/movie-stills/ms-crime-anamorphic.jpg#grid)
 ![Interrogation, 1970s 35mm](/images/movie-stills/ms-crime-seventies.jpg#grid)
@@ -195,7 +195,7 @@ This one tests blocking. The prompt put the detective in the left foreground wit
 ![Bus stop, David Lean cues](/images/movie-stills/ms-busstop-lean.jpg#grid)
 ![Bus stop, Sergio Leone cues](/images/movie-stills/ms-busstop-leone2.jpg#grid)
 ![Bus stop, Jean-Pierre Jeunet cues](/images/movie-stills/ms-busstop-jeunet.jpg#grid)
-![Bus stop, Barry Lyndon cues](/images/movie-stills/ms-busstop-lyndon.jpg#grid)
+![Bus stop, Barry Lyndon cues](/images/movie-stills/ms-busstop-lyndon2.jpg#grid)
 ![Bus stop, Wong Kar-wai cues](/images/movie-stills/ms-busstop-wkw.jpg#grid)
 ![Bus stop, Panavision anamorphic, Kodak Vision3 500T](/images/movie-stills/ms-busstop-panavision.jpg#grid)
 ![Bus stop, 1970s 35mm](/images/movie-stills/ms-busstop-seventies.jpg#grid)
