@@ -1,7 +1,7 @@
 ---
 title: "Z-Image Turbo vs FLUX 3 klein: 20 more prompts, every flaw called out"
 seoTitle: "Z-Image Turbo vs FLUX 3 klein: 20 Prompts, Flaws Included"
-description: "Twenty new everyday scenes on a 16 GB RTX 5080, one shot each. Z-Image Turbo is cleaner and 3x faster; FLUX 3 klein catches more action but breaks in stranger ways. Every garbled sign and odd hand, noted."
+description: "20 more prompts and example images."
 date: "2026-10-31"
 image: "/images/zimage-vs-flux-20/zimage-vs-flux-20-hero.jpg"
 tags: ["AI images","ComfyUI"]
