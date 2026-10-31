@@ -16,6 +16,38 @@ const TestimonialBlock = dynamic(() => import("./TestimonialBlock"), {
   loading: () => <div className="h-48 bg-muted/20 animate-pulse rounded-lg" />,
 });
 
+// Copies a code block's text, so readers can grab a prompt in one click.
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        const done = () => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1500);
+        };
+        // Older browsers and non-secure pages have no clipboard API, so fall back to a hidden textarea.
+        const fallback = () => {
+          const area = document.createElement("textarea");
+          area.value = text;
+          area.style.position = "fixed";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+          if (document.execCommand("copy")) done();
+          area.remove();
+        };
+        if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, fallback);
+        else fallback();
+      }}
+      className="absolute top-2 right-2 rounded-md border border-foreground/15 bg-background/80 px-2.5 py-1 text-xs text-foreground/70 hover:text-foreground"
+    >
+      {copied ? "Copied" : "Copy"}
+    </button>
+  );
+}
+
 interface MarkdownContentProps {
   content: string;
   // "article" is the narrow, Medium-style reading column used by blog posts.
@@ -201,7 +233,31 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             const alt = props.alt || "";
             // "#wide" opts an image out of the reading column: full natural ratio, up to 1100px, centered on the page.
             const wide = rawSrc.endsWith("#wide");
-            const src = wide ? rawSrc.slice(0, -"#wide".length) : rawSrc;
+            // "#grid" images that share a paragraph are laid out two across by the p renderer; each one still opens on its own.
+            const grid = rawSrc.endsWith("#grid");
+            const src = wide || grid ? rawSrc.replace(/#(wide|grid)$/, "") : rawSrc;
+
+            if (grid && src.startsWith("/")) {
+              return (
+                <figure className="m-0">
+                  {zoomable(
+                    src,
+                    alt,
+                    <Image
+                      src={src}
+                      alt={alt}
+                      width={1344}
+                      height={756}
+                      sizes="(max-width: 768px) 100vw, 550px"
+                      className="w-full h-auto rounded-lg"
+                      quality={85}
+                      loading="lazy"
+                    />
+                  )}
+                  {alt && <figcaption className="mt-2 text-sm text-foreground/50">{alt}</figcaption>}
+                </figure>
+              );
+            }
 
             if (wide && src.startsWith("/")) {
               return (
@@ -300,6 +356,14 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
           p: ({ node, children }: any) => {
             // Don't wrap images in paragraphs
             const childrenArray = React.Children.toArray(children);
+            const images = childrenArray.filter((child: any) => typeof child !== "string" || child.trim());
+            if (images.length > 1 && images.every((child: any) => String(child?.props?.src || "").endsWith("#grid"))) {
+              return (
+                <div className="my-10 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6 w-full md:w-[min(1100px,calc(100vw-8rem))] md:relative md:left-1/2 md:-translate-x-1/2">
+                  {images}
+                </div>
+              );
+            }
             if (childrenArray.some((child: any) => child?.props?.src || child?.type === "img")) {
               return <>{children}</>;
             }
@@ -339,9 +403,12 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             const codeChild: any = React.Children.toArray(children)[0];
             const text = codeChild?.props?.children ?? children;
             return (
-              <pre className="p-4 rounded-lg bg-muted text-foreground/90 text-sm font-mono overflow-x-auto mb-6">
-                <code>{text}</code>
-              </pre>
+              <div className="relative mb-6">
+                <pre className="p-4 pr-20 rounded-lg bg-muted text-foreground/90 text-sm font-mono overflow-x-auto whitespace-pre-wrap">
+                  <code>{text}</code>
+                </pre>
+                {article && <CopyButton text={String(text).replace(/\n$/, "")} />}
+              </div>
             );
           },
           code: ({ node, children }: any) => (
