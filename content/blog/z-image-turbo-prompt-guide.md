@@ -3,7 +3,7 @@ title: "I put a deep-sea diver at a bus stop to learn how Z-Image reads a prompt
 seoTitle: "Z-Image Turbo Prompt Guide: What Each Part Actually Does"
 description: "One deep-sea diver, one bus stop, one seed. Each step adds one part of the prompt so you can see exactly what it changes, plus nine shot types to copy and the mistakes that cost me the most time."
 date: "2026-10-31"
-image: "/images/prompt-guide/prompt-guide-hero3.jpg"
+image: "/images/prompt-guide/pg-light-bluehour.jpg"
 tags: ["AI images","ComfyUI"]
 ---
 
