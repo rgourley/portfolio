@@ -1,7 +1,7 @@
 ---
-title: "How to make AI images look like movie stills: 100 Z-Image tests"
-seoTitle: "Cinematic AI Photo Prompts: A Z-Image Turbo Guide"
-description: "Typing 'cinematic' does almost nothing. I ran over 100 16:9 frames through Z-Image Turbo to find what does: the lens, the light source, the grade, the film, and where everyone stands."
+title: "How to make open-source AI images look like movie stills: 100 Z-Image tests"
+seoTitle: "Cinematic Prompts for Open-Source AI Images (Z-Image)"
+description: "Typing 'cinematic' does almost nothing. I ran over 100 16:9 frames through Z-Image Turbo, a free open model that runs on your own GPU, to find what does: the lens, the light, the grade, the film and where everyone stands."
 date: "2026-10-31"
 image: "/images/movie-stills/movie-stills-hero.jpg"
 tags: ["AI images","ComfyUI"]
@@ -9,7 +9,7 @@ tags: ["AI images","ComfyUI"]
 
 The best frame I got all day came from describing how Akira Kurosawa shot weather, not from typing his name. With his name, Z-Image gave me a flat, colorful village scene. With "long telephoto lens, wind blowing rain and cloth across the frame, black and white, hard contrast," it gave me a hooded rider on a stone bridge with the cloak whipping sideways.
 
-I wanted 16:9 frames that look like they came out of a movie, so I ran more than 100 of them through Z-Image Turbo on my RTX 5080. I think the word "cinematic" is close to useless. What works is writing down the decisions a cinematographer would make: where the camera sits, what lens is on it, where the light comes from, what the color grade is and where each person stands.
+I wanted 16:9 frames that look like they came out of a movie, made with an open model I can run at home, so I ran more than 100 of them through Z-Image Turbo on my RTX 5080. It's free, Apache 2.0, and makes an image in about 6 seconds. I think the word "cinematic" is close to useless. What works is writing down the decisions a cinematographer would make: where the camera sits, what lens is on it, where the light comes from, what the color grade is and where each person stands.
 
 ![Z-Image Turbo, a man leaning on his car at a gas station, with Jean-Pierre Jeunet's color and lens cues](/images/movie-stills/movie-stills-hero.jpg#wide)
 
@@ -49,14 +49,13 @@ Next I tried bigger movies, each with one named framing technique. Most of the n
 ![Extreme wide shot for scale: "extreme wide shot, the ship filling the top half of the frame, the people barely visible specks"](/images/movie-stills/movie-stills-scifi-desert.jpg#grid)
 ![One-point perspective: "perfectly symmetrical one-point perspective shot down a long corridor, a lone figure in the exact center"](/images/movie-stills/movie-stills-scifi-corridor.jpg#grid)
 ![Frame within a frame: "shot from inside a dark cabin looking out through the open doorway, the door frame a black border around the sunlit scene"](/images/movie-stills/movie-stills-western-cowboy.jpg#grid)
-![Low-angle wide shot: "low-angle wide shot, the knight small in the lower left corner, looking up at an enormous castle"](/images/movie-stills/movie-stills-fantasy-castle.jpg#grid)
+![Low-angle wide shot: "low-angle wide shot from the ground, the rider small in the lower left corner, overcast gray sky, shot on location with natural light"](/images/movie-stills/movie-stills-castle-location.jpg#grid)
 ![Dutch angle: "tilted dutch angle shot, wide 21mm lens, the flashlight the only light"](/images/movie-stills/movie-stills-horror-hallway.jpg#grid)
 ![Worm's-eye view: "worm's-eye view from the street looking up, ultra wide lens, people running past in the foreground"](/images/movie-stills/movie-stills-monster-city.jpg#grid)
 ![Extreme close-up with patterned light: "extreme close-up, hard light through venetian blinds casting stripes of shadow across her face"](/images/movie-stills/movie-stills-noir-blinds.jpg#grid)
-![Silhouette against backlight: "the traveler a dark silhouette, shafts of golden light breaking through mist behind them"](/images/movie-stills/movie-stills-fantasy-forest.jpg#grid)
-![Over-the-shoulder: "over-the-shoulder shot, the captain a dark silhouette in the foreground, looking out a giant window"](/images/movie-stills/movie-stills-scifi-bridge.jpg#grid)
-![Foreground face, deep background: "a face in extreme close-up filling one side of the foreground while the scene stretches deep into the background"](/images/movie-stills/ms-explorer-leone.jpg#grid)
-![Handheld close-up: "handheld close-up, other soldiers out of focus behind him, eyes looking up past the camera"](/images/movie-stills/movie-stills-war-trench.jpg#grid)
+![Silhouette against backlight: "a dark silhouette against a low sun breaking through morning fog"](/images/movie-stills/movie-stills-traveler.jpg#grid)
+![Over-the-shoulder: "the back of a man's head and shoulder dark and out of focus on the left, a woman across the table in sharp focus, only the two of them"](/images/movie-stills/movie-stills-ots-kitchen.jpg#grid)
+![Handheld medium shot: "handheld medium shot, peering over the edge away from the camera, a few other soldiers blurry further down the trench"](/images/movie-stills/movie-stills-soldier.jpg#grid)
 ![Blocking on the thirds: "a detective standing in the foreground on the left third with her back half turned, a suspect sitting at a table on the right third"](/images/movie-stills/ms-crime-kurosawa.jpg#grid)
 
 The scale in the sci-fi desert wasn't something I had to fight for. The white corridor is the cleanest composition in the whole test. The western doorway did exactly what it does in old westerns, though my first version had a rider in a modern helmet who looked ready for a dressage show. Adding "wide-brimmed hat, long dusty duster coat, worn leather saddle, 1880s frontier" fixed it on every seed I tried.
@@ -100,7 +99,7 @@ extreme wide shot from very far away, the person tiny and the landscape filling 
 Sergio Leone cues
 
 ```text
-a face in extreme close-up filling one side of the foreground while the rest of the scene stretches deep into the background, both in focus, harsh light, bleached yellow and brown palette, widescreen, coarse grain
+harsh overhead sun, deep focus from the foreground to the horizon, bleached yellow and brown palette, sweat and dust, 2-perf widescreen, coarse grain
 ```
 
 Jean-Pierre Jeunet cues
@@ -133,13 +132,13 @@ anamorphic lens with oval bokeh and long horizontal blue lens flares, fast tungs
 1970s 35mm film, slow zoom lens, warm faded colors with brown and amber tones, soft contrast, visible grain, available light only, gritty realism
 ```
 
-Every subject was placed on the left or right third of the frame and told to look away from the camera.
+Every subject was placed on the left or right third of the frame and told to look away from the camera. My first Leone version asked for a face in extreme close-up in the foreground. Z-Image added a stranger's head to every single shot, even the wide ones, so the version above keeps only his light and color.
 
 If you run ComfyUI, [download the workflow](/downloads/z-image-turbo-movie-stills-8-looks.json) and drag it onto the canvas. It has one box for your scene and makes all eight looks from the same seed in about a minute on a 16 GB card. It needs [Z-Image Turbo](https://huggingface.co/Tongyi-MAI/Z-Image-Turbo), the Qwen3 4B text encoder and the Z-Image VAE. With the scene and seed it ships with, it reproduces the rider below exactly.
 
 ![Rider, Kurosawa cues](/images/movie-stills/ms-rider-kurosawa.jpg#grid)
 ![Rider, David Lean cues](/images/movie-stills/ms-rider-lean.jpg#grid)
-![Rider, Sergio Leone cues](/images/movie-stills/ms-rider-leone.jpg#grid)
+![Rider, Sergio Leone cues](/images/movie-stills/ms-rider-leone2.jpg#grid)
 ![Rider, Jean-Pierre Jeunet cues](/images/movie-stills/ms-rider-jeunet.jpg#grid)
 ![Rider, Barry Lyndon cues](/images/movie-stills/ms-rider-lyndon.jpg#grid)
 ![Rider, Wong Kar-wai cues](/images/movie-stills/ms-rider-wkw.jpg#grid)
@@ -150,7 +149,7 @@ The Kurosawa version of the rider is the one I described at the top of this post
 
 ![Explorer, Kurosawa cues](/images/movie-stills/ms-explorer-kurosawa.jpg#grid)
 ![Explorer, David Lean cues](/images/movie-stills/ms-explorer-lean.jpg#grid)
-![Explorer, Sergio Leone cues](/images/movie-stills/ms-explorer-leone.jpg#grid)
+![Explorer, Sergio Leone cues](/images/movie-stills/ms-explorer-leone2.jpg#grid)
 ![Explorer, Jean-Pierre Jeunet cues](/images/movie-stills/ms-explorer-jeunet.jpg#grid)
 ![Explorer, Barry Lyndon cues](/images/movie-stills/ms-explorer-lyndon.jpg#grid)
 ![Explorer, Wong Kar-wai cues](/images/movie-stills/ms-explorer-wkw.jpg#grid)
@@ -161,7 +160,7 @@ The David Lean cues only work when there's a landscape to get lost in. Here they
 
 ![Kitchen, Kurosawa cues](/images/movie-stills/ms-kitchen-kurosawa.jpg#grid)
 ![Kitchen, David Lean cues](/images/movie-stills/ms-kitchen-lean.jpg#grid)
-![Kitchen, Sergio Leone cues](/images/movie-stills/ms-kitchen-leone.jpg#grid)
+![Kitchen, Sergio Leone cues](/images/movie-stills/ms-kitchen-leone2.jpg#grid)
 ![Kitchen, Jean-Pierre Jeunet cues](/images/movie-stills/ms-kitchen-jeunet.jpg#grid)
 ![Kitchen, Barry Lyndon cues](/images/movie-stills/ms-kitchen-lyndon.jpg#grid)
 ![Kitchen, Wong Kar-wai cues](/images/movie-stills/ms-kitchen-wkw.jpg#grid)
@@ -172,29 +171,29 @@ Barry Lyndon cues finally made sense indoors at night: a single candle on the ta
 
 ![Alley, Kurosawa cues](/images/movie-stills/ms-alley-kurosawa.jpg#grid)
 ![Alley, David Lean cues](/images/movie-stills/ms-alley-lean.jpg#grid)
-![Alley, Sergio Leone cues](/images/movie-stills/ms-alley-leone.jpg#grid)
+![Alley, Sergio Leone cues](/images/movie-stills/ms-alley-leone2.jpg#grid)
 ![Alley, Jean-Pierre Jeunet cues](/images/movie-stills/ms-alley-jeunet.jpg#grid)
 ![Alley, Barry Lyndon cues](/images/movie-stills/ms-alley-lyndon.jpg#grid)
 ![Alley, Wong Kar-wai cues](/images/movie-stills/ms-alley-wkw.jpg#grid)
 ![Alley, Modern anamorphic blockbuster](/images/movie-stills/ms-alley-anamorphic.jpg#grid)
 ![Alley, 1970s 35mm](/images/movie-stills/ms-alley-seventies.jpg#grid)
 
-Wong Kar-wai's red and green split light is the strongest version of the alley. The Leone cues do the same thing every time: Z-Image adds a stranger's head in the foreground. It's the right structure, and after the third one it gets funny.
+Wong Kar-wai's red and green split light is the strongest version of the alley.
 
 ![Interrogation, Kurosawa cues](/images/movie-stills/ms-crime-kurosawa.jpg#grid)
 ![Interrogation, David Lean cues](/images/movie-stills/ms-crime-lean.jpg#grid)
-![Interrogation, Sergio Leone cues](/images/movie-stills/ms-crime-leone.jpg#grid)
+![Interrogation, Sergio Leone cues](/images/movie-stills/ms-crime-leone2.jpg#grid)
 ![Interrogation, Jean-Pierre Jeunet cues](/images/movie-stills/ms-crime-jeunet.jpg#grid)
 ![Interrogation, Barry Lyndon cues](/images/movie-stills/ms-crime-lyndon.jpg#grid)
 ![Interrogation, Wong Kar-wai cues](/images/movie-stills/ms-crime-wkw.jpg#grid)
 ![Interrogation, Modern anamorphic blockbuster](/images/movie-stills/ms-crime-anamorphic.jpg#grid)
 ![Interrogation, 1970s 35mm](/images/movie-stills/ms-crime-seventies.jpg#grid)
 
-This one tests blocking. The prompt put the detective in the left foreground with her back half turned and the suspect seated on the right, under one bare light, with an empty chair between them. All eight versions kept that staging. Writing where each person stands is one of the most reliable things you can put in a prompt. The detective still became a uniformed officer, two versions printed "POLICE" on her back, and the anamorphic version doubled the suspect.
+This one tests blocking. The prompt put the detective in the left foreground with her back half turned and the suspect seated on the right, under one bare light, with an empty chair between them. Every version kept that staging. Writing where each person stands is one of the most reliable things you can put in a prompt. The detective still became a uniformed officer, two versions printed "POLICE" on her back, and the anamorphic version doubled the suspect.
 
 ![Bus stop, Kurosawa cues](/images/movie-stills/ms-busstop-kurosawa.jpg#grid)
 ![Bus stop, David Lean cues](/images/movie-stills/ms-busstop-lean.jpg#grid)
-![Bus stop, Sergio Leone cues](/images/movie-stills/ms-busstop-leone.jpg#grid)
+![Bus stop, Sergio Leone cues](/images/movie-stills/ms-busstop-leone2.jpg#grid)
 ![Bus stop, Jean-Pierre Jeunet cues](/images/movie-stills/ms-busstop-jeunet.jpg#grid)
 ![Bus stop, Barry Lyndon cues](/images/movie-stills/ms-busstop-lyndon.jpg#grid)
 ![Bus stop, Wong Kar-wai cues](/images/movie-stills/ms-busstop-wkw.jpg#grid)
