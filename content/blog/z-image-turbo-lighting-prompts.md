@@ -13,6 +13,8 @@ I think light is the part of a prompt people skip most, and it's the part that d
 
 So I took two scenes and changed nothing but the light. A woman at a bus shelter on the edge of a small town, always on seed 5151. A woman pouring coffee in a small old kitchen, always on seed 3131. Same camera, same blocking, same film look. Every prompt below is the full prompt, so you can copy it and get the same picture.
 
+All of these were made with Z-Image Turbo, a free open model that runs on your own computer. The seeds only reproduce there. The wording should carry over to other image models, like Flux, Stable Diffusion, ChatGPT or Gemini, because it describes real light the way a photographer would, not a Z-Image trick. I haven't tested them there, so expect different pictures and maybe a phrase or two that needs changing.
+
 ## The two base prompts
 
 The light phrase drops into the same spot every time. The bus stop:
