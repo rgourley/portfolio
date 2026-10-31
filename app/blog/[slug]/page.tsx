@@ -132,7 +132,8 @@ export default async function BlogPostPage({
 
         <div className="mb-8 max-w-[700px] mx-auto">
           {/* The date stays in the metadata, structured data and sitemap; it's just not shown on the page. */}
-          <p className="text-xl text-foreground/60 mb-6">{post.description}</p>
+          {/* Small on purpose: it's the summary, and at body size readers took it for the first paragraph. */}
+          <p className="text-base text-foreground/50 mb-10">{post.description}</p>
         </div>
 
         <MarkdownContent content={post.content} variant="article" />

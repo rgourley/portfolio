@@ -12,6 +12,7 @@ const SolutionHighlightsCarousel = dynamic(() => import("./SolutionHighlightsCar
   loading: () => <div className="h-64 bg-muted/20 animate-pulse rounded-lg" />,
 });
 import LinkCards, { LinkCard } from "./LinkCards";
+const SettingsExplorer = dynamic(() => import("./SettingsExplorer"));
 const TestimonialBlock = dynamic(() => import("./TestimonialBlock"), {
   loading: () => <div className="h-48 bg-muted/20 animate-pulse rounded-lg" />,
 });
@@ -127,13 +128,15 @@ type Testimonial = { image: string; name: string; bio: string; quote: string };
 type ContentPart =
   | { type: 'markdown'; content: string }
   | { type: 'testimonial'; testimonial: Testimonial }
-  | { type: 'cards'; cards: LinkCard[] };
+  | { type: 'cards'; cards: LinkCard[] }
+  | { type: 'settings'; src: string };
 
 // Parse custom blocks out of markdown content.
 // Testimonial: :::testimonial\nimage: ...\nname: ...\nbio: ...\nquote: ...\n:::
 // Link cards: :::cards\ntitle: ...\nurl: ...\nmeta: ...\ndescription: ...\n---\n(next card)\n:::
+// Settings explorer: :::settings\nsrc: /data/file.json\n:::
 function parseTestimonials(content: string): { parts: ContentPart[] } {
-  const blockRegex = /:::(testimonial|cards)\n([\s\S]*?)\n:::/g;
+  const blockRegex = /:::(testimonial|cards|settings)\n([\s\S]*?)\n:::/g;
   const parts: ContentPart[] = [];
   let lastIndex = 0;
   let match;
@@ -162,6 +165,8 @@ function parseTestimonials(content: string): { parts: ContentPart[] } {
         type: 'testimonial',
         testimonial: { image: f.image || '', name: f.name || '', bio: f.bio || '', quote: f.quote || '' }
       });
+    } else if (match[1] === 'settings') {
+      parts.push({ type: 'settings', src: parseFields(match[2]).src || '' });
     } else {
       const cards: LinkCard[] = match[2]
         .split(/\n---\n/)
@@ -441,7 +446,9 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
     <div className={article ? "max-w-[700px] mx-auto" : "max-w-[1000px]"}>
       {/* Render content with testimonials inline */}
       {testimonialParts.map((part, index) => {
-        if (part.type === 'cards') {
+        if (part.type === 'settings') {
+          return <SettingsExplorer key={`settings-${index}`} src={part.src} />;
+        } else if (part.type === 'cards') {
           return <LinkCards key={`cards-${index}`} cards={part.cards} />;
         } else if (part.type === 'testimonial' && part.testimonial) {
           return (

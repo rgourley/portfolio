@@ -7,9 +7,11 @@ image: "/images/movie-stills/movie-stills-hero-r22.jpg"
 tags: ["AI images","ComfyUI"]
 ---
 
-The best frame I got all day came from describing how Akira Kurosawa shot weather, not from typing his name. With his name, Z-Image gave me a flat, colorful village scene. With "long telephoto lens, wind blowing rain and cloth across the frame, black and white, hard contrast," it gave me a hooded rider on a stone bridge with the cloak whipping sideways.
+I wanted AI images that look like frames from a movie, made with a free model I can run at home. So I ran more than 100 of them through Z-Image Turbo on my RTX 5080. It's open source, Apache 2.0, and makes an image in about 6 seconds.
 
-I wanted 16:9 frames that look like they came out of a movie, made with an open model I can run at home, so I ran more than 100 of them through Z-Image Turbo on my RTX 5080. It's free, Apache 2.0, and makes an image in about 6 seconds. I think the word "cinematic" is close to useless. What works is writing down the decisions a cinematographer would make: where the camera sits, what lens is on it, where the light comes from, what the color grade is and where each person stands.
+The word "cinematic" barely changed anything. What worked was writing down the choices a cinematographer makes. Where the camera sits, what lens is on it, where the light comes from, the color grade, and where each person stands.
+
+The best frame of the day showed it. I put Akira Kurosawa's name in the prompt and got a flat, colorful village. Then I described how he shot weather instead: "long telephoto lens, wind blowing rain and cloth across the frame, black and white, hard contrast." That gave me a hooded rider on a stone bridge, his cloak whipping sideways.
 
 ![A worm's-eye view of a man at a gas station in light rain under red and green neon. The shot builder's Random setting picked the angle, lens and light.](/images/movie-stills/movie-stills-hero-r22.jpg#wide)
 
