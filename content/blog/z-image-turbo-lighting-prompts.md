@@ -3,11 +3,11 @@ title: "The best lighting prompts for realistic AI photos, 25 tested"
 seoTitle: "Best Lighting Prompts for Realistic AI Images (25 Tested)"
 description: "25 lighting prompts for realistic AI images, tested on two scenes where only the light changes. Golden hour, sunset, fog, streetlights, an open fridge at night, plus the prompts that failed and why. Made with Z-Image Turbo."
 date: "2026-10-31"
-image: "/images/lighting/light-bus-sunset.jpg"
+image: "/images/lighting/light-kitchen-dawn.jpg"
 tags: ["AI images","ComfyUI"]
 ---
 
-Same woman, same bus shelter, same seed. I changed one phrase in the prompt, and a flat gray afternoon turned into a sunset with her almost in silhouette against a pink sky. The shelter and the road barely moved.
+Same woman, same kitchen, same seed. I changed one phrase in the prompt, and a plain bright morning turned into the first gray-pink light of dawn, the room still dark around her and the coffee the only thing she's awake for. The counter and the window barely moved.
 
 I think light is the part of a prompt people skip most, and it's the part that does the most. In my [movie stills tests](/blog/z-image-turbo-cinematic-movie-stills), the frames that looked fake almost never had a bad grade. They had no light source, so Z-Image lit everything evenly, and even light looks like stock no matter what film you put on top.
 
