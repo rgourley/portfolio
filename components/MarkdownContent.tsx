@@ -201,7 +201,31 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             const alt = props.alt || "";
             // "#wide" opts an image out of the reading column: full natural ratio, up to 1100px, centered on the page.
             const wide = rawSrc.endsWith("#wide");
-            const src = wide ? rawSrc.slice(0, -"#wide".length) : rawSrc;
+            // "#grid" images that share a paragraph are laid out two across by the p renderer; each one still opens on its own.
+            const grid = rawSrc.endsWith("#grid");
+            const src = wide || grid ? rawSrc.replace(/#(wide|grid)$/, "") : rawSrc;
+
+            if (grid && src.startsWith("/")) {
+              return (
+                <figure className="m-0">
+                  {zoomable(
+                    src,
+                    alt,
+                    <Image
+                      src={src}
+                      alt={alt}
+                      width={1344}
+                      height={756}
+                      sizes="(max-width: 768px) 100vw, 550px"
+                      className="w-full h-auto rounded-lg"
+                      quality={85}
+                      loading="lazy"
+                    />
+                  )}
+                  {alt && <figcaption className="mt-2 text-sm text-foreground/50">{alt}</figcaption>}
+                </figure>
+              );
+            }
 
             if (wide && src.startsWith("/")) {
               return (
@@ -300,6 +324,14 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
           p: ({ node, children }: any) => {
             // Don't wrap images in paragraphs
             const childrenArray = React.Children.toArray(children);
+            const images = childrenArray.filter((child: any) => typeof child !== "string" || child.trim());
+            if (images.length > 1 && images.every((child: any) => String(child?.props?.src || "").endsWith("#grid"))) {
+              return (
+                <div className="my-10 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6 w-full md:w-[min(1100px,calc(100vw-8rem))] md:relative md:left-1/2 md:-translate-x-1/2">
+                  {images}
+                </div>
+              );
+            }
             if (childrenArray.some((child: any) => child?.props?.src || child?.type === "img")) {
               return <>{children}</>;
             }
