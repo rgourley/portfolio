@@ -117,4 +117,4 @@ I added the same four things to every scene. First, where the light comes from: 
 
 I also took out anything with lettering. Every sign, menu, poster and machine label in the short prompts came out garbled on both models. That includes words that only suggest a sign. In my film test, "24-hour diner" became "24-HOUR" painted on the window.
 
-*Tested October 30, 2026, on an RTX 5080 with 16 GB of VRAM.*
+*Tested on an RTX 5080 with 16 GB of VRAM.*

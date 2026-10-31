@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { format } from "date-fns";
 import { BlogPost } from "@/lib/content";
 
 interface BlogGridProps {
@@ -64,11 +63,6 @@ export default function BlogGrid({ posts }: BlogGridProps) {
                 <p className="text-foreground/60 mb-4 line-clamp-2 text-sm flex-1">
                   {post.description}
                 </p>
-                {post.date && (
-                  <span className="text-xs text-foreground/50">
-                    {format(new Date(post.date), "MMMM d, yyyy")}
-                  </span>
-                )}
               </div>
             </div>
           </Link>
