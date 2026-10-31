@@ -3,7 +3,7 @@ title: "Z-Image Turbo vs FLUX 3 klein: 5 real tests on a 16 GB RTX 5080"
 seoTitle: "Z-Image Turbo vs FLUX 3 klein: 5 Real Tests on 16 GB"
 description: "Same prompts, same seeds, run locally in ComfyUI. Z-Image Turbo wins polished portraits and speed; FLUX 3 klein wins believable amateur snapshots."
 date: "2026-10-30"
-image: "/images/zimage-vs-flux/zimage-vs-flux-share.jpg"
+image: "/images/zimage-vs-flux/zimage-vs-flux-hero.jpg"
 tags: ["AI images","ComfyUI"]
 ---
 
