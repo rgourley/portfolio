@@ -1,13 +1,13 @@
 ---
-title: "The best night light I found for Z-Image was an open fridge"
-seoTitle: "Z-Image Turbo Lighting Prompts: 25 Setups Tested, Inside and Out"
-description: "Two scenes, one seed each, and only the light changes. 25 lighting prompts for Z-Image Turbo you can copy, from golden hour to an open fridge at night, plus the ones that failed and why."
+title: "The best lighting prompts for realistic AI photos, 25 tested"
+seoTitle: "Best Lighting Prompts for Realistic AI Images (25 Tested)"
+description: "25 lighting prompts for realistic AI images, tested on two scenes where only the light changes. Golden hour, sunset, fog, streetlights, an open fridge at night, plus the prompts that failed and why. Made with Z-Image Turbo."
 date: "2026-10-31"
-image: "/images/lighting/light-kitchen-fridge.jpg"
+image: "/images/lighting/light-bus-sunset.jpg"
 tags: ["AI images","ComfyUI"]
 ---
 
-The best night light I found for Z-Image Turbo was an open refrigerator. One cold white box on the left of the frame, a woman pouring coffee in the dark, and the picture looks like a scene from a film instead of a stock photo of a kitchen.
+Same woman, same bus shelter, same seed. I changed one phrase in the prompt, and a flat gray afternoon turned into a sunset with her almost in silhouette against a pink sky. The shelter and the road barely moved.
 
 I think light is the part of a prompt people skip most, and it's the part that does the most. In my [movie stills tests](/blog/z-image-turbo-cinematic-movie-stills), the frames that looked fake almost never had a bad grade. They had no light source, so Z-Image lit everything evenly, and even light looks like stock no matter what film you put on top.
 
