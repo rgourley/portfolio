@@ -206,4 +206,4 @@ FLUX is better at action. Shaking dogs, splashing bikes, breath and blowing snow
 
 The bigger difference is how each one fails. Z-Image gets ordinary things wrong, like six people instead of four or a missing splash. FLUX invents things that can't exist, like a barista pouring a finished latte into another cup.
 
-*Tested October 31, 2026. Earlier: [the first 5-prompt test](/blog/z-image-turbo-vs-flux-3-klein) and [Z-Image Turbo vs Base](/blog/z-image-turbo-vs-z-image-base).*
+*Earlier: [the first 5-prompt test](/blog/z-image-turbo-vs-flux-3-klein) and [Z-Image Turbo vs Base](/blog/z-image-turbo-vs-z-image-base).*

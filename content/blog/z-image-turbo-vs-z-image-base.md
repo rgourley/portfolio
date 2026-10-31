@@ -71,4 +71,4 @@ Use Turbo when you want a fast, polished image with the subject front and center
 
 For believable everyday snapshots, FLUX 3 klein and Z-Image base are the two strongest models I've tested so far. Just don't ask base for red eyes.
 
-*Tested October 30, 2026, on an RTX 5080 with 16 GB of VRAM.*
+*Tested on an RTX 5080 with 16 GB of VRAM.*
