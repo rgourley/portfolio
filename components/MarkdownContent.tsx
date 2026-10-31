@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
@@ -167,6 +167,33 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
   // Parse testimonials first, then parse Solution Highlights from each markdown part
   const { parts: testimonialParts } = useMemo(() => parseTestimonials(content), [content]);
 
+  // Click-to-enlarge for local article images: shows the original file over the page.
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setLightbox(null);
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = overflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [lightbox]);
+  const zoomable = (src: string, alt: string, child: React.ReactNode) =>
+    article ? (
+      <button
+        type="button"
+        onClick={() => setLightbox({ src, alt })}
+        aria-label={alt ? `Enlarge image: ${alt}` : "Enlarge image"}
+        className="block w-full cursor-zoom-in"
+      >
+        {child}
+      </button>
+    ) : (
+      child
+    );
+
   // Shared components for markdown rendering
   const markdownComponents: any = {
           img: (props: any) => {
@@ -179,16 +206,20 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             if (wide && src.startsWith("/")) {
               return (
                 <div className="my-10 w-full md:w-[min(1100px,calc(100vw-8rem))] md:relative md:left-1/2 md:-translate-x-1/2">
-                  <Image
-                    src={src}
-                    alt={alt}
-                    width={1600}
-                    height={900}
-                    sizes="(max-width: 768px) 100vw, 1100px"
-                    className="w-full h-auto rounded-lg"
-                    quality={85}
-                    loading="lazy"
-                  />
+                  {zoomable(
+                    src,
+                    alt,
+                    <Image
+                      src={src}
+                      alt={alt}
+                      width={1600}
+                      height={900}
+                      sizes="(max-width: 768px) 100vw, 1100px"
+                      className="w-full h-auto rounded-lg"
+                      quality={85}
+                      loading="lazy"
+                    />
+                  )}
                 </div>
               );
             }
@@ -395,6 +426,32 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
         }
         return null;
       })}
+
+      {lightbox && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightbox.alt || "Enlarged image"}
+          onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-3 bg-black/90 p-4 cursor-zoom-out"
+        >
+          {/* Plain img on purpose: show the original file at full resolution, not a resized copy */}
+          <img
+            src={lightbox.src}
+            alt={lightbox.alt}
+            className="max-h-[88vh] max-w-full w-auto h-auto object-contain rounded"
+          />
+          {lightbox.alt && <p className="max-w-3xl text-center text-sm text-white/70">{lightbox.alt}</p>}
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Close"
+            className="absolute top-4 right-5 text-3xl leading-none text-white/80 hover:text-white"
+          >
+            ×
+          </button>
+        </div>
+      )}
     </div>
   );
 }
