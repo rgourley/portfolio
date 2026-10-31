@@ -170,9 +170,29 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
   // Shared components for markdown rendering
   const markdownComponents: any = {
           img: (props: any) => {
-            const src = props.src || "";
+            const rawSrc = props.src || "";
             const alt = props.alt || "";
-            
+            // "#wide" opts an image out of the reading column: full natural ratio, up to 1100px, centered on the page.
+            const wide = rawSrc.endsWith("#wide");
+            const src = wide ? rawSrc.slice(0, -"#wide".length) : rawSrc;
+
+            if (wide && src.startsWith("/")) {
+              return (
+                <div className="my-10 w-full md:w-[min(1100px,calc(100vw-8rem))] md:relative md:left-1/2 md:-translate-x-1/2">
+                  <Image
+                    src={src}
+                    alt={alt}
+                    width={1600}
+                    height={900}
+                    sizes="(max-width: 768px) 100vw, 1100px"
+                    className="w-full h-auto rounded-lg"
+                    quality={85}
+                    loading="lazy"
+                  />
+                </div>
+              );
+            }
+
             // Check if it's a local image (starts with /) or external URL
             if (src.startsWith("/") || src.startsWith("./") || src.startsWith("../")) {
               // Local image - use Next.js Image
@@ -304,10 +324,10 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             </div>
           ),
           th: ({ node, children }: any) => (
-            <th className="py-3 pr-6 text-sm font-semibold text-foreground/80 border-b border-foreground/20 whitespace-nowrap">{children}</th>
+            <th className="py-3 pr-6 text-sm font-semibold text-foreground/80 border-b border-foreground/20 align-top">{children}</th>
           ),
           td: ({ node, children }: any) => (
-            <td className="py-2.5 pr-6 text-foreground/65 border-b border-foreground/10 whitespace-nowrap">{children}</td>
+            <td className="py-2.5 pr-6 text-foreground/65 border-b border-foreground/10 align-top">{children}</td>
           ),
           blockquote: ({ node, children }: any) => (
             <blockquote className={`border-l-4 border-foreground/20 pl-6 italic ${article ? "text-[19px] md:text-[20px] text-foreground/70" : "text-[21px] text-foreground/60"} my-6 leading-[1.7]`}>
