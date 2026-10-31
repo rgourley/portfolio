@@ -75,4 +75,4 @@ Z-Image leans polished even when you ask for amateur. The non-Turbo Z-Image base
 
 FLUX 3 klein follows "amateur" wording well. The plainness that hurts it on glamour shots is exactly what makes its kitchen look like someone's actual kitchen.
 
-*Tested October 30, 2026, on an RTX 5080 with 16 GB of VRAM.*
+*Tested on an RTX 5080 with 16 GB of VRAM.*

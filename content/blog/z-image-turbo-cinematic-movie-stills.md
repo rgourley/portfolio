@@ -221,4 +221,4 @@ My first header image took six rounds. The first version had the man holding the
 
 The header I ended up using came from somewhere else. I set every menu in my shot builder to Random and ran it twice. The second run picked a worm's-eye view, an ultra wide lens, red and green neon and light rain, and it beat everything I'd planned.
 
-*Tested October 31, 2026, on an RTX 5080 with 16 GB of VRAM.*
+*Tested on an RTX 5080 with 16 GB of VRAM.*

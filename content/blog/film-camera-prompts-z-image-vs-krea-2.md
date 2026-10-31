@@ -133,4 +133,4 @@ On Z-Image, it's probably better to describe the film than name the brand, since
 
 A film name won't fix a staged scene. It works best on top of a prompt that already says where the light comes from, where the camera is and what people are doing, which my [Z-Image Turbo vs Krea 2 test](/blog/z-image-turbo-vs-krea-2-turbo) covers. And if you ask Z-Image for a RED camera, check the tailgate.
 
-*Tested October 30, 2026, on an RTX 5080 with 16 GB of VRAM.*
+*Tested on an RTX 5080 with 16 GB of VRAM.*

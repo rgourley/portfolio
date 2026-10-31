@@ -2,7 +2,6 @@ import { getBlogPostBySlug, getAllBlogPosts } from "@/lib/content";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { format } from "date-fns";
 import MarkdownContent from "@/components/MarkdownContent";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -132,12 +131,8 @@ export default async function BlogPostPage({
         )}
 
         <div className="mb-8 max-w-[700px] mx-auto">
+          {/* The date stays in the metadata, structured data and sitemap; it's just not shown on the page. */}
           <p className="text-xl text-foreground/60 mb-6">{post.description}</p>
-          {post.date && (
-            <span className="text-sm text-foreground/50">
-              {format(new Date(post.date), "MMMM d, yyyy")}
-            </span>
-          )}
         </div>
 
         <MarkdownContent content={post.content} variant="article" />
