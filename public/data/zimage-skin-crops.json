@@ -5,42 +5,42 @@
    "tiles": [
     {
      "crop": "/images/zimage-skin/crop-combo-base-default-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-base-default-2121.jpg",
+     "full": "/images/zimage-skin/combo-base-default-2121.jpg",
      "label": "Default, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-base-default-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-base-default-5656.jpg",
+     "full": "/images/zimage-skin/combo-base-default-5656.jpg",
      "label": "Default, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-base-shift2-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-base-shift2-2121.jpg",
+     "full": "/images/zimage-skin/combo-base-shift2-2121.jpg",
      "label": "Shift 2, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-base-shift2-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-base-shift2-5656.jpg",
+     "full": "/images/zimage-skin/combo-base-shift2-5656.jpg",
      "label": "Shift 2, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-base-shift1-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-base-shift1-2121.jpg",
+     "full": "/images/zimage-skin/combo-base-shift1-2121.jpg",
      "label": "Shift 1, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-base-shift1-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-base-shift1-5656.jpg",
+     "full": "/images/zimage-skin/combo-base-shift1-5656.jpg",
      "label": "Shift 1, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-base-steps16-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-base-steps16-2121.jpg",
+     "full": "/images/zimage-skin/combo-base-steps16-2121.jpg",
      "label": "16 steps, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-base-steps16-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-base-steps16-5656.jpg",
+     "full": "/images/zimage-skin/combo-base-steps16-5656.jpg",
      "label": "16 steps, 5656"
     }
    ]
@@ -50,42 +50,42 @@
    "tiles": [
     {
      "crop": "/images/zimage-skin/crop-combo-yogi-default-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-yogi-default-2121.jpg",
+     "full": "/images/zimage-skin/combo-yogi-default-2121.jpg",
      "label": "Default, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-yogi-default-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-yogi-default-5656.jpg",
+     "full": "/images/zimage-skin/combo-yogi-default-5656.jpg",
      "label": "Default, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-yogi-shift2-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-yogi-shift2-2121.jpg",
+     "full": "/images/zimage-skin/combo-yogi-shift2-2121.jpg",
      "label": "Shift 2, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-yogi-shift2-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-yogi-shift2-5656.jpg",
+     "full": "/images/zimage-skin/combo-yogi-shift2-5656.jpg",
      "label": "Shift 2, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-yogi-shift1-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-yogi-shift1-2121.jpg",
+     "full": "/images/zimage-skin/combo-yogi-shift1-2121.jpg",
      "label": "Shift 1, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-yogi-shift1-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-yogi-shift1-5656.jpg",
+     "full": "/images/zimage-skin/combo-yogi-shift1-5656.jpg",
      "label": "Shift 1, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-yogi-steps16-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-yogi-steps16-2121.jpg",
+     "full": "/images/zimage-skin/combo-yogi-steps16-2121.jpg",
      "label": "16 steps, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-yogi-steps16-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-yogi-steps16-5656.jpg",
+     "full": "/images/zimage-skin/combo-yogi-steps16-5656.jpg",
      "label": "16 steps, 5656"
     }
    ]
@@ -95,42 +95,42 @@
    "tiles": [
     {
      "crop": "/images/zimage-skin/crop-combo-ms-default-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-ms-default-2121.jpg",
+     "full": "/images/zimage-skin/combo-ms-default-2121.jpg",
      "label": "Default, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-ms-default-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-ms-default-5656.jpg",
+     "full": "/images/zimage-skin/combo-ms-default-5656.jpg",
      "label": "Default, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-ms-shift2-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-ms-shift2-2121.jpg",
+     "full": "/images/zimage-skin/combo-ms-shift2-2121.jpg",
      "label": "Shift 2, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-ms-shift2-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-ms-shift2-5656.jpg",
+     "full": "/images/zimage-skin/combo-ms-shift2-5656.jpg",
      "label": "Shift 2, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-ms-shift1-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-ms-shift1-2121.jpg",
+     "full": "/images/zimage-skin/combo-ms-shift1-2121.jpg",
      "label": "Shift 1, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-ms-shift1-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-ms-shift1-5656.jpg",
+     "full": "/images/zimage-skin/combo-ms-shift1-5656.jpg",
      "label": "Shift 1, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-ms-steps16-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-ms-steps16-2121.jpg",
+     "full": "/images/zimage-skin/combo-ms-steps16-2121.jpg",
      "label": "16 steps, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-ms-steps16-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-ms-steps16-5656.jpg",
+     "full": "/images/zimage-skin/combo-ms-steps16-5656.jpg",
      "label": "16 steps, 5656"
     }
    ]
@@ -140,42 +140,42 @@
    "tiles": [
     {
      "crop": "/images/zimage-skin/crop-combo-fascium-default-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-fascium-default-2121.jpg",
+     "full": "/images/zimage-skin/combo-fascium-default-2121.jpg",
      "label": "Default, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-fascium-default-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-fascium-default-5656.jpg",
+     "full": "/images/zimage-skin/combo-fascium-default-5656.jpg",
      "label": "Default, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-fascium-shift2-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-fascium-shift2-2121.jpg",
+     "full": "/images/zimage-skin/combo-fascium-shift2-2121.jpg",
      "label": "Shift 2, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-fascium-shift2-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-fascium-shift2-5656.jpg",
+     "full": "/images/zimage-skin/combo-fascium-shift2-5656.jpg",
      "label": "Shift 2, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-fascium-shift1-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-fascium-shift1-2121.jpg",
+     "full": "/images/zimage-skin/combo-fascium-shift1-2121.jpg",
      "label": "Shift 1, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-fascium-shift1-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-fascium-shift1-5656.jpg",
+     "full": "/images/zimage-skin/combo-fascium-shift1-5656.jpg",
      "label": "Shift 1, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-fascium-steps16-2121.jpg",
-     "full": "/images/zimage-skin/full-combo-fascium-steps16-2121.jpg",
+     "full": "/images/zimage-skin/combo-fascium-steps16-2121.jpg",
      "label": "16 steps, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-combo-fascium-steps16-5656.jpg",
-     "full": "/images/zimage-skin/full-combo-fascium-steps16-5656.jpg",
+     "full": "/images/zimage-skin/combo-fascium-steps16-5656.jpg",
      "label": "16 steps, 5656"
     }
    ]
@@ -230,22 +230,22 @@
    "tiles": [
     {
      "crop": "/images/zimage-skin/crop-r2-base-2121.jpg",
-     "full": "/images/zimage-skin/full-r2-base-2121.jpg",
+     "full": "/images/zimage-skin/loras-none-2121.jpg",
      "label": "None, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-r2-base-5656.jpg",
-     "full": "/images/zimage-skin/full-r2-base-5656.jpg",
+     "full": "/images/zimage-skin/loras-none-5656.jpg",
      "label": "None, 5656"
     },
     {
      "crop": "/images/zimage-skin/crop-r2-snap60-2121.jpg",
-     "full": "/images/zimage-skin/full-r2-snap60-2121.jpg",
+     "full": "/images/zimage-skin/loras-snapshot-2121.jpg",
      "label": "Snapshot 0.6, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-r2-snap60-5656.jpg",
-     "full": "/images/zimage-skin/full-r2-snap60-5656.jpg",
+     "full": "/images/zimage-skin/loras-snapshot-5656.jpg",
      "label": "Snapshot 0.6, 5656"
     },
     {
@@ -260,12 +260,12 @@
     },
     {
      "crop": "/images/zimage-skin/crop-r2-radiant60-2121.jpg",
-     "full": "/images/zimage-skin/full-r2-radiant60-2121.jpg",
+     "full": "/images/zimage-skin/loras-radiant-2121.jpg",
      "label": "Radiant 0.6, 2121"
     },
     {
      "crop": "/images/zimage-skin/crop-r2-radiant60-5656.jpg",
-     "full": "/images/zimage-skin/full-r2-radiant60-5656.jpg",
+     "full": "/images/zimage-skin/loras-radiant-5656.jpg",
      "label": "Radiant 0.6, 5656"
     },
     {
