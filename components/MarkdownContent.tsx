@@ -13,6 +13,7 @@ const SolutionHighlightsCarousel = dynamic(() => import("./SolutionHighlightsCar
 });
 import LinkCards, { LinkCard } from "./LinkCards";
 const SettingsExplorer = dynamic(() => import("./SettingsExplorer"));
+const ModelToggle = dynamic(() => import("./ModelToggle"));
 const TestimonialBlock = dynamic(() => import("./TestimonialBlock"), {
   loading: () => <div className="h-48 bg-muted/20 animate-pulse rounded-lg" />,
 });
@@ -129,14 +130,16 @@ type ContentPart =
   | { type: 'markdown'; content: string }
   | { type: 'testimonial'; testimonial: Testimonial }
   | { type: 'cards'; cards: LinkCard[] }
-  | { type: 'settings'; src: string };
+  | { type: 'settings'; src: string }
+  | { type: 'models'; src: string; scene: string };
 
 // Parse custom blocks out of markdown content.
 // Testimonial: :::testimonial\nimage: ...\nname: ...\nbio: ...\nquote: ...\n:::
 // Link cards: :::cards\ntitle: ...\nurl: ...\nmeta: ...\ndescription: ...\n---\n(next card)\n:::
 // Settings explorer: :::settings\nsrc: /data/file.json\n:::
+// Model toggle: :::models\nsrc: /data/file.json\nscene: key\n:::
 function parseTestimonials(content: string): { parts: ContentPart[] } {
-  const blockRegex = /:::(testimonial|cards|settings)\n([\s\S]*?)\n:::/g;
+  const blockRegex = /:::(testimonial|cards|settings|models)\n([\s\S]*?)\n:::/g;
   const parts: ContentPart[] = [];
   let lastIndex = 0;
   let match;
@@ -167,6 +170,9 @@ function parseTestimonials(content: string): { parts: ContentPart[] } {
       });
     } else if (match[1] === 'settings') {
       parts.push({ type: 'settings', src: parseFields(match[2]).src || '' });
+    } else if (match[1] === 'models') {
+      const f = parseFields(match[2]);
+      parts.push({ type: 'models', src: f.src || '', scene: f.scene || '' });
     } else {
       const cards: LinkCard[] = match[2]
         .split(/\n---\n/)
@@ -446,7 +452,9 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
     <div className={article ? "max-w-[700px] mx-auto" : "max-w-[1000px]"}>
       {/* Render content with testimonials inline */}
       {testimonialParts.map((part, index) => {
-        if (part.type === 'settings') {
+        if (part.type === 'models') {
+          return <ModelToggle key={`models-${index}`} src={part.src} scene={part.scene} />;
+        } else if (part.type === 'settings') {
           return <SettingsExplorer key={`settings-${index}`} src={part.src} />;
         } else if (part.type === 'cards') {
           return <LinkCards key={`cards-${index}`} cards={part.cards} />;
