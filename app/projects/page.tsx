@@ -2,6 +2,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import StructuredData from "@/components/StructuredData";
+import { pageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/projects" },
@@ -9,7 +11,6 @@ export const metadata: Metadata = {
   description:
     "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Market City, Git Kingdom, Quant Garage, Financial UI Suite, Proxies, geofaces, and more.",
   openGraph: {
-    images: ["/opengraph-image"],
     title: "Projects | Robert Gourley",
     description:
       "Games, open source tools, and experiments by Robert Gourley: ClawStreet, Amphora, Market City, Git Kingdom, Quant Garage, Proxies, and more.",
@@ -194,6 +195,7 @@ function CardLink({
 export default function ProjectsIndexPage() {
   return (
     <div className="pt-32 pb-24">
+      <StructuredData data={pageSchema({ type: "CollectionPage", path: "/projects", name: "Projects", description: "Tools, plugins and experiments by Robert Gourley." })} />
       <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
         <div className="mb-14 max-w-3xl">
           <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/45 mb-6">

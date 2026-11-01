@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import StructuredData from "@/components/StructuredData";
+import { pageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/newsletter" },
@@ -6,7 +8,6 @@ export const metadata: Metadata = {
   description: "Daily briefing on agentic AI. Agent releases, model launches, infrastructure changes, and the work transition ahead. Join 2,000+ builders getting actionable takes.",
   keywords: ["agentic AI", "AI agents", "autonomous systems", "AI newsletter", "agent readout", "Rob Gourley"],
   openGraph: {
-    images: ["/opengraph-image"],
     title: "The Autonomy Report | Weekly Briefing on Agentic AI",
     description: "Daily briefing on agentic AI. Agent releases, model launches, infrastructure changes, and the work transition ahead.",
     url: "/newsletter",
@@ -23,5 +24,10 @@ export default function NewsletterLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <StructuredData data={pageSchema({ path: "/newsletter", name: "The Autonomy Report", description: "Daily briefing on agentic AI: agent releases, model launches and infrastructure changes.", extra: { about: "Agentic AI" } })} />
+      {children}
+    </>
+  );
 }

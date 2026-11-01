@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import EmailLink from "@/components/EmailLink";
+import StructuredData from "@/components/StructuredData";
+import { pageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
@@ -9,7 +11,6 @@ export const metadata: Metadata = {
   description: "Contact Robert Gourley for product design consulting, fractional design leadership, and design strategy services. Specializing in complex technical products, AI/ML interfaces, fintech platforms, and building design teams. Let's discuss how strategic design can drive your business forward.",
   keywords: ["contact design consultant", "hire design leader", "design consulting contact", "product design services", "fractional design leadership", "get in touch", "design strategy consultation"],
   openGraph: {
-    images: ["/opengraph-image"],
     title: "Contact | Let's Work Together",
     description: "Ready to turn complexity into clarity? Let's discuss how strategic design can drive your business forward.",
     url: "/contact",
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="pt-32 pb-20">
+      <StructuredData data={pageSchema({ type: "ContactPage", path: "/contact", name: "Contact Robert Gourley", description: "Get in touch about product design, design leadership and consulting." })} />
       <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
         <Link
           href="/"

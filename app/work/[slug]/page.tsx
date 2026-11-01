@@ -7,6 +7,7 @@ import MarkdownContent from "@/components/MarkdownContent";
 import Image from "next/image";
 import type { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
+import { absUrl, breadcrumbSchema, personRef, WEBSITE_ID } from "@/lib/schema";
 import ProjectViewTracker from "@/components/ProjectViewTracker";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -44,7 +45,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return {
     title: `${work.title}${work.client ? ` (${work.client})` : ""} | Case Study`,
     description: metaDescription,
-    alternates: { canonical: `/work/${work.slug}` },
+    alternates: {
+      canonical: `/work/${work.slug}`,
+      types: { "text/markdown": `/work/${work.slug}.md` },
+    },
     keywords: [
       ...(work.tags || []), 
       "product design case study", 
@@ -100,19 +104,31 @@ export default async function WorkDetailPage({
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.robertcreative.com';
 
+  const workUrl = `${baseUrl}/work/${work.slug}`;
+
   const articleSchema = {
     "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    "@id": `${baseUrl}/work/${work.slug}`,
-    name: work.title,
-    description: work.description,
-    image: work.image,
-    datePublished: work.date,
-    author: {
-      "@type": "Person",
-      name: "Robert Gourley",
-    },
-    keywords: work.tags?.join(", "),
+    "@graph": [
+      {
+        "@type": "CreativeWork",
+        "@id": `${workUrl}#work`,
+        mainEntityOfPage: { "@type": "WebPage", "@id": workUrl },
+        url: workUrl,
+        name: work.title,
+        headline: work.title,
+        description: work.description,
+        image: absUrl(work.image),
+        datePublished: work.date,
+        dateModified: work.date,
+        inLanguage: "en-US",
+        keywords: work.tags?.join(", "),
+        isPartOf: { "@id": WEBSITE_ID },
+        author: personRef,
+        creator: personRef,
+        ...(work.client ? { sourceOrganization: { "@type": "Organization", name: work.client } } : {}),
+      },
+      breadcrumbSchema([["Work", "/work"], [work.title, `/work/${work.slug}`]]),
+    ],
   };
 
   return (

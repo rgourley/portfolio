@@ -36,9 +36,9 @@ export default function Footer() {
               Leadership
             </Link>
             <a 
-              href="mailto:hello@example.com" 
+              href="mailto:rgourley@gmail.com" 
               className="text-sm font-light text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
-              onClick={() => trackEmailClick("hello@example.com", "footer")}
+              onClick={() => trackEmailClick("rgourley@gmail.com", "footer")}
             >
               <FaEnvelope className="w-4 h-4" />
               <span>Email</span>
