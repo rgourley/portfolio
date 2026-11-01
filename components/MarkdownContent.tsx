@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
@@ -12,9 +12,45 @@ const SolutionHighlightsCarousel = dynamic(() => import("./SolutionHighlightsCar
   loading: () => <div className="h-64 bg-muted/20 animate-pulse rounded-lg" />,
 });
 import LinkCards, { LinkCard } from "./LinkCards";
+const SettingsExplorer = dynamic(() => import("./SettingsExplorer"));
+const ModelToggle = dynamic(() => import("./ModelToggle"));
+const ComboExplorer = dynamic(() => import("./ComboExplorer"));
+const CropGrid = dynamic(() => import("./CropGrid"));
 const TestimonialBlock = dynamic(() => import("./TestimonialBlock"), {
   loading: () => <div className="h-48 bg-muted/20 animate-pulse rounded-lg" />,
 });
+
+// Copies a code block's text, so readers can grab a prompt in one click.
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        const done = () => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1500);
+        };
+        // Older browsers and non-secure pages have no clipboard API, so fall back to a hidden textarea.
+        const fallback = () => {
+          const area = document.createElement("textarea");
+          area.value = text;
+          area.style.position = "fixed";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+          if (document.execCommand("copy")) done();
+          area.remove();
+        };
+        if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, fallback);
+        else fallback();
+      }}
+      className="absolute top-2 right-2 rounded-md border border-foreground/15 bg-background/80 px-2.5 py-1 text-xs text-foreground/70 hover:text-foreground"
+    >
+      {copied ? "Copied" : "Copy"}
+    </button>
+  );
+}
 
 interface MarkdownContentProps {
   content: string;
@@ -95,13 +131,21 @@ type Testimonial = { image: string; name: string; bio: string; quote: string };
 type ContentPart =
   | { type: 'markdown'; content: string }
   | { type: 'testimonial'; testimonial: Testimonial }
-  | { type: 'cards'; cards: LinkCard[] };
+  | { type: 'cards'; cards: LinkCard[] }
+  | { type: 'settings'; src: string }
+  | { type: 'models'; src: string; scene: string }
+  | { type: 'combo'; src: string }
+  | { type: 'crops'; src: string };
 
 // Parse custom blocks out of markdown content.
 // Testimonial: :::testimonial\nimage: ...\nname: ...\nbio: ...\nquote: ...\n:::
 // Link cards: :::cards\ntitle: ...\nurl: ...\nmeta: ...\ndescription: ...\n---\n(next card)\n:::
+// Settings explorer: :::settings\nsrc: /data/file.json\n:::
+// Model toggle: :::models\nsrc: /data/file.json\nscene: key\n:::
+// Two-axis compare: :::combo\nsrc: /data/file.json\n:::
+// Close-up grid: :::crops\nsrc: /data/file.json\n:::
 function parseTestimonials(content: string): { parts: ContentPart[] } {
-  const blockRegex = /:::(testimonial|cards)\n([\s\S]*?)\n:::/g;
+  const blockRegex = /:::(testimonial|cards|settings|models|combo|crops)\n([\s\S]*?)\n:::/g;
   const parts: ContentPart[] = [];
   let lastIndex = 0;
   let match;
@@ -130,6 +174,13 @@ function parseTestimonials(content: string): { parts: ContentPart[] } {
         type: 'testimonial',
         testimonial: { image: f.image || '', name: f.name || '', bio: f.bio || '', quote: f.quote || '' }
       });
+    } else if (match[1] === 'settings') {
+      parts.push({ type: 'settings', src: parseFields(match[2]).src || '' });
+    } else if (match[1] === 'combo' || match[1] === 'crops') {
+      parts.push({ type: match[1], src: parseFields(match[2]).src || '' });
+    } else if (match[1] === 'models') {
+      const f = parseFields(match[2]);
+      parts.push({ type: 'models', src: f.src || '', scene: f.scene || '' });
     } else {
       const cards: LinkCard[] = match[2]
         .split(/\n---\n/)
@@ -167,6 +218,33 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
   // Parse testimonials first, then parse Solution Highlights from each markdown part
   const { parts: testimonialParts } = useMemo(() => parseTestimonials(content), [content]);
 
+  // Click-to-enlarge for local article images: shows the original file over the page.
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setLightbox(null);
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = overflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [lightbox]);
+  const zoomable = (src: string, alt: string, child: React.ReactNode) =>
+    article ? (
+      <button
+        type="button"
+        onClick={() => setLightbox({ src, alt })}
+        aria-label={alt ? `Enlarge image: ${alt}` : "Enlarge image"}
+        className="block w-full cursor-zoom-in"
+      >
+        {child}
+      </button>
+    ) : (
+      child
+    );
+
   // Shared components for markdown rendering
   const markdownComponents: any = {
           img: (props: any) => {
@@ -174,21 +252,49 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             const alt = props.alt || "";
             // "#wide" opts an image out of the reading column: full natural ratio, up to 1100px, centered on the page.
             const wide = rawSrc.endsWith("#wide");
-            const src = wide ? rawSrc.slice(0, -"#wide".length) : rawSrc;
+            // "#grid" images that share a paragraph are laid out two across by the p renderer; each one still opens on its own.
+            const grid = rawSrc.endsWith("#grid");
+            const src = wide || grid ? rawSrc.replace(/#(wide|grid)$/, "") : rawSrc;
+
+            if (grid && src.startsWith("/")) {
+              return (
+                <figure className="m-0">
+                  {zoomable(
+                    src,
+                    alt,
+                    <Image
+                      src={src}
+                      alt={alt}
+                      width={1344}
+                      height={756}
+                      sizes="(max-width: 768px) 100vw, 550px"
+                      className="w-full h-auto rounded-lg"
+                      quality={85}
+                      loading="lazy"
+                    />
+                  )}
+                  {alt && <figcaption className="mt-2 text-sm text-foreground/50">{alt}</figcaption>}
+                </figure>
+              );
+            }
 
             if (wide && src.startsWith("/")) {
               return (
                 <div className="my-10 w-full md:w-[min(1100px,calc(100vw-8rem))] md:relative md:left-1/2 md:-translate-x-1/2">
-                  <Image
-                    src={src}
-                    alt={alt}
-                    width={1600}
-                    height={900}
-                    sizes="(max-width: 768px) 100vw, 1100px"
-                    className="w-full h-auto rounded-lg"
-                    quality={85}
-                    loading="lazy"
-                  />
+                  {zoomable(
+                    src,
+                    alt,
+                    <Image
+                      src={src}
+                      alt={alt}
+                      width={1600}
+                      height={900}
+                      sizes="(max-width: 768px) 100vw, 1100px"
+                      className="w-full h-auto rounded-lg"
+                      quality={85}
+                      loading="lazy"
+                    />
+                  )}
                 </div>
               );
             }
@@ -269,6 +375,14 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
           p: ({ node, children }: any) => {
             // Don't wrap images in paragraphs
             const childrenArray = React.Children.toArray(children);
+            const images = childrenArray.filter((child: any) => typeof child !== "string" || child.trim());
+            if (images.length > 1 && images.every((child: any) => String(child?.props?.src || "").endsWith("#grid"))) {
+              return (
+                <div className="my-10 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6 w-full md:w-[min(1100px,calc(100vw-8rem))] md:relative md:left-1/2 md:-translate-x-1/2">
+                  {images}
+                </div>
+              );
+            }
             if (childrenArray.some((child: any) => child?.props?.src || child?.type === "img")) {
               return <>{children}</>;
             }
@@ -308,9 +422,12 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             const codeChild: any = React.Children.toArray(children)[0];
             const text = codeChild?.props?.children ?? children;
             return (
-              <pre className="p-4 rounded-lg bg-muted text-foreground/90 text-sm font-mono overflow-x-auto mb-6">
-                <code>{text}</code>
-              </pre>
+              <div className="relative mb-6">
+                <pre className="p-4 pr-20 rounded-lg bg-muted text-foreground/90 text-sm font-mono overflow-x-auto whitespace-pre-wrap">
+                  <code>{text}</code>
+                </pre>
+                {article && <CopyButton text={String(text).replace(/\n$/, "")} />}
+              </div>
             );
           },
           code: ({ node, children }: any) => (
@@ -343,7 +460,15 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
     <div className={article ? "max-w-[700px] mx-auto" : "max-w-[1000px]"}>
       {/* Render content with testimonials inline */}
       {testimonialParts.map((part, index) => {
-        if (part.type === 'cards') {
+        if (part.type === 'combo') {
+          return <ComboExplorer key={`combo-${index}`} src={part.src} />;
+        } else if (part.type === 'crops') {
+          return <CropGrid key={`crops-${index}`} src={part.src} />;
+        } else if (part.type === 'models') {
+          return <ModelToggle key={`models-${index}`} src={part.src} scene={part.scene} />;
+        } else if (part.type === 'settings') {
+          return <SettingsExplorer key={`settings-${index}`} src={part.src} />;
+        } else if (part.type === 'cards') {
           return <LinkCards key={`cards-${index}`} cards={part.cards} />;
         } else if (part.type === 'testimonial' && part.testimonial) {
           return (
@@ -395,6 +520,32 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
         }
         return null;
       })}
+
+      {lightbox && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightbox.alt || "Enlarged image"}
+          onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-3 bg-black/90 p-4 cursor-zoom-out"
+        >
+          {/* Plain img on purpose: show the original file at full resolution, not a resized copy */}
+          <img
+            src={lightbox.src}
+            alt={lightbox.alt}
+            className="max-h-[88vh] max-w-full w-auto h-auto object-contain rounded"
+          />
+          {lightbox.alt && <p className="max-w-3xl text-center text-sm text-white/70">{lightbox.alt}</p>}
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Close"
+            className="absolute top-4 right-5 text-3xl leading-none text-white/80 hover:text-white"
+          >
+            ×
+          </button>
+        </div>
+      )}
     </div>
   );
 }

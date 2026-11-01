@@ -1,0 +1,287 @@
+{
+ "dir": "/images/zimage-settings",
+ "seeds": [
+  2121,
+  3434
+ ],
+ "groups": [
+  {
+   "key": "steps",
+   "label": "Steps",
+   "base": "8",
+   "values": [
+    {
+     "value": "4",
+     "label": "4 steps",
+     "secs": 3.2,
+     "note": "Clean, but the skin goes smooth and waxy."
+    },
+    {
+     "value": "6",
+     "label": "6 steps",
+     "secs": 4.2,
+     "note": "Close to 8, a touch softer."
+    },
+    {
+     "value": "8",
+     "label": "8 steps",
+     "secs": 5.7,
+     "note": "The default. Sharp ring, clear stitching on the gloves."
+    },
+    {
+     "value": "10",
+     "label": "10 steps",
+     "secs": 7.1,
+     "note": "Hard to tell from 8."
+    },
+    {
+     "value": "12",
+     "label": "12 steps",
+     "secs": 8.1,
+     "note": "Hard to tell from 8, a little more texture."
+    },
+    {
+     "value": "16",
+     "label": "16 steps",
+     "secs": 10.3,
+     "note": "Still good, and it picks up film grain."
+    },
+    {
+     "value": "25",
+     "label": "25 steps",
+     "secs": 15.4,
+     "note": "Starts to look hyper-real. The skin gets blotchy, and seed 2121 grows a second ring."
+    }
+   ]
+  },
+  {
+   "key": "sampler",
+   "label": "Sampler",
+   "base": "res_multistep",
+   "values": [
+    {
+     "value": "euler",
+     "label": "euler",
+     "secs": 6.0,
+     "note": "Almost the same picture as the default."
+    },
+    {
+     "value": "res_multistep",
+     "label": "res_multistep",
+     "secs": 6.0,
+     "note": "The default in ComfyUI's Z-Image template."
+    },
+    {
+     "value": "dpmpp_2m",
+     "label": "dpmpp_2m",
+     "secs": 6.0,
+     "note": "Almost the same picture as the default."
+    },
+    {
+     "value": "dpmpp_sde",
+     "label": "dpmpp_sde",
+     "secs": 11.6,
+     "note": "Adds noise every step, so the face and pose change, and it takes twice as long. On seed 2121 he looks up."
+    },
+    {
+     "value": "uni_pc",
+     "label": "uni_pc",
+     "secs": 6.6,
+     "note": "Close to the default."
+    },
+    {
+     "value": "er_sde",
+     "label": "er_sde",
+     "secs": 6.0,
+     "note": "Changes the pose, and the ring nearly disappears on seed 2121."
+    },
+    {
+     "value": "euler_ancestral",
+     "label": "euler_ancestral",
+     "secs": 5.7,
+     "note": "Changes the pose."
+    },
+    {
+     "value": "lcm",
+     "label": "lcm",
+     "secs": 6.0,
+     "note": "Softer and flatter."
+    }
+   ]
+  },
+  {
+   "key": "scheduler",
+   "label": "Scheduler",
+   "base": "simple",
+   "values": [
+    {
+     "value": "simple",
+     "label": "simple",
+     "secs": 5.5,
+     "note": "The default."
+    },
+    {
+     "value": "beta",
+     "label": "beta",
+     "secs": 5.7,
+     "note": "A little more texture in the leather and the bronze."
+    },
+    {
+     "value": "sgm_uniform",
+     "label": "sgm_uniform",
+     "secs": 5.6,
+     "note": "Same as simple."
+    },
+    {
+     "value": "karras",
+     "label": "karras",
+     "secs": 5.2,
+     "note": "Broken. Soft and orange, and the detail melts."
+    },
+    {
+     "value": "normal",
+     "label": "normal",
+     "secs": 6.1,
+     "note": "Same as simple."
+    },
+    {
+     "value": "exponential",
+     "label": "exponential",
+     "secs": 5.2,
+     "note": "Broken. Blurry, with a screen-door pattern over everything."
+    }
+   ]
+  },
+  {
+   "key": "cfg",
+   "label": "CFG",
+   "base": "1",
+   "values": [
+    {
+     "value": "1",
+     "label": "CFG 1",
+     "secs": 5.6,
+     "note": "The default."
+    },
+    {
+     "value": "1.5",
+     "label": "CFG 1.5",
+     "secs": 10.2,
+     "note": "More contrast. The bronze pops."
+    },
+    {
+     "value": "2",
+     "label": "CFG 2",
+     "secs": 10.1,
+     "note": "A little too warm and washed out, but usable."
+    },
+    {
+     "value": "3",
+     "label": "CFG 3",
+     "secs": 10.4,
+     "note": "Burned."
+    },
+    {
+     "value": "4",
+     "label": "CFG 4",
+     "secs": 10.8,
+     "note": "Destroyed."
+    }
+   ]
+  },
+  {
+   "key": "shift",
+   "label": "Shift",
+   "base": "3",
+   "values": [
+    {
+     "value": "1",
+     "label": "Shift 1",
+     "secs": 6.0,
+     "note": "Gritty, heavy skin texture. Could suit a rougher look."
+    },
+    {
+     "value": "2",
+     "label": "Shift 2",
+     "secs": 6.0,
+     "note": "Close to 3, with a bit more texture."
+    },
+    {
+     "value": "3",
+     "label": "Shift 3",
+     "secs": 6.1,
+     "note": "The default."
+    },
+    {
+     "value": "5",
+     "label": "Shift 5",
+     "secs": 6.0,
+     "note": "Smoother."
+    },
+    {
+     "value": "7",
+     "label": "Shift 7",
+     "secs": 6.1,
+     "note": "Smoother still. Seed 3434 barely changes from 3."
+    }
+   ]
+  },
+  {
+   "key": "res",
+   "label": "Resolution",
+   "base": "1344x768",
+   "values": [
+    {
+     "value": "1024x576",
+     "label": "1024\u00d7576",
+     "secs": 4.2,
+     "note": "Fast, and the least detail."
+    },
+    {
+     "value": "1344x768",
+     "label": "1344\u00d7768",
+     "secs": 6.0,
+     "note": "The default."
+    },
+    {
+     "value": "1600x896",
+     "label": "1600\u00d7896",
+     "secs": 8.1,
+     "note": "A little more detail."
+    },
+    {
+     "value": "1920x1088",
+     "label": "1920\u00d71088",
+     "secs": 12.2,
+     "note": "More detail in the armor and the brooches."
+    },
+    {
+     "value": "2048x1152",
+     "label": "2048\u00d71152",
+     "secs": 14.2,
+     "note": "The framing starts to move."
+    },
+    {
+     "value": "2560x1440",
+     "label": "2560\u00d71440",
+     "secs": 24.8,
+     "note": "The most detail of anything here, but the light goes flatter and he moves in the frame."
+    }
+   ]
+  },
+  {
+   "key": "myth",
+   "label": "DPM++ 2M Karras, 25 steps",
+   "base": "8",
+   "baseGroup": "steps",
+   "values": [
+    {
+     "value": "dpmpp_2m-karras-25",
+     "label": "DPM++ 2M Karras, 25 steps",
+     "secs": 15.3,
+     "note": "Rough, blotchy skin, and two and a half times as long."
+    }
+   ]
+  }
+ ]
+}
