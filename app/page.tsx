@@ -21,8 +21,8 @@ const CTA = dynamic(() => import("@/components/CTA"), {
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
-  title: "Product Design & Strategy | Turning Complexity Into Products People Love",
-  description: "Robert Gourley - Director of Product Design at Shield AI. 20+ years building complex technical products that users actually understand. Specializing in AI/ML interfaces, fintech platforms, and autonomous systems. Led design teams at Kraken ($200B trading volume), Crunchyroll ($1.2B acquisition), Federato, and Axure. Product design consulting and fractional leadership services.",
+  title: { absolute: "Robert Gourley | Product Design Director & Design Leader" },
+  description: "Robert Gourley is Director of Product Design at Shield AI. 20+ years designing complex technical products: AI/ML, autonomous systems and fintech.",
   keywords: ["product design", "UX design", "design leadership", "autonomous systems", "AI product design", "fintech design", "design strategy", "product strategy", "Shield AI", "design consulting"],
   openGraph: {
     title: "Robert Gourley - Product Design & Strategy",
@@ -43,7 +43,11 @@ export default function Home() {
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": `${baseUrl}/#person`,
     name: "Robert Gourley",
+    alternateName: ["Rob Gourley"],
+    image: `${baseUrl}/opengraph-image`,
+    knowsAbout: ["Product design", "Design leadership", "Design systems", "AI product design", "Autonomous systems", "Fintech UX"],
     jobTitle: "Director of Product Design",
     worksFor: {
       "@type": "Organization",
@@ -51,8 +55,10 @@ export default function Home() {
     },
     url: baseUrl,
     sameAs: [
-      "https://linkedin.com/in/robertgourley",
+      "https://www.linkedin.com/in/rob-gourley/",
       "https://github.com/rgourley",
+      "https://uxcreative.medium.com/",
+      "https://www.instagram.com/whats.up.rob/",
     ],
     description: "Product designer and design leader specializing in complex technical products. Experience building design teams and shipping products at scale.",
   };
@@ -60,8 +66,12 @@ export default function Home() {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Robert Gourley - Product Design & Strategy",
+    "@id": `${baseUrl}/#website`,
+    name: "Robert Gourley",
+    alternateName: ["Rob Gourley", "robertcreative.com", "Robert Gourley - Product Design & Strategy"],
     url: baseUrl,
+    inLanguage: "en-US",
+    publisher: { "@id": `${baseUrl}/#person` },
     description: "Product designer and design leader specializing in complex technical products.",
   };
 

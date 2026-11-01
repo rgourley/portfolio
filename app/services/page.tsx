@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import StructuredData from "@/components/StructuredData";
+import { pageSchema } from "@/lib/schema";
+import { PERSON_ID } from "@/lib/schema";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services" },
@@ -8,7 +11,6 @@ export const metadata: Metadata = {
   description: "Product design consulting services by Robert Gourley. Strategic design direction, end-to-end product design execution, and design systems & team building. Specializing in complex technical products, AI/ML interfaces, fintech platforms, and enterprise SaaS. 20+ years experience at Shield AI, Kraken, Crunchyroll, and Federato.",
   keywords: ["product design services", "UX design consulting", "design strategy consulting", "design systems", "product design execution", "design team building", "design consulting", "AI product design", "fintech design consulting", "enterprise design"],
   openGraph: {
-    images: ["/opengraph-image"],
     title: "Services | Product Design & Strategy Consulting",
     description: "Strategic design partnership for organizations building intuitive products. Turn complexity into products people love.",
     url: "/services",
@@ -18,6 +20,7 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <div className="pt-32 pb-20">
+      <StructuredData data={pageSchema({ path: "/services", name: "Product Design & Strategy Consulting", description: "Strategic design direction, end-to-end product design execution, and design systems and team building for complex technical products.", extra: { mainEntity: { "@type": "ProfessionalService", name: "Robert Gourley Product Design Consulting", provider: { "@id": PERSON_ID }, serviceType: ["Product design consulting", "Design strategy", "Design systems", "Design team building"], areaServed: "Worldwide" } } })} />
       {/* Hero Section with Image */}
       <section className="relative min-h-[70vh] flex items-center mb-20 overflow-hidden">
         {/* Hero Image - Replace this URL with your own */}

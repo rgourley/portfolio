@@ -5,6 +5,23 @@ import { getAllBlogPosts } from '@/lib/content';
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.robertcreative.com';
   
+  const toDate = (d?: string) => (d ? new Date(d) : undefined);
+  const latest = (dates: (string | undefined)[]) => {
+    const times = dates.filter(Boolean).map((d) => new Date(d as string).getTime()).filter((t) => !isNaN(t));
+    return times.length ? new Date(Math.max(...times)) : undefined;
+  };
+  const allWork = getAllWork();
+  const allPosts = getAllBlogPosts();
+  const workUpdated = latest(allWork.map((w) => w.date));
+  const blogUpdated = latest(allPosts.map((p) => p.updated || p.date));
+  const siteUpdated = latest([workUpdated?.toISOString(), blogUpdated?.toISOString()]);
+  // Only pages whose freshness we can derive get a lastmod; a made-up date is worse than none.
+  const lastModifiedFor: Record<string, Date | undefined> = {
+    '': siteUpdated,
+    '/work': workUpdated,
+    '/blog': blogUpdated,
+  };
+
   // Static pages
   const staticPages = [
     {
@@ -105,7 +122,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Dynamic work pages
-  const workPages = getAllWork().map((work) => ({
+  const workPages = allWork.map((work) => ({
     url: `${baseUrl}/work/${work.slug}`,
     lastModified: work.date ? new Date(work.date) : undefined,
     changeFrequency: 'monthly' as const,
@@ -113,13 +130,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // Dynamic blog pages
-  const blogPages = getAllBlogPosts().map((post) => ({
+  const blogPages = allPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: post.date ? new Date(post.date) : undefined,
+    lastModified: toDate(post.updated || post.date),
     changeFrequency: 'monthly' as const,
     priority: 0.6,
   }));
 
-  return [...staticPages, ...workPages, ...blogPages];
+  const staticWithDates = staticPages.map((page) => ({
+    ...page,
+    lastModified: lastModifiedFor[page.url.slice(baseUrl.length)],
+  }));
+
+  return [...staticWithDates, ...workPages, ...blogPages];
 }
 

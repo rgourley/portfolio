@@ -7,6 +7,7 @@ import MarkdownContent from "@/components/MarkdownContent";
 import Image from "next/image";
 import type { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
+import { absUrl, breadcrumbSchema, personRef, WEBSITE_ID } from "@/lib/schema";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getBlogPostBySlug(params.slug);
@@ -27,7 +28,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return {
     title: post.seoTitle || post.title,
     description: metaDescription,
-    alternates: { canonical: `/blog/${post.slug}` },
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+      types: { "text/markdown": `/blog/${post.slug}.md` },
+    },
     keywords: [...(post.tags || []), "design blog", "product design blog", "UX design", "design thinking", "design leadership", "AI design tools", "Robert Gourley"].filter(Boolean),
     openGraph: {
       title: post.title,
@@ -68,27 +72,32 @@ export default async function BlogPostPage({
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.robertcreative.com";
 
+  const postUrl = `${baseUrl}/blog/${post.slug}`;
+  // Posts with `ogArt` and posts without an image both use the generated card.
+  const postImage = !post.ogArt && post.image ? absUrl(post.image) : `${postUrl}/opengraph-image`;
+
   const articleSchema = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "@id": `${baseUrl}/blog/${post.slug}`,
-    mainEntityOfPage: `${baseUrl}/blog/${post.slug}`,
-    headline: post.title,
-    description: post.description,
-    image: post.image ? `${baseUrl}${post.image}` : undefined,
-    datePublished: post.date,
-    dateModified: post.updated || post.date,
-    keywords: post.tags?.join(", "),
-    author: {
-      "@type": "Person",
-      name: "Robert Gourley",
-      url: baseUrl,
-    },
-    publisher: {
-      "@type": "Person",
-      name: "Robert Gourley",
-      url: baseUrl,
-    },
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${postUrl}#article`,
+        mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
+        url: postUrl,
+        headline: post.title,
+        description: post.description,
+        image: [postImage],
+        datePublished: post.date,
+        dateModified: post.updated || post.date,
+        inLanguage: "en-US",
+        keywords: post.tags?.join(", "),
+        wordCount: post.content.split(/\s+/).filter(Boolean).length,
+        isPartOf: { "@id": WEBSITE_ID },
+        author: personRef,
+        publisher: personRef,
+      },
+      breadcrumbSchema([["Blog", "/blog"], [post.title, `/blog/${post.slug}`]]),
+    ],
   };
 
   return (

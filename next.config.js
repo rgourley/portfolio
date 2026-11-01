@@ -57,6 +57,9 @@ const nextConfig = {
   },
   async rewrites() {
     return [
+      // Markdown copies of posts and case studies for LLMs and agents: /blog/<slug>.md
+      { source: '/blog/:slug.md', destination: '/md/blog/:slug' },
+      { source: '/work/:slug.md', destination: '/md/work/:slug' },
       { source: '/amphora', destination: '/amphora/index.html' },
       { source: '/amphora/updates', destination: '/amphora/updates/index.html' },
       { source: '/coaster', destination: '/coaster/index.html' },

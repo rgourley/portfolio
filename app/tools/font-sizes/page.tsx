@@ -11,7 +11,6 @@ export const metadata: Metadata = {
     "Drag one button to your bookmarks bar, click it on any web page, and see every font size, weight, family and line height in use, with a count for each. Copy the result as CSS or JSON.",
   alternates: { canonical: PAGE_PATH },
   openGraph: {
-    images: ["/opengraph-image"],
     title: "Font Size Checker Bookmarklet",
     description: "List every font size, weight and line height on any web page. One click, no extension.",
     url: PAGE_PATH,

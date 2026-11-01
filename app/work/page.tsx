@@ -1,6 +1,9 @@
 import { getAllWork } from "@/lib/content";
 import WorkGrid from "@/components/WorkGrid";
 import type { Metadata } from "next";
+import StructuredData from "@/components/StructuredData";
+import { pageSchema } from "@/lib/schema";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/work" },
@@ -8,7 +11,6 @@ export const metadata: Metadata = {
   description: "Product design case studies and portfolio work by Robert Gourley. Explore design projects from Shield AI's Hivemind autonomy platform, Kraken's cryptocurrency trading platform, Federato's machine learning underwriting system, Axure's design tooling, and more. Detailed case studies showing design process, solutions, and outcomes.",
   keywords: ["product design portfolio", "UX case studies", "design projects", "autonomy platform design", "trading platform UX", "fintech design", "enterprise product design", "design case studies", "Hivemind design", "Kraken UX"],
   openGraph: {
-    images: ["/opengraph-image"],
     title: "Work | Product Design Projects & Case Studies",
     description: "Selected projects showcasing design leadership and product innovation.",
     url: "/work",
@@ -20,6 +22,7 @@ export default function WorkPage() {
 
   return (
     <div className="pt-32 pb-20">
+      <StructuredData data={pageSchema({ type: "CollectionPage", path: "/work", name: "Work: Product Design Projects & Case Studies", description: "Case studies in AI, autonomous systems, fintech and streaming by Robert Gourley.", extra: { mainEntity: { "@type": "ItemList", itemListElement: getAllWork().map((w, i) => ({ "@type": "ListItem", position: i + 1, url: `${SITE_URL}/work/${w.slug}`, name: w.title })) } } })} />
       <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
         <div className="mb-16">
           <p className="text-base text-foreground/60 max-w-2xl">
