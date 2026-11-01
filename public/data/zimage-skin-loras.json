@@ -1,0 +1,52 @@
+{
+ "dir": "/images/zimage-skin",
+ "aspect": "4/5",
+ "zoomLabel": "Close-up",
+ "zoomOrigin": "62% 42%",
+ "seeds": [
+  2121,
+  3434,
+  5656,
+  7878
+ ],
+ "models": [
+  {
+   "key": "none",
+   "label": "No LoRA"
+  },
+  {
+   "key": "snapshot",
+   "label": "Realistic Snapshot 0.6"
+  },
+  {
+   "key": "radiant",
+   "label": "Radiant Realism 0.6"
+  }
+ ],
+ "scenes": [
+  {
+   "key": "loras",
+   "title": "Freckled portrait in hard sun",
+   "secs": {
+    "none": {
+     "2121": 7.1,
+     "3434": 7.1,
+     "5656": 7.1,
+     "7878": 7.1
+    },
+    "snapshot": {
+     "2121": 7.0,
+     "3434": 7.0,
+     "5656": 7.0,
+     "7878": 7.0
+    },
+    "radiant": {
+     "2121": 7.1,
+     "3434": 7.1,
+     "5656": 7.1,
+     "7878": 7.1
+    }
+   }
+  }
+ ]
+}
