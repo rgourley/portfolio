@@ -23,7 +23,7 @@ export default function BlogPage() {
   return (
     <div className="pt-32 pb-20">
       <StructuredData data={pageSchema({ type: "CollectionPage", path: "/blog", name: "Blog", description: "Design, product development and AI, by Robert Gourley.", extra: { mainEntity: { "@type": "ItemList", itemListElement: getAllBlogPosts().map((p, i) => ({ "@type": "ListItem", position: i + 1, url: `${SITE_URL}/blog/${p.slug}`, name: p.title })) } } })} />
-      <div className="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
+      <div className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16">
         <div className="mb-16">
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[1.0] tracking-[-0.02em] md:tracking-[-0.02em] lg:tracking-[-0.02em] mb-4">
             What I'm
