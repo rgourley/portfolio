@@ -1,4 +1,5 @@
-// Google Analytics event tracking utility
+// Event tracking utility: sends to Google Analytics and PostHog (when configured)
+import posthog from "posthog-js";
 
 declare global {
   interface Window {
@@ -17,6 +18,9 @@ export function trackEvent(
 ) {
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag("event", eventName, eventParams);
+  }
+  if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+    posthog.capture(eventName, eventParams);
   }
 }
 

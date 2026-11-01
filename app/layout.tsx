@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import PostHogProvider from "@/components/PostHogProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -73,11 +74,13 @@ export default function RootLayout({
             gtag('config', 'G-MC70FP4W2T');
           `}
         </Script>
-        <ThemeProvider>
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-        </ThemeProvider>
+        <PostHogProvider>
+          <ThemeProvider>
+            <Navbar />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+          </ThemeProvider>
+        </PostHogProvider>
       </body>
     </html>
   );
