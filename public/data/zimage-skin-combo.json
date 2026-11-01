@@ -1,0 +1,82 @@
+{
+ "dir": "/images/zimage-skin",
+ "seeds": [
+  2121,
+  5656
+ ],
+ "aspect": "4/5",
+ "zoomLabel": "Close-up",
+ "zoomOrigin": "62% 42%",
+ "axes": [
+  {
+   "label": "Checkpoint",
+   "base": "base",
+   "options": [
+    {
+     "key": "base",
+     "label": "Base Z-Image",
+     "note": "Base Z-Image Turbo. The one to beat."
+    },
+    {
+     "key": "yogi",
+     "label": "Stable Yogi",
+     "note": "Stable Yogi 2603: almost the same picture as base, in half the time."
+    },
+    {
+     "key": "ms",
+     "label": "MS V3",
+     "note": "MS Z-Image Turbo V3: a deeper sky, and skin that swings between textured and waxy from seed to seed."
+    },
+    {
+     "key": "fascium",
+     "label": "Fascium",
+     "note": "Fascium \"Being Boring\": the smoothest, waxiest skin of the four."
+    }
+   ]
+  },
+  {
+   "label": "Setting",
+   "base": "default",
+   "options": [
+    {
+     "key": "default",
+     "label": "Default",
+     "note": "Default: shift 3, 8 steps."
+    },
+    {
+     "key": "shift2",
+     "label": "Shift 2",
+     "note": "Shift 2: the pores come back at the same speed. This is the one to change."
+    },
+    {
+     "key": "shift1",
+     "label": "Shift 1",
+     "note": "Shift 1: the most texture, with fine lines under the eye. It starts to look dry."
+    },
+    {
+     "key": "steps16",
+     "label": "16 steps",
+     "note": "16 steps: more freckles and some film grain, at twice the time."
+    }
+   ]
+  }
+ ],
+ "secs": {
+  "base-default": 7.1,
+  "base-shift2": 8.3,
+  "base-shift1": 7.1,
+  "base-steps16": 13.1,
+  "yogi-default": 4.1,
+  "yogi-shift2": 4.0,
+  "yogi-shift1": 4.0,
+  "yogi-steps16": 6.1,
+  "ms-default": 7.1,
+  "ms-shift2": 8.1,
+  "ms-shift1": 7.1,
+  "ms-steps16": 14.1,
+  "fascium-default": 14.1,
+  "fascium-shift2": 8.3,
+  "fascium-shift1": 8.2,
+  "fascium-steps16": 12.1
+ }
+}
