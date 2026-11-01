@@ -1,0 +1,185 @@
+{
+ "dir": "/images/zimage-krea-moss",
+ "models": [
+  {
+   "key": "zimage",
+   "label": "Z-Image Turbo"
+  },
+  {
+   "key": "krea",
+   "label": "Krea 2 Turbo"
+  },
+  {
+   "key": "moss",
+   "label": "MOSS-Image"
+  }
+ ],
+ "seeds": [
+  2121,
+  3434
+ ],
+ "scenes": [
+  {
+   "key": "winter",
+   "title": "The commander in the snow",
+   "secs": {
+    "zimage": {
+     "2121": 21.2,
+     "3434": 8.1
+    },
+    "krea": {
+     "2121": 11.5,
+     "3434": 11.6
+    },
+    "moss": {
+     "2121": 22.2,
+     "3434": 14.1
+    }
+   }
+  },
+  {
+   "key": "beach",
+   "title": "The war camp on the beach",
+   "secs": {
+    "zimage": {
+     "2121": 7.1,
+     "3434": 7.1
+    },
+    "krea": {
+     "2121": 16.1,
+     "3434": 11.4
+    },
+    "moss": {
+     "2121": 14.3,
+     "3434": 14.2
+    }
+   }
+  },
+  {
+   "key": "rain",
+   "title": "1930s rain",
+   "secs": {
+    "zimage": {
+     "2121": 17.1,
+     "3434": 7.1
+    },
+    "krea": {
+     "2121": 16.2,
+     "3434": 12.2
+    },
+    "moss": {
+     "2121": 14.3,
+     "3434": 14.4
+    }
+   }
+  },
+  {
+   "key": "paramedic",
+   "title": "The paramedic",
+   "secs": {
+    "zimage": {
+     "2121": 13.1,
+     "3434": 7.1
+    },
+    "krea": {
+     "2121": 17.1,
+     "3434": 11.4
+    },
+    "moss": {
+     "2121": 14.0,
+     "3434": 14.2
+    }
+   }
+  },
+  {
+   "key": "climber",
+   "title": "The climber at dawn",
+   "secs": {
+    "zimage": {
+     "2121": 10.1,
+     "3434": 8.1
+    },
+    "krea": {
+     "2121": 16.2,
+     "3434": 12.1
+    },
+    "moss": {
+     "2121": 14.1,
+     "3434": 13.3
+    }
+   }
+  },
+  {
+   "key": "chef",
+   "title": "The chef in the alley",
+   "secs": {
+    "zimage": {
+     "2121": 10.4,
+     "3434": 7.1
+    },
+    "krea": {
+     "2121": 16.1,
+     "3434": 11.5
+    },
+    "moss": {
+     "2121": 14.2,
+     "3434": 14.1
+    }
+   }
+  },
+  {
+   "key": "taxi",
+   "title": "The taxi at night",
+   "secs": {
+    "zimage": {
+     "2121": 10.2,
+     "3434": 7.1
+    },
+    "krea": {
+     "2121": 16.2,
+     "3434": 12.1
+    },
+    "moss": {
+     "2121": 14.1,
+     "3434": 13.3
+    }
+   }
+  },
+  {
+   "key": "trawler",
+   "title": "The trawler in a storm",
+   "secs": {
+    "zimage": {
+     "2121": 11.4,
+     "3434": 7.1
+    },
+    "krea": {
+     "2121": 25.4,
+     "3434": 12.2
+    },
+    "moss": {
+     "2121": 14.2,
+     "3434": 13.3
+    }
+   }
+  },
+  {
+   "key": "soldier",
+   "title": "The soldier at golden hour",
+   "secs": {
+    "zimage": {
+     "2121": 12.1,
+     "3434": 7.1
+    },
+    "krea": {
+     "2121": 16.3,
+     "3434": 12.2
+    },
+    "moss": {
+     "2121": 14.2,
+     "3434": 13.2
+    }
+   }
+  }
+ ]
+}
