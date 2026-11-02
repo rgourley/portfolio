@@ -21,8 +21,9 @@ export default function ComboExplorer({ src }: { src: string }) {
       .then((r) => r.json())
       .then((d: Data) => {
         setData(d);
-        // Start one step away from the default on the second axis, so the two sides differ.
-        setPicks(d.axes.map((ax, i) => (i === 1 ? ax.options.find((o) => o.key !== ax.base)?.key || ax.base : ax.base)));
+        // Start one step away from the default on the second axis (or the only one), so the two sides differ.
+        const step = Math.min(1, d.axes.length - 1);
+        setPicks(d.axes.map((ax, i) => (i === step ? ax.options.find((o) => o.key !== ax.base)?.key || ax.base : ax.base)));
         setSeed(d.seeds[0]);
       });
   }, [src]);
@@ -48,7 +49,7 @@ export default function ComboExplorer({ src }: { src: string }) {
   return (
     <div className="my-10 w-full md:w-[min(1100px,calc(100vw-8rem))] md:relative md:left-1/2 md:-translate-x-1/2">
       <p className="mb-3 text-sm text-foreground/60">
-        Left is the default, right is the combination you pick. Switch View to Close-up to zoom into the same spot on both.
+        Left is the default, right is the combination you pick. Switch View to {data.zoomLabel || "Close-up"} to zoom into the same spot on both.
       </p>
       {data.axes.map((ax, i) => (
         <div key={ax.label} className="mb-3 flex flex-wrap items-center gap-2">
