@@ -8,7 +8,7 @@
  ],
  "aspect": "4/5",
  "zoomLabel": "Face",
- "zoomOrigin": "40% 14%",
+ "zoomOrigin": "47% 12%",
  "axes": [
   {
    "label": "Model file",
@@ -38,9 +38,9 @@
   }
  ],
  "secs": {
-  "bf16": 9.1,
-  "fp8": 9.1,
-  "int8": 5.2,
-  "nvfp4": 4.2
+  "bf16": 7.3,
+  "fp8": 7.1,
+  "int8": 4.0,
+  "nvfp4": 4.1
  }
 }

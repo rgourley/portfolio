@@ -7,15 +7,15 @@ image: "/images/zimage-files/files-hero-portrait.jpg"
 tags: ["AI images","ComfyUI"]
 ---
 
-The 6.2 GB int8 file of Z-Image Turbo drew almost the same pictures as the 12.3 GB original, down to the scratches on a payphone, in about half the time. I didn't expect that. Smaller files usually cost you something, and I went in assuming FP8 would be the safe middle pick.
+Z-Image Turbo comes as several model files that hold the same model at different precision. BF16 is the full 12.3 GB version. FP8, int8 and NVFP4 store each number with fewer bits, so the file is smaller and can run faster, but the picture can drift. I ran the same two prompts on the same four seeds through each file to see how far each one moves from BF16 and how much time it saves.
 
-Z-Image Turbo comes as several model files that hold the same model at different precision. BF16 is the full version. FP8, int8 and NVFP4 store each number with fewer bits, so the file is smaller and can run faster, and the picture can drift. I ran the same two prompts on the same four seeds through each file to see how far each one moves away from BF16, and how much time it saves.
+The 6.2 GB int8 file came out on top. It drew almost the same pictures as BF16, down to the scratches on a payphone, in about half the time. Smaller files usually cost you something, so I didn't expect that.
 
 | File | Size | Time per image | Matches BF16? |
 |---|---|---|---|
-| [BF16](https://huggingface.co/Comfy-Org/z_image_turbo/blob/main/split_files/diffusion_models/z_image_turbo_bf16.safetensors) | 12.3 GB | 9–12s | It is the reference |
-| [int8](https://huggingface.co/Comfy-Org/z_image_turbo/blob/main/split_files/diffusion_models/z_image_turbo_int8_convrot.safetensors) | 6.2 GB | 4–5s | Closest of the three |
-| [FP8](https://huggingface.co/Kijai/Z-Image_comfy_fp8_scaled/blob/main/z-image-turbo_fp8_scaled_e4m3fn_KJ.safetensors) | 6.2 GB | 8–9s | Close, small parts change |
+| [BF16](https://huggingface.co/Comfy-Org/z_image_turbo/blob/main/split_files/diffusion_models/z_image_turbo_bf16.safetensors) | 12.3 GB | 7–12s | It is the reference |
+| [int8](https://huggingface.co/Comfy-Org/z_image_turbo/blob/main/split_files/diffusion_models/z_image_turbo_int8_convrot.safetensors) | 6.2 GB | 4s | Closest of the three |
+| [FP8](https://huggingface.co/Kijai/Z-Image_comfy_fp8_scaled/blob/main/z-image-turbo_fp8_scaled_e4m3fn_KJ.safetensors) | 6.2 GB | 7–8s | Close, small parts change |
 | [NVFP4](https://huggingface.co/Comfy-Org/z_image_turbo/blob/main/split_files/diffusion_models/z_image_turbo_nvfp4.safetensors) | 4.5 GB | 4s | Same scene, different details |
 
 All four ran in ComfyUI on an RTX 5080 with 16 GB, at 8 steps, CFG 1 and shift 3, the defaults from [the Z-Image settings post](/blog/z-image-turbo-best-settings). Each time is the median of three images, leaving out the first one, which includes loading the model.
@@ -27,8 +27,10 @@ A model file's precision shows up in small, hard details first: lettering, butto
 The first is a magazine portrait: a woman in a camel coat leaning on an old green car by a brick wall, with gold hoops, a silver ring and her head's shadow on the bricks.
 
 ```text
-Waist-up fashion editorial portrait from slightly below, a tall woman in her late twenties with deep brown skin, high cheekbones and short cropped natural hair, leaning back against the roof of a dusty dark green vintage sedan beside a weathered red brick wall, her forearm resting on the chrome edge of the roof, the car's curved roofline and rain gutter running across the bottom of the frame, wearing an oversized camel wool coat over a cream ribbed turtleneck, chin lifted, looking past the camera, her face in the upper third of the frame, slightly left of center. Hard low golden sun from the right in late afternoon rakes across her face and the brick, throwing the crisp shadow of her head onto the wall, the far side of her face falling into deep shadow. Small gold hoop earrings, a chunky silver ring, the coarse weave of the wool, dust and fine scratches on the dark paint, chipped mortar between the bricks, visible pores, fine baby hairs at her hairline, a natural sheen on her cheekbone. 85mm lens, editorial photograph from a fashion magazine, the subject razor sharp and the far end of the street dissolved into soft out-of-focus shapes, rich natural color with deep shadows, soft rolled-off highlights, medium format film, fine grain
+Waist-up fashion editorial portrait from slightly below, a woman in her late twenties with deep brown skin, high cheekbones and short cropped natural hair, half sitting against the front fender of a dusty dark green vintage sedan parked beside a weathered red brick wall, one hand resting flat on the curved hood beside her hip, the rounded fender, a round chrome headlight and the edge of the hood across the bottom of the frame, wearing an oversized camel wool coat over a cream ribbed turtleneck, chin lifted, looking past the camera, her face in the upper third of the frame, slightly left of center. Hard low golden sun from the right in late afternoon rakes across her face and the brick, throwing the crisp shadow of her head onto the wall, the far side of her face falling into deep shadow. Small gold hoop earrings, a chunky silver ring, the coarse weave of the wool, dust and fine scratches on the dark paint, chipped mortar between the bricks, visible pores, fine baby hairs at her hairline, a natural sheen on her cheekbone. 85mm lens, editorial photograph from a fashion magazine, the subject razor sharp and the far end of the street dissolved into soft out-of-focus shapes, rich natural color with deep shadows, soft rolled-off highlights, medium format film, fine grain
 ```
+
+My first version had her leaning on the car's roof with her forearm resting on it. Z-Image kept her the same size and shrank the car, so the roof sat at her hip and she looked about eight feet tall. Putting her hand on the hood fixed it, because a hood really is at hip height. Give Z-Image a pose that fits real proportions and it gets the scale right.
 
 The second is a film still of a woman on an old payphone against a turquoise brick wall. The payphone is there for its keypad: twelve small buttons are a hard test for any file.
 
@@ -46,7 +48,9 @@ BF16 is always on the left. Pick a file for the right side, step through the see
 src: /data/zimage-files-editorial.json
 :::
 
-On this prompt all four files hold up. The pose, coat, car and shadow on the wall stay put. int8 is hard to tell from BF16 even zoomed in. FP8 is close too. NVFP4 moves things slightly: the tilt of her head, the crop, the shape of the rings. On its own you'd never know.
+On seeds 2121, 3434 and 5656, BF16, FP8 and int8 draw the same picture: the same pose, coat, car and shadow on the wall. On 7878, int8 and NVFP4 both turn the car, so you see its side window where BF16 and FP8 show the grille and headlight. Her pose and coat stay put.
+
+NVFP4 moves the most. It shifts the crop on 2121 and changes her face on 5656, with a sharper jaw and different hair. Each picture is fine on its own. It's just not the same woman BF16 drew.
 
 ## The payphone, file by file
 
@@ -62,7 +66,7 @@ NVFP4 draws a different phone on every seed. On seed 3434 it put a rotary dial a
 
 ## Does a smaller file make skin worse?
 
-Not in this test. Zoomed into her face, the freckles, pores and fine hair hold up on all four files. NVFP4 changes a few strands of hair and the set of the mouth, which is drift, not lost detail. Click any close-up to open it large and switch to the full frame.
+Not in this test. Zoomed into either face, the pores, freckles and fine hair hold up on all four files. Where NVFP4 changes a face, it draws a different face with the same detail. Nothing gets smoothed. Click any close-up to open it large and switch to the full frame.
 
 :::crops
 src: /data/zimage-files-crops.json
@@ -72,11 +76,11 @@ If skin is what you care about most, the [realistic skin post](/blog/z-image-tur
 
 ## Is FP8 faster than BF16?
 
-Not on my card. Kijai's FP8 file was 8 to 9 seconds an image, the same as BF16. It halves the download and the space on disk, and it looks nearly identical, but on an RTX 5080 int8 gave me the same size, twice the speed and a closer match. I didn't test FP8 on an older card, where the result could differ.
+Not by much on my card. On the portrait, FP8 and BF16 both took about 7 seconds an image. On the payphone, FP8 took 8 seconds and BF16 took 12, but BF16's payphone times jumped around: an earlier run of a similar prompt took 8. It halves the download and the space on disk, and it looks nearly identical, but on an RTX 5080 int8 gave me the same size, twice the speed and a closer match. I didn't test FP8 on an older card, where the result could differ.
 
 ## Which Z-Image Turbo file should you use?
 
-On an RTX 5080, int8. It's half the size of BF16, runs in about 4 to 5 seconds instead of 9 to 12, and drew the closest picture to BF16 of the three smaller files. Keep BF16 if you need to match images someone else made with it, seed for seed.
+On an RTX 5080, int8. It's half the size of BF16, runs in about 4 seconds instead of 7 to 12, and drew the closest picture to BF16 of the three smaller files. Keep BF16 if you need to match images someone else made with it, seed for seed.
 
 NVFP4 is the fastest, at 4 seconds and 4.5 GB, and its pictures are good. Use it when speed matters more than matching BF16. NVFP4 is a format made for RTX 50-series cards, so test it before relying on it on anything older.
 
