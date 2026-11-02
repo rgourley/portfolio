@@ -3,7 +3,7 @@ title: "Which Z-Image Turbo model file should you download? BF16, FP8, int8 and 
 seoTitle: "Z-Image Turbo BF16 vs FP8 vs int8 vs NVFP4: Which File?"
 description: "Four Z-Image Turbo model files, same prompts and seeds on an RTX 5080. int8 matched BF16 at half the size and twice the speed. NVFP4 drifted most."
 date: "2026-11-01"
-image: "/images/zimage-files/files-hero.jpg"
+image: "/images/zimage-files/files-hero-portrait.jpg"
 tags: ["AI images","ComfyUI"]
 ---
 
