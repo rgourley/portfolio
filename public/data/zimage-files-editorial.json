@@ -1,0 +1,46 @@
+{
+ "dir": "/images/zimage-files/editorial",
+ "seeds": [
+  2121,
+  3434,
+  5656,
+  7878
+ ],
+ "aspect": "4/5",
+ "zoomLabel": "Face",
+ "zoomOrigin": "40% 14%",
+ "axes": [
+  {
+   "label": "Model file",
+   "base": "bf16",
+   "options": [
+    {
+     "key": "bf16",
+     "label": "BF16",
+     "note": "z_image_turbo_bf16, 12.3 GB. The full-precision reference."
+    },
+    {
+     "key": "fp8",
+     "label": "FP8",
+     "note": "Kijai's fp8_scaled, 6.2 GB. Same layout as BF16, small parts shift a little. No faster on an RTX 5080."
+    },
+    {
+     "key": "int8",
+     "label": "int8",
+     "note": "Comfy-Org's int8_convrot, 6.2 GB. The closest copy of BF16, in about half the time."
+    },
+    {
+     "key": "nvfp4",
+     "label": "NVFP4",
+     "note": "Comfy-Org's nvfp4, 4.5 GB. The fastest and smallest, and it drifts furthest from BF16."
+    }
+   ]
+  }
+ ],
+ "secs": {
+  "bf16": 9.1,
+  "fp8": 9.1,
+  "int8": 5.2,
+  "nvfp4": 4.2
+ }
+}

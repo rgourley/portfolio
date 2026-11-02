@@ -1,0 +1,259 @@
+{
+ "rows": [
+  {
+   "title": "Editorial: face",
+   "tiles": [
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-bf16-2121.jpg",
+     "full": "/images/zimage-files/editorial/combo-bf16-2121.jpg",
+     "label": "BF16, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-bf16-3434.jpg",
+     "full": "/images/zimage-files/editorial/combo-bf16-3434.jpg",
+     "label": "BF16, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-bf16-5656.jpg",
+     "full": "/images/zimage-files/editorial/combo-bf16-5656.jpg",
+     "label": "BF16, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-bf16-7878.jpg",
+     "full": "/images/zimage-files/editorial/combo-bf16-7878.jpg",
+     "label": "BF16, 7878"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-fp8-2121.jpg",
+     "full": "/images/zimage-files/editorial/combo-fp8-2121.jpg",
+     "label": "FP8, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-fp8-3434.jpg",
+     "full": "/images/zimage-files/editorial/combo-fp8-3434.jpg",
+     "label": "FP8, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-fp8-5656.jpg",
+     "full": "/images/zimage-files/editorial/combo-fp8-5656.jpg",
+     "label": "FP8, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-fp8-7878.jpg",
+     "full": "/images/zimage-files/editorial/combo-fp8-7878.jpg",
+     "label": "FP8, 7878"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-int8-2121.jpg",
+     "full": "/images/zimage-files/editorial/combo-int8-2121.jpg",
+     "label": "int8, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-int8-3434.jpg",
+     "full": "/images/zimage-files/editorial/combo-int8-3434.jpg",
+     "label": "int8, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-int8-5656.jpg",
+     "full": "/images/zimage-files/editorial/combo-int8-5656.jpg",
+     "label": "int8, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-int8-7878.jpg",
+     "full": "/images/zimage-files/editorial/combo-int8-7878.jpg",
+     "label": "int8, 7878"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-nvfp4-2121.jpg",
+     "full": "/images/zimage-files/editorial/combo-nvfp4-2121.jpg",
+     "label": "NVFP4, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-nvfp4-3434.jpg",
+     "full": "/images/zimage-files/editorial/combo-nvfp4-3434.jpg",
+     "label": "NVFP4, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-nvfp4-5656.jpg",
+     "full": "/images/zimage-files/editorial/combo-nvfp4-5656.jpg",
+     "label": "NVFP4, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/editorial/crop-face-nvfp4-7878.jpg",
+     "full": "/images/zimage-files/editorial/combo-nvfp4-7878.jpg",
+     "label": "NVFP4, 7878"
+    }
+   ]
+  },
+  {
+   "title": "Payphone: face",
+   "tiles": [
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-bf16-2121.jpg",
+     "full": "/images/zimage-files/payphone/combo-bf16-2121.jpg",
+     "label": "BF16, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-bf16-3434.jpg",
+     "full": "/images/zimage-files/payphone/combo-bf16-3434.jpg",
+     "label": "BF16, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-bf16-5656.jpg",
+     "full": "/images/zimage-files/payphone/combo-bf16-5656.jpg",
+     "label": "BF16, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-bf16-7878.jpg",
+     "full": "/images/zimage-files/payphone/combo-bf16-7878.jpg",
+     "label": "BF16, 7878"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-fp8-2121.jpg",
+     "full": "/images/zimage-files/payphone/combo-fp8-2121.jpg",
+     "label": "FP8, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-fp8-3434.jpg",
+     "full": "/images/zimage-files/payphone/combo-fp8-3434.jpg",
+     "label": "FP8, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-fp8-5656.jpg",
+     "full": "/images/zimage-files/payphone/combo-fp8-5656.jpg",
+     "label": "FP8, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-fp8-7878.jpg",
+     "full": "/images/zimage-files/payphone/combo-fp8-7878.jpg",
+     "label": "FP8, 7878"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-int8-2121.jpg",
+     "full": "/images/zimage-files/payphone/combo-int8-2121.jpg",
+     "label": "int8, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-int8-3434.jpg",
+     "full": "/images/zimage-files/payphone/combo-int8-3434.jpg",
+     "label": "int8, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-int8-5656.jpg",
+     "full": "/images/zimage-files/payphone/combo-int8-5656.jpg",
+     "label": "int8, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-int8-7878.jpg",
+     "full": "/images/zimage-files/payphone/combo-int8-7878.jpg",
+     "label": "int8, 7878"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-nvfp4-2121.jpg",
+     "full": "/images/zimage-files/payphone/combo-nvfp4-2121.jpg",
+     "label": "NVFP4, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-nvfp4-3434.jpg",
+     "full": "/images/zimage-files/payphone/combo-nvfp4-3434.jpg",
+     "label": "NVFP4, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-nvfp4-5656.jpg",
+     "full": "/images/zimage-files/payphone/combo-nvfp4-5656.jpg",
+     "label": "NVFP4, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-face-nvfp4-7878.jpg",
+     "full": "/images/zimage-files/payphone/combo-nvfp4-7878.jpg",
+     "label": "NVFP4, 7878"
+    }
+   ]
+  },
+  {
+   "title": "Payphone: phone",
+   "tiles": [
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-bf16-2121.jpg",
+     "full": "/images/zimage-files/payphone/combo-bf16-2121.jpg",
+     "label": "BF16, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-bf16-3434.jpg",
+     "full": "/images/zimage-files/payphone/combo-bf16-3434.jpg",
+     "label": "BF16, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-bf16-5656.jpg",
+     "full": "/images/zimage-files/payphone/combo-bf16-5656.jpg",
+     "label": "BF16, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-bf16-7878.jpg",
+     "full": "/images/zimage-files/payphone/combo-bf16-7878.jpg",
+     "label": "BF16, 7878"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-fp8-2121.jpg",
+     "full": "/images/zimage-files/payphone/combo-fp8-2121.jpg",
+     "label": "FP8, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-fp8-3434.jpg",
+     "full": "/images/zimage-files/payphone/combo-fp8-3434.jpg",
+     "label": "FP8, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-fp8-5656.jpg",
+     "full": "/images/zimage-files/payphone/combo-fp8-5656.jpg",
+     "label": "FP8, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-fp8-7878.jpg",
+     "full": "/images/zimage-files/payphone/combo-fp8-7878.jpg",
+     "label": "FP8, 7878"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-int8-2121.jpg",
+     "full": "/images/zimage-files/payphone/combo-int8-2121.jpg",
+     "label": "int8, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-int8-3434.jpg",
+     "full": "/images/zimage-files/payphone/combo-int8-3434.jpg",
+     "label": "int8, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-int8-5656.jpg",
+     "full": "/images/zimage-files/payphone/combo-int8-5656.jpg",
+     "label": "int8, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-int8-7878.jpg",
+     "full": "/images/zimage-files/payphone/combo-int8-7878.jpg",
+     "label": "int8, 7878"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-nvfp4-2121.jpg",
+     "full": "/images/zimage-files/payphone/combo-nvfp4-2121.jpg",
+     "label": "NVFP4, 2121"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-nvfp4-3434.jpg",
+     "full": "/images/zimage-files/payphone/combo-nvfp4-3434.jpg",
+     "label": "NVFP4, 3434"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-nvfp4-5656.jpg",
+     "full": "/images/zimage-files/payphone/combo-nvfp4-5656.jpg",
+     "label": "NVFP4, 5656"
+    },
+    {
+     "crop": "/images/zimage-files/payphone/crop-phone-nvfp4-7878.jpg",
+     "full": "/images/zimage-files/payphone/combo-nvfp4-7878.jpg",
+     "label": "NVFP4, 7878"
+    }
+   ]
+  }
+ ]
+}
