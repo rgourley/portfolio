@@ -9,7 +9,7 @@ tags: ["AI agents","process"]
 
 I've sat in a lot of roadmap meetings where a room full of people argued over which of three ideas to build. Today that meeting costs more than prototyping all three would. Most companies still pick one bet a quarter, staff it, and defend it, because prototyping and building used to be the expensive part.
 
-With agentic workflows that math flipped, and the strategy should flip with it. When prototypes are cheap, teams can stop predicting which idea is right and just find out. Have agents build out several working versions instead of one, keep the one that holds up, and throw the rest away without treating it as a loss.
+With agentic workflows that math flipped, and the strategy should flip with it. Prototypes used to be mockups that lived outside the product. Now an agent can build a working version in the real codebase, so teams can stop predicting which idea is right and just find out. Have agents build out several of those versions instead of one, keep the one that holds up, and throw the rest away without treating it as a loss.
 
 :::iterations
 
