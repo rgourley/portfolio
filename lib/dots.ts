@@ -2,15 +2,17 @@
    Each image is sampled on a grid; every cell becomes one round dot whose radius follows the darkness of the pixel on paper
    (brightness on a dark page, and brightness too when the image itself is dark, so a dark UI reads as a wireframe of its light parts).
    Dots start scattered and gather when the image comes into view, row by row. Once settled they take their pixel colours and the
-   photograph fades in beneath them. From then on only the dots the cursor disturbs are drawn: they fly off the image in colour and
-   spring back. Only the first image on a page gathers (gather forces it, still prevents it); the rest arrive as the photo,
+   photograph fades in beneath them. From then on only the dots the cursor disturbs are drawn: the cursor sweeps through them like a
+   hand through loose material, throwing the dots under it the way it is moving, faster when it moves faster, and they fly in colour,
+   tumble, drift and ease back to their pixels over about a second. Only airborne dots are stepped and drawn, never more than a few
+   hundred per figure, so a page of settled figures costs nothing. Only the first image on a page gathers (gather forces it, still prevents it); the rest arrive as the photo,
    and an image that has built once this session arrives as the photo too. Phases: gather, colour, reveal, photo.
    The photograph itself is a next/image element the component renders; the engine only reads its pixels and fades it in. */
 
 type Phase = "gather" | "colour" | "reveal" | "photo";
 export interface DotOptions { cell?: number; gather?: boolean; still?: boolean; pageKey?: string }
 
-const PAD = 64, TAU = Math.PI * 2;
+const PAD = 64, TAU = Math.PI * 2, MAX_AIR = 1000;
 let reduce = false, dark = false, ink = "#161616", inkRGB = [22, 22, 22];
 const instances: Dots[] = [];
 let lastP: { x: number; y: number; t: number } | null = null, mvx = 0, mvy = 0;
@@ -30,6 +32,10 @@ class Dots {
   w = 0; h = 0; dpr = 1; cols = 0; rows = 0;
   hx!: Float32Array; hy!: Float32Array; x!: Float32Array; y!: Float32Array; vx!: Float32Array; vy!: Float32Array;
   lum!: Float32Array; delay!: Float32Array; rgb!: Uint8ClampedArray; col: string[] = [];
+  /** the airborne dots: a flag per dot, the list of their indices, when each was thrown, how long it flies, and its tumble phase */
+  air!: Uint8Array; airIdx!: Int32Array; airN = 0; t0!: Float32Array; life!: Float32Array; ph!: Float32Array; now = 0;
+  /** throws are rationed by time, not by pointer events, so a sweep leaves an even trail whatever the mouse's report rate */
+  credit = 0; creditAt = 0;
 
   constructor(host: HTMLElement, photo: HTMLImageElement, src: string, cell: number, still: boolean) {
     this.host = host; this.photo = photo; this.src = src; this.cell = cell || 5;
@@ -66,6 +72,7 @@ class Dots {
     this.hx = new Float32Array(n); this.hy = new Float32Array(n); this.x = new Float32Array(n); this.y = new Float32Array(n);
     this.vx = new Float32Array(n); this.vy = new Float32Array(n); this.lum = new Float32Array(n); this.delay = new Float32Array(n);
     this.rgb = new Uint8ClampedArray(n * 3); this.col = new Array(n);
+    this.air = new Uint8Array(n); this.airIdx = new Int32Array(MAX_AIR); this.airN = 0; this.t0 = new Float32Array(n); this.life = new Float32Array(n); this.ph = new Float32Array(n);
     const cw = w / cols, ch = h / rows; let i = 0;
     for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++, i++) {
       const o = i * 4, l = (0.2126 * d[o] + 0.7152 * d[o + 1] + 0.0722 * d[o + 2]) / 255;
@@ -88,19 +95,54 @@ class Dots {
     if (this.seen) return; this.seen = true; this.born = now;
     if (!reduce) { this.active = true; run(); }
   }
-  push(px: number, py: number, now: number) {
+  /** The cursor at (px, py) moving at (svx, svy) pixels a frame. While the figure is still gathering the dots under the cursor get
+      the old small nudge; a reader who asked for reduced motion gets no hover response, as before. Once the figure is a photograph
+      the cursor throws them: each dot inside the radius gets the pointer's direction at the pointer's speed, a little sideways
+      scatter, and a touch outward, all scaled by how close it sat to the cursor, so a fast sweep sprays dots across the figure and
+      a slow pass barely stirs them. The radius grows with speed. Dots at the edge of the radius come home sooner than the ones
+      thrown from its centre. */
+  push(px: number, py: number, now: number, svx = mvx, svy = mvy) {
     if (!this.n || reduce) return;
-    const R = 76, R2 = R * R, x = this.x, y = this.y, vx = this.vx, vy = this.vy; let hit = false;
-    for (let i = 0; i < this.n; i++) {
-      const dx = x[i] - px, dy = y[i] - py, d2 = dx * dx + dy * dy;
-      if (d2 < R2) {
-        const d = Math.sqrt(d2) || 0.001; let f = 1 - d / R; f = f * f * 6.5;
-        vx[i] += dx / d * f + mvx * 0.22 * f; vy[i] += dy / d * f + mvy * 0.22 * f; hit = true;
+    const x = this.x, y = this.y, vx = this.vx, vy = this.vy; let hit = false;
+    if (this.phase !== "photo") {
+      const R = 76, R2 = R * R;
+      for (let i = 0; i < this.n; i++) {
+        const dx = x[i] - px, dy = y[i] - py, d2 = dx * dx + dy * dy;
+        if (d2 < R2) {
+          const d = Math.sqrt(d2) || 0.001; let f = 1 - d / R; f = f * f * 6.5;
+          vx[i] += dx / d * f + svx * 0.22 * f; vy[i] += dy / d * f + svy * 0.22 * f; hit = true;
+        }
       }
+      if (hit) { this.active = true; this.lastTouch = now; run(); if (!this.seen) this.wake(now); }
+      return;
+    }
+    const speed = Math.min(60, Math.hypot(svx, svy));
+    if (speed < 0.8) return;                                   // a still or creeping pointer stirs nothing
+    const R = 40 + speed * 1.6, R2 = R * R, ux = svx / speed, uy = svy / speed, qx = -uy, qy = ux;
+    this.credit = Math.min(260, this.credit + (now - this.creditAt) * 3.2); this.creditAt = now;
+    if (this.credit < 1) return;
+    const air = this.air, airIdx = this.airIdx, t0 = this.t0, life = this.life, ph = this.ph;
+    // only the rows the radius can reach are visited
+    const rowH = this.h / this.rows, lo = Math.max(0, Math.floor((py - R) / rowH)) * this.cols, hi = Math.min(this.n, (Math.ceil((py + R) / rowH) + 1) * this.cols);
+    for (let i = lo; i < hi; i++) {
+      if (this.airN >= MAX_AIR || this.credit < 1) break;
+      const dx = x[i] - px, dy = y[i] - py, d2 = dx * dx + dy * dy;
+      if (d2 >= R2) continue;
+      const d = Math.sqrt(d2) || 0.001; let f = 1 - d / R; f = f * f * (3 - 2 * f);
+      if (Math.random() > (0.12 + 0.5 * f) * Math.min(1, speed / 24)) continue;   // a spray, not a slab: the dots nearest the cursor are the likeliest to go, and a slow pass takes few
+      this.credit -= 1;
+      const side = rnd(-1, 1) * speed * 0.32, out = 1.4 + speed * 0.04;
+      vx[i] += (ux * speed * 0.72 + qx * side + dx / d * out) * f;
+      vy[i] += (uy * speed * 0.72 + qy * side + dy / d * out) * f;
+      if (!air[i]) { air[i] = 1; airIdx[this.airN++] = i; ph[i] = rnd(0, TAU); }
+      t0[i] = now; life[i] = (640 + 560 * speed / 60 + rnd(0, 260)) * (0.55 + 0.45 * f);
+      hit = true;
     }
     if (hit) { this.active = true; this.lastTouch = now; run(); if (!this.seen) this.wake(now); }
   }
   step(now: number, dt: number) {
+    this.now = now;
+    if (this.phase === "photo") { this.stepAir(now, dt); return; }
     const t = (now - this.born) / 1000, k = 0.08 * dt, drag = Math.pow(0.78, dt), thr = this.phase === "gather" ? 0.8 : 0.02;
     let moving = 0;
     const x = this.x, y = this.y, vx = this.vx, vy = this.vy, hx = this.hx, hy = this.hy, delay = this.delay;
@@ -114,9 +156,28 @@ class Dots {
     // the gather ends when every dot is home, or after 2.6 s whatever is left, so a big image always goes on to become the photo
     if (this.phase === "gather" && (!moving || t > 2.6)) { this.phase = "colour"; this.phaseT = now; moving = 1; }
     else if (this.phase === "colour") { this.amt = Math.min(1, (now - this.phaseT) / 380); moving++; if (this.amt >= 1) { this.phase = "reveal"; this.phaseT = now; } }
-    else if (this.phase === "reveal") { this.amt = Math.min(1, (now - this.phaseT) / 420); this.photo.style.opacity = String(this.amt); moving++; if (this.amt >= 1) { this.phase = "photo"; markBuilt(this.src); } }
+    else if (this.phase === "reveal") { this.amt = Math.min(1, (now - this.phaseT) / 420); this.photo.style.opacity = String(this.amt); moving++; if (this.amt >= 1) { this.phase = "photo"; markBuilt(this.src); for (let j = 0; j < this.n; j++) { x[j] = hx[j]; y[j] = hy[j]; vx[j] = vy[j] = 0; } } }
     this.draw();
     if (!moving) { this.active = false; for (let j = 0; j < this.n; j++) { x[j] = hx[j]; y[j] = hy[j]; vx[j] = vy[j] = 0; } this.draw(); }
+  }
+  /** The flight of the airborne dots. A thrown dot flies on with light drag and a slow wander; as its time runs out the pull of its
+      pixel grows until it eases home, then it lands and leaves the list. Nothing else on the figure is touched. */
+  stepAir(now: number, dt: number) {
+    const x = this.x, y = this.y, vx = this.vx, vy = this.vy, hx = this.hx, hy = this.hy, air = this.air, airIdx = this.airIdx, t0 = this.t0, life = this.life, ph = this.ph;
+    let w = 0;
+    for (let j = 0; j < this.airN; j++) {
+      const i = airIdx[j], p = (now - t0[i]) / life[i], q = Math.min(1, p);
+      const k = (0.003 + 0.14 * q * q) * dt, drag = Math.pow(p < 1 ? 0.945 : 0.8, dt), wander = p < 1 ? (1 - q) * 0.05 * dt : 0;
+      const dx = hx[i] - x[i], dy = hy[i] - y[i];
+      vx[i] = (vx[i] + dx * k + Math.sin(now * 0.0031 + ph[i]) * wander) * drag;
+      vy[i] = (vy[i] + dy * k + Math.cos(now * 0.0027 + ph[i] * 1.7) * wander) * drag;
+      x[i] += vx[i] * dt; y[i] += vy[i] * dt;
+      if (p >= 1 && dx * dx + dy * dy < 0.3 && vx[i] * vx[i] + vy[i] * vy[i] < 0.01) { x[i] = hx[i]; y[i] = hy[i]; vx[i] = vy[i] = 0; air[i] = 0; }
+      else airIdx[w++] = i;
+    }
+    this.airN = w;
+    this.draw();
+    if (!w) this.active = false;
   }
   draw() {
     const ctx = this.ctx, dpr = this.dpr, cell = this.cell, base = cell * 0.56, ph = this.phase, amt = this.amt, bright = dark !== this.inv;
@@ -148,14 +209,18 @@ class Dots {
       }
       ctx.globalAlpha = 1; return;
     }
-    for (i = 0; i < this.n; i++) {
-      dx = x[i] - hx[i]; dy = y[i] - hy[i]; disp = dx * dx + dy * dy;
+    // the photograph is on show: only the airborne dots are drawn, each tumbling in size as it flies and shrinking a little as it tires
+    const air = this.airIdx, t0 = this.t0, life = this.life, tum = this.ph, now = this.now;
+    for (let j = 0; j < this.airN; j++) {
+      i = air[j]; dx = x[i] - hx[i]; dy = y[i] - hy[i]; disp = dx * dx + dy * dy;
       if (disp < 1.2) continue;
-      disp = Math.sqrt(disp); r = cell * 0.7 * (1 - Math.min(disp, 220) / 220 * 0.45);
+      const p = Math.min(1, (now - t0[i]) / life[i]);
+      r = cell * 0.8 * (0.5 + 0.5 * Math.abs(Math.sin(now * 0.011 + tum[i]))) * (1 - 0.3 * p);
       X = x[i] + PAD; Y = y[i] + PAD;
       ctx.fillStyle = col[i]; ctx.beginPath(); ctx.arc(X, Y, r, 0, TAU); ctx.fill();
     }
   }
+
 }
 
 let io: IntersectionObserver | null = null, nearIo: IntersectionObserver | null = null;
@@ -171,7 +236,19 @@ function boot() {
   nearIo = new IntersectionObserver((es) => {
     es.forEach((e) => { if (e.isIntersecting) { const d = (e.target as any)._dots as Dots | undefined; if (d) { d.approach(); nearIo?.unobserve(e.target); } } });
   }, { rootMargin: "100% 0px" });
+  const tap = (px: number, py: number) => {
+    // one short throw on a tap, in a random direction, gentle
+    const a = rnd(0, TAU), sp = 14;
+    for (let i = 0; i < instances.length; i++) {
+      const d = instances[i]; if (!d.n) continue;
+      const rc = d.host.getBoundingClientRect(), x = px - rc.left, y = py - rc.top;
+      if (x < -PAD || y < -PAD || x > d.w + PAD || y > d.h + PAD) continue;
+      d.push(x, y, performance.now(), Math.cos(a) * sp, Math.sin(a) * sp);
+    }
+  };
+  window.addEventListener("pointerdown", (e) => { if (e.pointerType === "touch") tap(e.clientX, e.clientY); }, { passive: true });
   window.addEventListener("pointermove", (e) => {
+    if (e.pointerType === "touch") return;
     const now = performance.now();
     if (lastP) { const dtm = Math.max(8, now - lastP.t); mvx = (e.clientX - lastP.x) / dtm * 16; mvy = (e.clientY - lastP.y) / dtm * 16; }
     lastP = { x: e.clientX, y: e.clientY, t: now };
