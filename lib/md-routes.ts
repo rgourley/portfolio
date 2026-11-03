@@ -28,6 +28,6 @@ export function isMdRoute(path: string): path is MdRoute {
 export function markdownTwin(path: string): string | null {
   if (isMdRoute(path)) return path === "/" ? "/md" : `/md${path}`;
   const m = path.match(/^\/(blog|work)\/([^/]+)$/);
-  if (m && !m[2].endsWith(".md")) return `/md/${m[1]}/${m[2]}`;
+  if (m && !m[2].endsWith(".md") && m[2] !== "opengraph-image") return `/md/${m[1]}/${m[2]}`;
   return null;
 }
