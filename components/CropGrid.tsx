@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import { Segmented } from "./SettingsExplorer";
 
 // Data file shape: rows of tiles, each with a close-up crop and the full frame it came from.
@@ -50,7 +51,9 @@ export default function CropGrid({ src }: { src: string }) {
                 aria-label={`Open ${t.label}`}
                 className="text-left cursor-zoom-in"
               >
-                <img src={t.crop} alt={t.label} loading="lazy" className="aspect-square w-full rounded object-cover" />
+                <div className="relative aspect-square w-full overflow-hidden rounded">
+                  <Image quality={92} src={t.crop} alt={t.label} fill sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 140px" style={{ objectFit: "cover" }} />
+                </div>
                 <span className="mt-1 block text-xs text-foreground/60">{t.label}</span>
               </button>
             ))}
@@ -61,10 +64,13 @@ export default function CropGrid({ src }: { src: string }) {
       {/* Portal to body: the grid's wrapper uses a transform, which would trap a fixed overlay inside it */}
       {open && createPortal(
         <div role="dialog" aria-modal="true" aria-label={open.label} onClick={() => setOpen(null)} className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-3 bg-black/90 p-4">
-          {/* Plain img on purpose: the original file. The close-up crop is small, so it's scaled up to fill the screen. */}
-          <img
+          {/* Natural size is unknown here, so width/height are 0 and CSS sizes the image; sizes="100vw" asks for a screen-wide file. The close-up crop is small, so it's scaled up to fill the screen. */}
+          <Image quality={92}
             src={view === "crop" ? open.crop : open.full}
             alt={open.label}
+            width={0}
+            height={0}
+            sizes="100vw"
             onClick={(e) => e.stopPropagation()}
             className={`max-w-full w-auto object-contain rounded ${view === "crop" ? "h-[75vh]" : "max-h-[80vh] h-auto"}`}
           />

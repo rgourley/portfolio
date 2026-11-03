@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 // Data file shape: one group per setting that was tested, each value with its two seeds' timings and a short note.
 type Value = { value: string; label: string; secs: number; note?: string };
@@ -90,8 +91,7 @@ export default function SettingsExplorer({ src }: { src: string }) {
             { src: path(group.key, current.value), tag: `${current.label} · ${current.secs}s` },
           ].map((f) => (
             <div key={f.tag} {...frame}>
-              {/* Plain img on purpose: these swap on every click and should show the file as exported */}
-              <img src={f.src} alt={f.tag} style={imgStyle} className="absolute inset-0 h-full w-full object-cover" />
+              <Image quality={92} src={f.src} alt={f.tag} fill sizes="(max-width: 760px) 50vw, 345px" style={{ objectFit: "cover", ...imgStyle }} />
               <span className="pointer-events-none absolute top-2 left-2 rounded bg-black/60 px-2 py-1 text-xs text-white">{f.tag}</span>
             </div>
           ))}
@@ -101,10 +101,9 @@ export default function SettingsExplorer({ src }: { src: string }) {
         className={`relative overflow-hidden rounded-lg bg-foreground/5 select-none ${data.aspect ? "" : "aspect-video"} ${portrait ? "mx-auto max-w-[560px]" : ""}`}
         style={data.aspect ? { aspectRatio: data.aspect } : undefined}
       >
-        {/* Plain img on purpose: these swap on every click and should show the file as exported */}
-        <img src={path(group.key, current.value)} alt={`${group.label}: ${current.label}`} style={imgStyle} className="absolute inset-0 h-full w-full object-cover" />
+        <Image quality={92} src={path(group.key, current.value)} alt={`${group.label}: ${current.label}`} fill sizes="(max-width: 760px) 100vw, 690px" style={{ objectFit: "cover", ...imgStyle }} />
         <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - split}% 0 0)` }}>
-          <img src={path(baseGroup.key, base.value)} alt={`Default: ${base.label}`} style={imgStyle} className="absolute inset-0 h-full w-full object-cover" />
+          <Image quality={92} src={path(baseGroup.key, base.value)} alt={`Default: ${base.label}`} fill sizes="(max-width: 760px) 100vw, 690px" style={{ objectFit: "cover", ...imgStyle }} />
         </div>
         <div className="pointer-events-none absolute inset-y-0 w-0.5 bg-white/80" style={{ left: `${split}%` }} />
         <span className="pointer-events-none absolute top-3 left-3 rounded bg-black/60 px-2 py-1 text-xs text-white">
