@@ -98,7 +98,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <Link className="back" href={R.blog}>&larr; Writing</Link>
           <h1>{post.title}</h1>
         </div>
-        <div className="col">
+        <div className="col lead">
           <p className="dek">{post.description}</p>
           <div className="meta"><span>{fdate(post.date)}</span><span>{post.tags.join(", ")}</span><span>{mins(post)} min read</span></div>
         </div>

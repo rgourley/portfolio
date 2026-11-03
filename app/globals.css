@@ -374,6 +374,8 @@ html[data-mode="dark"] .term i,html[data-mode="dark"] .term b{color:var(--ink-di
 .post{max-width:1200px;margin:0 auto;padding:15vh 0 8vh}
 .post .wide{max-width:1200px;margin:0}
 .post .col{max-width:880px;margin:0 auto}
+/* the dek and the meta under a post's title start at the title's left edge; the reading column below stays centred */
+.post .col.lead{margin:0}
 .post .hero{margin:48px 0 64px}
 .post .hero img{width:100%;height:auto;display:block;border-radius:3px}
 .post h1{font-weight:300;font-size:clamp(42px,7vw,104px);line-height:.98;letter-spacing:-.045em;margin:0 0 30px;text-wrap:balance;max-width:16ch}
