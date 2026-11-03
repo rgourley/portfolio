@@ -1,16 +1,11 @@
-// Event tracking: Google Analytics when its tag is on the page, and PostHog, which loads on demand.
+// Event tracking: PostHog, which loads on demand. Google Analytics was removed on 2026-11-03; its data to that date stays in the
+// Google account. The event names and parameters are unchanged.
 // posthog-js is a large library, so nothing imports it at page load: the provider asks for it once the page is idle or the
 // reader first interacts, and events raised before then wait in a queue and go out as soon as it is ready. The first
 // pageview cannot be lost to a fast exit: if the reader leaves before the library has loaded, it goes out as a beacon
 // under the same anonymous id the library adopts afterwards, so the visit still joins up.
 // No event carries personal data: pages, labels, settings and hostnames only. A browser that sends Global Privacy
 // Control or Do Not Track gets no analytics at all.
-
-declare global {
-  interface Window {
-    gtag?: (...args: any[]) => void;
-  }
-}
 
 type PostHog = typeof import("posthog-js").default;
 type Params = { [key: string]: string | number | boolean | undefined };
@@ -112,13 +107,10 @@ export function pageview(url: string) {
 }
 
 /**
- * Track a custom event in Google Analytics and PostHog
+ * Track a custom event in PostHog
  */
 export function trackEvent(eventName: string, eventParams?: Params, opts: { leaving?: boolean } = {}) {
   if (!analyticsAllowed()) return;
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("event", eventName, { ...eventParams, transport_type: "beacon" });
-  }
   // an event raised as the page is left (a link off the site) cannot wait for the library: it goes by beacon now
   if (opts.leaving && !client) { beaconEvent(eventName, eventParams || {}); return; }
   withPostHog((p) => p.capture(eventName, eventParams, opts.leaving ? { transport: "sendBeacon" } : undefined));
