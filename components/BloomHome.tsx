@@ -47,7 +47,7 @@ export default function BloomHome({ agent }: { agent: string }) {
       <main ref={root} className="page home">
         <section className="hhero">
           <h1>Turning complexity into products <em>people love.</em></h1>
-          <p>Robert Gourley. Product designer building AI agents, and the systems teams ship them with. <span className="last">Designing the behaviour, not just the screen.</span></p>
+          <p>Robert Gourley. Product designer building AI agents, and the systems teams ship them with. <span className="last">Designing the whole system: the agents, the handoffs, the screen.</span></p>
         </section>
 
         <section className="lines" id="lines">
@@ -56,7 +56,7 @@ export default function BloomHome({ agent }: { agent: string }) {
           <p className="line" data-fig="chart"><Link href={R.kraken}><span>Traders moving billions, with confidence.<small>Kraken <i>&rarr;</i></small></span></Link></p>
           <p className="line" data-fig="claw"><Link href={R.clawstreet}><span>A training flywheel for AI financial agents.<small>ClawStreet <i>&rarr;</i></small></span></Link></p>
           <p className="line" data-fig="proxy"><Link href={R.proxies}><span>An AI harness for structured concept feedback.<small>Proxies, a Claude Code skill <i>&rarr;</i></small></span></Link></p>
-          <p className="line" data-fig="point"><span><span className="p1">Agents made building cheap. They did not make it good.</span> <span className="p2">The job is what it always was: <em>take the technical thing and make it feel effortless<i className="fs" id="fs">.</i></em></span><small className="after"><Link href={R.work}>See the work <i>&rarr;</i></Link></small></span></p>
+          <p className="line" data-fig="point"><span><span className="p1">Agents made building cheap. They didn’t make it good.</span> <span className="p2">The work is what it’s always been: <em>take the hard problem and make it feel effortless<i className="fs" id="fs">.</i></em></span><small className="after"><Link href={R.work}>See the work <i>&rarr;</i></Link></small></span></p>
         </section>
 
         <section className="agent" id="agent" aria-label="For agents">
