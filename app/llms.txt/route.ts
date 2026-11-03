@@ -15,31 +15,37 @@ export function GET() {
 
 > ${SITE_SUMMARY}
 
-Case studies and blog posts are also available as plain Markdown by adding .md to the URL. The full text of all of them is in ${SITE_URL}/llms-full.txt.
+Every page below is also plain Markdown: add .md to its URL, or request the page with \`Accept: text/markdown\`. HTML responses carry a \`Link: <...>; rel="alternate"; type="text/markdown"\` header naming the twin. The full text of every page, post and case study is in ${SITE_URL}/llms-full.txt.
 
 ## About
 - [Home](${SITE_URL}/): Overview, selected work and approach
-- [About](${SITE_URL}/about): Background and how I work
-- [Resume](${SITE_URL}/resume): Experience, skills and roles
-- [Services](${SITE_URL}/services): Product design consulting
-- [Leadership](${SITE_URL}/leadership): Fractional design leadership
-- [Contact](${SITE_URL}/contact): How to reach me
+- [About](${SITE_URL}/about.md): Background and how I work
+- [Resume](${SITE_URL}/resume.md): Experience, skills and roles
+- [Services](${SITE_URL}/services.md): Product design consulting
+- [Leadership](${SITE_URL}/leadership.md): Fractional design leadership
+- [Newsletter](${SITE_URL}/newsletter.md): The Autonomy Report, a weekly briefing on agentic AI
+- [Contact](${SITE_URL}/contact.md): How to reach me
 
 ## Case studies
+- [All work](${SITE_URL}/work.md): The index, with a JSON twin at ${SITE_URL}/api/work
 ${work}
 
 ## Projects
-- [Quant Garage](${SITE_URL}/projects/quant-garage): Pro market research without a terminal
-- [Financial UI Suite](${SITE_URL}/projects/financial-ui-suite): A Claude Code plugin for financial interfaces
-- [Proxies](${SITE_URL}/projects/proxies): Simulated stakeholder reviews
-- [Market Coaster](${SITE_URL}/coaster): Ride a real stock chart as a roller coaster
+- [All projects](${SITE_URL}/projects.md): The index, with a JSON twin at ${SITE_URL}/api/projects
+- [Quant Garage](${SITE_URL}/projects/quant-garage.md): Pro market research without a terminal
+- [Financial UI Suite](${SITE_URL}/projects/financial-ui-suite.md): A Claude Code plugin for financial interfaces
+- [Proxies](${SITE_URL}/projects/proxies.md): Simulated stakeholder reviews
+- [Market Coaster](${SITE_URL}/coaster/about.md): Ride a real stock chart as a roller coaster (the ride is at ${SITE_URL}/coaster)
+- [Font size checker](${SITE_URL}/tools/font-sizes.md): Every font size, weight and line height on any page, one click
 - [Market City](${SITE_URL}/city): The stock market as a living 3D city
 - [Amphora](${SITE_URL}/amphora): A Mediterranean trading game
 
 ## Writing
+- [All posts](${SITE_URL}/blog.md): The index, with a JSON twin at ${SITE_URL}/api/blog
 ${posts}
 
 ## Optional
+- [Manifest](${SITE_URL}/.well-known/mcp.json): Every resource with its HTML, Markdown and JSON URL
 - [RSS feed](${SITE_URL}/feed.xml)
 - [Sitemap](${SITE_URL}/sitemap.xml)
 `;

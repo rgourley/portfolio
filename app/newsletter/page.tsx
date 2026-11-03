@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Page from "@/components/Page";
 import StructuredData from "@/components/StructuredData";
 import { pageSchema } from "@/lib/schema";
+import { ISSUES } from "@/lib/newsletter";
+import { agentView } from "@/lib/agent-views";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/newsletter" },
@@ -12,16 +14,10 @@ export const metadata: Metadata = {
 
 const FOR = ["You are building with agents, not just reading about them", "You ship products in agentic AI, autonomous systems or developer tools", "You want signal from someone in the work, not commentary from the sidelines", "You would rather read a five-minute briefing than a forty-tweet thread"];
 const NOT = ["You want hot takes and AGI predictions", "You are looking for VC commentary or hype cycles", "You prefer LinkedIn motivation over what works in production", "You want long-form theory over tested practice"];
-const ISSUES = ["The Autonomy Breakout is Here", "AI Isn't Taking Jobs. But Autonomy Might.", "Why DoorDash Built Its Own Delivery Robot", "Foxglove Raises $40M to Build the Data Stack Behind Every Robot", "40 Humanoid Robot Companies Raising Billions"];
-
 export default function NewsletterPage() {
-  const agent = `- what: a weekly briefing on agentic AI by Robert Gourley
-- subscribe: https://www.theautonomyreport.com/
-- readers: 2,000+ builders
-- recent issues:
-${ISSUES.map((x) => "  - " + x).join("\n")}`;
+  const view = agentView("/newsletter");
   return (
-    <Page agentTitle="The Autonomy Report" agent={agent}>
+    <Page agentTitle={view.title} agent={view.body}>
       <StructuredData data={pageSchema({ path: "/newsletter", name: "The Autonomy Report", description: "A weekly briefing on agentic AI by Robert Gourley." })} />
       <article className="sheet">
         <span className="k lead-k">A weekly briefing on agentic AI</span>

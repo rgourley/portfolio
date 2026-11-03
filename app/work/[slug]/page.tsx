@@ -1,12 +1,10 @@
-import fs from "fs";
-import path from "path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getAllWork, getWorkBySlug } from "@/lib/content";
-import { CASES, IMG, NEXT_META, caseMarkdown } from "@/lib/cases";
+import { CASES, IMG, NEXT_META } from "@/lib/cases";
 import { R } from "@/lib/links";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, workMarkdown } from "@/lib/site";
 import Page from "@/components/Page";
 import DotImage from "@/components/DotImage";
 import StoryRail from "@/components/StoryRail";
@@ -46,8 +44,8 @@ export default async function WorkDetailPage({ params }: { params: { slug: strin
   const workUrl = `${SITE_URL}/work/${c.slug}`;
   const hero = IMG[c.hero];
   const [nt, nd, nm] = NEXT_META[c.next];
-  // Hivemind's agent view is the case study's own markdown file; the others are set from the copy on this page
-  const raw = c.slug === "hivemind" ? fs.readFileSync(path.join(process.cwd(), "content", "work", "hivemind.md"), "utf8") : caseMarkdown(c);
+  // The agent view is the same markdown /md/work/<slug> serves
+  const raw = workMarkdown(c.slug) || "";
 
   const articleSchema = {
     "@context": "https://schema.org",
