@@ -1,5 +1,13 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="32" height="32" rx="7" fill="#0d0d0d"/>
-  <text x="16" y="23" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="600" fill="#d1d1d1" text-anchor="middle" letter-spacing="-0.3">RG</text>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- The site's mark: "R." in Manrope light on paper, the full stop a round dot a little heavier than the type, so it reads as the
+       site's dot at 16px. The R is the glyph's own outline, so no font has to load. On a dark browser tab the colours flip. -->
+  <style>
+    .g{fill:#F2F1EE}.m{fill:#161616}
+    @media (prefers-color-scheme: dark){.g{fill:#121212}.m{fill:#ECEBE7}}
+  </style>
+  <rect class="g" width="32" height="32" rx="5"/>
+  <g class="m">
+    <path transform="translate(3.6 27) scale(0.01528)" d="M140 0V-1440H683Q704 -1440 728.5 -1438.5Q753 -1437 780 -1432Q888 -1415 965.5 -1354.5Q1043 -1294 1084.0 -1202.5Q1125 -1111 1125 -1001Q1125 -842 1040 -724Q975 -634 872 -594L1162 0H1027L755 -561H255V0ZM255 -674H681Q699 -674 722.5 -676.0Q746 -678 770 -682Q848 -698 900.0 -745.5Q952 -793 978.0 -860.0Q1004 -927 1004.0 -1001.0Q1004 -1075 978.0 -1141.5Q952 -1208 900.0 -1255.5Q848 -1303 770 -1319Q746 -1324 722.5 -1326.0Q699 -1328 681 -1328H255Z"/>
+    <circle cx="25.8" cy="24.7" r="2.4"/>
+  </g>
 </svg>
-

@@ -1,29 +1,10 @@
-import { ImageResponse } from "next/og";
+import { renderMark } from "@/lib/mark";
 
 export const runtime = "edge";
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
+/** The 180px touch icon: the site's mark, "R." on paper. */
 export default function Icon() {
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#0d0d0d",
-          color: "#d1d1d1",
-          fontSize: 90,
-          fontWeight: 700,
-          borderRadius: 39,
-        }}
-      >
-        RG
-      </div>
-    ),
-    size,
-  );
+  return renderMark(180);
 }
