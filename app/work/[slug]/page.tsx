@@ -5,6 +5,7 @@ import { getAllWork, getWorkBySlug } from "@/lib/content";
 import { CASES, IMG, NEXT_META } from "@/lib/cases";
 import { R } from "@/lib/links";
 import { SITE_URL, workMarkdown } from "@/lib/site";
+import { withFooter } from "@/lib/agent-views";
 import Page from "@/components/Page";
 import DotImage from "@/components/DotImage";
 import StoryRail from "@/components/StoryRail";
@@ -45,7 +46,7 @@ export default async function WorkDetailPage({ params }: { params: { slug: strin
   const hero = IMG[c.hero];
   const [nt, nd, nm] = NEXT_META[c.next];
   // The agent view is the same markdown /md/work/<slug> serves
-  const raw = workMarkdown(c.slug) || "";
+  const raw = withFooter(workMarkdown(c.slug) || "");
 
   const articleSchema = {
     "@context": "https://schema.org",

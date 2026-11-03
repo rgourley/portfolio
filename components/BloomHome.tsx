@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { R } from "@/lib/links";
+import AgentText from "@/components/AgentText";
+import type { AgentView } from "@/lib/agent-views";
 
 /** The home page: the hero, the five work lines and the closing line over one fixed field of dots. The field itself
     lives in lib/bloom-field.js and mounts once Three.js has loaded, so the copy is there before the dots are. */
-export default function BloomHome() {
+/** `agent` is the home page as data, from lib/agent-views.ts; the server page passes it in. */
+export default function BloomHome({ agent }: { agent: AgentView }) {
   const field = useRef<HTMLDivElement>(null);
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -44,7 +47,7 @@ export default function BloomHome() {
 
         <section className="agent" id="agent" aria-label="For agents">
           <span className="k">For agents. The same page, as data.</span>
-          <pre><b># Robert Gourley</b>{"\n"}&gt; Designs products, and the agent systems teams use to build them. Autonomy, machine learning, markets.{"\n\n"}<b>## Now</b>{"\n"}- role: Principal Product Engineer, Massive{"\n"}- product: the team&apos;s agent layer: skills, subagents and workflows on Massive&apos;s financial data API{"\n"}- before: Director of Product Design, Shield AI; led design for Hivemind, a low-code platform where engineers build, test, and deploy AI pilots{"\n"}- years_in_practice: 20+{"\n\n"}<b>## Before</b>{"\n"}- Kraken: trading systems processing $200B in volume{"\n"}- Federato: ML underwriting platform{"\n"}- Crunchyroll: video streaming across web, mobile, and TV{"\n"}- Apple, Axure, AI music production, autonomous robotics{"\n\n"}<b>## Projects</b>{"\n"}- ClawStreet: a training flywheel for AI trading agents on live US markets, https://www.clawstreet.io{"\n"}- Proxies: simulated stakeholders that review concepts inside Claude Code, https://www.robertcreative.com/projects/proxies{"\n\n"}<b>## Links</b>{"\n"}- site: https://www.robertcreative.com{"\n"}- work: https://www.robertcreative.com/work{"\n"}- contact: https://www.robertcreative.com/contact{"\n"}- github: https://github.com/rgourley{"\n"}- linkedin: https://www.linkedin.com/in/rob-gourley/{"\n\n"}<b>## Endpoints</b>{"\n"}- /llms.txt and /llms-full.txt{"\n"}- /md/blog/&#123;slug&#125; and /md/work/&#123;slug&#125;: every post and case study as markdown{"\n"}- /feed.xml</pre>
+          <pre><b># {agent.title}</b>{"\n"}<AgentText text={agent.body} /></pre>
         </section>
       </main>
     </>

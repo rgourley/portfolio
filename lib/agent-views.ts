@@ -1,5 +1,7 @@
 /* Every page's text for agents, keyed by route. The valve on the page shows it; /md/<route> serves it as markdown;
-   llms-full.txt collects it. One source, so the two views cannot drift. */
+   llms-full.txt collects it. One source, so the two views cannot drift.
+   Shape: the home carries the full profile, the links and every endpoint. Every other page is that page as data,
+   plus a short fixed footer (who this is, the overview, the index), not the site repeated. */
 import { SITE_URL } from "@/lib/site-url";
 import { CONTACT_EMAIL } from "@/lib/contact";
 import { getAllBlogPosts } from "@/lib/content";
@@ -13,7 +15,7 @@ import { GH as QUANT_GH, WFL, TOOLS } from "@/lib/quant-garage";
 import { GH as SUITE_GH, PATT, STY } from "@/lib/financial-ui-suite";
 import { CTRL } from "@/lib/coaster-about";
 import { R } from "@/lib/links";
-import type { MdRoute } from "@/lib/md-routes";
+import { MD_ROUTES, type MdRoute } from "@/lib/md-routes";
 
 export interface AgentView {
   /** the heading, set after a hash */
@@ -22,7 +24,60 @@ export interface AgentView {
   body: string;
 }
 
+/** The footer under every page view but the home: who this is, and where the overview and the index are. */
+export function agentFooter(): string {
+  return `---
+- who: Robert Gourley, product designer building AI agents, and the systems teams ship them with
+- overview: ${SITE_URL}/md
+- index: ${SITE_URL}/llms.txt`;
+}
+
+/** A post or case study's markdown with the footer under it, for its page and its /md route. */
+export function withFooter(text: string): string {
+  return `${text.trimEnd()}\n\n${agentFooter()}\n`;
+}
+
 const VIEWS: Record<MdRoute, () => AgentView> = {
+  "/": () => ({
+    title: "Robert Gourley",
+    body: `> Designs products, and the agent systems teams use to build them. Autonomy, machine learning, markets.
+
+## Now
+- role: Principal Product Engineer, Massive
+- product: the team's agent layer: skills, subagents and workflows on Massive's financial data API
+- before: Director of Product Design, Shield AI; led design for Hivemind, a low-code platform where engineers build, test, and deploy AI pilots
+- years_in_practice: 20+
+
+## Before
+- Kraken: trading systems processing $200B in volume
+- Federato: ML underwriting platform
+- Crunchyroll: video streaming across web, mobile, and TV
+- Apple, Axure, AI music production, autonomous robotics
+
+## Projects
+- ClawStreet: a training flywheel for AI trading agents on live US markets, https://www.clawstreet.io
+- Proxies: simulated stakeholders that review concepts inside Claude Code, ${SITE_URL}${R.proxies}
+
+## Links
+- site: ${SITE_URL}
+- work: ${SITE_URL}${R.work}
+- contact: ${SITE_URL}${R.contact}
+- github: https://github.com/rgourley
+- linkedin: https://www.linkedin.com/in/rob-gourley/
+
+## Endpoints
+- overview: ${SITE_URL}/md (this page as markdown)
+- index: ${SITE_URL}/llms.txt
+- full_text: ${SITE_URL}/llms-full.txt
+- manifest: ${SITE_URL}/.well-known/mcp.json
+- pages: ${MD_ROUTES.filter((r) => r !== "/").map((r) => `${SITE_URL}/md${r}`).join(", ")}
+- posts: ${SITE_URL}/md/blog/{slug}
+- case_studies: ${SITE_URL}/md/work/{slug}
+- json: ${SITE_URL}/api/blog, ${SITE_URL}/api/work, ${SITE_URL}/api/projects
+- feed: ${SITE_URL}/feed.xml
+- negotiation: every page answers Accept: text/markdown with its twin, or the same path with .md added`,
+  }),
+
   "/about": () => ({
     title: "About Robert Gourley",
     body: `- role: Principal Product Engineer, Massive; builds the team agent layer (skills, subagents, workflows) on financial data
@@ -69,7 +124,7 @@ ${ISSUES.map((x) => "  - " + x).join("\n")}`,
 - fractional_leadership: interim Head of Design or Design Director; 2 to 3 days a week; 3 to 6 months; success metrics set upfront
 - advisory: monthly or quarterly strategy sessions with the leadership team plus ad-hoc access; 6 to 12 months; 1 to 2 days a month
 - project_based: 2 to 4 months; design system creation, hiring, organisational design
-- process: week 1 discovery (stakeholder interviews, product and design review); week 2 strategy (findings, priorities, success metrics); weeks 3+ execution embedded with the team; handoff planned from day one
+- process: week 1 discovery (stakeholder interviews, product and design review); week 2 strategy (findings, priorities, success metrics); weeks 3+ execution embedded with the team; a clean handoff prepared from day one
 - track_record: Shield AI (built the design team and UX strategy for the Hivemind autonomy platform); Kraken ($200B in trading volume, profile creation up 24%, 100% on-time delivery); Federato (design function from scratch, design system cut implementation from 6+ months to 8 weeks); Crunchyroll (10-person team through the $1.2B acquisition by Sony)
 - industries: fintech and crypto, insurance and underwriting, streaming media, developer tools, autonomous systems
 - start: typically 2 to 4 weeks out; day rate or monthly retainer; equity considered for longer advisory with early-stage startups
@@ -155,13 +210,20 @@ ${ISSUES.map((x) => "  - " + x).join("\n")}`,
   },
 };
 
-/** The agent view of a page. */
-export function agentView(route: MdRoute): AgentView {
-  return VIEWS[route]();
+export interface ViewOptions {
+  /** false leaves the footer off, for llms-full.txt where the views sit one after another */
+  footer?: boolean;
+}
+
+/** The agent view of a page: the page as data, with the footer under every page but the home. */
+export function agentView(route: MdRoute, { footer = true }: ViewOptions = {}): AgentView {
+  const view = VIEWS[route]();
+  if (route === "/" || !footer) return view;
+  return { title: view.title, body: `${view.body}\n\n${agentFooter()}` };
 }
 
 /** The agent view as a markdown document: heading, the page it belongs to, the text. Served at /md/<route>. */
-export function agentMarkdown(route: MdRoute): string {
-  const { title, body } = agentView(route);
+export function agentMarkdown(route: MdRoute, options: ViewOptions = {}): string {
+  const { title, body } = agentView(route, options);
   return `# ${title}\n\nURL: ${SITE_URL}${route}\n\n${body}\n`;
 }

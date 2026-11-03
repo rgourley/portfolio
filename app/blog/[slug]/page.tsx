@@ -8,6 +8,7 @@ import Page from "@/components/Page";
 import StructuredData from "@/components/StructuredData";
 import { absUrl, breadcrumbSchema, personRef, WEBSITE_ID } from "@/lib/schema";
 import { SITE_URL, blogMarkdown } from "@/lib/site";
+import { withFooter } from "@/lib/agent-views";
 import { fileDims, imageDims } from "@/lib/image-dims";
 import { R } from "@/lib/links";
 import { fdate, mins } from "@/lib/blog";
@@ -92,7 +93,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   };
 
   return (
-    <Page agentTitle={`GET ${SITE_URL}/md/blog/${post.slug}`} agent={blogMarkdown(post.slug) || ""}>
+    <Page agentTitle={`GET ${SITE_URL}/md/blog/${post.slug}`} agent={withFooter(blogMarkdown(post.slug) || "")}>
       <StructuredData data={articleSchema} />
       <article className="post">
         <div className="wide">

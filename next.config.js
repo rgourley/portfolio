@@ -66,7 +66,8 @@ const nextConfig = {
       // Markdown copies of posts and case studies for LLMs and agents: /blog/<slug>.md
       { source: '/blog/:slug.md', destination: '/md/blog/:slug' },
       { source: '/work/:slug.md', destination: '/md/work/:slug' },
-      // Every other page too: /about.md, /projects/proxies.md and so on
+      // Every other page too: /about.md, /projects/proxies.md and so on; the home is /md and /index.md
+      { source: '/index.md', destination: '/md' },
       ...MD_PAGES.map((p) => ({ source: `/${p}.md`, destination: `/md/${p}` })),
       { source: '/amphora', destination: '/amphora/index.html' },
       { source: '/amphora/updates', destination: '/amphora/updates/index.html' },
