@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 
-export type SceneKind = "pilots" | "drone" | "dash" | "flow" | "hold";
+export type SceneKind = "pilots" | "drone" | "dash" | "flow" | "race" | "lanes" | "hold";
 
 interface PilotsSceneProps {
   kind: SceneKind;
