@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
 import { mountDots } from "@/lib/dots";
 
 interface DotImageProps {
@@ -12,10 +11,8 @@ interface DotImageProps {
   w: number;
   h: number;
   cell?: number;
-  /** force this image to gather even if it is not the first on the page */
-  gather?: boolean;
-  /** never gather: arrive as the photo */
-  still?: boolean;
+  /** the page's one dot figure, its hero: it gathers from dots and answers the cursor; every other figure is the photograph alone */
+  hero?: boolean;
   className?: string;
   sizes?: string;
   priority?: boolean;
@@ -23,17 +20,18 @@ interface DotImageProps {
   aspect?: string;
 }
 
-/** A photograph that arrives as dots. The image is a next/image; the engine samples it and draws the dots over it. */
-export default function DotImage({ src, alt = "", w, h, cell = 5, gather, still, className = "", sizes = "(max-width: 760px) 100vw, 1200px", priority, aspect }: DotImageProps) {
+/** A photograph in the figure's box. The hero of a page arrives as dots: the image is a next/image the engine samples, and
+    it draws the dots over it until the photograph takes over. Every other figure is the next/image on its own: no canvas,
+    no engine, nothing to run. */
+export default function DotImage({ src, alt = "", w, h, cell = 5, hero, className = "", sizes = "(max-width: 760px) 100vw, 1200px", priority, aspect }: DotImageProps) {
   const host = useRef<HTMLDivElement>(null);
   const img = useRef<HTMLImageElement>(null);
-  const pathname = usePathname();
   useEffect(() => {
-    if (!host.current || !img.current) return;
-    return mountDots(host.current, img.current, src, { cell, gather, still, pageKey: pathname });
-  }, [src, cell, gather, still, pathname]);
+    if (!hero || !host.current || !img.current) return;
+    return mountDots(host.current, img.current, src, { cell });
+  }, [src, cell, hero]);
   return (
-    <div ref={host} className={`dots ${className}`} style={{ aspectRatio: aspect || `${w}/${h}` }}>
+    <div ref={host} className={`dots ${hero ? "" : "still "}${className}`} style={{ aspectRatio: aspect || `${w}/${h}` }}>
       <Image ref={img} src={src} alt={alt} fill sizes={sizes} priority={priority} quality={85} />
     </div>
   );

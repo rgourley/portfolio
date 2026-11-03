@@ -30,7 +30,7 @@ export default function ProjectsPage() {
         {PROJ.map((p, i) => {
           const inner = (
             <>
-              <DotImage src={p.img} w={p.w} h={p.h} cell={4} alt={p.name} className="same" aspect="16/10" priority={i === 0} sizes="(max-width: 760px) 100vw, 570px" />
+              <DotImage src={p.img} w={p.w} h={p.h} cell={4} alt={p.name} className="same" aspect="16/10" priority={i === 0} hero={i === 0} sizes="(max-width: 760px) 100vw, 570px" />
               <div className="meta"><i>{p.name}</i> &nbsp; {p.meta}</div>
               <h3>{p.tag}</h3>
               <p>{p.blurb}</p>

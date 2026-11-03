@@ -133,7 +133,7 @@ export default function CoasterAboutPage(): JSX.Element {
             w={1440}
             h={900}
             cell={6}
-            priority
+            priority hero
             alt="A roller coaster built from GME's squeeze week"
             sizes="(max-width: 900px) 100vw, 880px"
           />
