@@ -14,8 +14,8 @@ type Reply = { result?: unknown; error?: string };
 const DAY_TTL = 8 * 86400;
 const SEEN_TTL = 86400;
 const RATE_LIMIT = 30;
-// A ride shows in a list only after this many counts, so one visitor cannot put a ride on the board.
-export const MIN_COUNT = 3;
+// A ride shows in a list only after this many counts. A visitor counts once per ride per day, so one visit alone cannot put a ride on the board.
+export const MIN_COUNT = 2;
 const LIST_SIZE = 12;
 
 // KEYS: rate key, ridden seen key, ridden day set, and for a shared open also the shared seen key and shared day set.

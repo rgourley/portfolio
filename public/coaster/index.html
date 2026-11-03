@@ -2878,8 +2878,8 @@ function buildCards() {
 
 // ---------- most ridden and most shared ----------
 // The top route gives the rides with the most counts in the last 7 days. A tab shows only when its list has
-// at least TOP_MIN rides, so a quiet week shows Famous rides alone instead of a thin list.
-const TOP_MIN = 3;
+// at least TOP_MIN rides, so a week with no counted rides shows Famous rides alone.
+const TOP_MIN = 1;
 let TOP = null;
 const tabCards = new Map();
 const TAB_NOTE = { ridden: (n) => `${n} rides this week`, shared: (n) => `${n} shared link opens this week` };
