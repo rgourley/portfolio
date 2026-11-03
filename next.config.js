@@ -53,12 +53,25 @@ const nextConfig = {
     } : false,
   },
   async headers() {
+    // The markdown twins, llms.txt, the feed and the sitemap are built with the site and change only on deploy: a CDN
+    // keeps them for a day and serves the old copy while it fetches a new one; a client keeps them for five minutes.
+    const text = { key: 'Cache-Control', value: 'public, max-age=300, s-maxage=86400, stale-while-revalidate=604800' };
     return [
       // Market Coaster sounds never change in place, so browsers keep them for 30 days
       {
         source: '/coaster/:file(.*\\.(?:mp3|mp4))',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=2592000, immutable' }],
       },
+      // The site's font, self-hosted; a new file gets a new name, so this one can be kept for a year
+      { source: '/fonts/:file*', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
+      { source: '/md', headers: [text] },
+      { source: '/md/:path*', headers: [text] },
+      { source: '/:path*.md', headers: [text] },
+      { source: '/llms.txt', headers: [text] },
+      { source: '/llms-full.txt', headers: [text] },
+      { source: '/feed.xml', headers: [text] },
+      { source: '/sitemap.xml', headers: [text] },
+      { source: '/.well-known/mcp.json', headers: [text] },
     ];
   },
   async rewrites() {
