@@ -17,7 +17,7 @@ export default function FontAuditTool(): JSX.Element {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-4">
+    <div className="tool">
       {/* React blocks javascript: hrefs in JSX, so the attribute is set from a ref on mount. */}
       <a
         ref={(el) => {
@@ -25,22 +25,13 @@ export default function FontAuditTool(): JSX.Element {
         }}
         onClick={(e) => e.preventDefault()}
         draggable
-        className="inline-flex items-center rounded-full bg-foreground text-background px-6 py-3 text-base font-medium cursor-grab"
       >
         Font audit
       </a>
-      <button
-        type="button"
-        onClick={runHere}
-        className="rounded-full border border-foreground/30 px-6 py-3 text-base hover:border-foreground transition-colors"
-      >
+      <button type="button" onClick={runHere}>
         Run it on this page
       </button>
-      <button
-        type="button"
-        onClick={copySnippet}
-        className="rounded-full border border-foreground/30 px-6 py-3 text-base hover:border-foreground transition-colors"
-      >
+      <button type="button" onClick={copySnippet}>
         {copied ? "Copied" : "Copy console snippet"}
       </button>
     </div>
