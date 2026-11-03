@@ -24,7 +24,7 @@ const PAGES: MdRoute[] = [
 export function GET() {
   const sections = [
     `# Robert Gourley\n\n> ${SITE_SUMMARY}\n\nSite: ${SITE_URL}`,
-    ...PAGES.map((r) => agentMarkdown(r).trim()),
+    ...PAGES.map((r) => agentMarkdown(r, false).trim()),
     ...getAllWork().map((w) => workMarkdown(w.slug)),
     ...getAllBlogPosts().map((p) => blogMarkdown(p.slug)),
   ].filter(Boolean);

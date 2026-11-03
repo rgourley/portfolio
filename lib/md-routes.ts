@@ -1,6 +1,7 @@
 /* The pages with a markdown twin at /md/<route> (and /<route>.md). The list is a const tuple so lib/agent-views.ts
    has to cover every route; next.config.js repeats the same list for the .md rewrites. */
 export const MD_ROUTES = [
+  "/home",
   "/about",
   "/resume",
   "/contact",

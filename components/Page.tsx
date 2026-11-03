@@ -11,7 +11,7 @@ interface PageProps {
 }
 
 /** Markdown heading lines in the agent text render like the title: a little heavier. */
-function AgentText({ text }: { text: string }) {
+export function AgentText({ text }: { text: string }) {
   return (
     <>
       {text.split("\n").map((line, i) => {

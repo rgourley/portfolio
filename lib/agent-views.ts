@@ -22,10 +22,10 @@ export interface AgentView {
   body: string;
 }
 
-const VIEWS: Record<MdRoute, () => AgentView> = {
+const VIEWS: Record<Exclude<MdRoute, "/home">, () => AgentView> = {
   "/about": () => ({
     title: "About Robert Gourley",
-    body: `- role: Principal Product Engineer, Massive; builds the team agent layer (skills, subagents, workflows) on financial data
+    body: `- role: Principal Product Engineer, Massive; builds the agentic layer for the people who use Massive's financial data (Claude Code skills, subagents, workflows)
 - open_source (own time, to help others with agentic workflows): Claude Code skills Proxies, Quant Garage, Art Direction; plugin Financial UI Suite
 - products: ClawStreet (created and run, paying users), mdskills.ai, Great Robots (greatrobots.ai), Made For Space (madeforspace.io)
 - before: Director of Product Design at Shield AI (Hivemind), Kraken ($200B volume), Crunchyroll ($1.2B acquisition by Sony), Federato, Axure, Mojave (founder), Apple
@@ -155,13 +155,56 @@ ${ISSUES.map((x) => "  - " + x).join("\n")}`,
   },
 };
 
-/** The agent view of a page. */
-export function agentView(route: MdRoute): AgentView {
-  return VIEWS[route]();
+/** The home page's overview: who Rob is, as data. The other pages carry only themselves and point here. */
+const homeView = (): AgentView => ({
+  title: "Robert Gourley",
+  body: `> Designs products, and the agent systems teams use to build them. Autonomy, machine learning, markets.
+
+## Now
+- role: Principal Product Engineer, Massive
+- product: the agentic layer for the people who use Massive's financial data: Claude Code skills, subagents and workflows that turn the API into answers an analyst can act on
+- before: Director of Product Design, Shield AI; led design for Hivemind, a low-code platform where engineers build, test, and deploy AI pilots
+- years_in_practice: 20+
+
+## Before
+- Kraken: trading systems processing $200B in volume
+- Federato: ML underwriting platform
+- Crunchyroll: video streaming across web, mobile, and TV
+- Apple, Axure, AI music production, autonomous robotics
+
+## Projects
+- ClawStreet: a training flywheel for AI trading agents on live US markets, https://www.clawstreet.io
+- Proxies: simulated stakeholders that review concepts inside Claude Code, ${SITE_URL}${R.proxies}
+
+## Links
+- site: ${SITE_URL}
+- work: ${SITE_URL}${R.work}
+- contact: ${SITE_URL}${R.contact}
+- github: https://github.com/rgourley
+- linkedin: https://www.linkedin.com/in/rob-gourley/
+
+## Endpoints
+- ${SITE_URL}/llms.txt and ${SITE_URL}/llms-full.txt
+- ${SITE_URL}/md/<page>, ${SITE_URL}/md/blog/<slug> and ${SITE_URL}/md/work/<slug>: every page, post and case study as markdown; any page also answers Accept: text/markdown
+- ${SITE_URL}/.well-known/mcp.json: the site's resources, with their HTML, markdown and JSON URLs
+- ${SITE_URL}/feed.xml`,
+});
+
+/** The same short footer under every page's agent text: who Rob is, where the overview is, where the index is. The home page carries the overview itself. */
+export function agentFooter(route: MdRoute): string {
+  if (route === "/home") return "";
+  return `\n\n---\nRobert Gourley: product designer who builds the agent systems teams ship with. Overview: ${SITE_URL}/md/home. Everything on the site: ${SITE_URL}/llms.txt`;
+}
+
+/** The agent view of a page: the page as data, then the footer. */
+export function agentView(route: MdRoute, withFooter = true): AgentView {
+  const { title, body } = (route === "/home" ? homeView : VIEWS[route])();
+  return { title, body: withFooter ? body + agentFooter(route) : body };
 }
 
 /** The agent view as a markdown document: heading, the page it belongs to, the text. Served at /md/<route>. */
-export function agentMarkdown(route: MdRoute): string {
-  const { title, body } = agentView(route);
-  return `# ${title}\n\nURL: ${SITE_URL}${route}\n\n${body}\n`;
+export function agentMarkdown(route: MdRoute, withFooter = true): string {
+  const { title, body } = agentView(route, withFooter);
+  const page = route === "/home" ? "/" : route;
+  return `# ${title}\n\nURL: ${SITE_URL}${page}\n\n${body}\n`;
 }

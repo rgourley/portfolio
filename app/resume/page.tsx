@@ -10,22 +10,22 @@ import { agentView } from "@/lib/agent-views";
 export const metadata: Metadata = {
   alternates: { canonical: "/resume" },
   title: "Resume | Product Design Leader",
-  description: "Resume of Robert Gourley, Director of Product Design at Shield AI. Award-winning product design leader specialising in scalable SaaS platforms, developer tools and consumer products.",
-  openGraph: { title: "Resume | Product Design Leader", description: "Resume of Robert Gourley, Director of Product Design at Shield AI.", url: "/resume" },
+  description: "Resume of Robert Gourley, Principal Product Engineer at Massive, before that Director of Product Design at Shield AI.",
+  openGraph: { title: "Resume | Product Design Leader", description: "Resume of Robert Gourley, Principal Product Engineer at Massive, before that Director of Product Design at Shield AI.", url: "/resume" },
 };
 
 export default function ResumePage() {
   const view = agentView("/resume");
   return (
     <Page agentTitle={view.title} agent={view.body}>
-      <StructuredData data={pageSchema({ type: "ProfilePage", path: "/resume", name: "Resume", description: "Resume of Robert Gourley, Director of Product Design at Shield AI." })} />
+      <StructuredData data={pageSchema({ type: "ProfilePage", path: "/resume", name: "Resume", description: "Resume of Robert Gourley, Principal Product Engineer at Massive, before that Director of Product Design at Shield AI." })} />
       <article className="sheet">
         <h1>Resume</h1>
-        <p className="dek">Award-winning product design leader specialising in scalable SaaS platforms, developer tools and consumer products. Currently leading design for the AI autonomy platform at Shield AI.</p>
-        <p className="dek" style={{ fontSize: 17 }}>A record of user-centred solutions for complex technical products that drive measurable business outcomes, across UX and UI strategy, responsive design systems, team building, mentorship and cross-functional leadership. Products scaled from startup to a $1.2B acquisition.</p>
+        <p className="dek">Product designer who builds the agent systems teams ship with. Principal Product Engineer at Massive, designing and building the skills, subagents and workflows a product team runs on, then using them to ship real products faster and better. Before that, design leadership for autonomy at Shield AI, trading at Kraken and streaming at Crunchyroll.</p>
+        <p className="dek" style={{ fontSize: 17 }}>A record of shipping complex technical products with measurable outcomes: UX and UI strategy, design systems, developer tools, and now agent workflows and the evals behind them. Design teams built from two to more than ten. Products scaled from startup to a $1.2B acquisition. Three patents.</p>
         <div className="facts">
-          <div><span className="k">Now</span><b>Director of Product Design, Shield AI</b></div>
-          <div><span className="k">Experience</span><b>20+ years</b></div>
+          <div><span className="k">Now</span><b>Principal Product Engineer, Massive</b></div>
+          <div><span className="k">Before</span><b>Director of Product Design, Shield AI</b></div>
           <div><span className="k">Patents</span><b>3 granted</b></div>
           <div><span className="k">Contact</span><b><Link href={R.contact}>robertcreative.com/contact</Link></b></div>
         </div>
