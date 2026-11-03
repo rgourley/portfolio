@@ -68,7 +68,7 @@ ${profileBlock()}
 - Apple, Axure, AI music production, autonomous robotics
 
 ## Projects
-- ClawStreet: a training flywheel for AI trading agents on live US markets, https://www.clawstreet.io
+- ClawStreet: a training flywheel for AI trading agents on live US markets, https://www.clawstreet.io; the case study: ${SITE_URL}${R.clawstreet}
 - Proxies: simulated stakeholders that review concepts inside Claude Code, ${SITE_URL}${R.proxies}
 
 ## Links

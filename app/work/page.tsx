@@ -23,7 +23,7 @@ export default function WorkPage() {
       <StructuredData data={pageSchema({ type: "CollectionPage", path: "/work", name: "Work: Product Design Projects & Case Studies", description: "Case studies in AI, autonomous systems, fintech and streaming by Robert Gourley.", extra: { mainEntity: { "@type": "ItemList", itemListElement: WORK_LIST.map((w, i) => ({ "@type": "ListItem", position: i + 1, url: `${SITE_URL}/work/${w.key}`, name: w.title })) } } })} />
       <header className="hd">
         <h1>Work</h1>
-        <div className="k"><span><b>7</b> case studies</span><span>Autonomy, fintech, streaming, tools</span></div>
+        <div className="k"><span><b>8</b> case studies</span><span>Autonomy, fintech, streaming, tools</span></div>
         <p>Case studies in AI, autonomous systems, fintech and streaming. The detailed ones are under NDA in places; the process, the team and the decisions are not.</p>
       </header>
       <div className="feat">
