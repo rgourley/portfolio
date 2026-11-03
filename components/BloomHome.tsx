@@ -47,7 +47,7 @@ export default function BloomHome({ agent }: { agent: string }) {
       <main ref={root} className="page home">
         <section className="hhero">
           <h1>Turning complexity into products <em>people love.</em></h1>
-          <p>Robert Gourley. Product designer building AI agents, and the systems teams ship them with. Designing the whole system: the agents, the handoffs, the screen.</p>
+          <p>Robert Gourley. Product designer building AI agents, and the systems teams ship them with. <span className="last">Designing the behaviour, not just the screen.</span></p>
         </section>
 
         <section className="lines" id="lines">
