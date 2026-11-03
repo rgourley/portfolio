@@ -1,32 +1,16 @@
-import Hero from "@/components/Hero";
-import FeaturedWork from "@/components/FeaturedWork";
-import { getFeaturedWork } from "@/lib/content";
 import type { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
-import dynamic from "next/dynamic";
-
-// Dynamically import below-the-fold components for better initial load
-const About = dynamic(() => import("@/components/About"), {
-  loading: () => <div className="h-96 bg-transparent" />,
-});
-const Testimonials = dynamic(() => import("@/components/Testimonials"), {
-  loading: () => <div className="h-96 bg-transparent" />,
-});
-const DesignApproach = dynamic(() => import("@/components/DesignApproach"), {
-  loading: () => <div className="h-96 bg-transparent" />,
-});
-const CTA = dynamic(() => import("@/components/CTA"), {
-  loading: () => <div className="h-64 bg-transparent" />,
-});
+import BloomHome from "@/components/BloomHome";
+import { agentMarkdown } from "@/lib/agent-views";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
-  title: { absolute: "Robert Gourley | Product Design Director & Design Leader" },
-  description: "Robert Gourley is Director of Product Design at Shield AI. 20+ years designing complex technical products: AI/ML, autonomous systems and fintech.",
-  keywords: ["product design", "UX design", "design leadership", "autonomous systems", "AI product design", "fintech design", "design strategy", "product strategy", "Shield AI", "design consulting"],
+  title: { absolute: "Robert Gourley | CXO, Agentic Systems, Product Designer" },
+  description: "Robert Gourley designs products, and the agent systems teams use to build them. Autonomy, machine learning, markets. 20+ years across Shield AI, Kraken, Federato, Crunchyroll and Apple.",
+  keywords: ["product design", "UX design", "design leadership", "autonomous systems", "AI product design", "AI agents", "agentic systems", "fintech design", "design strategy", "Shield AI", "Massive"],
   openGraph: {
     title: "Robert Gourley - Product Design & Strategy",
-    description: "Turning complexity into products people love. Product designer and design leader specializing in complex technical products.",
+    description: "Turning complexity into products people love. Product designer building AI agents, and the systems teams ship them with.",
     url: "/",
   },
   twitter: {
@@ -37,7 +21,6 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const featuredWork = getFeaturedWork();
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.robertcreative.com';
 
   const personSchema = {
@@ -47,11 +30,11 @@ export default function Home() {
     name: "Robert Gourley",
     alternateName: ["Rob Gourley"],
     image: `${baseUrl}/opengraph-image`,
-    knowsAbout: ["Product design", "Design leadership", "Design systems", "AI product design", "Autonomous systems", "Fintech UX"],
-    jobTitle: "Director of Product Design",
+    knowsAbout: ["Product design", "Design leadership", "Design systems", "AI product design", "AI agents", "Autonomous systems", "Fintech UX"],
+    jobTitle: "CXO, Agentic Systems",
     worksFor: {
       "@type": "Organization",
-      name: "Shield AI",
+      name: "Massive",
     },
     url: baseUrl,
     sameAs: [
@@ -60,7 +43,7 @@ export default function Home() {
       "https://uxcreative.medium.com/",
       "https://www.instagram.com/whats.up.rob/",
     ],
-    description: "Product designer and design leader specializing in complex technical products. Experience building design teams and shipping products at scale.",
+    description: "Product designer building AI agents, and the systems teams ship them with. Experience building design teams and shipping products at scale.",
   };
 
   const websiteSchema = {
@@ -79,15 +62,7 @@ export default function Home() {
     <>
       <StructuredData data={personSchema} />
       <StructuredData data={websiteSchema} />
-      <div className="flex flex-col">
-        <Hero />
-        <FeaturedWork featuredWork={featuredWork} />
-        <About />
-        <DesignApproach />
-        <Testimonials />
-        <CTA />
-      </div>
+      <BloomHome agent={agentMarkdown("/")} />
     </>
   );
 }
-

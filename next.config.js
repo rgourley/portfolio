@@ -1,3 +1,9 @@
+// Pages with a markdown twin at /md/<page>; the same list as lib/md-routes.ts.
+const MD_PAGES = [
+  'about', 'resume', 'contact', 'newsletter', 'leadership', 'services', 'projects', 'projects/proxies',
+  'projects/quant-garage', 'projects/financial-ui-suite', 'coaster/about', 'tools/font-sizes', 'work', 'blog',
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -60,6 +66,9 @@ const nextConfig = {
       // Markdown copies of posts and case studies for LLMs and agents: /blog/<slug>.md
       { source: '/blog/:slug.md', destination: '/md/blog/:slug' },
       { source: '/work/:slug.md', destination: '/md/work/:slug' },
+      // Every other page too: /about.md, /projects/proxies.md and so on; the home is /md and /index.md
+      { source: '/index.md', destination: '/md' },
+      ...MD_PAGES.map((p) => ({ source: `/${p}.md`, destination: `/md/${p}` })),
       { source: '/amphora', destination: '/amphora/index.html' },
       { source: '/amphora/updates', destination: '/amphora/updates/index.html' },
       { source: '/coaster', destination: '/coaster/index.html' },

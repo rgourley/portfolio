@@ -1,9 +1,13 @@
 import { getAllBlogPosts, getAllWork } from "@/lib/content";
+import { CASES, caseMarkdown } from "@/lib/cases";
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.robertcreative.com";
+export { SITE_URL } from "@/lib/site-url";
+import { SITE_URL } from "@/lib/site-url";
 
-export const SITE_SUMMARY =
-  "Robert Gourley is Director of Product Design at Shield AI, with 20+ years designing complex technical products: AI/ML interfaces, autonomous systems and fintech. Previously at Kraken, Crunchyroll, Federato and Axure.";
+import { POSITIONING } from "@/lib/profile";
+
+/** The one-line summary agents see first, in llms.txt, llms-full.txt and the home /md document. */
+export const SITE_SUMMARY = POSITIONING;
 
 export function escapeXml(value: string): string {
   return value
@@ -37,9 +41,22 @@ export function blogMarkdown(slug: string): string | null {
   ]);
 }
 
+/** A case study as markdown. Six of the seven are the Bloom copy (lib/cases.ts), the same text the page shows for agents;
+    Hivemind is its own content file. The /md/work route, the agent view and llms-full.txt all read this. */
 export function workMarkdown(slug: string): string | null {
   const item = getAllWork().find((w) => w.slug === slug);
   if (!item) return null;
+  const c = CASES[slug];
+  if (c && slug !== "hivemind") {
+    return compact([
+      `# ${c.title}`,
+      "",
+      `URL: ${SITE_URL}/work/${slug}`,
+      "",
+      caseMarkdown(c).replace(/^# [^\n]*\n/, "").trim(),
+      "",
+    ]);
+  }
   return compact([
     `# ${item.title}`,
     "",

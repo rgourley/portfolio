@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import Corner from "@/components/Corner";
+import Valve from "@/components/Valve";
+import { ModeProvider } from "@/components/ModeProvider";
 import PostHogProvider from "@/components/PostHogProvider";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+// The same Manrope file the prototype shipped, self-hosted so no build depends on a font download.
+const manrope = localFont({
+  src: "../public/fonts/manrope.woff2",
+  weight: "300 500",
+  variable: "--font-manrope",
   display: "swap",
-  preload: true,
-  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
@@ -54,13 +54,20 @@ export const metadata: Metadata = {
   },
 };
 
+// Runs before paint, so a dark-mode reader never sees a flash of paper. A choice made with the dot wins;
+// otherwise the page follows the system, which already switches with the day on most devices.
+const modeScript = `try{var m=localStorage.getItem('mode');if(m!=='dark'&&m!=='light')m=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';if(m==='dark')document.documentElement.setAttribute('data-mode','dark')}catch(e){}`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable} data-theme="dark">
+    <html lang="en" className={manrope.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: modeScript }} />
+      </head>
       <body>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-MC70FP4W2T"
@@ -75,14 +82,13 @@ export default function RootLayout({
           `}
         </Script>
         <PostHogProvider>
-          <ThemeProvider>
-            <Navbar />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
-          </ThemeProvider>
+          <ModeProvider>
+            <Corner />
+            {children}
+            <Valve />
+          </ModeProvider>
         </PostHogProvider>
       </body>
     </html>
   );
 }
-
