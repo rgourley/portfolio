@@ -18,7 +18,7 @@ export function GET() {
 
 > ${SITE_SUMMARY}
 
-Every page below is also plain Markdown: add .md to its URL, or request the page with \`Accept: text/markdown\`. HTML responses carry a \`Link: <...>; rel="alternate"; type="text/markdown"\` header naming the twin. The full text of every page, post and case study is in ${SITE_URL}/llms-full.txt.
+Every page below is also plain Markdown: add .md to its URL, or request the page with \`Accept: text/markdown\`. A request with no browser user agent (curl, wget, python-requests, Go, Node, the AI fetchers) gets the Markdown by default; send \`Accept: text/html\` to get the page. Either response carries a \`Link: <...>; rel="alternate"\` header naming the other form. The full text of every page, post and case study is in ${SITE_URL}/llms-full.txt.
 
 ${profileBlock()}
 

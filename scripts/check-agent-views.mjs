@@ -1,5 +1,7 @@
 // Holds the valve to its promise: on every page, the text the "For agents" view shows is the /md document for that
-// page, byte for byte. Fetches each page and its /md twin from a running server and compares them.
+// page, byte for byte. Fetches each page and its /md twin from a running server and compares them. Then checks the
+// user-agent rule: a program (curl and friends, or no user agent) asking for a page gets the twin itself, and an
+// Accept header naming text/html gets the page back.
 //
 //   node scripts/check-agent-views.mjs                  # against http://localhost:3000
 //   node scripts/check-agent-views.mjs http://localhost:3017
@@ -23,6 +25,10 @@ const pairs = [
   ...slugs("blog").map((s) => [`/blog/${s}`, `/md/blog/${s}`]),
   ...slugs("work").map((s) => [`/work/${s}`, `/md/work/${s}`]),
 ];
+
+// a browser-like request, so the page comes back as HTML; and a program-like one, which gets the markdown twin
+const BROWSER = { "User-Agent": "Mozilla/5.0 (check-agent-views)", Accept: "text/html,application/xhtml+xml,*/*;q=0.8" };
+const PROGRAM = { "User-Agent": "curl/8.4.0", Accept: "*/*" };
 
 function decode(s) {
   return s
@@ -49,7 +55,7 @@ let failures = 0;
 for (const [page, md] of pairs) {
   let html, twin;
   try {
-    const [h, t] = await Promise.all([fetch(base + page), fetch(base + md)]);
+    const [h, t] = await Promise.all([fetch(base + page, { headers: BROWSER }), fetch(base + md)]);
     if (!h.ok || !t.ok) { console.log(`FAIL ${page}: page ${h.status}, ${md} ${t.status}`); failures++; continue; }
     [html, twin] = await Promise.all([h.text(), t.text()]);
   } catch (e) {
@@ -60,5 +66,23 @@ for (const [page, md] of pairs) {
   if (shown !== twin) { console.log(`FAIL ${page} differs from ${md}: ${firstDiff(shown, twin)}`); failures++; continue; }
   console.log(`ok   ${page} = ${md} (${twin.length} bytes)`);
 }
-console.log(failures ? `\n${failures} of ${pairs.length} pages differ from their /md twin` : `\nall ${pairs.length} pages match their /md twin`);
+
+// the user-agent rule, on a sample: the home, the first route, one post and one case study
+const sample = [pairs[0], pairs[1], pairs.find(([p]) => p.startsWith("/blog/")), pairs.find(([p]) => p.startsWith("/work/"))].filter(Boolean);
+for (const [page, md] of sample) {
+  try {
+    const [asProgram, asHuman, twin] = await Promise.all([
+      fetch(base + page, { headers: PROGRAM }).then((r) => r.text()),
+      fetch(base + page, { headers: { "User-Agent": "curl/8.4.0", Accept: "text/html" } }).then((r) => r.text()),
+      fetch(base + md).then((r) => r.text()),
+    ]);
+    if (asProgram !== twin) { console.log(`FAIL ${page} with a curl user agent is not ${md}: ${firstDiff(asProgram, twin)}`); failures++; continue; }
+    if (!/^\s*<!DOCTYPE html>/i.test(asHuman)) { console.log(`FAIL ${page} with curl and Accept: text/html did not return the page`); failures++; continue; }
+    console.log(`ok   ${page} as a program = ${md}; with Accept: text/html = the page`);
+  } catch (e) {
+    console.log(`FAIL ${page} user-agent case: ${e.message}`); failures++;
+  }
+}
+
+console.log(failures ? `\n${failures} checks failed` : `\nall ${pairs.length} pages match their /md twin, and programs get the twin by default`);
 process.exit(failures ? 1 : 0);

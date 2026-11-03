@@ -88,7 +88,8 @@ ${profileBlock()}
 - case_studies: ${SITE_URL}/md/work/{slug}
 - json: ${SITE_URL}/api/blog, ${SITE_URL}/api/work, ${SITE_URL}/api/projects
 - feed: ${SITE_URL}/feed.xml
-- negotiation: every page answers Accept: text/markdown with its twin, or the same path with .md added`,
+- negotiation: every page answers Accept: text/markdown with its twin, or the same path with .md added
+- user_agents: a request with no browser user agent (curl, wget, python-requests, Go, Node, the AI fetchers) gets the markdown twin by default; send Accept: text/html to get the page`,
   }),
 
   "/about": () => ({
