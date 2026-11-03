@@ -437,7 +437,8 @@ html.bloom-home{scroll-snap-type:y proximity}
 .field .tag.read.flip{border-left:0;border-right:1px solid var(--ink);text-align:right}
 .home{pointer-events:none;padding:0;animation:headerzone linear both;animation-timeline:scroll(root)}   /* no entrance on the home; the header-zone mask stays */
 .home h1,.home p,.home a,.home pre,.home span.k{pointer-events:auto}
-.hhero,.line{min-height:100vh;scroll-snap-align:center;scroll-snap-stop:always}
+/* each section owns the viewport: the small viewport height on phones, so the browser chrome moving does not leave a sliver of the next one */
+.hhero,.line{min-height:100vh;min-height:100svh;scroll-snap-align:center;scroll-snap-stop:always}
 .hhero{display:flex;flex-direction:column;justify-content:center;padding-bottom:4vh}
 .hhero h1{font-weight:300;font-size:clamp(38px,6.8vw,96px);line-height:1.0;letter-spacing:-.035em;margin:0;max-width:12ch;text-wrap:balance}
 .hhero h1 em{font-style:normal;font-weight:400}
@@ -514,7 +515,8 @@ body.agents .corner.bl,body.agents .hrail{display:none}
   .corner.tr{display:none}
   .page{--fade:calc(72px + env(safe-area-inset-top,0px))}
   .menubtn{display:block}
-  .line{min-height:50vh}
+  /* on a phone the snap is mandatory, one section per screen; on a desktop the wheel handler does the snapping and proximity is enough */
+  html.bloom-home{scroll-snap-type:y mandatory}
   .hrail{display:none}
   .corner.bl span{display:none}
   /* on a phone the valve is just the switch, so it does not sit on the words */
