@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import Image from "next/image";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
+import type { Dims } from "@/lib/image-dims";
 
 // Dynamically import heavy components to reduce initial bundle size
 const SolutionHighlightsCarousel = dynamic(() => import("./SolutionHighlightsCarousel"), {
@@ -26,6 +27,7 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       type="button"
+      className="copy"
       onClick={() => {
         const done = () => {
           setCopied(true);
@@ -45,7 +47,6 @@ function CopyButton({ text }: { text: string }) {
         if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, fallback);
         else fallback();
       }}
-      className="absolute top-2 right-2 rounded-md border border-foreground/15 bg-background/80 px-2.5 py-1 text-xs text-foreground/70 hover:text-foreground"
     >
       {copied ? "Copied" : "Copy"}
     </button>
@@ -54,14 +55,16 @@ function CopyButton({ text }: { text: string }) {
 
 interface MarkdownContentProps {
   content: string;
-  // "article" is the narrow, Medium-style reading column used by blog posts.
+  // "article" is the blog's reading column; "default" is the same set of elements without the lightbox.
   variant?: "default" | "article";
+  /** pixel sizes of the local images, read on the server, so each one keeps its own shape */
+  dims?: Dims;
 }
 
 // Parse Solution Highlights section from markdown
 function parseSolutionHighlights(content: string): { highlights: Array<{ title: string; description: string; image?: string }>; restContent: string; contentAfter: string } {
   const solutionHighlightsIndex = content.indexOf('## Solution Highlights');
-  
+
   if (solutionHighlightsIndex === -1) {
     return { highlights: [], restContent: content, contentAfter: '' };
   }
@@ -69,8 +72,8 @@ function parseSolutionHighlights(content: string): { highlights: Array<{ title: 
   // Find the end of Solution Highlights section (next ## heading or end of content)
   const afterHighlights = content.substring(solutionHighlightsIndex);
   const nextSectionMatch = afterHighlights.match(/\n## /);
-  const highlightsEndIndex = nextSectionMatch 
-    ? solutionHighlightsIndex + nextSectionMatch.index! 
+  const highlightsEndIndex = nextSectionMatch
+    ? solutionHighlightsIndex + nextSectionMatch.index!
     : content.length;
 
   const highlightsSection = content.substring(
@@ -79,21 +82,21 @@ function parseSolutionHighlights(content: string): { highlights: Array<{ title: 
   );
   const restContent = content.substring(0, solutionHighlightsIndex).trim();
   const contentAfter = content.substring(highlightsEndIndex).trim();
-  
+
   // Parse each highlight: **Title** followed by optional image, then paragraph
   const highlights: Array<{ title: string; description: string; image?: string }> = [];
   const lines = highlightsSection.split('\n');
   let currentTitle = '';
   let currentDescription = '';
   let currentImage = '';
-  
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     // Check if line is a bold title (starts with ** and ends with **)
     const boldMatch = line.match(/^\*\*(.+?)\*\*$/);
     // Check if line is an image markdown: ![alt](src) or ![src]
     const imageMatch = line.match(/^!\[.*?\]\((.+?)\)$/);
-    
+
     if (boldMatch) {
       // Save previous highlight if exists
       if (currentTitle && currentDescription) {
@@ -114,7 +117,7 @@ function parseSolutionHighlights(content: string): { highlights: Array<{ title: 
       currentDescription += (currentDescription ? '\n' : '') + line;
     }
   }
-  
+
   // Add last highlight
   if (currentTitle && currentDescription) {
     highlights.push({
@@ -209,11 +212,8 @@ function parseTestimonials(content: string): { parts: ContentPart[] } {
   return { parts };
 }
 
-export default function MarkdownContent({ content, variant = "default" }: MarkdownContentProps) {
+export default function MarkdownContent({ content, variant = "default", dims = {} }: MarkdownContentProps) {
   const article = variant === "article";
-  const bodyText = article
-    ? "text-[19px] md:text-[20px] font-normal text-foreground/80 leading-[1.7]"
-    : "text-[21px] text-foreground/65 font-light leading-[1.7]";
 
   // Parse testimonials first, then parse Solution Highlights from each markdown part
   const { parts: testimonialParts } = useMemo(() => parseTestimonials(content), [content]);
@@ -237,13 +237,24 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
         type="button"
         onClick={() => setLightbox({ src, alt })}
         aria-label={alt ? `Enlarge image: ${alt}` : "Enlarge image"}
-        className="block w-full cursor-zoom-in"
+        className="zoom"
       >
         {child}
       </button>
     ) : (
       child
     );
+
+  // A local image at its own shape when the page knows it, otherwise in a 16:9 frame.
+  const picture = (src: string, alt: string, sizes: string) => {
+    const d = dims[src];
+    if (d) return <Image src={src} alt={alt} width={d.w} height={d.h} sizes={sizes} className="pic" quality={85} loading="lazy" />;
+    return (
+      <div className="pic" style={{ position: "relative", aspectRatio: "16/9", overflow: "hidden" }}>
+        <Image src={src} alt={alt} fill sizes={sizes} style={{ objectFit: "cover" }} quality={85} loading="lazy" />
+      </div>
+    );
+  };
 
   // Shared components for markdown rendering
   const markdownComponents: any = {
@@ -258,43 +269,20 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
 
             if (grid && src.startsWith("/")) {
               return (
-                <figure className="m-0">
-                  {zoomable(
-                    src,
-                    alt,
-                    <Image
-                      src={src}
-                      alt={alt}
-                      width={1344}
-                      height={756}
-                      sizes="(max-width: 768px) 100vw, 550px"
-                      className="w-full h-auto rounded-lg"
-                      quality={85}
-                      loading="lazy"
-                    />
-                  )}
-                  {alt && <figcaption className="mt-2 text-sm text-foreground/50">{alt}</figcaption>}
+                <figure>
+                  {zoomable(src, alt, picture(src, alt, "(max-width: 640px) 100vw, 550px"))}
+                  {alt && <figcaption>{alt}</figcaption>}
                 </figure>
               );
             }
 
             if (wide && src.startsWith("/")) {
               return (
-                <div className="my-10 w-full md:w-[min(1100px,calc(100vw-8rem))] md:relative md:left-1/2 md:-translate-x-1/2">
-                  {zoomable(
-                    src,
-                    alt,
-                    <Image
-                      src={src}
-                      alt={alt}
-                      width={1600}
-                      height={900}
-                      sizes="(max-width: 768px) 100vw, 1100px"
-                      className="w-full h-auto rounded-lg"
-                      quality={85}
-                      loading="lazy"
-                    />
-                  )}
+                <div className="wideimg">
+                  <figure>
+                    {zoomable(src, alt, picture(src, alt, "(max-width: 900px) 100vw, 1100px"))}
+                    {alt && <figcaption>{alt}</figcaption>}
+                  </figure>
                 </div>
               );
             }
@@ -303,73 +291,23 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             if (src.startsWith("/") || src.startsWith("./") || src.startsWith("../")) {
               // Local image - use Next.js Image
               // Normalize the path
-              const normalizedSrc = src.startsWith("./") || src.startsWith("../") 
+              const normalizedSrc = src.startsWith("./") || src.startsWith("../")
                 ? src.replace(/^\.\//, "/").replace(/^\.\.\//, "/")
                 : src;
-              
+
               return (
-                <div className="relative w-full my-8 aspect-video overflow-hidden rounded-lg bg-foreground/5">
-                  <Image
-                    src={normalizedSrc}
-                    alt={alt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 900px, 1200px"
-                    className="object-cover rounded-lg"
-                    quality={85}
-                    loading="lazy"
-                  />
-                </div>
-              );
-            } else if (src.startsWith("http://") || src.startsWith("https://")) {
-              // External image - check if it's from configured domains, otherwise use regular img
-              const isConfiguredDomain = 
-                src.includes("uploads-ssl.webflow.com") ||
-                src.includes("images.unsplash.com") ||
-                src.includes("randomuser.me");
-              
-              if (isConfiguredDomain) {
-                // Use Next.js Image for configured external domains
-                return (
-                  <div className="relative w-full my-8 aspect-video overflow-hidden rounded-lg bg-foreground/5">
-                    <Image
-                      src={src}
-                      alt={alt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 900px, 1200px"
-                      className="object-contain rounded-lg"
-                      quality={80}
-                      loading="lazy"
-                    />
-                  </div>
-                );
-              }
-              
-              // Unconfigured external image - use regular img tag with optimizations
-              return (
-                <div className="my-8">
-                  <img
-                    src={src}
-                    alt={alt}
-                    className="w-full h-auto rounded-lg"
-                    loading="lazy"
-                    decoding="async"
-                    fetchPriority="low"
-                  />
-                </div>
+                <figure>
+                  {zoomable(normalizedSrc, alt, picture(normalizedSrc, alt, "(max-width: 760px) 100vw, 760px"))}
+                  {alt && <figcaption>{alt}</figcaption>}
+                </figure>
               );
             }
-            // Fallback
+            // External image: a plain tag
             return (
-              <div className="my-8">
-                <img
-                  src={src}
-                  alt={alt}
-                  className="w-full h-auto rounded-lg"
-                  loading="lazy"
-                  decoding="async"
-                  fetchPriority="low"
-                />
-              </div>
+              <figure>
+                <img src={src} alt={alt} className="pic" loading="lazy" decoding="async" fetchPriority="low" />
+                {alt && <figcaption>{alt}</figcaption>}
+              </figure>
             );
           },
           p: ({ node, children }: any) => {
@@ -377,39 +315,16 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             const childrenArray = React.Children.toArray(children);
             const images = childrenArray.filter((child: any) => typeof child !== "string" || child.trim());
             if (images.length > 1 && images.every((child: any) => String(child?.props?.src || "").endsWith("#grid"))) {
-              return (
-                <div className="my-10 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6 w-full md:w-[min(1100px,calc(100vw-8rem))] md:relative md:left-1/2 md:-translate-x-1/2">
-                  {images}
-                </div>
-              );
+              return <div className="imggrid">{images}</div>;
             }
             if (childrenArray.some((child: any) => child?.props?.src || child?.type === "img")) {
               return <>{children}</>;
             }
-            return <p className={`${bodyText} mb-6`}>{children}</p>;
+            return <p>{children}</p>;
           },
-          h1: ({ node, children }: any) => (
-            <h1 className="font-display text-4xl md:text-5xl font-medium mb-1 mt-4">{children}</h1>
-          ),
-          h2: ({ node, children }: any) => (
-            <h2 className={`font-display text-3xl md:text-4xl font-medium mb-4 ${article ? "mt-12" : "mt-10"}`}>{children}</h2>
-          ),
-          h3: ({ node, children }: any) => (
-            <h3 className="font-display text-2xl md:text-3xl font-medium text-foreground/90 mb-3 mt-8">{children}</h3>
-          ),
-          ul: ({ node, children }: any) => (
-            <ul className={article ? `list-disc list-outside pl-6 mb-6 space-y-2 ${bodyText}` : "list-disc list-inside mb-6 space-y-2 text-[21px] text-foreground/65 leading-[1.7]"}>{children}</ul>
-          ),
-          ol: ({ node, children }: any) => (
-            <ol className={article ? `list-decimal list-outside pl-6 mb-6 space-y-2 ${bodyText}` : "list-decimal list-inside mb-6 space-y-2 text-[21px] text-foreground/65 leading-[1.7]"}>{children}</ol>
-          ),
-          li: ({ node, children }: any) => (
-            <li className={bodyText}>{children}</li>
-          ),
           a: ({ node, children, href }: any) => (
             <a
               href={href}
-              className={article ? "text-[19px] md:text-[20px] text-foreground underline underline-offset-4 decoration-foreground/40 hover:decoration-foreground transition-colors leading-[1.7]" : "text-[21px] text-foreground/65 underline hover:text-foreground transition-colors leading-[1.7]"}
               target={href?.startsWith("http") ? "_blank" : undefined}
               rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
             >
@@ -422,42 +337,21 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             const codeChild: any = React.Children.toArray(children)[0];
             const text = codeChild?.props?.children ?? children;
             return (
-              <div className="relative mb-6">
-                <pre className="p-4 pr-20 rounded-lg bg-muted text-foreground/90 text-sm font-mono overflow-x-auto whitespace-pre-wrap">
-                  <code>{text}</code>
-                </pre>
+              <div className="codewrap">
+                <pre><code>{text}</code></pre>
                 {article && <CopyButton text={String(text).replace(/\n$/, "")} />}
               </div>
             );
           },
-          code: ({ node, children }: any) => (
-            <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90 text-sm font-mono">
-              {children}
-            </code>
-          ),
           table: ({ node, children }: any) => (
-            <div className="overflow-x-auto mb-8">
-              <table className="w-full text-left border-collapse text-base [&_a]:!text-base [&_a]:!leading-normal">{children}</table>
+            <div className="tablewrap">
+              <table>{children}</table>
             </div>
-          ),
-          th: ({ node, children }: any) => (
-            <th className="py-3 pr-6 text-sm font-semibold text-foreground/80 border-b border-foreground/20 align-top">{children}</th>
-          ),
-          td: ({ node, children }: any) => (
-            <td className="py-2.5 pr-6 text-foreground/65 border-b border-foreground/10 align-top">{children}</td>
-          ),
-          blockquote: ({ node, children }: any) => (
-            <blockquote className={`border-l-4 border-foreground/20 pl-6 italic ${article ? "text-[19px] md:text-[20px] text-foreground/70" : "text-[21px] text-foreground/60"} my-6 leading-[1.7]`}>
-              {children}
-            </blockquote>
-          ),
-          strong: ({ node, children }: any) => (
-            <strong className="font-semibold text-foreground/90">{children}</strong>
           ),
   };
 
   return (
-    <div className={article ? "max-w-[700px] mx-auto" : "max-w-[1000px]"}>
+    <div className="md">
       {/* Render content with testimonials inline */}
       {testimonialParts.map((part, index) => {
         if (part.type === 'combo') {
@@ -483,7 +377,7 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
         } else if (part.type === 'markdown' && part.content) {
           // Check if this markdown contains Solution Highlights
           const { highlights: sectionHighlights, restContent: sectionRest, contentAfter: sectionAfter } = parseSolutionHighlights(part.content);
-          
+
           return (
             <React.Fragment key={`markdown-${index}`}>
               {/* Render content before Solution Highlights */}
@@ -500,7 +394,7 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
               {/* Render Solution Highlights as carousel */}
               {sectionHighlights.length > 0 && (
                 <>
-                  <h2 className="font-display text-3xl md:text-4xl font-medium mb-1 mt-4">Solution Highlights</h2>
+                  <h2>Solution Highlights</h2>
                   <SolutionHighlightsCarousel highlights={sectionHighlights} />
                 </>
               )}
@@ -527,26 +421,14 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
           aria-modal="true"
           aria-label={lightbox.alt || "Enlarged image"}
           onClick={() => setLightbox(null)}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-3 bg-black/90 p-4 cursor-zoom-out"
+          className="lightbox"
         >
           {/* Plain img on purpose: show the original file at full resolution, not a resized copy */}
-          <img
-            src={lightbox.src}
-            alt={lightbox.alt}
-            className="max-h-[88vh] max-w-full w-auto h-auto object-contain rounded"
-          />
-          {lightbox.alt && <p className="max-w-3xl text-center text-sm text-white/70">{lightbox.alt}</p>}
-          <button
-            type="button"
-            onClick={() => setLightbox(null)}
-            aria-label="Close"
-            className="absolute top-4 right-5 text-3xl leading-none text-white/80 hover:text-white"
-          >
-            ×
-          </button>
+          <img src={lightbox.src} alt={lightbox.alt} />
+          {lightbox.alt && <p>{lightbox.alt}</p>}
+          <button type="button" onClick={() => setLightbox(null)} aria-label="Close">×</button>
         </div>
       )}
     </div>
   );
 }
-

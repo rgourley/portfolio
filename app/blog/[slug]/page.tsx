@@ -1,27 +1,25 @@
 import { getBlogPostBySlug, getAllBlogPosts } from "@/lib/content";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import MarkdownContent from "@/components/MarkdownContent";
 import Image from "next/image";
 import type { Metadata } from "next";
+import MarkdownContent from "@/components/MarkdownContent";
+import Page from "@/components/Page";
 import StructuredData from "@/components/StructuredData";
 import { absUrl, breadcrumbSchema, personRef, WEBSITE_ID } from "@/lib/schema";
+import { SITE_URL, blogMarkdown } from "@/lib/site";
+import { fileDims, imageDims } from "@/lib/image-dims";
+import { R } from "@/lib/links";
+import { fdate, mins } from "@/lib/blog";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getBlogPostBySlug(params.slug);
-  
-  if (!post) {
-    return {
-      title: "Post Not Found",
-    };
-  }
+  if (!post) return { title: "Post Not Found" };
 
   // Use the post's description if available (should be written specifically for that post)
   // Otherwise create a simple, natural fallback
-  const metaDescription = post.description || 
+  const metaDescription = post.description ||
     `${post.title}. ${post.tags?.length ? `Insights on ${post.tags.slice(0, 2).join(" and ")}. ` : ""}By Robert Gourley.`;
-
   const ogDescription = post.description || metaDescription;
 
   return {
@@ -52,28 +50,22 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export async function generateStaticParams() {
-  const posts = getAllBlogPosts();
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  return getAllBlogPosts().map((post) => ({ slug: post.slug }));
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = await getBlogPostBySlug(params.slug);
+  if (!post) notFound();
 
-  if (!post) {
-    notFound();
-  }
-
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.robertcreative.com";
-
-  const postUrl = `${baseUrl}/blog/${post.slug}`;
+  const posts = getAllBlogPosts();
+  const idx = posts.findIndex((p) => p.slug === post.slug);
+  const nx = posts[(idx + 1) % posts.length];
+  const postUrl = `${SITE_URL}/blog/${post.slug}`;
   // Posts with `ogArt` and posts without an image both use the generated card.
   const postImage = !post.ogArt && post.image ? absUrl(post.image) : `${postUrl}/opengraph-image`;
+  const cover = post.image ? fileDims(post.image) : null;
+  const nextCover = nx.image ? fileDims(nx.image) : null;
+  const dims = imageDims(post.content);
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -100,54 +92,34 @@ export default async function BlogPostPage({
   };
 
   return (
-    <article className="pt-32 pb-20">
+    <Page agentTitle={`GET ${SITE_URL}/md/blog/${post.slug}`} agent={blogMarkdown(post.slug) || ""}>
       <StructuredData data={articleSchema} />
-      <div className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16">
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors mb-8"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to blog
-        </Link>
-
-        <header className="mb-8">
-          <div className="flex flex-wrap items-center gap-4 mb-4">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-sm px-3 py-1 rounded-full bg-muted text-foreground/70"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-          <h1 className="font-display text-6xl md:text-7xl lg:text-8xl font-semibold mb-8 leading-[1.0] tracking-[-0.02em]">{post.title}</h1>
-        </header>
-
-        {post.image && (
-          <div className="relative aspect-video rounded-2xl overflow-hidden mb-8">
-            <Image
-              src={post.image}
-              alt={post.title}
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 1200px"
-              className="object-cover"
-              quality={90}
-            />
-          </div>
-        )}
-
-        <div className="mb-8 max-w-[700px] mx-auto">
-          {/* The date stays in the metadata, structured data and sitemap; it's just not shown on the page. */}
-          {/* Small on purpose: it's the summary, and at body size readers took it for the first paragraph. */}
-          <p className="text-base text-foreground/50 mb-10">{post.description}</p>
+      <article className="post">
+        <div className="wide">
+          <Link className="back" href={R.blog}>&larr; Writing</Link>
+          <h1>{post.title}</h1>
         </div>
-
-        <MarkdownContent content={post.content} variant="article" />
-      </div>
-    </article>
+        <div className="col">
+          <p className="dek">{post.description}</p>
+          <div className="meta"><span>{fdate(post.date)}</span><span>{post.tags.join(", ")}</span><span>{mins(post)} min read</span></div>
+        </div>
+        {post.image && (
+          <figure className="hero">
+            {cover
+              ? <Image className="pic" src={post.image} alt={post.title} width={cover.w} height={cover.h} priority sizes="(max-width: 1200px) 100vw, 1184px" quality={88} />
+              : <div className="pic" style={{ position: "relative", aspectRatio: "16/9", overflow: "hidden" }}><Image src={post.image} alt={post.title} fill priority sizes="(max-width: 1200px) 100vw, 1184px" style={{ objectFit: "cover" }} /></div>}
+          </figure>
+        )}
+        <div className="col">
+          <div className="body">
+            <MarkdownContent content={post.content} variant="article" dims={dims} />
+          </div>
+          <Link className="next" href={`/blog/${nx.slug}`}>
+            <div><span className="k">Next</span><h3>{nx.title}</h3></div>
+            {nx.image && nextCover && <Image className="pic" src={nx.image} alt="" width={nextCover.w} height={nextCover.h} sizes="200px" quality={75} />}
+          </Link>
+        </div>
+      </article>
+    </Page>
   );
 }
-
