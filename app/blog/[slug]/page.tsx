@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import MarkdownContent from "@/components/MarkdownContent";
+import PostBody from "@/components/PostBody";
 import Page from "@/components/Page";
 import StructuredData from "@/components/StructuredData";
 import { absUrl, breadcrumbSchema, personRef, WEBSITE_ID } from "@/lib/schema";
@@ -112,7 +112,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         )}
         <div className="col">
           <div className="body">
-            <MarkdownContent content={post.content} variant="article" dims={dims} />
+            <PostBody content={post.content} dims={dims} />
           </div>
           <Link className="next" href={`/blog/${nx.slug}`}>
             <div><span className="k">Next</span><h3>{nx.title}</h3></div>
