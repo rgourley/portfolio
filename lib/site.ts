@@ -1,4 +1,5 @@
 import { getAllBlogPosts, getAllWork } from "@/lib/content";
+import { CASES, caseMarkdown } from "@/lib/cases";
 
 export { SITE_URL } from "@/lib/site-url";
 import { SITE_URL } from "@/lib/site-url";
@@ -38,9 +39,22 @@ export function blogMarkdown(slug: string): string | null {
   ]);
 }
 
+/** A case study as markdown. Six of the seven are the Bloom copy (lib/cases.ts), the same text the page shows for agents;
+    Hivemind is its own content file. The /md/work route, the agent view and llms-full.txt all read this. */
 export function workMarkdown(slug: string): string | null {
   const item = getAllWork().find((w) => w.slug === slug);
   if (!item) return null;
+  const c = CASES[slug];
+  if (c && slug !== "hivemind") {
+    return compact([
+      `# ${c.title}`,
+      "",
+      `URL: ${SITE_URL}/work/${slug}`,
+      "",
+      caseMarkdown(c).replace(/^# [^\n]*\n/, "").trim(),
+      "",
+    ]);
+  }
   return compact([
     `# ${item.title}`,
     "",
