@@ -5,7 +5,8 @@ import StructuredData from "@/components/StructuredData";
 import { pageSchema } from "@/lib/schema";
 import { PATENTS } from "@/lib/resume";
 import { R } from "@/lib/links";
-import { SITE_URL } from "@/lib/site";
+import { BELIEFS } from "@/lib/about";
+import { agentView } from "@/lib/agent-views";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/about" },
@@ -14,14 +15,6 @@ export const metadata: Metadata = {
   openGraph: { title: "About Robert Gourley", description: "A product designer who builds the agent layer teams run on.", url: "/about" },
 };
 
-const BELIEFS: [string, string][] = [
-  ["Products should empower, not replace", "The best products give people superpowers: they organise complexity to match how people think and work, rather than hiding it or automating it away."],
-  ["Design leads when it solves real problems", "Design is not styling. It is understanding the problem well enough that the solution feels obvious in hindsight. That means time with users."],
-  ["Systems think beyond screens", "Good design scales: design systems, processes and patterns that survive 10x growth, a doubled team and the edge cases."],
-  ["Teams matter more than heroes", "Hire people smarter than you, give them context and autonomy, and get out of their way. Great teams make great products."],
-  ["Taste is the spec", "Agents made building cheap. They did not make it good. Deciding what a team's agents should do, how they hand off to people, and when they should stop is design work."],
-  ["Every run should make the next one better", "Real runs become test cases, fixes are graded against them, and the next run improves. Nothing ships without an eval."],
-];
 const BUILT: [string, string, string, string][] = [
   ["Claude Code skill", "Proxies", "Puts your stakeholders in the room before the meeting. Six personas who red-team, debate and decide.", R.proxies],
   ["Claude Code skill", "Quant Garage", "Forty-two research tools and thirteen one-command workflows for equity research, sizing and risk, from Claude or Python.", R["quant-garage"]],
@@ -48,16 +41,9 @@ function Rows({ items }: { items: [string, string, string, string][] }) {
 }
 
 export default function AboutPage() {
-  const agent = `- role: Principal Product Engineer, Massive; builds the team agent layer (skills, subagents, workflows) on financial data
-- open_source (own time, to help others with agentic workflows): Claude Code skills Proxies, Quant Garage, Art Direction; plugin Financial UI Suite
-- products: ClawStreet (created and run, paying users), mdskills.ai, Great Robots (greatrobots.ai), Made For Space (madeforspace.io)
-- before: Director of Product Design at Shield AI (Hivemind), Kraken ($200B volume), Crunchyroll ($1.2B acquisition by Sony), Federato, Axure, Mojave (founder), Apple
-- beliefs: ${BELIEFS.map(([t]) => t).join("; ")}
-- patents: ${PATENTS.map(([, n]) => n).join(", ")}
-- consulting: fractional leadership, strategic advisory, design systems, team building
-- contact: ${SITE_URL}${R.contact}`;
+  const view = agentView("/about");
   return (
-    <Page agentTitle="About Robert Gourley" agent={agent}>
+    <Page agentTitle={view.title} agent={view.body}>
       <StructuredData data={pageSchema({ type: "AboutPage", path: "/about", name: "About Robert Gourley", description: "Background, experience and approach of Robert Gourley, a product designer who builds the agent layer teams run on." })} />
       <article className="sheet">
         <h1>About</h1>

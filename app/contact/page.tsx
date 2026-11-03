@@ -3,6 +3,8 @@ import Page from "@/components/Page";
 import EmailLink from "@/components/EmailLink";
 import StructuredData from "@/components/StructuredData";
 import { pageSchema } from "@/lib/schema";
+import { agentView } from "@/lib/agent-views";
+import { CONTACT_EMAIL } from "@/lib/contact";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
@@ -12,23 +14,16 @@ export const metadata: Metadata = {
   openGraph: { title: "Contact | Let's Work Together", description: "Ready to turn complexity into clarity? Let's discuss how strategic design can drive your business forward.", url: "/contact" },
 };
 
-const EMAIL = "rgourley@gmail.com";
-
 export default function ContactPage() {
-  const agent = `- email: ${EMAIL}
-- linkedin: https://www.linkedin.com/in/rob-gourley/
-- github: https://github.com/rgourley
-- medium: https://uxcreative.medium.com/
-- newsletter: https://www.theautonomyreport.com/
-- offers: fractional design leadership, strategic advisory, design systems, team building`;
+  const view = agentView("/contact");
   return (
-    <Page agentTitle="Contact Robert Gourley" agent={agent}>
+    <Page agentTitle={view.title} agent={view.body}>
       <StructuredData data={pageSchema({ type: "ContactPage", path: "/contact", name: "Contact Robert Gourley", description: "Get in touch about product design, design leadership and consulting." })} />
       <article className="sheet">
         <h1>Let&rsquo;s talk.</h1>
         <p className="dek">Ready to turn complexity into clarity? Product design, design leadership, consulting: fractional roles, strategic advisory, design systems, team building.</p>
         <ul className="links">
-          <li><EmailLink email={EMAIL} location="contact_page"><span>Email</span>{EMAIL}</EmailLink></li>
+          <li><EmailLink email={CONTACT_EMAIL} location="contact_page"><span>Email</span>{CONTACT_EMAIL}</EmailLink></li>
           <li><a href="https://www.linkedin.com/in/rob-gourley/" target="_blank" rel="noopener"><span>LinkedIn</span>linkedin.com/in/rob-gourley</a></li>
           <li><a href="https://github.com/rgourley" target="_blank" rel="noopener"><span>GitHub</span>github.com/rgourley</a></li>
           <li><a href="https://uxcreative.medium.com/" target="_blank" rel="noopener"><span>Medium</span>uxcreative.medium.com</a></li>

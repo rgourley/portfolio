@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import Page from "@/components/Page";
 import DotImage from "@/components/DotImage";
 import StructuredData from "@/components/StructuredData";
+import { CTRL } from "@/lib/coaster-about";
+import { agentView } from "@/lib/agent-views";
 
 // The ride at /coaster stays full screen. This page explains it and gives search engines text to index.
 
@@ -54,15 +56,6 @@ export const metadata: Metadata = {
   },
 };
 
-const CTRL: Array<[string, string]> = [
-  ["1, 2, 3", "Rider, Chase and Cinema cameras. V cycles them."],
-  ["C", "Move to the next car. Clicking Rider again does the same."],
-  ["Drag", "Look around from your seat. In Cinema, drag rotates and WASD pans."],
-  ["Space", "Pause. F changes the speed, R restarts."],
-  ["H", "Hide the HUD for a clean view."],
-  ["M", "Mute. U switches mph and km/h."],
-];
-
 const MKTS: Array<[string, string]> = [
   ["Stocks", "https://massive.com/stocks"],
   ["Options", "https://massive.com/options"],
@@ -71,10 +64,7 @@ const MKTS: Array<[string, string]> = [
   ["Futures", "https://massive.com/futures"],
 ];
 
-const agent = `- what: a 3D roller coaster built from real market data; ride the GME squeeze, the Flash Crash, or any US stock's last session minute by minute
-- ride: https://www.robertcreative.com/coaster
-- data: Massive, split-adjusted, finished sessions only
-- controls: ${CTRL.map(([k, t]) => `${k}: ${t}`).join("; ")}`;
+const view = agentView("/coaster/about");
 
 function Sec({ n, title, children }: { n: string; title: string; children: ReactNode }): JSX.Element {
   return (
@@ -122,7 +112,7 @@ export default function CoasterAboutPage(): JSX.Element {
   };
 
   return (
-    <Page agentTitle="Market Coaster" agent={agent}>
+    <Page agentTitle={view.title} agent={view.body}>
       <StructuredData data={appSchema} />
       <StructuredData data={breadcrumbSchema} />
       <article className="sheet">

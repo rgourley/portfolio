@@ -5,8 +5,9 @@ import DotImage from "@/components/DotImage";
 import StructuredData from "@/components/StructuredData";
 import Term, { type TermLine } from "@/components/Term";
 import { pageSchema } from "@/lib/schema";
+import { GH, PSTEPS, CMDS } from "@/lib/proxies";
+import { agentView } from "@/lib/agent-views";
 
-const GH = "https://github.com/rgourley/proxies";
 const DESCRIPTION =
   "Proxies is a free Claude Code skill: simulated personas review your idea, prototype or design and tell you where it breaks, before the real meeting.";
 
@@ -30,21 +31,6 @@ const REASONS: [string, string][] = [
   ["One page that tells you what to fix", "Every run ends on one results page: who blocks it, what is critical, and what fixes it."],
 ];
 
-const PSTEPS: [string, string][] = [
-  ["Pick a team", "Choose a company and its personas. Three sample teams come with the project, or you can describe your own and Claude drafts it."],
-  ["Give them something to review", "Hand over a flow, a spec, a prototype, or a design idea. Add one line about the situation."],
-  ["Read the results page", "See who would block it, the problems ranked from critical to minor, and what to fix first. Click any name to read their full answer."],
-];
-
-const CMDS: [string, string][] = [
-  ["redteam", "Everyone tries to break your idea."],
-  ["meeting", "They debate it, then the persona who decides makes the call."],
-  ["prep", "Get each persona’s top questions before you walk in."],
-  ["followup", "Check whether your new version answered their objections."],
-  ["compare", "Show two versions. Each persona picks one."],
-  ["ask / talk", "Ask one persona a question, or have a longer chat."],
-];
-
 const CARD = [
   "Role and who they report to",
   "What they are measured on",
@@ -64,13 +50,7 @@ const TERM: TermLine[] = [
   ["p", '/proxies redteam your-flow.mmd "an agency invites 30 client reviewers"'],
 ];
 
-const agent = [
-  "- what: simulated stakeholder personas review an idea, prototype or design and say where it breaks for them",
-  `- repo: ${GH}`,
-  "- commands: " + CMDS.map(([c, d]) => `/proxies ${c}: ${d}`).join("; "),
-  "- steps: " + PSTEPS.map(([t]) => t).join("; "),
-  "- licence: PolyForm Shield 1.0.0",
-].join("\n");
+const view = agentView("/projects/proxies");
 
 function Sec({ n, title, children }: { n: string; title: string; children: ReactNode }) {
   return (
@@ -86,7 +66,7 @@ function Sec({ n, title, children }: { n: string; title: string; children: React
 
 export default function ProxiesPage() {
   return (
-    <Page agentTitle="Proxies, a Claude Code skill" agent={agent}>
+    <Page agentTitle={view.title} agent={view.body}>
       <StructuredData
         data={pageSchema({
           path: "/projects/proxies",

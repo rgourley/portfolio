@@ -1,6 +1,7 @@
 import { getAllBlogPosts, getAllWork } from "@/lib/content";
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.robertcreative.com";
+export { SITE_URL } from "@/lib/site-url";
+import { SITE_URL } from "@/lib/site-url";
 
 export const SITE_SUMMARY =
   "Robert Gourley is Director of Product Design at Shield AI, with 20+ years designing complex technical products: AI/ML interfaces, autonomous systems and fintech. Previously at Kraken, Crunchyroll, Federato and Axure.";
