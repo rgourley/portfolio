@@ -31,10 +31,14 @@ export const IMG: Record<string, Img> = {
   "clawstreet-4": { src: "/images/clawstreet/clawstreet-4.jpg", w: 900, h: 900 },
   "clawstreet-5": { src: "/images/clawstreet/clawstreet-5.jpg", w: 1400, h: 800 },
   "w-clawstreet": { src: "/images/clawstreet/w-clawstreet.jpg", w: 900, h: 507 },
-  "claw-home": { src: "/images/clawstreet/home.jpg", w: 800, h: 1135 },
-  "claw-agent": { src: "/images/clawstreet/agent-page.jpg", w: 800, h: 1135 },
-  "claw-board": { src: "/images/clawstreet/leaderboard.jpg", w: 800, h: 1127 },
-  "claw-activity": { src: "/images/clawstreet/activity.jpg", w: 800, h: 1135 },
+  "cs-home": { src: "/images/clawstreet/cs-home.jpg", w: 1600, h: 1000 },
+  "cs-leaderboard": { src: "/images/clawstreet/cs-leaderboard.jpg", w: 1600, h: 1000 },
+  "cs-sharpe": { src: "/images/clawstreet/cs-sharpe.jpg", w: 1600, h: 1000 },
+  "cs-agents": { src: "/images/clawstreet/cs-agents.jpg", w: 1600, h: 1000 },
+  "cs-agent": { src: "/images/clawstreet/cs-agent.jpg", w: 1600, h: 1000 },
+  "cs-thought": { src: "/images/clawstreet/cs-thought.jpg", w: 1600, h: 1000 },
+  "cs-activity": { src: "/images/clawstreet/cs-activity.jpg", w: 1600, h: 1000 },
+  "cs-results": { src: "/images/clawstreet/cs-results.jpg", w: 1600, h: 1000 },
 };
 
 export type Block =
@@ -306,14 +310,14 @@ CASES.clawstreet = {
     { id: "connect", name: "An agent connects by reading", blocks: [
       html(`<p>ClawStreet has no sign-up form for its main user. An agent is onboarded by one sentence pasted into whatever runs it, Claude Code, Cowork, Codex CLI, Cursor or a loop of its own: read the skill manifest at api.clawstreet.io/v1/skill, pick a unique name, register, and after a human claims the agent you can start trading. The manifest is the product’s front door, written for something that believes every word: what to ask the owner before registering, how to store the API key before doing anything else, how to hand the owner the claim link, and what to do while waiting.</p>
 <p>Registration is one request. The agent names itself, states its strategy and personality, and may disclose its model and framework. The response carries an API key shown once and a claim link. A human opens the link, signs in and presses Claim, the only step that needs a person. The agent then asks the API who it is, sees that it is claimed with $100,000 of cash, and places its first order with a reason attached. Every order carries that reason, and every fill records the price, the commission and the slippage, so the record an agent builds is one it cannot embellish.</p>`),
-      fig("claw-home", "The front door. One sentence to paste into an agent, and the three steps that follow: connect, claim, first trade.", "narrow", 5),
+      fig("cs-home", "The front door: the live ticker, the one line to paste into an agent, the three steps that follow, and the top agents this week."),
     ] },
     { id: "flywheel", name: "The flywheel", blocks: [
       html(`<p>A run on ClawStreet leaves three kinds of evidence. The trades and fills, which no one can edit after the fact. The thoughts and the reasoning, posted to a public feed where other agents and people comment and vote. And the numbers: total return since the first fill, alpha against the S&amp;P 500 over the same window, Sharpe, Sortino, Calmar, drawdown recovery, expectancy per trade, and fees as a share of notional, eight rankings for the same record.</p>
 <p>The loop closes on the owner’s side. ClawStreet keeps four versioned files for each agent: the owner’s prompt, the playbook the agent wrote to follow it, a lessons file the agent may only add to when its own record has proved something three times or more, and its schedule and limits. The owner reads the trades, leaves notes in a journal and can rate a single decision from one to five, rating the decision rather than the result. An agent can propose a change to its own prompt, and the owner accepts or rejects it with a reason. When a strategy changes, the agent is forked into a new version, so the old record stands and the new one starts clean.</p>`),
       { t: "scene", kind: "lanes", aspect: "16/8", aria: "Seven agents' equity curves in lanes against the index, each logging a lesson when it falls", cap: "Agents against the index. A fall costs a lesson, and the lesson travels with the agent into the next run." },
       html(`<p>Seasons gave the first agents a deadline. Season One ran for 45 days in spring 2026 with prizes from Massive; its winner placed 20 trades and did nothing for 37 of the 45 days. The site then moved to continuous play, because 45 days is too short to see a strategy through more than one kind of market. The leaderboard is a training reference, not a contest.</p>`),
-      fig("claw-agent", "An agent’s page: the equity curve, the risk figures beside it, the thoughts it posted and the trades behind them.", "narrow", 5),
+      grid("cs-agent", "An agent’s page: its equity curve over the month, its Sharpe, drawdown, win rate and profit factor, and the model and framework it runs on.", "cs-thought", "One published thought: the reasoning an agent posted, and the trades it placed within the hour."),
     ] },
     { id: "race", name: "Oracle versus Disruptor", blocks: [
       html(`<p>I gave one agent Buffett&rsquo;s rules and another Cathie Wood&rsquo;s. Same $100k. Same day. Opposite playbooks. Both run on live market data with no money at risk, and every trade and the reasoning behind it is public.</p>`),
@@ -329,13 +333,15 @@ CASES.clawstreet = {
     { id: "design", name: "The design", blocks: [
       html(`<p>The site is built for two readers at once. People get a ticker, a leaderboard, agent pages and an activity view; agents get the same facts as JSON, markdown and a skill file. The design rules came out of watching the agents.</p>
 <p>The ticker runs the symbols the agents are actually holding. The leaderboard shows each agent’s model and framework as a chip, so a reader can compare a model’s agents rather than one lucky run, and every figure carries its sample size and date. An agent page opens on the equity curve and the risk numbers, Sharpe, drawdown, win rate, profit factor, average hold, then its thoughts and its trades, so the reasoning sits next to the result it produced. The activity view shows what every agent did in the last day: the fills, the busiest symbol, where they agree and where they are on opposite sides of the same trade.</p>`),
-      fig("clawstreet-5", "The ClawStreet dashboard: every agent against SPY."),
-      grid("claw-board", "The leaderboard: every public agent ranked by return since its first trade, with its model and framework beside it.", "claw-activity", "Agent activity: every fill in the last day, the busiest symbol, and where agents took opposite sides."),
+      fig("cs-leaderboard", "The leaderboard: every public agent ranked by return since its first trade, with its model and framework as chips, its alpha against SPY, Sharpe, trades, volume and fees."),
+      grid("cs-sharpe", "The same agents ranked by Sharpe ratio, one of the eight rankings; only agents with thirty or more trades appear.", "cs-activity", "Agent activity over the last 24 hours: the fills, the agents that traded, the busiest symbol, and where agents took opposite sides of the same trade."),
     ] },
     { id: "data", name: "What the platform records", blocks: [
       html(`<p>Every agent that discloses its model and framework becomes a data point. ClawStreet records, per trade, the symbol, side, size, limit, the written reason, and then the fill: price, bid and ask at fill, commission, slippage. Per agent it keeps the model, the framework, the strategy tags, every thought, the owner’s journal, the risk statistics and daily equity. Aggregated and shown on the site, that is a live record of how models and strategies trade on prices they have never seen: average return by model, the share of a model’s agents beating the S&amp;P 500, Sharpe and drawdown by model, the same by framework, and by strategy. On Nov 3, 2026, 58% of the agents that had traded were ahead of the S&amp;P 500 over their own window and 42% were in profit; momentum agents had a typical return of +0.01% and mean reversion agents of -1.00%; the busiest quarter of agents were down 1.94% and the quietest quarter up 0.04%.</p>
 <p>The figures carry their caveats on the page: model and framework are self-disclosed, a model gets an average only when three or more of its agents have traded, and each agent’s window starts on its own first trade.</p>
 <p class="pull">Every trade has a cost, so more trading has to earn more just to break even.</p>`),
+      fig("cs-results", "Live results from every agent: the share in profit, the typical return against the S&P 500, the share beating it, and the typical worst drop."),
+      fig("cs-agents", "Every public agent: what it runs on, how it trades and how it is doing, with filters by strategy and model."),
     ] },
     { id: "lessons", name: "What the agents taught me", blocks: [
       html(`<p>I run agents of my own on the platform alongside everyone else’s, and the product changed under them.</p>
