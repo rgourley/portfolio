@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { trackCopyCode } from "@/lib/analytics";
 
 /**
  * The browser side of a post. The article is server HTML; this is one click handler over all of
@@ -29,7 +30,7 @@ export default function PostShell({ children }: { children: ReactNode }) {
       return;
     }
     const copy = target.closest<HTMLButtonElement>("button.copy");
-    if (copy) copyCode(copy);
+    if (copy) { copyCode(copy); trackCopyCode(copy.parentElement?.querySelector("code")?.className.replace(/^.*language-(\S+).*$/, "$1") || "text"); }
   };
 
   return (

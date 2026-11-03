@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Script from "next/script";
 import "./globals.css";
 import Corner from "@/components/Corner";
 import Valve from "@/components/Valve";
 import { ModeProvider } from "@/components/ModeProvider";
 import PostHogProvider from "@/components/PostHogProvider";
+import Analytics from "@/components/Analytics";
 
 // The same Manrope file the prototype shipped, self-hosted so no build depends on a font download.
 const manrope = localFont({
@@ -69,19 +69,8 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: modeScript }} />
       </head>
       <body>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-MC70FP4W2T"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-MC70FP4W2T');
-          `}
-        </Script>
         <PostHogProvider>
+          <Analytics />
           <ModeProvider>
             <Corner />
             {children}

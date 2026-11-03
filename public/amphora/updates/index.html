@@ -180,6 +180,7 @@ posthog.init("phc_woSG6cBYGqhfkGAcbyYZggQ9pksxtFhXPshFAza4M94h",{api_host:"https
     // The signup form posts the email to the same endpoint as the home page.
     const signupForm = document.querySelector("#signup-form");
     const signupStatus = document.querySelector("#signup-status");
+    const track = (name, props) => { try { window.gtag && gtag("event", name, props); window.posthog && posthog.capture(name, props); } catch {} };
     signupForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (!signupForm.reportValidity()) return;
@@ -195,8 +196,10 @@ posthog.init("phc_woSG6cBYGqhfkGAcbyYZggQ9pksxtFhXPshFAza4M94h",{api_host:"https
           ? "You're on the list. We'll write when Amphora is ready."
           : "We couldn't save your email. Please try again.";
         if (response.ok) signupForm.reset();
+        track("amphora_signup", { ok: response.ok, page: "/amphora/updates" });
       } catch {
         signupStatus.textContent = "We couldn't save your email. Please try again.";
+        track("amphora_signup", { ok: false, page: "/amphora/updates" });
       }
     });
   </script>

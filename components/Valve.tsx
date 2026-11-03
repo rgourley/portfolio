@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { trackValveToggle } from "@/lib/analytics";
 
 /** The valve: one switch between the view for humans and the view for agents. It flips a class on the body;
     every page renders both views and the stylesheet shows one. A new page starts on the human side. */
@@ -20,7 +21,7 @@ export default function Valve() {
       role="switch"
       aria-checked={agents}
       aria-label="Switch between the view for humans and the view for agents"
-      onClick={() => { setAgents((a) => !a); window.scrollTo(0, 0); }}
+      onClick={() => { trackValveToggle(agents ? "humans" : "agents"); setAgents((a) => !a); window.scrollTo(0, 0); }}
     >
       <span className={agents ? undefined : "on"}>For humans</span>
       <i />

@@ -12,14 +12,29 @@ export default function BloomHome({ agent }: { agent: string }) {
   const field = useRef<HTMLDivElement>(null);
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
-    let dead = false, scene: { destroy: () => void } | null = null;
+    let dead = false, scene: { destroy: () => void } | null = null, idle = 0, timer = 0;
     document.documentElement.classList.add("bloom-home");
-    import("@/lib/bloom-field").then((m) => {
-      if (dead || !field.current || !root.current) return;
-      scene = m.mountField(field.current, root.current);
-    });
+    // The field waits for the page to load and the main thread to go quiet, so the headline paints and the reader can
+    // start reading before Three.js and the dots arrive. On a slow network the idle callback's timeout starts it anyway.
+    const start = () => {
+      if (dead) return;
+      import("@/lib/bloom-field").then((m) => {
+        if (dead || !field.current || !root.current) return;
+        scene = m.mountField(field.current, root.current);
+      });
+    };
+    const whenIdle = () => {
+      if (dead) return;
+      if (typeof window.requestIdleCallback === "function") idle = window.requestIdleCallback(start, { timeout: 1500 });
+      else timer = window.setTimeout(start, 200);
+    };
+    if (document.readyState === "complete") whenIdle();
+    else window.addEventListener("load", whenIdle, { once: true });
     return () => {
       dead = true;
+      window.removeEventListener("load", whenIdle);
+      if (idle && "cancelIdleCallback" in window) window.cancelIdleCallback(idle);
+      clearTimeout(timer);
       scene?.destroy();
       document.documentElement.classList.remove("bloom-home");
     };
@@ -32,16 +47,16 @@ export default function BloomHome({ agent }: { agent: string }) {
       <main ref={root} className="page home">
         <section className="hhero">
           <h1>Turning complexity into products <em>people love.</em></h1>
-          <p>Robert Gourley. Product designer building AI agents, and the systems teams ship them with. Designing the behaviour, not just the screen.</p>
+          <p>Robert Gourley. Product designer building AI agents, and the systems teams ship them with. <span className="last">Designing the whole system: the agents, the handoffs, the screen.</span></p>
         </section>
 
         <section className="lines" id="lines">
           <p className="line" data-fig="terrain"><Link href={R.hivemind}><span>Autonomous AI pilots.<small>Hivemind, Shield AI <i>&rarr;</i></small></span></Link></p>
           <p className="line" data-fig="grid"><Link href={R.work}><span>AI-native insurance platform.<small>Federato <i>&rarr;</i></small></span></Link></p>
           <p className="line" data-fig="chart"><Link href={R.kraken}><span>Traders moving billions, with confidence.<small>Kraken <i>&rarr;</i></small></span></Link></p>
-          <p className="line" data-fig="claw"><Link href={R.projects}><span>A training flywheel for AI financial agents.<small>ClawStreet <i>&rarr;</i></small></span></Link></p>
+          <p className="line" data-fig="claw"><Link href={R.clawstreet}><span>A training flywheel for AI financial agents.<small>ClawStreet <i>&rarr;</i></small></span></Link></p>
           <p className="line" data-fig="proxy"><Link href={R.proxies}><span>An AI harness for structured concept feedback.<small>Proxies, a Claude Code skill <i>&rarr;</i></small></span></Link></p>
-          <p className="line" data-fig="point"><span><span className="p1">Agents made building cheap. They did not make it good.</span> <span className="p2">The job is what it always was: <em>take the technical thing and make it feel effortless<i className="fs" id="fs">.</i></em></span><small className="after"><Link href={R.work}>See the work <i>&rarr;</i></Link></small></span></p>
+          <p className="line" data-fig="point"><span><span className="p1">Agents made building cheap. They didn’t make it good.</span> <span className="p2">The work is what it’s always been: <em>take the hard problem and make it feel effortless<i className="fs" id="fs">.</i></em></span><small className="after"><Link href={R.work}>See the work <i>&rarr;</i></Link></small></span></p>
         </section>
 
         <section className="agent" id="agent" aria-label="For agents">

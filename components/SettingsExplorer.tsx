@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import { trackCompareSliderUse, trackExplorerChange } from "@/lib/analytics";
 
 // Data file shape: one group per setting that was tested, each value with its two seeds' timings and a short note.
 type Value = { value: string; label: string; secs: number; note?: string };
@@ -61,6 +63,7 @@ export default function SettingsExplorer({ src }: { src: string }) {
               onClick={() => {
                 setGroupKey(g.key);
                 setValue(g.values.find((v) => v.value !== g.base)?.value || g.values[0].value);
+                trackExplorerChange("settings", "group", g.key);
               }}
             >
               {g.label}
@@ -76,7 +79,7 @@ export default function SettingsExplorer({ src }: { src: string }) {
       {group.values.length > 1 && (
         <div className="flex flex-wrap gap-2 mb-4">
           {group.values.map((v) => (
-            <button key={v.value} type="button" className={pill(v.value === current.value)} onClick={() => setValue(v.value)}>
+            <button key={v.value} type="button" className={pill(v.value === current.value)} onClick={() => { setValue(v.value); trackExplorerChange("settings", groupKey, v.value); }}>
               {v.label}
             </button>
           ))}
@@ -90,8 +93,7 @@ export default function SettingsExplorer({ src }: { src: string }) {
             { src: path(group.key, current.value), tag: `${current.label} · ${current.secs}s` },
           ].map((f) => (
             <div key={f.tag} {...frame}>
-              {/* Plain img on purpose: these swap on every click and should show the file as exported */}
-              <img src={f.src} alt={f.tag} style={imgStyle} className="absolute inset-0 h-full w-full object-cover" />
+              <Image quality={92} src={f.src} alt={f.tag} fill sizes="(max-width: 760px) 50vw, 345px" style={{ objectFit: "cover", ...imgStyle }} />
               <span className="pointer-events-none absolute top-2 left-2 rounded bg-black/60 px-2 py-1 text-xs text-white">{f.tag}</span>
             </div>
           ))}
@@ -101,10 +103,9 @@ export default function SettingsExplorer({ src }: { src: string }) {
         className={`relative overflow-hidden rounded-lg bg-foreground/5 select-none ${data.aspect ? "" : "aspect-video"} ${portrait ? "mx-auto max-w-[560px]" : ""}`}
         style={data.aspect ? { aspectRatio: data.aspect } : undefined}
       >
-        {/* Plain img on purpose: these swap on every click and should show the file as exported */}
-        <img src={path(group.key, current.value)} alt={`${group.label}: ${current.label}`} style={imgStyle} className="absolute inset-0 h-full w-full object-cover" />
+        <Image quality={92} src={path(group.key, current.value)} alt={`${group.label}: ${current.label}`} fill sizes="(max-width: 760px) 100vw, 690px" style={{ objectFit: "cover", ...imgStyle }} />
         <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - split}% 0 0)` }}>
-          <img src={path(baseGroup.key, base.value)} alt={`Default: ${base.label}`} style={imgStyle} className="absolute inset-0 h-full w-full object-cover" />
+          <Image quality={92} src={path(baseGroup.key, base.value)} alt={`Default: ${base.label}`} fill sizes="(max-width: 760px) 100vw, 690px" style={{ objectFit: "cover", ...imgStyle }} />
         </div>
         <div className="pointer-events-none absolute inset-y-0 w-0.5 bg-white/80" style={{ left: `${split}%` }} />
         <span className="pointer-events-none absolute top-3 left-3 rounded bg-black/60 px-2 py-1 text-xs text-white">
@@ -118,7 +119,7 @@ export default function SettingsExplorer({ src }: { src: string }) {
           min={0}
           max={100}
           value={split}
-          onChange={(e) => setSplit(Number(e.target.value))}
+          onChange={(e) => { setSplit(Number(e.target.value)); trackCompareSliderUse("settings"); }}
           aria-label="Drag to compare with the default"
           className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
         />
@@ -126,12 +127,12 @@ export default function SettingsExplorer({ src }: { src: string }) {
       )}
 
       <div className={`mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-foreground/60 ${portrait ? "mx-auto max-w-[560px]" : ""}`}>
-        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => setSeed(Number(k))} />
+        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => { setSeed(Number(k)); trackExplorerChange("settings", "seed", k); }} />
         <Segmented
           label="View"
           options={[{ key: "full", label: "Full frame" }, { key: "zoom", label: data.zoomLabel || "Hands close-up" }]}
           value={zoom ? "zoom" : "full"}
-          onChange={(k) => setZoom(k === "zoom")}
+          onChange={(k) => { setZoom(k === "zoom"); trackExplorerChange("settings", "view", k); }}
         />
       </div>
       {current.note && <p className={`mt-3 text-base text-foreground/75 ${portrait ? "mx-auto max-w-[560px]" : ""}`}>{current.note}</p>}
