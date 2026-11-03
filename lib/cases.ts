@@ -2,6 +2,7 @@
    voice but nothing is added. Each chapter is a list of blocks: copy as HTML strings, figures that arrive as dots, and the
    dot scenes. Hivemind gets its own scenes; the others wait for theirs, with photographs in the meantime. */
 import { R } from "@/lib/links";
+import type { SceneKind } from "@/components/PilotsScene";
 
 export interface Img { src: string; w: number; h: number }
 export const IMG: Record<string, Img> = {
@@ -48,6 +49,8 @@ export interface Chapter { id: string; name: string; blocks: Block[] }
 export interface CaseStudy {
   slug: string; title: string; dek: string; facts: [string, string][]; tags: string[];
   hero: string; heroAlt: string; heroCap: string; next: string; chapters: Chapter[];
+  /** a dot scene in the hero's place, when the study leads with one; hero then only names the image for cards */
+  heroScene?: { kind: SceneKind; aria: string };
 }
 
 const html = (s: string): Block => ({ t: "html", html: s });
@@ -291,11 +294,12 @@ CASES.clawstreet = {
   dek: "ClawStreet is where AI agents learn to trade live US markets. An agent connects, trades with no money at risk, is measured in public, is improved from what the runs show, and only then is taken to real markets. I built it and run it, with paying users.",
   facts: [["Role", "Founder, designer, builder"], ["Timeline", "2026 to present"], ["Platform", "Web, API, Claude Code skill"], ["Live", "clawstreet.io"], ["Year", "2026"]],
   tags: ["Agent systems", "Product design", "API design", "Financial data"],
-  hero: "clawstreet-5", heroAlt: "The ClawStreet dashboard", heroCap: "The ClawStreet dashboard: every agent against SPY.",
+  hero: "clawstreet-5", heroAlt: "The ClawStreet dashboard", heroCap: "Oracle and Disruptor against the S&P 500: two agents' returns over nineteen weeks, same $100k from the same day.",
+  heroScene: { kind: "race", aria: "The equity curves of Oracle, Disruptor and the S&P 500 drawn week by week" },
   next: "kraken",
   chapters: [
-    { id: "problem", name: "Somewhere to learn before real money", blocks: [
-      html(`<p>Agentic trading means letting an AI agent research, decide and place trades on its own. In 2026 most large US retail brokers opened their accounts to agents, so the question stopped being whether an agent can trade and became whether it should, with this strategy, on this model, with this much at stake. Nobody could answer that from a backtest. A model has read the news, so a test on 2020 prices tells you what it remembered, not what it will do. The only fair test is live prices it has never seen.</p>
+    { id: "problem", name: "Where agents learn from experience", blocks: [
+      html(`<p>Agentic trading means letting an AI agent research, decide and place trades on its own. In 2026 most large US retail brokers opened their accounts to agents, so the question stopped being whether an agent can trade and became whether it should, with this strategy, on this model, with this much at stake. Nobody could answer that from a backtest. A model has read the news, so a test on 2020 prices tells you what it remembered, not what it will do. An agent gets better the way a trader does: by running on live prices it has never seen, being wrong in public, and keeping the lesson for the next run.</p>
 <p>ClawStreet is that test. I created it and I run it. An agent connects, gets $100,000 of simulated capital, trades 1,400 or so US stocks plus crypto at live prices with fees and slippage applied, and publishes its reasoning for every trade. A public leaderboard ranks it against every other agent and against the S&amp;P 500 over its own window. The owner watches it fail, captures the lessons, iterates, and takes a strategy to a broker only once it has proven itself. 303 agents have registered and 137 of them have traded, for $330.3M of volume all time. It has paying users: a free plan covers one agent with delayed prices; Plus covers three agents with real-time prices.</p>
 <p class="pull">Watch it fail, capture the lessons, iterate and learn. Deploy into real markets once you are ready.</p>`),
     ] },
@@ -313,7 +317,6 @@ CASES.clawstreet = {
     ] },
     { id: "race", name: "Oracle versus Disruptor", blocks: [
       html(`<p>I gave one agent Buffett&rsquo;s rules and another Cathie Wood&rsquo;s. Same $100k. Same day. Opposite playbooks. Both run on live market data with no money at risk, and every trade and the reasoning behind it is public.</p>`),
-      { t: "scene", kind: "race", aspect: "16/8", aria: "The equity curves of Oracle, Disruptor and the S&P 500 drawn week by week", cap: "Nineteen weeks, drawn from the two agents' equity curves against the S&P 500." },
       html(`<ul class="stats">
 <li><b>+14.5%</b><span>Oracle, on Buffett&rsquo;s rules, after 19 weeks. It never dropped more than 0.5% below its starting $100k.</span></li>
 <li><b>+4.8%</b><span>Disruptor, on Cathie Wood&rsquo;s rules. It was up 20.6% on 5 October and gave most of it back in four weeks.</span></li>
@@ -326,6 +329,7 @@ CASES.clawstreet = {
     { id: "design", name: "The design", blocks: [
       html(`<p>The site is built for two readers at once. People get a ticker, a leaderboard, agent pages and an activity view; agents get the same facts as JSON, markdown and a skill file. The design rules came out of watching the agents.</p>
 <p>The ticker runs the symbols the agents are actually holding. The leaderboard shows each agent’s model and framework as a chip, so a reader can compare a model’s agents rather than one lucky run, and every figure carries its sample size and date. An agent page opens on the equity curve and the risk numbers, Sharpe, drawdown, win rate, profit factor, average hold, then its thoughts and its trades, so the reasoning sits next to the result it produced. The activity view shows what every agent did in the last day: the fills, the busiest symbol, where they agree and where they are on opposite sides of the same trade.</p>`),
+      fig("clawstreet-5", "The ClawStreet dashboard: every agent against SPY."),
       grid("claw-board", "The leaderboard: every public agent ranked by return since its first trade, with its model and framework beside it.", "claw-activity", "Agent activity: every fill in the last day, the busiest symbol, and where agents took opposite sides."),
     ] },
     { id: "data", name: "What the platform records", blocks: [
