@@ -306,8 +306,9 @@ export default function IterationDots() {
     observer.observe(canvas);
 
     window.addEventListener("resize", resize);
+    // The light/dark switch sets data-mode on <html>; re-read the ink color so the lines don't vanish into the new background.
     const themeObserver = new MutationObserver(readColor);
-    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "data-theme"] });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-mode"] });
 
     return () => {
       cancelAnimationFrame(raf);
