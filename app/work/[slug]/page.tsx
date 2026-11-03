@@ -10,6 +10,7 @@ import Page from "@/components/Page";
 import DotImage from "@/components/DotImage";
 import StoryRail from "@/components/StoryRail";
 import CaseBlocks from "@/components/CaseBlocks";
+import PilotsScene from "@/components/PilotsScene";
 import StructuredData from "@/components/StructuredData";
 import ProjectViewTracker from "@/components/ProjectViewTracker";
 import { absUrl, breadcrumbSchema, personRef, WEBSITE_ID } from "@/lib/schema";
@@ -73,7 +74,9 @@ export default async function WorkDetailPage({ params }: { params: { slug: strin
         <div className="tags">{c.tags.map((t) => <span key={t}>{t}</span>)}</div>
       </header>
       <figure className="hero">
-        <DotImage src={hero.src} w={hero.w} h={hero.h} cell={7} alt={c.heroAlt} priority sizes="(max-width: 1200px) 100vw, 1184px" />
+        {c.heroScene
+          ? <PilotsScene kind={c.heroScene.kind} style={{ aspectRatio: "16/8" }} ariaLabel={c.heroScene.aria} />
+          : <DotImage src={hero.src} w={hero.w} h={hero.h} cell={7} alt={c.heroAlt} priority sizes="(max-width: 1200px) 100vw, 1184px" />}
         <figcaption>{c.heroCap}</figcaption>
       </figure>
       <div className="story">
