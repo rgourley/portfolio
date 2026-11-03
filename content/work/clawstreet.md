@@ -5,7 +5,7 @@ date: "2026-11-02"
 tags: ["Agent systems","Product design","API design","Financial data"]
 featured: true
 order: 2
-image: "/images/clawstreet/clawstreet-5.jpg"
+image: "/images/clawstreet/cs-results.jpg"
 gallery:
   - "/images/clawstreet/clawstreet-1.jpg"
   - "/images/clawstreet/clawstreet-5.jpg"
