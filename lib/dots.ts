@@ -25,7 +25,7 @@ function markBuilt(src: string) { built[src] = 1; try { sessionStorage.setItem("
 class Dots {
   host: HTMLElement; photo: HTMLImageElement; src: string; cell: number;
   canvas: HTMLCanvasElement; ctx: CanvasRenderingContext2D;
-  img: HTMLImageElement | null = null; n = 0; inv = false; active = false; born = 0; seen = false; lastTouch = 0;
+  img: HTMLImageElement | null = null; n = 0; inv = false; active = false; born = 0; seen = false; lastTouch = 0; near = false; loaded = false;
   phase: Phase = "gather"; phaseT = 0; amt = 0; gatherer = false;
   w = 0; h = 0; dpr = 1; cols = 0; rows = 0;
   hx!: Float32Array; hy!: Float32Array; x!: Float32Array; y!: Float32Array; vx!: Float32Array; vy!: Float32Array;
@@ -38,8 +38,12 @@ class Dots {
     this.ctx = this.canvas.getContext("2d")!;
     if (reduce || this.phase === "photo") { this.phase = "photo"; this.photo.style.opacity = "1"; }
   }
+  /** the photograph has loaded; the dots are sampled once the figure is near the viewport, so figures far down the page cost nothing until then */
   ready() {
-    this.img = this.photo; this.build();
+    this.loaded = true; if (this.near && !this.n) { this.img = this.photo; this.build(); }
+  }
+  approach() {
+    this.near = true; if (this.loaded && !this.n) { this.img = this.photo; this.build(); }
   }
   build() {
     const w = this.host.clientWidth, h = this.host.clientHeight; if (!w || !h || !this.img) return;
@@ -77,12 +81,12 @@ class Dots {
     }
     this.inv = (sum / n) < 0.42;   // a dark image: its light parts become the dots
     if (reduce || this.phase === "photo") { this.phase = "photo"; this.photo.style.opacity = "1"; }
-    else if (this.seen) { this.active = true; }
+    else if (this.seen) { this.active = true; run(); }
     this.draw();
   }
   wake(now: number) {
     if (this.seen) return; this.seen = true; this.born = now;
-    if (!reduce) this.active = true;
+    if (!reduce) { this.active = true; run(); }
   }
   push(px: number, py: number, now: number) {
     if (!this.n || reduce) return;
@@ -94,7 +98,7 @@ class Dots {
         vx[i] += dx / d * f + mvx * 0.22 * f; vy[i] += dy / d * f + mvy * 0.22 * f; hit = true;
       }
     }
-    if (hit) { this.active = true; this.lastTouch = now; if (!this.seen) this.wake(now); }
+    if (hit) { this.active = true; this.lastTouch = now; run(); if (!this.seen) this.wake(now); }
   }
   step(now: number, dt: number) {
     const t = (now - this.born) / 1000, k = 0.08 * dt, drag = Math.pow(0.78, dt), thr = this.phase === "gather" ? 0.8 : 0.02;
@@ -154,7 +158,7 @@ class Dots {
   }
 }
 
-let io: IntersectionObserver | null = null;
+let io: IntersectionObserver | null = null, nearIo: IntersectionObserver | null = null;
 function boot() {
   if (booted || typeof window === "undefined") return; booted = true;
   reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -163,6 +167,10 @@ function boot() {
     const now = performance.now();
     es.forEach((e) => { if (e.isIntersecting) { const d = (e.target as any)._dots as Dots | undefined; if (d) d.wake(now); } });
   }, { threshold: 0.2 });
+  // a figure is sampled when it comes within a screen of the viewport, not when the page loads
+  nearIo = new IntersectionObserver((es) => {
+    es.forEach((e) => { if (e.isIntersecting) { const d = (e.target as any)._dots as Dots | undefined; if (d) { d.approach(); nearIo?.unobserve(e.target); } } });
+  }, { rootMargin: "100% 0px" });
   window.addEventListener("pointermove", (e) => {
     const now = performance.now();
     if (lastP) { const dtm = Math.max(8, now - lastP.t); mvx = (e.clientX - lastP.x) / dtm * 16; mvy = (e.clientY - lastP.y) / dtm * 16; }
@@ -177,16 +185,20 @@ function boot() {
     }
   }, { passive: true });
   let rto = 0;
-  window.addEventListener("resize", () => { clearTimeout(rto); rto = window.setTimeout(() => { instances.forEach((d) => { d.build(); }); }, 150); });
+  window.addEventListener("resize", () => { clearTimeout(rto); rto = window.setTimeout(() => { instances.forEach((d) => { if (d.n) d.build(); }); }, 150); });
   // dark mode: the page swaps its tokens on the html element; the dots follow
   new MutationObserver(() => setMode(document.documentElement.getAttribute("data-mode") === "dark")).observe(document.documentElement, { attributes: true, attributeFilter: ["data-mode"] });
   setMode(document.documentElement.getAttribute("data-mode") === "dark");
 }
+/** The one frame loop for every figure on the page. It runs while any figure is moving and stops when all have settled;
+    wake, push and build start it again. */
 function loop(now: number) {
-  rafId = instances.length ? requestAnimationFrame(loop) : 0;
   const dt = Math.min(2.5, (now - last) / 16.67); last = now;
-  for (let i = 0; i < instances.length; i++) if (instances[i].active) instances[i].step(now, dt);
+  let busy = false;
+  for (let i = 0; i < instances.length; i++) if (instances[i].active) { instances[i].step(now, dt); busy = busy || instances[i].active; }
+  rafId = busy ? requestAnimationFrame(loop) : 0;
 }
+function run() { if (!rafId) { last = performance.now(); rafId = requestAnimationFrame(loop); } }
 function setMode(isDark: boolean) {
   dark = isDark;
   const v = getComputedStyle(document.documentElement).getPropertyValue("--ink").trim(); if (v) ink = v;
@@ -201,13 +213,12 @@ export function mountDots(host: HTMLElement, photo: HTMLImageElement, src: strin
   const gather = !!opts.gather || (!firstTaken && !opts.still);   // only the first image on a page gathers; the rest arrive as photos
   const d = new Dots(host, photo, src, opts.cell || 5, !gather);
   if (gather) { firstTaken = true; d.gatherer = true; }
-  (host as any)._dots = d; instances.push(d); io?.observe(host);
-  if (!rafId) { last = performance.now(); rafId = requestAnimationFrame(loop); }
+  (host as any)._dots = d; instances.push(d); io?.observe(host); nearIo?.observe(host);
   const onLoad = () => d.ready();
   if (photo.complete && photo.naturalWidth) onLoad(); else photo.addEventListener("load", onLoad);
   return () => {
     photo.removeEventListener("load", onLoad);
-    io?.unobserve(host);
+    io?.unobserve(host); nearIo?.unobserve(host);
     const i = instances.indexOf(d); if (i >= 0) instances.splice(i, 1);
     if (d.gatherer) firstTaken = false;
     d.canvas.remove(); delete (host as any)._dots;
