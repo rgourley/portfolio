@@ -1,10 +1,10 @@
-import { renderOgCard, ogSize } from "@/lib/og-card";
+import { ogFonts, ogSize, renderBloomCard } from "@/lib/og-bloom";
 
-export const alt = "Services | Robert Gourley";
 export const runtime = "edge";
+export const alt = "Services | Robert Gourley";
 export const size = ogSize;
 export const contentType = "image/png";
 
-export default function OGImage() {
-  return renderOgCard("Services", "Product design and strategy consulting for complex products.");
+export default async function OGImage() {
+  return renderBloomCard({ label: "Services", title: "Strategic design partnership.", seed: 21 }, await ogFonts());
 }

@@ -52,7 +52,7 @@ export default function BlogPage() {
       <ol className="rows">
         {posts.slice(1).map((p, i) => (
           <li key={p.slug}>
-            <Link className="row" href={`/blog/${p.slug}`}>
+            <Link className="row" href={`/blog/${p.slug}`} prefetch={false}>
               <span className="n">{String(i + 2).padStart(2, "0")}</span>
               <Pic post={p} sizes="(max-width: 760px) 260px, 176px" />
               <h3>{p.title}</h3>

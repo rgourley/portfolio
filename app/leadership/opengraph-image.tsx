@@ -1,10 +1,10 @@
-import { renderOgCard, ogSize } from "@/lib/og-card";
+import { ogFonts, ogSize, renderBloomCard } from "@/lib/og-bloom";
 
-export const alt = "Design Leadership | Robert Gourley";
 export const runtime = "edge";
+export const alt = "Design Leadership | Robert Gourley";
 export const size = ogSize;
 export const contentType = "image/png";
 
-export default function OGImage() {
-  return renderOgCard("Design Leadership", "Fractional design leadership for teams building complex products.");
+export default async function OGImage() {
+  return renderBloomCard({ label: "Leadership", title: "Strategic design leadership.", seed: 14 }, await ogFonts());
 }

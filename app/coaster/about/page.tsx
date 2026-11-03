@@ -14,9 +14,6 @@ const SITE_URL =
 const PAGE_TITLE = "How Market Coaster works: real stock charts as roller coasters";
 const PAGE_DESCRIPTION =
   "A 3D roller coaster built from real market data. Ride the GME squeeze, the Flash Crash, or any US stock's last session minute by minute. Gaps become loops, wide bars become corkscrews.";
-const OG_IMAGE = "/images/coaster/og.jpg";
-const OG_IMAGE_ALT =
-  "The Market Coaster sign over a front-seat view of the track climbing between blue supports, with another track sweeping overhead";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -45,14 +42,12 @@ export const metadata: Metadata = {
     siteName: "Market Coaster",
     type: "website",
     locale: "en_US",
-    images: [{ url: `${SITE_URL}${OG_IMAGE}`, width: 1200, height: 630, alt: OG_IMAGE_ALT }],
   },
   twitter: {
     card: "summary_large_image",
     title: "How Market Coaster works",
     description: PAGE_DESCRIPTION,
     creator: "@rgourley",
-    images: [{ url: `${SITE_URL}${OG_IMAGE}`, alt: OG_IMAGE_ALT }],
   },
 };
 
@@ -95,7 +90,7 @@ export default function CoasterAboutPage(): JSX.Element {
     name: "Market Coaster",
     description: PAGE_DESCRIPTION,
     url: `${SITE_URL}/coaster`,
-    image: `${SITE_URL}${OG_IMAGE}`,
+    image: `${SITE_URL}/coaster/about/opengraph-image`,
     gamePlatform: "Web browser",
     applicationCategory: "Game",
     isAccessibleForFree: true,

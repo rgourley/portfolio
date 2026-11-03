@@ -1,11 +1,8 @@
 "use client";
 
-import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { analyticsAllowed, trackAmphoraStart, trackCaseNext, trackCityOpen, trackOutboundClick, trackPostNext, trackSeeTheWork, trackWorkLineClick } from "@/lib/analytics";
-
-const GA_ID = "G-MC70FP4W2T";
 
 /** The hosts of this site: a link to them is not outbound, even on a preview or on localhost. */
 const OWN = /(^|\.)robertcreative\.com$/;
@@ -21,14 +18,13 @@ function labelFor(host: string, text: string): string {
   return text.trim().replace(/\s+/g, " ").slice(0, 60);
 }
 
-/** Analytics for the site: the Google tag, loaded after the page and only when the browser has not asked not to be
-    tracked, and one click listener for the links worth counting. Links sit in server components and in HTML made on
-    the server, so they are matched here rather than wired one by one: a link off the site, the next case or post, the
-    home page's work lines, and the links that open Market City and Amphora. PostHog itself is started by PostHogProvider. */
+/** The site's click analytics: one listener for the links worth counting. Links sit in server components and in HTML made on
+    the server, so they are matched here rather than wired one by one: a link off the site, the next case or post, the home
+    page's work lines, and the links that open Market City and Amphora. PostHog itself is started by PostHogProvider; it is
+    the only analytics the site has, Google Analytics having been removed on 2026-11-03. Nothing runs when the browser has
+    asked not to be tracked. */
 export default function Analytics() {
-  const [allowed, setAllowed] = useState(false);
   const pathname = usePathname();
-  useEffect(() => { setAllowed(analyticsAllowed()); }, []);
   useEffect(() => {
     if (!analyticsAllowed()) return;
     const onClick = (e: MouseEvent) => {
@@ -54,13 +50,5 @@ export default function Analytics() {
     document.addEventListener("click", onClick, { capture: true, passive: true });
     return () => document.removeEventListener("click", onClick, { capture: true });
   }, [pathname]);
-  if (!allowed) return null;
-  return (
-    <>
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="lazyOnload" />
-      <Script id="google-analytics" strategy="lazyOnload">
-        {`window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${GA_ID}', { transport_type: 'beacon' });`}
-      </Script>
-    </>
-  );
+  return null;
 }

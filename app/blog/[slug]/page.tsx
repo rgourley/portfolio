@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import PostBody from "@/components/PostBody";
 import Page from "@/components/Page";
 import StructuredData from "@/components/StructuredData";
-import { absUrl, breadcrumbSchema, personRef, WEBSITE_ID } from "@/lib/schema";
+import { breadcrumbSchema, personRef, WEBSITE_ID } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 import { blogAgentMarkdown } from "@/lib/agent-views";
 import { fileDims, imageDims } from "@/lib/image-dims";
@@ -38,14 +38,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       type: "article",
       publishedTime: post.date,
       authors: ["Robert Gourley"],
-      // Posts with `ogArt` use the generated card from opengraph-image.tsx. Older posts use their own image.
-      ...(!post.ogArt && post.image ? { images: [{ url: post.image, width: 1200, height: 630, alt: post.title }] } : {}),
+      // No images here: every post gets the generated card from opengraph-image.tsx, which Next adds to openGraph and twitter.
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: ogDescription,
-      ...(!post.ogArt && post.image ? { images: [post.image] } : {}),
     },
   };
 }
@@ -62,8 +60,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const idx = posts.findIndex((p) => p.slug === post.slug);
   const nx = posts[(idx + 1) % posts.length];
   const postUrl = `${SITE_URL}/blog/${post.slug}`;
-  // Posts with `ogArt` and posts without an image both use the generated card.
-  const postImage = !post.ogArt && post.image ? absUrl(post.image) : `${postUrl}/opengraph-image`;
+  // Every post uses the generated card.
+  const postImage = `${postUrl}/opengraph-image`;
   const cover = post.image ? fileDims(post.image) : null;
   const nextCover = nx.image ? fileDims(nx.image) : null;
   const dims = imageDims(post.content);
@@ -100,7 +98,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <Link className="back" href={R.blog}>&larr; Writing</Link>
           <h1>{post.title}</h1>
         </div>
-        <div className="col">
+        <div className="col lead">
           <p className="dek">{post.description}</p>
           <div className="meta"><span>{fdate(post.date)}</span><span>{post.tags.join(", ")}</span><span>{mins(post)} min read</span></div>
         </div>

@@ -19,7 +19,6 @@ export const metadata: Metadata = {
     title: "Proxies",
     description: DESCRIPTION,
     url: "/projects/proxies",
-    images: [{ url: "/images/proxies/og-proxies.jpg", width: 1200, height: 630 }],
   },
 };
 

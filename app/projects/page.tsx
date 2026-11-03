@@ -45,8 +45,8 @@ export default function ProjectsPage() {
       <section className="sec">
         <h2><small>Also</small></h2>
         <ul className="links">
-          <li><Link href={R.coaster}><span>Market Coaster</span>Ride a real stock chart as a 3D roller coaster</Link></li>
-          <li><Link href={R["font-sizes"]}><span>Font size checker</span>Every font size, weight and line height on any page, one click</Link></li>
+          <li><Link href={R.coaster} prefetch={false}><span>Market Coaster</span>Ride a real stock chart as a 3D roller coaster</Link></li>
+          <li><Link href={R["font-sizes"]} prefetch={false}><span>Font size checker</span>Every font size, weight and line height on any page, one click</Link></li>
         </ul>
       </section>
     </Page>

@@ -1,10 +1,10 @@
-import { renderOgCard, ogSize } from "@/lib/og-card";
+import { ogFonts, ogSize, renderBloomCard } from "@/lib/og-bloom";
 
-export const alt = "The Autonomy Report | Robert Gourley";
 export const runtime = "edge";
+export const alt = "The Autonomy Report | Robert Gourley";
 export const size = ogSize;
 export const contentType = "image/png";
 
-export default function OGImage() {
-  return renderOgCard("The Autonomy Report", "A weekly briefing on autonomous systems and AI.");
+export default async function OGImage() {
+  return renderBloomCard({ label: "Newsletter", title: "The Autonomy Report: a weekly briefing on agentic AI.", seed: 15 }, await ogFonts());
 }

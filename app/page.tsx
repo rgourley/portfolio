@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
 import BloomHome from "@/components/BloomHome";
-import { agentMarkdown } from "@/lib/agent-views";
+import { agentExcerpt, agentMarkdown } from "@/lib/agent-views";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -62,7 +62,7 @@ export default function Home() {
     <>
       <StructuredData data={personSchema} />
       <StructuredData data={websiteSchema} />
-      <BloomHome agent={agentMarkdown("/")} />
+      <BloomHome agent={agentExcerpt(agentMarkdown("/"))} />
     </>
   );
 }
