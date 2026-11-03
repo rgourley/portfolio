@@ -517,6 +517,9 @@ body.agents .corner.bl,body.agents .hrail{display:none}
   .menubtn{display:block}
   /* on a phone the snap is mandatory, one section per screen; on a desktop the wheel handler does the snapping and proximity is enough */
   html.bloom-home{scroll-snap-type:y mandatory}
+  /* on a phone the figure sits in the upper part of the screen and the words in the lower part */
+  .hhero{justify-content:flex-end;padding-bottom:16vh}
+  .line{align-items:flex-end;padding-bottom:16vh}
   .hrail{display:none}
   .corner.bl span{display:none}
   /* on a phone the valve is just the switch, so it does not sit on the words */
