@@ -17,6 +17,7 @@ import { GH as SUITE_GH, PATT, STY } from "@/lib/financial-ui-suite";
 import { CTRL } from "@/lib/coaster-about";
 import { R } from "@/lib/links";
 import { MD_ROUTES, type MdRoute } from "@/lib/md-routes";
+import { POSITIONING, FOOTER_LINE, profileBlock } from "@/lib/profile";
 
 export interface AgentView {
   /** the heading, set after a hash */
@@ -28,9 +29,7 @@ export interface AgentView {
 /** The footer under every page view but the home: who this is, and where the overview and the index are. */
 export function agentFooter(): string {
   return `---
-- who: Robert Gourley, product designer building AI agents, and the systems teams ship them with
-- overview: ${SITE_URL}/md
-- index: ${SITE_URL}/llms.txt`;
+${FOOTER_LINE}`;
 }
 
 /** A post or case study's markdown with the footer under it, for its page and its /md route. */
@@ -53,13 +52,14 @@ export function workAgentMarkdown(slug: string): string | null {
 const VIEWS: Record<MdRoute, () => AgentView> = {
   "/": () => ({
     title: "Robert Gourley",
-    body: `> Chief Experience Officer, Agentic Systems. Designs products, and the agent systems teams use to build them.
+    body: `> ${POSITIONING}
 
 ## Now
 - role: Principal Product Engineer, Massive
 - product: the agentic layer for the people who use Massive's financial data: Claude Code skills, subagents and workflows that turn the API into answers an analyst can act on
 - before: Director of Product Design, Shield AI; led design for Hivemind, a low-code platform where engineers build, test, and deploy AI pilots
-- years_in_practice: 20+
+
+${profileBlock()}
 
 ## Before
 - Kraken: trading systems processing $200B in volume
@@ -151,7 +151,7 @@ ${ISSUES.map((x) => "  - " + x).join("\n")}`,
 - execution: end-to-end product design, complex workflow optimisation, responsive and accessible interfaces, AI-powered feature design
 - systems_and_teams: component libraries and documentation, design system implementation, team process and workflow, leadership coaching and mentorship
 - approach: every decision rolls up to a business outcome; cross-functional with product, engineering and business; research into complex workflows (underwriters, traders, autonomy engineers); built to keep working as the product grows
-- experience: 20+ years across Shield AI, Kraken, Crunchyroll and Federato; consumer, enterprise and autonomy
+- experience: Shield AI, Kraken, Crunchyroll and Federato; consumer, enterprise and autonomy
 - contact: ${SITE_URL}${R.contact}`,
   }),
 

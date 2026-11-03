@@ -1,11 +1,14 @@
 import { getAllBlogPosts, getAllWork } from "@/lib/content";
 import { SITE_URL, SITE_SUMMARY } from "@/lib/site";
+import { CASES } from "@/lib/cases";
+import { profileBlock } from "@/lib/profile";
 
 export const dynamic = "force-static";
 
 export function GET() {
+  // each case study's own dek, as its page says it; the content file's description is the fallback
   const work = getAllWork()
-    .map((w) => `- [${w.title}](${SITE_URL}/work/${w.slug}.md): ${w.description}`)
+    .map((w) => `- [${CASES[w.slug]?.title || w.title}](${SITE_URL}/work/${w.slug}.md): ${CASES[w.slug]?.dek || w.description}`)
     .join("\n");
   const posts = getAllBlogPosts()
     .map((p) => `- [${p.title}](${SITE_URL}/blog/${p.slug}.md): ${p.description}`)
@@ -16,6 +19,8 @@ export function GET() {
 > ${SITE_SUMMARY}
 
 Every page below is also plain Markdown: add .md to its URL, or request the page with \`Accept: text/markdown\`. HTML responses carry a \`Link: <...>; rel="alternate"; type="text/markdown"\` header naming the twin. The full text of every page, post and case study is in ${SITE_URL}/llms-full.txt.
+
+${profileBlock()}
 
 ## About
 - [Home](${SITE_URL}/md): The profile, the links and every endpoint

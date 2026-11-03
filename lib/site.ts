@@ -4,8 +4,10 @@ import { CASES, caseMarkdown } from "@/lib/cases";
 export { SITE_URL } from "@/lib/site-url";
 import { SITE_URL } from "@/lib/site-url";
 
-export const SITE_SUMMARY =
-  "Robert Gourley is Director of Product Design at Shield AI, with 20+ years designing complex technical products: AI/ML interfaces, autonomous systems and fintech. Previously at Kraken, Crunchyroll, Federato and Axure.";
+import { POSITIONING } from "@/lib/profile";
+
+/** The one-line summary agents see first, in llms.txt, llms-full.txt and the home /md document. */
+export const SITE_SUMMARY = POSITIONING;
 
 export function escapeXml(value: string): string {
   return value
