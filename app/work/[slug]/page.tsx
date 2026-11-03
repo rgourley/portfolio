@@ -28,9 +28,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     openGraph: {
       title: `${c.title} | Product Design Case Study`, description, url: `/work/${work.slug}`, type: "article",
       publishedTime: work.date, authors: ["Robert Gourley"],
-      images: work.image ? [{ url: work.image, width: 1200, height: 630, alt: c.title }] : undefined,
     },
-    twitter: { card: "summary_large_image", title: c.title, description, images: work.image ? [work.image] : undefined },
+    twitter: { card: "summary_large_image", title: c.title, description },
   };
 }
 

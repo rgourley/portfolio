@@ -1,10 +1,10 @@
-import { renderOgCard, ogSize } from "@/lib/og-card";
+import { ogFonts, ogSize, renderBloomCard } from "@/lib/og-bloom";
 
-export const alt = "Font Size Checker | Robert Gourley";
 export const runtime = "edge";
+export const alt = "Font Size Checker | Robert Gourley";
 export const size = ogSize;
 export const contentType = "image/png";
 
-export default function OGImage() {
-  return renderOgCard("Font Size Checker", "A free bookmarklet to find every font size on a web page.");
+export default async function OGImage() {
+  return renderBloomCard({ label: "Tool", title: "A free bookmarklet to find every font size on a web page.", seed: 22 }, await ogFonts());
 }
