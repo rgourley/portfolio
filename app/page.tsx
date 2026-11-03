@@ -62,7 +62,7 @@ export default function Home() {
     <>
       <StructuredData data={personSchema} />
       <StructuredData data={websiteSchema} />
-      <BloomHome agent={agentView("/home").body} />
+      <BloomHome agent={agentView("/")} />
     </>
   );
 }

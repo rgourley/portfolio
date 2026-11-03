@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import SiteFooter from "@/components/SiteFooter";
+import AgentText from "@/components/AgentText";
 
 interface PageProps {
   children: ReactNode;
@@ -8,18 +9,6 @@ interface PageProps {
   /** the plain text an agent gets, under the heading; the same text /md/<route> serves */
   agent: string;
   className?: string;
-}
-
-/** Markdown heading lines in the agent text render like the title: a little heavier. */
-export function AgentText({ text }: { text: string }) {
-  return (
-    <>
-      {text.split("\n").map((line, i) => {
-        const nl = i ? "\n" : "";
-        return line.startsWith("#") ? <b key={i}>{nl}{line}</b> : nl + line;
-      })}
-    </>
-  );
 }
 
 /** Every page is two views in one: the human view with the site footer, and the plain-text view for agents the valve switches to. */

@@ -18,7 +18,7 @@ export function GET() {
 Every page below is also plain Markdown: add .md to its URL, or request the page with \`Accept: text/markdown\`. HTML responses carry a \`Link: <...>; rel="alternate"; type="text/markdown"\` header naming the twin. The full text of every page, post and case study is in ${SITE_URL}/llms-full.txt.
 
 ## About
-- [Home](${SITE_URL}/): Overview, selected work and approach
+- [Home](${SITE_URL}/md): The profile, the links and every endpoint
 - [About](${SITE_URL}/about.md): Background and how I work
 - [Resume](${SITE_URL}/resume.md): Experience, skills and roles
 - [Services](${SITE_URL}/services.md): Product design consulting

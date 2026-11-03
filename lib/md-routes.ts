@@ -1,7 +1,7 @@
-/* The pages with a markdown twin at /md/<route> (and /<route>.md). The list is a const tuple so lib/agent-views.ts
-   has to cover every route; next.config.js repeats the same list for the .md rewrites. */
+/* The pages with a markdown twin: the home at /md, every other page at /md/<route> (and /<route>.md). The list is a
+   const tuple so lib/agent-views.ts has to cover every route; next.config.js repeats it for the .md rewrites. */
 export const MD_ROUTES = [
-  "/home",
+  "/",
   "/about",
   "/resume",
   "/contact",
@@ -26,7 +26,7 @@ export function isMdRoute(path: string): path is MdRoute {
 
 /** The markdown twin of a page path, or null when the page has none. Posts and case studies have one per slug. */
 export function markdownTwin(path: string): string | null {
-  if (isMdRoute(path)) return `/md${path}`;
+  if (isMdRoute(path)) return path === "/" ? "/md" : `/md${path}`;
   const m = path.match(/^\/(blog|work)\/([^/]+)$/);
   if (m && !m[2].endsWith(".md")) return `/md/${m[1]}/${m[2]}`;
   return null;

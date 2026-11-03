@@ -20,9 +20,9 @@ export function GET() {
       {
         name: "profile",
         description: "Who Robert Gourley is, what he has done and how to reach him.",
-        html: u("/about"),
-        markdown: u("/md/about"),
-        also: { resume: u("/md/resume"), contact: u("/md/contact"), leadership: u("/md/leadership"), services: u("/md/services"), newsletter: u("/md/newsletter") },
+        html: u("/"),
+        markdown: u("/md"),
+        also: { about: u("/md/about"), resume: u("/md/resume"), contact: u("/md/contact"), leadership: u("/md/leadership"), services: u("/md/services"), newsletter: u("/md/newsletter") },
       },
       {
         name: "work",
