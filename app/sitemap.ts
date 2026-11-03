@@ -22,7 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/blog': blogUpdated,
   };
 
-  // Static pages
+  // The static pages, by hand: a new page must be added here. The case studies and the posts below come from the content
+  // folder, so new ones appear on their own. The agent routes (/md, /llms.txt, the feed) are left out: they are for agents, not search.
   const staticPages = [
     {
       url: baseUrl,
