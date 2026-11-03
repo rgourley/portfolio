@@ -54,8 +54,9 @@ export const metadata: Metadata = {
   },
 };
 
-// Runs before paint, so a dark-mode reader never sees a flash of paper.
-const modeScript = `try{if(localStorage.getItem('mode')==='dark')document.documentElement.setAttribute('data-mode','dark')}catch(e){}`;
+// Runs before paint, so a dark-mode reader never sees a flash of paper. A choice made with the dot wins;
+// otherwise the page follows the system, which already switches with the day on most devices.
+const modeScript = `try{var m=localStorage.getItem('mode');if(m!=='dark'&&m!=='light')m=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';if(m==='dark')document.documentElement.setAttribute('data-mode','dark')}catch(e){}`;
 
 export default function RootLayout({
   children,
