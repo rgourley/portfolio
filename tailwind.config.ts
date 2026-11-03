@@ -38,9 +38,9 @@ const config: Config = {
         "grid": "20px",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: ["var(--font-inter)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
+        sans: ["var(--body)", "system-ui", "sans-serif"],
+        display: ["var(--body)", "system-ui", "sans-serif"],
+        mono: ["var(--mono)", "monospace"],
       },
       fontSize: {
         // Type scale based on 1.25 ratio (Major Third)
