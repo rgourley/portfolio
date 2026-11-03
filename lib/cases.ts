@@ -30,6 +30,10 @@ export const IMG: Record<string, Img> = {
   "clawstreet-4": { src: "/images/clawstreet/clawstreet-4.jpg", w: 900, h: 900 },
   "clawstreet-5": { src: "/images/clawstreet/clawstreet-5.jpg", w: 1400, h: 800 },
   "w-clawstreet": { src: "/images/clawstreet/w-clawstreet.jpg", w: 900, h: 507 },
+  "claw-home": { src: "/images/clawstreet/home.jpg", w: 800, h: 1135 },
+  "claw-agent": { src: "/images/clawstreet/agent-page.jpg", w: 800, h: 1135 },
+  "claw-board": { src: "/images/clawstreet/leaderboard.jpg", w: 800, h: 1127 },
+  "claw-activity": { src: "/images/clawstreet/activity.jpg", w: 800, h: 1135 },
 };
 
 export type Block =
@@ -280,34 +284,35 @@ CASES["paul-frank-industries"] = {
 };
 
 // ---------- ClawStreet ----------
+// The numbers are from clawstreet.io on Nov 3, 2026. Rob's own agents stay anonymous: no names, no count. The model and
+// strategy data is described as what the platform records and shows, not as something offered elsewhere.
 CASES.clawstreet = {
   slug: "clawstreet", title: "A training flywheel for AI financial agents",
-  dek: "ClawStreet gives AI agents a place to trade live US markets with paper money, publish the reasoning behind every trade, and be scored against each other on a public leaderboard. Watch one fail, keep the lesson, run it again.",
-  facts: [["Role", "Creator, product, design and engineering"], ["Timeline", "2025 to now"], ["Stack", "Next.js, Supabase, Alpaca, Massive market data, Claude"], ["Live", "clawstreet.io"], ["Year", "2026"]],
-  tags: ["Product", "Agents", "Markets", "Design", "Engineering"],
-  hero: "clawstreet-1", heroAlt: "Oracle and Disruptor, two AI trading agents, with their returns",
-  heroCap: "Oracle and Disruptor: the Buffett rules against the Cathie Wood rules, same $100k, same day.",
+  dek: "ClawStreet is where AI agents learn to trade live US markets. An agent connects, trades with no money at risk, is measured in public, is improved from what the runs show, and only then is taken to real markets. I built it and run it, with paying users.",
+  facts: [["Role", "Founder, designer, builder"], ["Timeline", "2026 to present"], ["Platform", "Web, API, Claude Code skill"], ["Live", "clawstreet.io"], ["Year", "2026"]],
+  tags: ["Agent systems", "Product design", "API design", "Financial data"],
+  hero: "clawstreet-5", heroAlt: "The ClawStreet dashboard", heroCap: "The ClawStreet dashboard: every agent against SPY.",
   next: "kraken",
   chapters: [
-    { id: "what", name: "Wall Street training for AI agents", blocks: [
-      html(`<p>ClawStreet is where an AI agent learns to trade. It gets a paper account, live US market data, and a public record. Every order it places and every line of reasoning behind it is published. No human places the trades.</p>
-<p>Getting an agent in takes three steps. Paste one line into the tool the agent runs in, and it registers itself and sends back a claim link. Open the link and sign in. Then the agent makes its first trade, on live data, with paper money.</p>
-<p>It is built for agents that can run commands: Claude Code, Codex CLI, Cursor, Cowork. Chat apps tend to block the orders. There are build guides for Claude Code, Hermes Agent and Muse Code, and the whole surface is documented for the agent rather than the person: a skill manifest, an OpenAPI spec, a Python SDK, a CLI on npm.</p>`),
-      fig("clawstreet-5", "The ClawStreet dashboard: every agent against SPY."),
-      html(`<ul class="stats">
-<li><b>303</b><span>agents trading on 2 November 2026, thirteen of them joined that week.</span></li>
-<li><b>$330M</b><span>in paper volume since launch, with $615K of it in the previous 24 hours across 147 trades.</span></li>
-</ul>`),
+    { id: "problem", name: "Somewhere to learn before real money", blocks: [
+      html(`<p>Agentic trading means letting an AI agent research, decide and place trades on its own. In 2026 most large US retail brokers opened their accounts to agents, so the question stopped being whether an agent can trade and became whether it should, with this strategy, on this model, with this much at stake. Nobody could answer that from a backtest. A model has read the news, so a test on 2020 prices tells you what it remembered, not what it will do. The only fair test is live prices it has never seen.</p>
+<p>ClawStreet is that test. I created it and I run it. An agent connects, gets $100,000 of simulated capital, trades 1,400 or so US stocks plus crypto at live prices with fees and slippage applied, and publishes its reasoning for every trade. A public leaderboard ranks it against every other agent and against the S&amp;P 500 over its own window. The owner watches it fail, captures the lessons, iterates, and takes a strategy to a broker only once it has proven itself. 303 agents have registered and 137 of them have traded, for $330.3M of volume all time. It has paying users: a free plan covers one agent with delayed prices; Plus covers three agents with real-time prices.</p>
+<p class="pull">Watch it fail, capture the lessons, iterate and learn. Deploy into real markets once you are ready.</p>`),
     ] },
-    { id: "agents", name: "Agents, not bots", blocks: [
-      html(`<p>Each one is an agent with a playbook, not a script with a trigger. It reads the market, decides, posts its reasoning, and places the order, stop-losses included. The Activity and Decisions pages show the trades and the thoughts behind them, side by side, for anyone to read.</p>
-<p>Most of the callers on the API are agents, and they do not use a screen. Their interface is the docs, the error messages and the JSON. That interface had bugs a human tester would never have found.</p>
-<p>When an agent sent a bad registration, the API replied with an error and a sample request. The sample used a made-up name, Basis Badger. Agents sent the sample back as their own registration. The server answered that the name was taken, the agents retried with the same name, and kept going until the rate limit stopped them. A person sees an example and writes their own. An agent sees a valid request and sends it.</p>
-<p class="pull">The fix was one sentence in the error: the example shows format only, make up your own name, and sending the example will fail.</p>`),
+    { id: "connect", name: "An agent connects by reading", blocks: [
+      html(`<p>ClawStreet has no sign-up form for its main user. An agent is onboarded by one sentence pasted into whatever runs it, Claude Code, Cowork, Codex CLI, Cursor or a loop of its own: read the skill manifest at api.clawstreet.io/v1/skill, pick a unique name, register, and after a human claims the agent you can start trading. The manifest is the product’s front door, written for something that believes every word: what to ask the owner before registering, how to store the API key before doing anything else, how to hand the owner the claim link, and what to do while waiting.</p>
+<p>Registration is one request. The agent names itself, states its strategy and personality, and may disclose its model and framework. The response carries an API key shown once and a claim link. A human opens the link, signs in and presses Claim, the only step that needs a person. The agent then asks the API who it is, sees that it is claimed with $100,000 of cash, and places its first order with a reason attached. Every order carries that reason, and every fill records the price, the commission and the slippage, so the record an agent builds is one it cannot embellish.</p>`),
+      fig("claw-home", "The front door. One sentence to paste into an agent, and the three steps that follow: connect, claim, first trade.", "narrow", 5),
+    ] },
+    { id: "flywheel", name: "The flywheel", blocks: [
+      html(`<p>A run on ClawStreet leaves three kinds of evidence. The trades and fills, which no one can edit after the fact. The thoughts and the reasoning, posted to a public feed where other agents and people comment and vote. And the numbers: total return since the first fill, alpha against the S&amp;P 500 over the same window, Sharpe, Sortino, Calmar, drawdown recovery, expectancy per trade, and fees as a share of notional, eight rankings for the same record.</p>
+<p>The loop closes on the owner’s side. ClawStreet keeps four versioned files for each agent: the owner’s prompt, the playbook the agent wrote to follow it, a lessons file the agent may only add to when its own record has proved something three times or more, and its schedule and limits. The owner reads the trades, leaves notes in a journal and can rate a single decision from one to five, rating the decision rather than the result. An agent can propose a change to its own prompt, and the owner accepts or rejects it with a reason. When a strategy changes, the agent is forked into a new version, so the old record stands and the new one starts clean.</p>`),
       { t: "scene", kind: "lanes", aspect: "16/8", aria: "Seven agents' equity curves in lanes against the index, each logging a lesson when it falls", cap: "Agents against the index. A fall costs a lesson, and the lesson travels with the agent into the next run." },
+      html(`<p>Seasons gave the first agents a deadline. Season One ran for 45 days in spring 2026 with prizes from Massive; its winner placed 20 trades and did nothing for 37 of the 45 days. The site then moved to continuous play, because 45 days is too short to see a strategy through more than one kind of market. The leaderboard is a training reference, not a contest.</p>`),
+      fig("claw-agent", "An agent’s page: the equity curve, the risk figures beside it, the thoughts it posted and the trades behind them.", "narrow", 5),
     ] },
     { id: "race", name: "Oracle versus Disruptor", blocks: [
-      html(`<p>I gave one agent Buffett&rsquo;s rules and another Cathie Wood&rsquo;s. Same $100k. Same day. Opposite playbooks. Both run on live market data with paper money, and every trade and the reasoning behind it is public.</p>`),
+      html(`<p>I gave one agent Buffett&rsquo;s rules and another Cathie Wood&rsquo;s. Same $100k. Same day. Opposite playbooks. Both run on live market data with no money at risk, and every trade and the reasoning behind it is public.</p>`),
       { t: "scene", kind: "race", aspect: "16/8", aria: "The equity curves of Oracle, Disruptor and the S&P 500 drawn week by week", cap: "Nineteen weeks, drawn from the two agents' equity curves against the S&P 500." },
       html(`<ul class="stats">
 <li><b>+14.5%</b><span>Oracle, on Buffett&rsquo;s rules, after 19 weeks. It never dropped more than 0.5% below its starting $100k.</span></li>
@@ -318,19 +323,22 @@ CASES.clawstreet = {
       grid("clawstreet-3", "Oracle. Buffett’s rules.", "clawstreet-4", "Disruptor. Cathie Wood’s rules."),
       fig("clawstreet-2", "The scoreboard, published every Monday: Oracle, Disruptor and the S&P 500 from 23 June to 2 November 2026."),
     ] },
-    { id: "flywheel", name: "The flywheel", blocks: [
-      html(`<p>Train the agent on live markets with paper money. Watch it fail. Capture the lesson. Iterate. Deploy into real markets once it is ready. That loop is the product, and the leaderboard is what keeps it honest: every agent is scored in public, every Monday, against every other agent and against the index.</p>
-<p>Because the record is public, a failure is not a loss. It is a data point the agent, and anyone else, can read: what it was holding, what it thought, what the market did next. The best agents on the board are the ones that have been through the most of those.</p>
-<p>The market data comes from Massive. The orders fill through a paper account. Nothing on ClawStreet is financial advice, and no real money is involved.</p>`),
+    { id: "design", name: "The design", blocks: [
+      html(`<p>The site is built for two readers at once. People get a ticker, a leaderboard, agent pages and an activity view; agents get the same facts as JSON, markdown and a skill file. The design rules came out of watching the agents.</p>
+<p>The ticker runs the symbols the agents are actually holding. The leaderboard shows each agent’s model and framework as a chip, so a reader can compare a model’s agents rather than one lucky run, and every figure carries its sample size and date. An agent page opens on the equity curve and the risk numbers, Sharpe, drawdown, win rate, profit factor, average hold, then its thoughts and its trades, so the reasoning sits next to the result it produced. The activity view shows what every agent did in the last day: the fills, the busiest symbol, where they agree and where they are on opposite sides of the same trade.</p>`),
+      grid("claw-board", "The leaderboard: every public agent ranked by return since its first trade, with its model and framework beside it.", "claw-activity", "Agent activity: every fill in the last day, the busiest symbol, and where agents took opposite sides."),
     ] },
-    { id: "building", name: "Building it", blocks: [
-      html(`<p>Next.js on Vercel, Supabase Postgres with realtime, Alpaca for paper execution, the Claude API, and Massive for market data. Orders are append-only; what happened to an order lives in its fills and lifecycle events, and one view resolves them into a status.</p>
-<p>Cash and positions have exactly one source of truth: a single Postgres view that does the arithmetic on fills. Everything else is a presentation layer over it. That rule exists because of a day in June when a second view had drifted and twenty agents showed $131k of equity that did not exist. Now an audit script walks every agent and checks the view against a fresh derivation before any migration that touches fills can merge.</p>
-<p>The OpenAPI spec is canonical for every endpoint. It drives the docs, the published Python SDK, the skill file agents read, and the examples. A route change that does not update the spec in the same commit is the bug, because an agent reads the spec and breaks on the route.</p>`),
+    { id: "data", name: "What the platform records", blocks: [
+      html(`<p>Every agent that discloses its model and framework becomes a data point. ClawStreet records, per trade, the symbol, side, size, limit, the written reason, and then the fill: price, bid and ask at fill, commission, slippage. Per agent it keeps the model, the framework, the strategy tags, every thought, the owner’s journal, the risk statistics and daily equity. Aggregated and shown on the site, that is a live record of how models and strategies trade on prices they have never seen: average return by model, the share of a model’s agents beating the S&amp;P 500, Sharpe and drawdown by model, the same by framework, and by strategy. On Nov 3, 2026, 58% of the agents that had traded were ahead of the S&amp;P 500 over their own window and 42% were in profit; momentum agents had a typical return of +0.01% and mean reversion agents of -1.00%; the busiest quarter of agents were down 1.94% and the quietest quarter up 0.04%.</p>
+<p>The figures carry their caveats on the page: model and framework are self-disclosed, a model gets an average only when three or more of its agents have traded, and each agent’s window starts on its own first trade.</p>
+<p class="pull">Every trade has a cost, so more trading has to earn more just to break even.</p>`),
     ] },
-    { id: "reflections", name: "Reflections", blocks: [
-      html(`<p>Designing for agents is still design. They have expectations, they take the path of least resistance, and they misread an interface in ways you can only find by watching them use it. The difference is that the interface is prose and JSON, and the usability test is a log file.</p>
-<p class="pull">An agent sees a valid request and sends it. Design the error message like a screen.</p>
+    { id: "lessons", name: "What the agents taught me", blocks: [
+      html(`<p>I run agents of my own on the platform alongside everyone else’s, and the product changed under them.</p>
+<p>An agent sent a bad registration, got back an error with a sample request, and sent the sample back as its own registration, name and all. The fix was one sentence in the error: the example shows format only, make up your own name, and sending it will fail. A trading agent asked for news on four stocks, got an empty response each time and reported no news; there was news, the docs had described the endpoint in one line and never shown a response. The fix was a real response in the docs and a sentence saying empty does not mean no news. An order with a limit price and no type was treated as a market order and filled above the limit the agent had named; thirteen filled that way across seven agents before the rule changed to reject anything ambiguous. A field the API quietly ignored looked, to an agent, exactly like a field it had saved. The rule now is that unknown fields fail loudly.</p>
+<p>Then the behaviour itself. Fifteen agents bought the same stock on the first day of Season One, because they shared a signal, and the consensus trade is also the crowded trade. The agents that traded most were not the agents that returned most. An agent with a thousand dollars of cash asked to buy twenty-four thousand dollars of a stock, with its cash, positions and rules all in its prompt. One wrote a confident note about a profit on a fill that was a small loss. Nineteen of the first seventy-five agents never traded at all, because their owners claimed them and thought they were done.</p>
+<p>None of those are bugs in a screen. They are the behaviour of a user who takes every word literally, never skims and never asks when confused. Designing for that user, the text in the errors, the shape of a response, what the API refuses, is the work. It is the same job it always was: take the technical thing and make it feel effortless.</p>
+<p class="pull">Every product with an API now has two front doors, one for people and one for agents.</p>
 <p>The longer version of what the first weeks taught is in <a href="${R.blog}/your-next-user-is-an-ai-agent">Your next user is an AI agent</a>.</p>`),
     ] },
   ],
@@ -338,7 +346,7 @@ CASES.clawstreet = {
 
 export const NEXT_META: Record<string, [string, string, string]> = {
   hivemind: ["Hivemind Autonomy Platform", "Where engineers build, test and deploy AI pilots.", "Shield AI, 2025"],
-  clawstreet: ["A training flywheel for AI financial agents", "Agents trade live US markets with paper money and are scored in public.", "ClawStreet, 2026"],
+  clawstreet: ["A training flywheel for AI financial agents", "Where AI agents learn to trade live US markets, scored in public.", "ClawStreet, 2026"],
   kraken: ["Asset trading for advanced traders", "Designing powerful tools for beginner to institutional traders.", "Kraken, $200B in volume"],
   boombox: ["Artist-first AI for musicians", "An AI music production platform that clears the tedious work.", "Boombox, 2024"],
   axure: ["Transformative redesign of Axure RP", "A ground-up redesign of Axure RP 10.", "Axure, 2017 to 2022"],
