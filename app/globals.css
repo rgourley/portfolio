@@ -397,6 +397,21 @@ html[data-mode="dark"] .term i,html[data-mode="dark"] .term b{color:var(--ink-di
 .post .next .k{display:block;margin-bottom:14px;text-align:left}
 .post .next h3{font-weight:300;font-size:clamp(24px,2.8vw,36px);line-height:1.1;letter-spacing:-.025em;margin:0;text-wrap:balance}
 
+/* the mobile menu */
+.menubtn{display:none;position:fixed;z-index:7;top:calc(22px + env(safe-area-inset-top,0px));right:max(24px,env(safe-area-inset-right,0px));font:600 11px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:none;border:0;padding:0;cursor:pointer}
+.menubtn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.menu{display:none;position:fixed;inset:0;z-index:6;background:var(--paper);padding:calc(84px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-left,0px)) calc(32px + env(safe-area-inset-bottom,0px));flex-direction:column;overflow:auto}
+.menu a{font-weight:300;font-size:clamp(30px,9vw,44px);letter-spacing:-.03em;line-height:1.15;text-decoration:none;padding:14px 0;border-bottom:1px solid var(--ink-ghost);display:flex;justify-content:space-between;align-items:baseline}
+.menu a i{font:600 10px/1 var(--mono);letter-spacing:.14em;font-style:normal;color:var(--ink-dim);text-transform:uppercase}
+.menu a.here{color:var(--ink)}
+.menu a:not(.here){color:var(--ink-mid)}
+.menu .mrow{margin-top:auto;padding-top:32px;display:flex;flex-wrap:wrap;gap:10px 24px;font:600 11px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
+.menu .mrow a{font:inherit;color:inherit;border:0;padding:0;display:inline;letter-spacing:inherit}
+.menu .mrow button{font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--ink);background:none;border:0;padding:0;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.menu .mrow button .mode{margin:0}
+html.menu-open .menu{display:flex}
+html.menu-open{overflow:hidden}
+
 /* the home page: one fixed field of dots behind the page */
 html.bloom-home{scroll-snap-type:y proximity}
 .field{position:fixed;inset:0;z-index:0;cursor:grab;touch-action:pan-y;transition:opacity .5s}
@@ -480,7 +495,9 @@ body.agents .corner.bl,body.agents .hrail{display:none}
 }
 @media (max-width:700px){.principles.wide li{grid-template-columns:1fr;gap:8px}}
 @media (max-width:640px){
-  html.bloom-home .corner.tr{display:none}
+  /* on a phone the nav folds into a menu: one word top right, a full-screen sheet of links */
+  .corner.tr{display:none}
+  .menubtn{display:block}
   .line{min-height:50vh}
   .hrail{display:none}
 }

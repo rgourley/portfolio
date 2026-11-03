@@ -56,7 +56,7 @@ export function getAllWork(): WorkItem[] {
     .filter((file) => file.endsWith(".md"))
     .map((file) => {
       const filePath = path.join(workDir, file);
-      const fileContents = fs.readFileSync(filePath, "utf8");
+      const fileContents = fs.readFileSync(filePath, "utf8").replace(/\r\n?/g, "\n");
       const { data, content } = matter(fileContents);
       
       return {
@@ -96,7 +96,7 @@ export async function getWorkBySlug(slug: string): Promise<WorkItem | null> {
     return null;
   }
   
-  const fileContents = fs.readFileSync(filePath, "utf8");
+  const fileContents = fs.readFileSync(filePath, "utf8").replace(/\r\n?/g, "\n");
   const { data, content } = matter(fileContents);
   const contentHtml = await markdownToHtml(content);
   
@@ -144,7 +144,7 @@ export function getAllBlogPosts(): BlogPost[] {
     .filter((file) => file.endsWith(".md"))
     .map((file) => {
       const filePath = path.join(blogDir, file);
-      const fileContents = fs.readFileSync(filePath, "utf8");
+      const fileContents = fs.readFileSync(filePath, "utf8").replace(/\r\n?/g, "\n");
       const { data, content } = matter(fileContents);
       
       return {
@@ -171,7 +171,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     return null;
   }
   
-  const fileContents = fs.readFileSync(filePath, "utf8");
+  const fileContents = fs.readFileSync(filePath, "utf8").replace(/\r\n?/g, "\n");
   const { data, content } = matter(fileContents);
   const contentHtml = await markdownToHtml(content);
   
