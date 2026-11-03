@@ -5,6 +5,7 @@
 import { SITE_URL } from "@/lib/site-url";
 import { CONTACT_EMAIL } from "@/lib/contact";
 import { getAllBlogPosts } from "@/lib/content";
+import { blogMarkdown, workMarkdown } from "@/lib/site";
 import { WORK_LIST } from "@/lib/cases";
 import { JOBS, PATENTS } from "@/lib/resume";
 import { BELIEFS } from "@/lib/about";
@@ -35,6 +36,18 @@ export function agentFooter(): string {
 /** A post or case study's markdown with the footer under it, for its page and its /md route. */
 export function withFooter(text: string): string {
   return `${text.trimEnd()}\n\n${agentFooter()}\n`;
+}
+
+/** A post's agent document: what /md/blog/<slug> serves and what the post's valve shows. Null when there is no such post. */
+export function blogAgentMarkdown(slug: string): string | null {
+  const md = blogMarkdown(slug);
+  return md ? withFooter(md) : null;
+}
+
+/** A case study's agent document: what /md/work/<slug> serves and what the page's valve shows. Null when there is no such study. */
+export function workAgentMarkdown(slug: string): string | null {
+  const md = workMarkdown(slug);
+  return md ? withFooter(md) : null;
 }
 
 const VIEWS: Record<MdRoute, () => AgentView> = {

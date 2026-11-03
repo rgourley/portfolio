@@ -8,7 +8,7 @@ import Page from "@/components/Page";
 import StructuredData from "@/components/StructuredData";
 import { pageSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/blog" },
@@ -29,9 +29,9 @@ export default function BlogPage() {
   const posts = getAllBlogPosts();
   const f = posts[0];
   const years = posts.map((p) => +p.date.slice(0, 4));
-  const view = agentView("/blog");
+  const md = agentMarkdown("/blog");
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData data={pageSchema({ type: "CollectionPage", path: "/blog", name: "Blog", description: "Design, product development and AI, by Robert Gourley.", extra: { mainEntity: { "@type": "ItemList", itemListElement: posts.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: `${SITE_URL}/blog/${p.slug}`, name: p.title })) } } })} />
       <header className="bhead">
         <h1>Writing</h1>

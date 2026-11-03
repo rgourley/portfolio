@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check:agent-views": "node scripts/check-agent-views.mjs"
   },
   "dependencies": {
     "@types/three": "^0.128.0",

@@ -6,7 +6,7 @@ import StructuredData from "@/components/StructuredData";
 import Term, { type TermLine } from "@/components/Term";
 import { pageSchema } from "@/lib/schema";
 import { GH, PSTEPS, CMDS } from "@/lib/proxies";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 
 const DESCRIPTION =
   "Proxies is a free Claude Code skill: simulated personas review your idea, prototype or design and tell you where it breaks, before the real meeting.";
@@ -50,7 +50,7 @@ const TERM: TermLine[] = [
   ["p", '/proxies redteam your-flow.mmd "an agency invites 30 client reviewers"'],
 ];
 
-const view = agentView("/projects/proxies");
+const md = agentMarkdown("/projects/proxies");
 
 function Sec({ n, title, children }: { n: string; title: string; children: ReactNode }) {
   return (
@@ -66,7 +66,7 @@ function Sec({ n, title, children }: { n: string; title: string; children: React
 
 export default function ProxiesPage() {
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData
         data={pageSchema({
           path: "/projects/proxies",

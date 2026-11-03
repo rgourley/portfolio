@@ -4,7 +4,7 @@ import Page from "@/components/Page";
 import DotImage from "@/components/DotImage";
 import StructuredData from "@/components/StructuredData";
 import { CTRL } from "@/lib/coaster-about";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 
 // The ride at /coaster stays full screen. This page explains it and gives search engines text to index.
 
@@ -64,7 +64,7 @@ const MKTS: Array<[string, string]> = [
   ["Futures", "https://massive.com/futures"],
 ];
 
-const view = agentView("/coaster/about");
+const md = agentMarkdown("/coaster/about");
 
 function Sec({ n, title, children }: { n: string; title: string; children: ReactNode }): JSX.Element {
   return (
@@ -112,7 +112,7 @@ export default function CoasterAboutPage(): JSX.Element {
   };
 
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData data={appSchema} />
       <StructuredData data={breadcrumbSchema} />
       <article className="sheet">

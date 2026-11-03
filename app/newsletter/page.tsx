@@ -3,7 +3,7 @@ import Page from "@/components/Page";
 import StructuredData from "@/components/StructuredData";
 import { pageSchema } from "@/lib/schema";
 import { ISSUES } from "@/lib/newsletter";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/newsletter" },
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 const FOR = ["You are building with agents, not just reading about them", "You ship products in agentic AI, autonomous systems or developer tools", "You want signal from someone in the work, not commentary from the sidelines", "You would rather read a five-minute briefing than a forty-tweet thread"];
 const NOT = ["You want hot takes and AGI predictions", "You are looking for VC commentary or hype cycles", "You prefer LinkedIn motivation over what works in production", "You want long-form theory over tested practice"];
 export default function NewsletterPage() {
-  const view = agentView("/newsletter");
+  const md = agentMarkdown("/newsletter");
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData data={pageSchema({ path: "/newsletter", name: "The Autonomy Report", description: "A weekly briefing on agentic AI by Robert Gourley." })} />
       <article className="sheet">
         <span className="k lead-k">A weekly briefing on agentic AI</span>

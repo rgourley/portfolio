@@ -4,12 +4,11 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { R } from "@/lib/links";
 import AgentText from "@/components/AgentText";
-import type { AgentView } from "@/lib/agent-views";
 
 /** The home page: the hero, the five work lines and the closing line over one fixed field of dots. The field itself
-    lives in lib/bloom-field.js and mounts once Three.js has loaded, so the copy is there before the dots are. */
-/** `agent` is the home page as data, from lib/agent-views.ts; the server page passes it in. */
-export default function BloomHome({ agent }: { agent: AgentView }) {
+    lives in lib/bloom-field.js and mounts once Three.js has loaded, so the copy is there before the dots are.
+    `agent` is the home page's /md document, the exact string that route serves; the server page passes it in. */
+export default function BloomHome({ agent }: { agent: string }) {
   const field = useRef<HTMLDivElement>(null);
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -47,7 +46,7 @@ export default function BloomHome({ agent }: { agent: AgentView }) {
 
         <section className="agent" id="agent" aria-label="For agents">
           <span className="k">For agents. The same page, as data.</span>
-          <pre><b># {agent.title}</b>{"\n"}<AgentText text={agent.body} /></pre>
+          <pre><AgentText text={agent} /></pre>
         </section>
       </main>
     </>

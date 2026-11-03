@@ -6,7 +6,7 @@ import Term from "@/components/Term";
 import type { TermLine } from "@/components/Term";
 import { pageSchema } from "@/lib/schema";
 import { GH, WFL, TOOLS } from "@/lib/quant-garage";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 
 const DESCRIPTION = "Forty-two tools and thirteen one-command workflows for equity research, sizing and risk, from Claude or Python. Every number cites the live API call it came from.";
 
@@ -54,7 +54,7 @@ const PLANS: [string, string, string, string][] = [
   ["Stocks Advanced", "$199 a month", "Live-mode portfolio-mark on the WebSocket feed", ""],
 ];
 
-const view = agentView("/projects/quant-garage");
+const md = agentMarkdown("/projects/quant-garage");
 
 const TERM_02: TermLine[] = [
   ["c", "claude code · quant-garage"],
@@ -97,7 +97,7 @@ const TERM_09: TermLine[] = [
 
 export default function QuantGaragePage() {
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData
         data={pageSchema({
           path: "/projects/quant-garage",

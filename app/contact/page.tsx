@@ -3,7 +3,7 @@ import Page from "@/components/Page";
 import EmailLink from "@/components/EmailLink";
 import StructuredData from "@/components/StructuredData";
 import { pageSchema } from "@/lib/schema";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 import { CONTACT_EMAIL } from "@/lib/contact";
 
 export const metadata: Metadata = {
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  const view = agentView("/contact");
+  const md = agentMarkdown("/contact");
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData data={pageSchema({ type: "ContactPage", path: "/contact", name: "Contact Robert Gourley", description: "Get in touch about product design, design leadership and consulting." })} />
       <article className="sheet">
         <h1>Let&rsquo;s talk.</h1>

@@ -6,7 +6,7 @@ import StructuredData from "@/components/StructuredData";
 import Term, { type TermLine } from "@/components/Term";
 import { pageSchema } from "@/lib/schema";
 import { GH, PATT, STY } from "@/lib/financial-ui-suite";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 
 const PAGE_PATH = "/projects/financial-ui-suite";
 const PAGE_TITLE = "Financial UI Suite | 14 Styles, No AI Defaults";
@@ -36,7 +36,7 @@ const TRIG: [string, string][] = [
   ["render an FT-style market wrap", "editorial-financial"],
 ];
 
-const view = agentView("/projects/financial-ui-suite");
+const md = agentMarkdown("/projects/financial-ui-suite");
 
 function Sec({ n, title, children }: { n: string; title: string; children: ReactNode }) {
   return (
@@ -76,7 +76,7 @@ const INSTALL_LINES: TermLine[] = [
 
 export default function FinancialUiSuitePage() {
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData
         data={pageSchema({
           path: "/projects/financial-ui-suite",

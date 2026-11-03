@@ -6,7 +6,7 @@ import { pageSchema } from "@/lib/schema";
 import { PATENTS } from "@/lib/resume";
 import { R } from "@/lib/links";
 import { BELIEFS } from "@/lib/about";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/about" },
@@ -41,9 +41,9 @@ function Rows({ items }: { items: [string, string, string, string][] }) {
 }
 
 export default function AboutPage() {
-  const view = agentView("/about");
+  const md = agentMarkdown("/about");
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData data={pageSchema({ type: "AboutPage", path: "/about", name: "About Robert Gourley", description: "Background, experience and approach of Robert Gourley, a product designer who builds the agent layer teams run on." })} />
       <article className="sheet">
         <h1>About</h1>

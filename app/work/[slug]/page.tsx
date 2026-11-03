@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import { getAllWork, getWorkBySlug } from "@/lib/content";
 import { CASES, IMG, NEXT_META } from "@/lib/cases";
 import { R } from "@/lib/links";
-import { SITE_URL, workMarkdown } from "@/lib/site";
-import { withFooter } from "@/lib/agent-views";
+import { SITE_URL } from "@/lib/site";
+import { workAgentMarkdown } from "@/lib/agent-views";
 import Page from "@/components/Page";
 import DotImage from "@/components/DotImage";
 import StoryRail from "@/components/StoryRail";
@@ -46,7 +46,7 @@ export default async function WorkDetailPage({ params }: { params: { slug: strin
   const hero = IMG[c.hero];
   const [nt, nd, nm] = NEXT_META[c.next];
   // The agent view is the same markdown /md/work/<slug> serves
-  const raw = withFooter(workMarkdown(c.slug) || "");
+  const raw = workAgentMarkdown(c.slug) || "";
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -62,7 +62,7 @@ export default async function WorkDetailPage({ params }: { params: { slug: strin
   };
 
   return (
-    <Page agentTitle={`GET ${SITE_URL}/md/work/${c.slug}`} agent={raw}>
+    <Page agent={raw}>
       <ProjectViewTracker slug={c.slug} title={c.title} />
       <StructuredData data={articleSchema} />
       <header className="head">

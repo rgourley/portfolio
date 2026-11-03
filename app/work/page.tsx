@@ -6,7 +6,7 @@ import StructuredData from "@/components/StructuredData";
 import { pageSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 import { IMG, WORK_LIST } from "@/lib/cases";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/work" },
@@ -17,9 +17,9 @@ export const metadata: Metadata = {
 };
 
 export default function WorkPage() {
-  const view = agentView("/work");
+  const md = agentMarkdown("/work");
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData data={pageSchema({ type: "CollectionPage", path: "/work", name: "Work: Product Design Projects & Case Studies", description: "Case studies in AI, autonomous systems, fintech and streaming by Robert Gourley.", extra: { mainEntity: { "@type": "ItemList", itemListElement: WORK_LIST.map((w, i) => ({ "@type": "ListItem", position: i + 1, url: `${SITE_URL}/work/${w.key}`, name: w.title })) } } })} />
       <header className="hd">
         <h1>Work</h1>

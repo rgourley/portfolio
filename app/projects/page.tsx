@@ -7,7 +7,7 @@ import { pageSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 import { R } from "@/lib/links";
 import { PROJ } from "@/lib/projects";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/projects" },
@@ -17,9 +17,9 @@ export const metadata: Metadata = {
 };
 
 export default function ProjectsPage() {
-  const view = agentView("/projects");
+  const md = agentMarkdown("/projects");
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData data={pageSchema({ type: "CollectionPage", path: "/projects", name: "Projects", description: "Tools, plugins and experiments by Robert Gourley.", extra: { mainEntity: { "@type": "ItemList", itemListElement: PROJ.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: p.internal ? SITE_URL + p.url : p.url, name: p.name })) } } })} />
       <header className="hd">
         <h1>Projects</h1>

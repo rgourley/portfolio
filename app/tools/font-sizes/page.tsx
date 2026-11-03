@@ -3,7 +3,7 @@ import Link from "next/link";
 import Page from "@/components/Page";
 import FontAuditTool from "@/components/FontAuditTool";
 import StructuredData from "@/components/StructuredData";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 
 const PAGE_PATH = "/tools/font-sizes";
 
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
 };
 
-const view = agentView("/tools/font-sizes");
+const md = agentMarkdown("/tools/font-sizes");
 
 export default function FontSizesPage(): JSX.Element {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.robertcreative.com";
@@ -36,7 +36,7 @@ export default function FontSizesPage(): JSX.Element {
   };
 
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData data={appSchema} />
       <article className="sheet">
         <span className="k lead-k">A tool</span>

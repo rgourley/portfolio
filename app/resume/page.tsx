@@ -5,7 +5,7 @@ import StructuredData from "@/components/StructuredData";
 import { pageSchema } from "@/lib/schema";
 import { JOBS, PATENTS } from "@/lib/resume";
 import { R } from "@/lib/links";
-import { agentView } from "@/lib/agent-views";
+import { agentMarkdown } from "@/lib/agent-views";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/resume" },
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 };
 
 export default function ResumePage() {
-  const view = agentView("/resume");
+  const md = agentMarkdown("/resume");
   return (
-    <Page agentTitle={view.title} agent={view.body}>
+    <Page agent={md}>
       <StructuredData data={pageSchema({ type: "ProfilePage", path: "/resume", name: "Resume", description: "Resume of Robert Gourley, Principal Product Engineer at Massive, before that Director of Product Design at Shield AI." })} />
       <article className="sheet">
         <h1>Resume</h1>
