@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Page from "@/components/Page";
-import DotImage from "@/components/DotImage";
+import Pic from "@/components/Pic";
 import StructuredData from "@/components/StructuredData";
 import Term, { type TermLine } from "@/components/Term";
 import { pageSchema } from "@/lib/schema";
@@ -96,12 +96,12 @@ export default function ProxiesPage() {
         </p>
 
         <figure>
-          <DotImage
+          <Pic
             src="/images/proxies/hero-room-clean.webp"
             w={1456}
             h={816}
-            cell={6}
-            priority hero
+           
+            priority
             alt="Six personas round the table: Sam, engineering lead; Ken, head of support; Rita, VP sales; Jo, head of product; Ana, operations director; Theo, AI engineer."
             sizes="(max-width: 900px) 100vw, 880px"
           />
@@ -117,11 +117,11 @@ export default function ProxiesPage() {
             </p>
           </div>
           <figure>
-            <DotImage
+            <Pic
               src="/images/proxies/results-dark.webp"
               w={2000}
               h={1349}
-              cell={6}
+             
               alt="The results page: who blocks it, what is critical, what fixes it."
               sizes="(max-width: 900px) 100vw, 880px"
             />
@@ -156,22 +156,22 @@ export default function ProxiesPage() {
           </ol>
           <div className="grid2">
             <figure>
-              <DotImage
+              <Pic
                 src="/images/proxies/each-view.webp"
                 w={1654}
                 h={1204}
-                cell={5}
+               
                 alt="Each persona’s view, one at a time."
                 sizes="(max-width: 860px) 100vw, 430px"
               />
               <figcaption>Each persona’s view, one at a time.</figcaption>
             </figure>
             <figure>
-              <DotImage
+              <Pic
                 src="/images/proxies/dialogue.webp"
                 w={1024}
                 h={1024}
-                cell={5}
+               
                 alt="The dialogue: first takes, then answers to the room."
                 sizes="(max-width: 860px) 100vw, 430px"
               />
@@ -195,11 +195,11 @@ export default function ProxiesPage() {
             ))}
           </ul>
           <figure>
-            <DotImage
+            <Pic
               src="/images/proxies/card-kofi-dark.webp"
               w={2000}
               h={1222}
-              cell={6}
+             
               alt="A persona card."
               sizes="(max-width: 900px) 100vw, 880px"
             />
@@ -231,11 +231,11 @@ export default function ProxiesPage() {
             </p>
           </div>
           <figure>
-            <DotImage
+            <Pic
               src="/images/proxies/people-list.webp"
               w={558}
               h={1126}
-              cell={5}
+             
               alt="A team of eleven personas, from decision owner to informed."
               sizes="(max-width: 900px) 100vw, 880px"
             />

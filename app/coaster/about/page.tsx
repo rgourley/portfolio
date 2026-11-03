@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Page from "@/components/Page";
-import DotImage from "@/components/DotImage";
+import Pic from "@/components/Pic";
 import StructuredData from "@/components/StructuredData";
 import { CTRL } from "@/lib/coaster-about";
 import { agentMarkdown } from "@/lib/agent-views";
@@ -81,7 +81,7 @@ function Sec({ n, title, children }: { n: string; title: string; children: React
 function Shot({ src, caption }: { src: string; caption: string }): JSX.Element {
   return (
     <figure>
-      <DotImage src={src} w={1440} h={900} cell={5} alt={caption} sizes="(max-width: 860px) 100vw, 430px" />
+      <Pic src={src} w={1440} h={900} alt={caption} sizes="(max-width: 860px) 100vw, 430px" />
       <figcaption>{caption}</figcaption>
     </figure>
   );
@@ -128,12 +128,12 @@ export default function CoasterAboutPage(): JSX.Element {
           </a>
         </p>
         <figure>
-          <DotImage
+          <Pic
             src="/images/coaster/hero.jpg"
             w={1440}
             h={900}
-            cell={6}
-            priority hero
+           
+            priority
             alt="A roller coaster built from GME's squeeze week"
             sizes="(max-width: 900px) 100vw, 880px"
           />

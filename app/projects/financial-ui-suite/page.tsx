@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Page from "@/components/Page";
-import DotImage from "@/components/DotImage";
+import Pic from "@/components/Pic";
 import StructuredData from "@/components/StructuredData";
 import Term, { type TermLine } from "@/components/Term";
 import { pageSchema } from "@/lib/schema";
@@ -109,12 +109,12 @@ export default function FinancialUiSuitePage() {
         </p>
 
         <figure>
-          <DotImage
+          <Pic
             src="/images/fui/modern-pro-dark.png"
             w={1100}
             h={532}
-            cell={6}
-            priority hero
+           
+            priority
             alt="Modern Pro Dark"
             sizes="(max-width: 900px) 100vw, 880px"
           />
@@ -165,22 +165,22 @@ export default function FinancialUiSuitePage() {
           </div>
           <div className="grid2">
             <figure>
-              <DotImage
+              <Pic
                 src="/images/fui/pro-terminal.png"
                 w={1100}
                 h={484}
-                cell={5}
+               
                 alt="Pro Terminal"
                 sizes="(max-width: 860px) 100vw, 430px"
               />
               <figcaption>Pro Terminal: amber on black, monospaced, dense. Bloomberg, IBKR TWS, ThinkOrSwim.</figcaption>
             </figure>
             <figure>
-              <DotImage
+              <Pic
                 src="/images/fui/retail-polish-dark.png"
                 w={1100}
                 h={574}
-                cell={5}
+               
                 alt="Retail Polish Dark"
                 sizes="(max-width: 860px) 100vw, 430px"
               />
@@ -189,22 +189,22 @@ export default function FinancialUiSuitePage() {
           </div>
           <div className="grid2">
             <figure>
-              <DotImage
+              <Pic
                 src="/images/fui/editorial-financial.png"
                 w={1100}
                 h={512}
-                cell={5}
+               
                 alt="Editorial Financial"
                 sizes="(max-width: 860px) 100vw, 430px"
               />
               <figcaption>Editorial Financial: salmon paper, serif headlines. FT, Bloomberg.com, WSJ.</figcaption>
             </figure>
             <figure>
-              <DotImage
+              <Pic
                 src="/images/fui/api-dashboard.png"
                 w={1100}
                 h={784}
-                cell={5}
+               
                 alt="API Dashboard"
                 sizes="(max-width: 860px) 100vw, 430px"
               />

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import Page from "@/components/Page";
-import DotImage from "@/components/DotImage";
+import Pic from "@/components/Pic";
 import StructuredData from "@/components/StructuredData";
 import { pageSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
@@ -31,7 +31,7 @@ export default function WorkPage() {
           const im = IMG[w.img];
           return (
             <Link key={w.key} href={`/work/${w.key}`}>
-              <DotImage src={im.src} w={im.w} h={im.h} cell={5} alt={w.title} priority={i === 0} hero={i === 0} sizes={i === 0 ? "(max-width: 1200px) 100vw, 1184px" : "(max-width: 760px) 100vw, 570px"} />
+              <Pic src={im.src} w={im.w} h={im.h} alt={w.title} priority={i === 0} sizes={i === 0 ? "(max-width: 1200px) 100vw, 1184px" : "(max-width: 760px) 100vw, 570px"} />
               <h2>{w.title}</h2>
               <div className="meta"><span>{w.client}</span><span>{w.year}</span></div>
             </Link>
@@ -45,7 +45,7 @@ export default function WorkPage() {
             <li key={w.key}>
               <Link className="row" href={`/work/${w.key}`}>
                 <span className="n">{String(i + 4).padStart(2, "0")}</span>
-                <DotImage src={im.src} w={im.w} h={im.h} cell={4} alt={w.title} sizes="(max-width: 760px) 260px, 176px" />
+                <Pic src={im.src} w={im.w} h={im.h} alt={w.title} sizes="(max-width: 760px) 260px, 176px" />
                 <h3>{w.title}</h3>
                 <span className="meta"><span>{w.client}</span><span>{w.year || "Case study"}</span></span>
               </Link>

@@ -7,7 +7,7 @@ import { R } from "@/lib/links";
 import { SITE_URL } from "@/lib/site";
 import { workAgentMarkdown } from "@/lib/agent-views";
 import Page from "@/components/Page";
-import DotImage from "@/components/DotImage";
+import Pic from "@/components/Pic";
 import StoryRail from "@/components/StoryRail";
 import CaseBlocks from "@/components/CaseBlocks";
 import PilotsScene from "@/components/PilotsScene";
@@ -76,7 +76,7 @@ export default async function WorkDetailPage({ params }: { params: { slug: strin
       <figure className="hero">
         {c.heroScene
           ? <PilotsScene kind={c.heroScene.kind} style={{ aspectRatio: "16/8" }} ariaLabel={c.heroScene.aria} />
-          : <DotImage src={hero.src} w={hero.w} h={hero.h} cell={7} alt={c.heroAlt} priority hero sizes="(max-width: 1200px) 100vw, 1184px" />}
+          : <Pic src={hero.src} w={hero.w} h={hero.h} alt={c.heroAlt} priority sizes="(max-width: 1200px) 100vw, 1184px" />}
         <figcaption>{c.heroCap}</figcaption>
       </figure>
       <div className="story">
