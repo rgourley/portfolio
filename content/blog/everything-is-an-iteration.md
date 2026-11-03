@@ -39,7 +39,7 @@ Teams that work this way stop treating a revert as a mistake. It's how an experi
 
 Agents made building cheap. They did nothing about the fear of being wrong.
 
-It shows up most in decisions that feel permanent and aren't. Most of what we decide in a day can be undone, and we still treat it like it can't. Agent work makes this obvious, because nearly all of it is reversible by default. It sits on a branch, in a draft, or behind a dry run. Anthropic's own Claude Code guidance leans on that: commit often, run several sessions side by side in separate copies of the code, and compare what comes back. The things that can't be undone are a short list, and those get a human looking at them first. Everything else, just try.
+It shows up most in decisions that feel permanent and aren't. Most of what we decide in a day can be undone, and we still treat it like it can't. Agent work makes this obvious, because nearly all of it is reversible by default. It sits on a branch, in a draft, or behind a dry run. Anthropic's own Claude Code guidance leans on that: commit often, run several sessions side by side in separate copies of the code, and compare what comes back. Only a few things can't be undone, like shipping to customers or deleting data. Have a person check those. Try everything else.
 
 What's left is ego. When people ask for options, part of them wants the agent to confirm the one they already pictured. Sometimes it does. Often another concept wins, and the hard part is letting go of the one they wanted. Teams that get good at this stop asking whose idea it was and start asking which version held up.
 
