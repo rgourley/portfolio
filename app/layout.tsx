@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
 import Corner from "@/components/Corner";
@@ -7,9 +7,10 @@ import Valve from "@/components/Valve";
 import { ModeProvider } from "@/components/ModeProvider";
 import PostHogProvider from "@/components/PostHogProvider";
 
-const manrope = Manrope({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+// The same Manrope file the prototype shipped, self-hosted so no build depends on a font download.
+const manrope = localFont({
+  src: "../public/fonts/manrope.woff2",
+  weight: "300 500",
   variable: "--font-manrope",
   display: "swap",
 });
