@@ -2,22 +2,22 @@
    Each image is sampled on a grid; every cell becomes one round dot whose radius follows the darkness of the pixel on paper
    (brightness on a dark page, and brightness too when the image itself is dark, so a dark UI reads as a wireframe of its light parts).
    Dots start scattered and gather when the image comes into view, row by row. Once settled they take their pixel colours and the
-   photograph fades in beneath them. From then on only the dots the cursor disturbs are drawn: the cursor sweeps through them like a
+   photograph fades in beneath them. One figure per page runs this engine, the page's hero; every other figure is its photograph alone.
+   A hero that has built once this session arrives as the photograph. From then on only the dots the cursor disturbs are drawn: the cursor sweeps through them like a
    hand through loose material, throwing the dots under it the way it is moving, faster when it moves faster, and they fly in colour,
    tumble, drift and ease back to their pixels over about a second. Only airborne dots are stepped and drawn, never more than a few
-   hundred per figure, so a page of settled figures costs nothing. Only the first image on a page gathers (gather forces it, still prevents it); the rest arrive as the photo,
-   and an image that has built once this session arrives as the photo too. Phases: gather, colour, reveal, photo.
+   hundred per figure, so a settled page costs nothing. Phases: gather, colour, reveal, photo.
    The photograph itself is a next/image element the component renders; the engine only reads its pixels and fades it in. */
 
 type Phase = "gather" | "colour" | "reveal" | "photo";
-export interface DotOptions { cell?: number; gather?: boolean; still?: boolean; pageKey?: string }
+export interface DotOptions { cell?: number }
 
 const PAD = 64, TAU = Math.PI * 2, MAX_AIR = 1000;
 let reduce = false, dark = false, ink = "#161616", inkRGB = [22, 22, 22];
 const instances: Dots[] = [];
 let lastP: { x: number; y: number; t: number } | null = null, mvx = 0, mvy = 0;
 let built: Record<string, 1> = {};
-let booted = false, firstTaken = false, pageKey = "";
+let booted = false;
 let rafId = 0, last = 0;
 
 function rnd(a: number, b: number) { return a + Math.random() * (b - a); }
@@ -283,13 +283,11 @@ function setMode(isDark: boolean) {
   instances.forEach((d) => { if (d.n) d.draw(); });
 }
 
-/** Mounts a dot image on a host that already holds its photograph. Returns the instance's teardown. */
+/** Mounts the page's dot figure on a host that already holds its photograph. Returns the instance's teardown. */
 export function mountDots(host: HTMLElement, photo: HTMLImageElement, src: string, opts: DotOptions = {}) {
   boot();
-  if (opts.pageKey !== undefined && opts.pageKey !== pageKey) { pageKey = opts.pageKey; firstTaken = false; }
-  const gather = !!opts.gather || (!firstTaken && !opts.still);   // only the first image on a page gathers; the rest arrive as photos
-  const d = new Dots(host, photo, src, opts.cell || 5, !gather);
-  if (gather) { firstTaken = true; d.gatherer = true; }
+  const d = new Dots(host, photo, src, opts.cell || 5, false);
+  d.gatherer = true;
   (host as any)._dots = d; instances.push(d); io?.observe(host); nearIo?.observe(host);
   const onLoad = () => d.ready();
   if (photo.complete && photo.naturalWidth) onLoad(); else photo.addEventListener("load", onLoad);
@@ -297,7 +295,6 @@ export function mountDots(host: HTMLElement, photo: HTMLImageElement, src: strin
     photo.removeEventListener("load", onLoad);
     io?.unobserve(host); nearIo?.unobserve(host);
     const i = instances.indexOf(d); if (i >= 0) instances.splice(i, 1);
-    if (d.gatherer) firstTaken = false;
     d.canvas.remove(); delete (host as any)._dots;
   };
 }

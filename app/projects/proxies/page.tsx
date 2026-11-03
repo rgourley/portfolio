@@ -101,7 +101,7 @@ export default function ProxiesPage() {
             w={1456}
             h={816}
             cell={6}
-            priority
+            priority hero
             alt="Six personas round the table: Sam, engineering lead; Ken, head of support; Rita, VP sales; Jo, head of product; Ana, operations director; Theo, AI engineer."
             sizes="(max-width: 900px) 100vw, 880px"
           />

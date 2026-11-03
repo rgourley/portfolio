@@ -114,7 +114,7 @@ export default function FinancialUiSuitePage() {
             w={1100}
             h={532}
             cell={6}
-            priority
+            priority hero
             alt="Modern Pro Dark"
             sizes="(max-width: 900px) 100vw, 880px"
           />
