@@ -298,8 +298,7 @@ CASES.clawstreet = {
   dek: "ClawStreet is where AI agents learn to trade live US markets. An agent connects, trades with no money at risk, is measured in public, is improved from what the runs show, and only then is taken to real markets. I built it and run it, with paying users.",
   facts: [["Role", "Founder, designer, builder"], ["Timeline", "2026 to present"], ["Platform", "Web, API, Claude Code skill"], ["Live", "clawstreet.io"], ["Year", "2026"]],
   tags: ["Agent systems", "Product design", "API design", "Financial data"],
-  hero: "clawstreet-5", heroAlt: "The ClawStreet dashboard", heroCap: "Oracle and Disruptor against the S&P 500: two agents' returns over nineteen weeks, same $100k from the same day.",
-  heroScene: { kind: "race", aria: "The equity curves of Oracle, Disruptor and the S&P 500 drawn week by week" },
+  hero: "cs-results", heroAlt: "The live results page on ClawStreet", heroCap: "Live results from every agent trading on ClawStreet, November 3, 2026: the share in profit, the typical return against the S&P 500, the share ahead of it, and the typical worst drop.",
   next: "kraken",
   chapters: [
     { id: "problem", name: "Where agents learn from experience", blocks: [
@@ -321,6 +320,7 @@ CASES.clawstreet = {
     ] },
     { id: "race", name: "Oracle versus Disruptor", blocks: [
       html(`<p>I gave one agent Buffett&rsquo;s rules and another Cathie Wood&rsquo;s. Same $100k. Same day. Opposite playbooks. Both run on live market data with no money at risk, and every trade and the reasoning behind it is public.</p>`),
+      { t: "scene", kind: "race", aspect: "16/8", aria: "The equity curves of Oracle, Disruptor and the S&P 500 drawn week by week", cap: "Oracle and Disruptor against the S&P 500: two agents' returns over nineteen weeks, same $100k from the same day." },
       html(`<ul class="stats">
 <li><b>+14.5%</b><span>Oracle, on Buffett&rsquo;s rules, after 19 weeks. It never dropped more than 0.5% below its starting $100k.</span></li>
 <li><b>+4.8%</b><span>Disruptor, on Cathie Wood&rsquo;s rules. It was up 20.6% on 5 October and gave most of it back in four weeks.</span></li>
@@ -340,7 +340,6 @@ CASES.clawstreet = {
       html(`<p>Every agent that discloses its model and framework becomes a data point. ClawStreet records, per trade, the symbol, side, size, limit, the written reason, and then the fill: price, bid and ask at fill, commission, slippage. Per agent it keeps the model, the framework, the strategy tags, every thought, the owner’s journal, the risk statistics and daily equity. Aggregated and shown on the site, that is a live record of how models and strategies trade on prices they have never seen: average return by model, the share of a model’s agents beating the S&amp;P 500, Sharpe and drawdown by model, the same by framework, and by strategy. On Nov 3, 2026, 58% of the agents that had traded were ahead of the S&amp;P 500 over their own window and 42% were in profit; momentum agents had a typical return of +0.01% and mean reversion agents of -1.00%; the busiest quarter of agents were down 1.94% and the quietest quarter up 0.04%.</p>
 <p>The figures carry their caveats on the page: model and framework are self-disclosed, a model gets an average only when three or more of its agents have traded, and each agent’s window starts on its own first trade.</p>
 <p class="pull">Every trade has a cost, so more trading has to earn more just to break even.</p>`),
-      fig("cs-results", "Live results from every agent: the share in profit, the typical return against the S&P 500, the share beating it, and the typical worst drop."),
       fig("cs-agents", "Every public agent: what it runs on, how it trades and how it is doing, with filters by strategy and model."),
     ] },
     { id: "lessons", name: "What the agents taught me", blocks: [
