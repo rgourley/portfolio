@@ -12,14 +12,29 @@ export default function BloomHome({ agent }: { agent: string }) {
   const field = useRef<HTMLDivElement>(null);
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
-    let dead = false, scene: { destroy: () => void } | null = null;
+    let dead = false, scene: { destroy: () => void } | null = null, idle = 0, timer = 0;
     document.documentElement.classList.add("bloom-home");
-    import("@/lib/bloom-field").then((m) => {
-      if (dead || !field.current || !root.current) return;
-      scene = m.mountField(field.current, root.current);
-    });
+    // The field waits for the page to load and the main thread to go quiet, so the headline paints and the reader can
+    // start reading before Three.js and the dots arrive. On a slow network the idle callback's timeout starts it anyway.
+    const start = () => {
+      if (dead) return;
+      import("@/lib/bloom-field").then((m) => {
+        if (dead || !field.current || !root.current) return;
+        scene = m.mountField(field.current, root.current);
+      });
+    };
+    const whenIdle = () => {
+      if (dead) return;
+      if (typeof window.requestIdleCallback === "function") idle = window.requestIdleCallback(start, { timeout: 1500 });
+      else timer = window.setTimeout(start, 200);
+    };
+    if (document.readyState === "complete") whenIdle();
+    else window.addEventListener("load", whenIdle, { once: true });
     return () => {
       dead = true;
+      window.removeEventListener("load", whenIdle);
+      if (idle && "cancelIdleCallback" in window) window.cancelIdleCallback(idle);
+      clearTimeout(timer);
       scene?.destroy();
       document.documentElement.classList.remove("bloom-home");
     };
