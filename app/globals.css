@@ -117,7 +117,8 @@ figcaption{font:400 11px/1.6 var(--mono);letter-spacing:.06em;color:var(--ink-di
 .dots.same img{object-fit:cover}
 
 /* the story: a numbered chapter rail on the left, the reading column on the right */
-.story{display:grid;grid-template-columns:200px 1fr;gap:56px;align-items:start}
+.story{display:grid;grid-template-columns:200px minmax(0,1fr);gap:56px;align-items:start}
+.story .body{min-width:0}
 .rail{position:sticky;top:120px;display:grid;gap:14px;margin:0;padding:0;list-style:none}
 .rail a{font:600 11px/1.6 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);text-decoration:none;display:flex;gap:12px;transition:color .3s}
 .rail a i{font-style:normal;width:22px;color:var(--ink-ghost)}
@@ -461,7 +462,7 @@ body.agents .corner.bl,body.agents .hrail{display:none}
 @media (max-width:860px){
   .head{padding-top:15vh}
   .facts{grid-template-columns:1fr 1fr;gap:22px}
-  .story{grid-template-columns:1fr;gap:28px}
+  .story{grid-template-columns:minmax(0,1fr);gap:28px}
   .rail{position:static;grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto;gap:22px;padding-bottom:6px}
   .grid2{grid-template-columns:1fr}
   .principles li{grid-template-columns:1fr;gap:6px}
@@ -500,6 +501,10 @@ body.agents .corner.bl,body.agents .hrail{display:none}
   .menubtn{display:block}
   .line{min-height:50vh}
   .hrail{display:none}
+  .corner.bl span{display:none}
+  /* on a phone the valve is just the switch, so it does not sit on the words */
+  .valve span{display:none}
+  .valve{gap:0;padding:8px;bottom:calc(14px + env(safe-area-inset-bottom,0px))}
 }
 @media (prefers-reduced-motion:reduce){
   .page{animation:none}
