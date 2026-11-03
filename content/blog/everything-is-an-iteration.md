@@ -47,7 +47,7 @@ What's left is ego. When people ask for options, part of them wants the agent to
 
 Cheap experiments pile up if nobody cleans them up, and the ones nobody removes end up in the product.
 
-Agents make this worse in a way most people don't expect. An agent learns how your project works by reading it. Leave a losing experiment in place and the next session treats it as the pattern to follow, and copies it somewhere new. One forgotten test turns into three. The fix is boring: when an experiment loses, delete it that day.
+Agents make this worse in a way most people don't expect. An agent learns how your project works by reading it. Leave a losing experiment in place and the next session treats it as the pattern to follow, and copies it somewhere new. One forgotten test turns into three. The fix is boring: when an experiment loses, delete it that day, and keep a short note on what didn't work so the next agent reads that instead of trying it again.
 
 It also helps to write the stopping rules down where the agent reads them. One of mine says there's a single source for anything that matters, and nothing gets to compute it a second way. Another says that if a fix needs two more fixes, the first one was wrong, so undo it and try something simpler. Both are about ending experiments. An agent will keep patching something forever if you let it. It has to be told when a test is over.
 
