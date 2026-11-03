@@ -32,6 +32,29 @@ export function agentFooter(): string {
 ${FOOTER_LINE}`;
 }
 
+export const SITE_INDEX = "https://www.robertcreative.com/llms.txt";
+
+/** The head of a page's agent document, for the page itself: the title, the URL, the summary and the first section, cut at a
+    heading boundary within about thirty lines, then two lines saying where the full text and the site index are. The on-screen
+    view exists so a reader sees the page as data; an agent reads the /md route, which serves the whole document unchanged.
+    What is shown is a byte-for-byte prefix of that document, and scripts/check-agent-views.mjs holds it to that. */
+export function agentExcerpt(full: string): string {
+  const lines = full.replace(/\n$/, "").split("\n");
+  const urlLine = lines.find((l) => l.startsWith("URL: ")) || "";
+  const path = urlLine.slice(5).replace(SITE_URL, "") || "/";
+  const mdUrl = `${SITE_URL}/md${path === "/" ? "" : path}`;
+  const heads = lines.map((l, i) => (/^#{2,3} /.test(l) ? i : -1)).filter((i) => i > 0);
+  const footer = lines.findIndex((l, i) => l === "---" && i > 3);
+  const end = footer > 0 ? footer : lines.length;
+  // before the second heading when it comes soon enough, else at the last blank line under the cap; never into the footer
+  let cut = heads.length >= 2 && heads[1] <= 40 ? heads[1] : -1;
+  if (cut < 0) { cut = Math.min(30, end); for (let i = cut; i > 12; i--) if (lines[i] === "") { cut = i; break; } }
+  cut = Math.min(cut, end);
+  const head = lines.slice(0, cut);
+  while (head.length && head[head.length - 1] === "") head.pop();
+  return `${head.join("\n")}\n\nFull text for agents: ${mdUrl}\nSite index: ${SITE_INDEX}\n`;
+}
+
 /** A post or case study's markdown with the footer under it, for its page and its /md route. */
 export function withFooter(text: string): string {
   return `${text.trimEnd()}\n\n${agentFooter()}\n`;

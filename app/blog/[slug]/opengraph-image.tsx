@@ -20,11 +20,25 @@ async function fonts(): Promise<OgFont[]> {
   ];
 }
 
-/** A post's share image: its date as the mono label, its title filling the frame. */
+/** The post's cover from the public folder as a data URL, or null when the post has none or the path is not a local image. */
+async function cover(image: string | undefined): Promise<string | null> {
+  if (!image || !/^\/images\/[\w./-]+\.(jpe?g|png|webp)$/i.test(image)) return null;
+  const publicDir = path.join(process.cwd(), "public"), file = path.join(publicDir, image);
+  if (!file.startsWith(publicDir + path.sep)) return null;
+  try {
+    const data = await readFile(file);
+    const mime = image.toLowerCase().endsWith(".png") ? "image/png" : image.toLowerCase().endsWith(".webp") ? "image/webp" : "image/jpeg";
+    return `data:${mime};base64,${data.toString("base64")}`;
+  } catch { return null; }
+}
+
+/** A post's share image: its date as the mono label, its title in the left column, and its cover filling the right part of
+    the frame; a post without a cover keeps the dot field. */
 export default async function OGImage({ params }: { params: { slug: string } }) {
   const post = await getBlogPostBySlug(params.slug);
   const title = post?.title || "Writing";
   const label = post?.date ? `Writing. ${fdate(post.date)}` : "Writing";
   const seed = [...params.slug].reduce((s, ch) => s * 31 + ch.charCodeAt(0), 11) % 100000;
-  return renderBloomCard({ label, title, seed }, await fonts());
+  const art = (await cover(post?.image)) || undefined;
+  return renderBloomCard({ label, title, seed, art }, await fonts());
 }

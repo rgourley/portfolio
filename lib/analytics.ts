@@ -53,6 +53,8 @@ export function loadPostHog(): Promise<PostHog | null> {
         capture_pageleave: true,
         // Anonymous visitors don't create billable person profiles.
         person_profiles: "identified_only",
+        // no session replay: the recorder bundle never loads, whatever the project setting says
+        disable_session_recording: true,
         // the id this browser already has, so a pageview sent by beacon before the library loaded belongs to the same visitor
         bootstrap: { distinctID: anonymousId(), isIdentifiedID: false },
       });

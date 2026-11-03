@@ -66,9 +66,9 @@ function dotField(seed: number): string {
 }
 
 /** The title's size: the largest step whose wrapped lines fit the frame between the corner header and the domain line.
-    Lines are estimated from the measure (780px) and Manrope light's average advance, with room for ragged wrapping. */
-function titleSize(title: string): number {
-  const room = 340, measure = 780;
+    Lines are estimated from the measure and Manrope light's average advance, with room for ragged wrapping. */
+function titleSize(title: string, measure: number): number {
+  const room = 340;
   for (const size of [132, 116, 100, 88, 78, 68, 60]) {
     const perLine = Math.floor(measure / (size * 0.52));
     const lines = Math.ceil((title.length * 1.12) / perLine);
@@ -83,23 +83,35 @@ export interface BloomCard {
   title: string;
   /** a seed for the dot field, so each page keeps its own scatter */
   seed?: number;
+  /** a cover image as a data URL: it fills the right part of the frame in place of the dot field, with a soft paper edge
+      where it meets the text column, and the title keeps to the column */
+  art?: string;
 }
 
 const mono = { fontFamily: "Mono", fontSize: 18, letterSpacing: "0.14em", textTransform: "uppercase" as const, fontWeight: 600 };
 
 /** Renders the card. The fonts come from the route, which knows its runtime. */
-export function renderBloomCard({ label, title, seed = 7 }: BloomCard, fonts: OgFont[]): ImageResponse {
+export function renderBloomCard({ label, title, seed = 7, art }: BloomCard, fonts: OgFont[]): ImageResponse {
+  // with a cover the text keeps to the left column; the cover takes the right 55 percent, edge to edge
+  const measure = art ? 460 : 780, artLeft = 540, edge = 150;
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", background: PAPER, position: "relative", fontFamily: "Manrope", color: INK }}>
-        <div style={{ position: "absolute", left: 0, top: 0, width: "100%", height: "100%", backgroundImage: `url("${dotField(seed)}")`, backgroundSize: "1200px 630px", display: "flex" }} />
+        {art ? (
+          <div style={{ position: "absolute", left: artLeft, top: 0, width: ogSize.width - artLeft, height: "100%", display: "flex" }}>
+            <img src={art} width={ogSize.width - artLeft} height={ogSize.height} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <div style={{ position: "absolute", left: 0, top: 0, width: edge, height: "100%", display: "flex", backgroundImage: `linear-gradient(to right, ${PAPER} 0%, ${PAPER}00 100%)` }} />
+          </div>
+        ) : (
+          <div style={{ position: "absolute", left: 0, top: 0, width: "100%", height: "100%", backgroundImage: `url("${dotField(seed)}")`, backgroundSize: "1200px 630px", display: "flex" }} />
+        )}
         <div style={{ position: "absolute", left: 64, top: 56, display: "flex", flexDirection: "column", ...mono, lineHeight: 1.6 }}>
           <div style={{ display: "flex", color: INK }}>Robert Gourley</div>
           <div style={{ display: "flex", color: INK_DIM }}>CXO, Agentic Systems</div>
         </div>
-        <div style={{ position: "absolute", left: 64, right: 64, bottom: 96, display: "flex", flexDirection: "column", maxWidth: 780 }}>
+        <div style={{ position: "absolute", left: 64, right: 64, bottom: 96, display: "flex", flexDirection: "column", maxWidth: measure }}>
           {label ? <div style={{ display: "flex", ...mono, color: INK_MID, marginBottom: 26 }}>{label}</div> : null}
-          <div style={{ display: "flex", fontSize: titleSize(title), fontWeight: 300, lineHeight: 1.0, letterSpacing: "-0.035em", color: INK, textWrap: "balance" }}>{title}</div>
+          <div style={{ display: "flex", fontSize: titleSize(title, measure), fontWeight: 300, lineHeight: 1.0, letterSpacing: "-0.035em", color: INK, textWrap: "balance" }}>{title}</div>
         </div>
         <div style={{ position: "absolute", left: 64, bottom: 52, display: "flex", ...mono, color: INK_DIM }}>robertcreative.com</div>
       </div>

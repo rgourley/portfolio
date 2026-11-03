@@ -7,10 +7,11 @@ import { ModeProvider } from "@/components/ModeProvider";
 import PostHogProvider from "@/components/PostHogProvider";
 import Analytics from "@/components/Analytics";
 
-// The same Manrope file the prototype shipped, self-hosted so no build depends on a font download.
+// Manrope, self-hosted so no build depends on a font download: the Latin subset, with the weight axis cut to the 300 to 600
+// the stylesheet uses (the corner header and labels at 600, the headlines at 300, the emphasis at 400).
 const manrope = localFont({
   src: "../public/fonts/manrope.woff2",
-  weight: "300 500",
+  weight: "300 600",
   variable: "--font-manrope",
   display: "swap",
 });

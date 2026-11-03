@@ -7,7 +7,8 @@ import AgentText from "@/components/AgentText";
 
 /** The home page: the hero, the five work lines and the closing line over one fixed field of dots. The field itself
     lives in lib/bloom-field.js and mounts once Three.js has loaded, so the copy is there before the dots are.
-    `agent` is the home page's /md document, the exact string that route serves; the server page passes it in. */
+    `agent` is the head of the home page's /md document with the full text and the site index named under it; the server page
+    passes it in. */
 export default function BloomHome({ agent }: { agent: string }) {
   const field = useRef<HTMLDivElement>(null);
   const root = useRef<HTMLElement>(null);

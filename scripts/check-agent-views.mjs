@@ -1,5 +1,6 @@
-// Holds the valve to its promise: on every page, the text the "For agents" view shows is the /md document for that
-// page, byte for byte. Fetches each page and its /md twin from a running server and compares them. Then checks the
+// Holds the valve to its promise: on every page, the text the "For agents" view shows is the head of the /md document for
+// that page, byte for byte, followed by two lines naming the full text and the site index. Fetches each page and its /md
+// twin from a running server and compares them. Then checks the
 // user-agent rule: a program (curl and friends, or no user agent) asking for a page gets the twin itself, and an
 // Accept header naming text/html gets the page back.
 //
@@ -63,8 +64,17 @@ for (const [page, md] of pairs) {
   }
   const shown = agentText(html);
   if (shown === null) { console.log(`FAIL ${page}: no agent view in the page`); failures++; continue; }
-  if (shown !== twin) { console.log(`FAIL ${page} differs from ${md}: ${firstDiff(shown, twin)}`); failures++; continue; }
-  console.log(`ok   ${page} = ${md} (${twin.length} bytes)`);
+  // the shown text: the twin's head, then a blank line, then the two link lines
+  const tail = shown.match(/\n\nFull text for agents: (\S+)\nSite index: (\S+)\n$/);
+  if (!tail) { console.log(`FAIL ${page}: the agent view does not end with the full-text and site-index lines`); failures++; continue; }
+  const head = shown.slice(0, tail.index) + "\n";
+  if (!twin.startsWith(head)) { console.log(`FAIL ${page} is not the head of ${md}: ${firstDiff(head, twin.slice(0, head.length))}`); failures++; continue; }
+  const headLines = head.split("\n").length - 1;
+  if (headLines < 4 || headLines > 44) { console.log(`FAIL ${page}: the excerpt is ${headLines} lines`); failures++; continue; }
+  const mdPath = new URL(tail[1]).pathname;
+  if (mdPath !== md) { console.log(`FAIL ${page}: the full-text line points at ${mdPath}, not ${md}`); failures++; continue; }
+  if (tail[2] !== "https://www.robertcreative.com/llms.txt") { console.log(`FAIL ${page}: the site index line is ${tail[2]}`); failures++; continue; }
+  console.log(`ok   ${page} shows the first ${headLines} lines of ${md} (${twin.length} bytes) and names it`);
 }
 
 // the user-agent rule, on a sample: the home, the first route, one post and one case study
@@ -84,5 +94,5 @@ for (const [page, md] of sample) {
   }
 }
 
-console.log(failures ? `\n${failures} checks failed` : `\nall ${pairs.length} pages match their /md twin, and programs get the twin by default`);
+console.log(failures ? `\n${failures} checks failed` : `\nall ${pairs.length} pages show the head of their /md twin and name it, and programs get the twin by default`);
 process.exit(failures ? 1 : 0);
