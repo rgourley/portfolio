@@ -48,6 +48,13 @@ a{color:inherit}
 img,video{max-width:100%}
 
 /* the corners: name and title top left, the nav and the mode dot top right */
+/* The scrim: a strip the height of the header zone, fixed across the top of every page, below the header and above the
+   page and the home field. The page background fades to nothing down the strip, and a light blur feathers out with it under a
+   mask, so copy scrolling under the name and the nav dims rather than colliding. It takes no pointer events. */
+.scrim{position:fixed;top:0;left:0;right:0;height:calc(88px + env(safe-area-inset-top,0px));z-index:3;pointer-events:none;
+  background:linear-gradient(to bottom,var(--paper) 0%,var(--paper) 22%,transparent 100%);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 30%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 30%,transparent 100%)}
 .corner{position:fixed;z-index:4;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink);line-height:1.6}
 .corner.tl{top:calc(22px + env(safe-area-inset-top,0px));left:max(24px,env(safe-area-inset-left,0px))}
 .corner.tr{top:calc(22px + env(safe-area-inset-top,0px));right:max(24px,env(safe-area-inset-right,0px));text-align:right}
@@ -430,8 +437,6 @@ html.bloom-home{scroll-snap-type:y proximity}
 .hhero h1{font-weight:300;font-size:clamp(38px,6.8vw,96px);line-height:1.0;letter-spacing:-.035em;margin:0;max-width:12ch;text-wrap:balance}
 .hhero h1 em{font-style:normal;font-weight:400}
 .hhero p{margin:24px 0 0;max-width:52ch;font-size:clamp(15px,1.2vw,18px);line-height:1.6;color:var(--ink-dim);text-wrap:pretty}
-/* the last sentence moves as one piece: it takes a line of its own rather than breaking, and breaks inside only on a column narrower than itself */
-.hhero p .last{display:inline-block;max-width:100%}
 .lines{padding:0}
 .line{display:flex;align-items:center;margin:0;font-weight:300;font-size:clamp(24px,3.3vw,46px);line-height:1.25;letter-spacing:-.025em;max-width:22ch;text-wrap:balance;color:var(--ink-ghost);transition:color 1.1s cubic-bezier(.2,.7,.2,1),transform 1.1s cubic-bezier(.2,.7,.2,1);transform:translateY(10px)}
 .line.on{color:var(--ink);transform:none}
@@ -502,6 +507,7 @@ body.agents .corner.bl,body.agents .hrail{display:none}
 @media (max-width:640px){
   /* on a phone the nav folds into a menu: one word top right, a full-screen sheet of links */
   .corner.tr{display:none}
+  .scrim{height:calc(72px + env(safe-area-inset-top,0px))}
   .menubtn{display:block}
   .line{min-height:50vh}
   .hrail{display:none}
