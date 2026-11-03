@@ -9,6 +9,7 @@ export const R = {
   newsletter: "/newsletter",
   contact: "/contact",
   hivemind: "/work/hivemind",
+  clawstreet: "/work/clawstreet",
   kraken: "/work/kraken",
   boombox: "/work/boombox",
   axure: "/work/axure",

@@ -39,7 +39,7 @@ export default function BloomHome({ agent }: { agent: string }) {
           <p className="line" data-fig="terrain"><Link href={R.hivemind}><span>Autonomous AI pilots.<small>Hivemind, Shield AI <i>&rarr;</i></small></span></Link></p>
           <p className="line" data-fig="grid"><Link href={R.work}><span>AI-native insurance platform.<small>Federato <i>&rarr;</i></small></span></Link></p>
           <p className="line" data-fig="chart"><Link href={R.kraken}><span>Traders moving billions, with confidence.<small>Kraken <i>&rarr;</i></small></span></Link></p>
-          <p className="line" data-fig="claw"><Link href={R.projects}><span>A training flywheel for AI financial agents.<small>ClawStreet <i>&rarr;</i></small></span></Link></p>
+          <p className="line" data-fig="claw"><Link href={R.clawstreet}><span>A training flywheel for AI financial agents.<small>ClawStreet <i>&rarr;</i></small></span></Link></p>
           <p className="line" data-fig="proxy"><Link href={R.proxies}><span>An AI harness for structured concept feedback.<small>Proxies, a Claude Code skill <i>&rarr;</i></small></span></Link></p>
           <p className="line" data-fig="point"><span><span className="p1">Agents made building cheap. They did not make it good.</span> <span className="p2">The job is what it always was: <em>take the technical thing and make it feel effortless<i className="fs" id="fs">.</i></em></span><small className="after"><Link href={R.work}>See the work <i>&rarr;</i></Link></small></span></p>
         </section>
