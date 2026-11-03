@@ -72,7 +72,6 @@ export default function RootLayout({
         <PostHogProvider>
           <Analytics />
           <ModeProvider>
-            <div className="scrim" aria-hidden="true" />
             <Corner />
             {children}
             <Valve />

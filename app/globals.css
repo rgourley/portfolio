@@ -48,13 +48,6 @@ a{color:inherit}
 img,video{max-width:100%}
 
 /* the corners: name and title top left, the nav and the mode dot top right */
-/* The scrim: a strip the height of the header zone, fixed across the top of every page, below the header and above the
-   page and the home field. The page background fades to nothing down the strip, and a light blur feathers out with it under a
-   mask, so copy scrolling under the name and the nav dims rather than colliding. It takes no pointer events. */
-.scrim{position:fixed;top:0;left:0;right:0;height:calc(88px + env(safe-area-inset-top,0px));z-index:3;pointer-events:none;
-  background:linear-gradient(to bottom,var(--paper) 0%,var(--paper) 22%,transparent 100%);
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 30%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 30%,transparent 100%)}
 .corner{position:fixed;z-index:4;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink);line-height:1.6}
 .corner.tl{top:calc(22px + env(safe-area-inset-top,0px));left:max(24px,env(safe-area-inset-left,0px))}
 .corner.tr{top:calc(22px + env(safe-area-inset-top,0px));right:max(24px,env(safe-area-inset-right,0px));text-align:right}
@@ -70,6 +63,16 @@ img,video{max-width:100%}
 
 .page{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 8px;animation:pagein .55s cubic-bezier(.2,.7,.2,1) both}
 @keyframes pagein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* The header zone: the page's content fades to nothing as it scrolls under the fixed corner header, while whatever is behind it,
+   the dot field on the home page or the plain background elsewhere, shows through unchanged. The fade is a mask on the page
+   itself, one viewport tall, moved down the page by a scroll-driven animation so its top edge always sits at the top of the
+   window. The header's own elements, the valve and the field are outside the page and never fade. Where scroll-driven
+   animations are not supported the mask stays at the top of the page, which is where the header overlaps first. */
+.page{--fade:calc(88px + env(safe-area-inset-top,0px));
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 var(--fade));mask-image:linear-gradient(to bottom,transparent 0,#000 var(--fade));
+  -webkit-mask-size:100% 100vh;mask-size:100% 100vh;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  animation:pagein .55s cubic-bezier(.2,.7,.2,1) both,headerzone linear both;animation-timeline:auto,scroll(root)}
+@keyframes headerzone{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:0 100%;mask-position:0 100%}}
 .k{font:600 11px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
 
 /* the case study opening */
@@ -430,7 +433,7 @@ html.bloom-home{scroll-snap-type:y proximity}
 .field .tag{position:absolute;left:0;top:0;font:600 10px/1.3 var(--mono);letter-spacing:.08em;color:var(--ink);white-space:pre;opacity:0;pointer-events:none;border-left:1px solid var(--ink);padding-left:6px}
 .field .tag.read{font-size:12px;line-height:1.55;padding:8px 12px;background:var(--veil);border-left:1px solid var(--ink)}
 .field .tag.read.flip{border-left:0;border-right:1px solid var(--ink);text-align:right}
-.home{pointer-events:none;padding:0;animation:none}
+.home{pointer-events:none;padding:0;animation:headerzone linear both;animation-timeline:scroll(root)}   /* no entrance on the home; the header-zone mask stays */
 .home h1,.home p,.home a,.home pre,.home span.k{pointer-events:auto}
 .hhero,.line{min-height:100vh;scroll-snap-align:center;scroll-snap-stop:always}
 .hhero{display:flex;flex-direction:column;justify-content:center;padding-bottom:4vh}
@@ -507,7 +510,7 @@ body.agents .corner.bl,body.agents .hrail{display:none}
 @media (max-width:640px){
   /* on a phone the nav folds into a menu: one word top right, a full-screen sheet of links */
   .corner.tr{display:none}
-  .scrim{height:calc(72px + env(safe-area-inset-top,0px))}
+  .page{--fade:calc(72px + env(safe-area-inset-top,0px))}
   .menubtn{display:block}
   .line{min-height:50vh}
   .hrail{display:none}
@@ -517,7 +520,7 @@ body.agents .corner.bl,body.agents .hrail{display:none}
   .valve{gap:0;padding:8px;bottom:calc(14px + env(safe-area-inset-bottom,0px))}
 }
 @media (prefers-reduced-motion:reduce){
-  .page{animation:none}
+  .page{animation:headerzone linear both;animation-timeline:scroll(root)}   /* no entrance; the header-zone mask is scroll-driven, not motion */
   .row h3{transition:none}
   .line{transition:none;transform:none}
 }
