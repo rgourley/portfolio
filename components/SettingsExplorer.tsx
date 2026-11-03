@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { trackCompareSliderUse, trackExplorerChange } from "@/lib/analytics";
 
 // Data file shape: one group per setting that was tested, each value with its two seeds' timings and a short note.
 type Value = { value: string; label: string; secs: number; note?: string };
@@ -62,6 +63,7 @@ export default function SettingsExplorer({ src }: { src: string }) {
               onClick={() => {
                 setGroupKey(g.key);
                 setValue(g.values.find((v) => v.value !== g.base)?.value || g.values[0].value);
+                trackExplorerChange("settings", "group", g.key);
               }}
             >
               {g.label}
@@ -77,7 +79,7 @@ export default function SettingsExplorer({ src }: { src: string }) {
       {group.values.length > 1 && (
         <div className="flex flex-wrap gap-2 mb-4">
           {group.values.map((v) => (
-            <button key={v.value} type="button" className={pill(v.value === current.value)} onClick={() => setValue(v.value)}>
+            <button key={v.value} type="button" className={pill(v.value === current.value)} onClick={() => { setValue(v.value); trackExplorerChange("settings", groupKey, v.value); }}>
               {v.label}
             </button>
           ))}
@@ -117,7 +119,7 @@ export default function SettingsExplorer({ src }: { src: string }) {
           min={0}
           max={100}
           value={split}
-          onChange={(e) => setSplit(Number(e.target.value))}
+          onChange={(e) => { setSplit(Number(e.target.value)); trackCompareSliderUse("settings"); }}
           aria-label="Drag to compare with the default"
           className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
         />
@@ -125,12 +127,12 @@ export default function SettingsExplorer({ src }: { src: string }) {
       )}
 
       <div className={`mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-foreground/60 ${portrait ? "mx-auto max-w-[560px]" : ""}`}>
-        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => setSeed(Number(k))} />
+        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => { setSeed(Number(k)); trackExplorerChange("settings", "seed", k); }} />
         <Segmented
           label="View"
           options={[{ key: "full", label: "Full frame" }, { key: "zoom", label: data.zoomLabel || "Hands close-up" }]}
           value={zoom ? "zoom" : "full"}
-          onChange={(k) => setZoom(k === "zoom")}
+          onChange={(k) => { setZoom(k === "zoom"); trackExplorerChange("settings", "view", k); }}
         />
       </div>
       {current.note && <p className={`mt-3 text-base text-foreground/75 ${portrait ? "mx-auto max-w-[560px]" : ""}`}>{current.note}</p>}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Segmented } from "./SettingsExplorer";
+import { trackExplorerChange } from "@/lib/analytics";
 
 // Data file shape: any number of axes (say checkpoint, setting, LoRA), the default pick on each, and per combination its time.
 // Images live at `${dir}/combo-${key on each axis, joined by -}-${seed}.jpg`, and secs is keyed the same way without the seed.
@@ -56,7 +57,7 @@ export default function ComboExplorer({ src }: { src: string }) {
         <div key={ax.label} className="mb-3 flex flex-wrap items-center gap-2">
           <span className="w-24 text-sm text-foreground/60">{ax.label}</span>
           {ax.options.map((o) => (
-            <button key={o.key} type="button" className={pill(o.key === picks[i])} onClick={() => setPicks(picks.map((p, j) => (j === i ? o.key : p)))}>
+            <button key={o.key} type="button" className={pill(o.key === picks[i])} onClick={() => { setPicks(picks.map((p, j) => (j === i ? o.key : p))); trackExplorerChange("combo", ax.label, o.key); }}>
               {o.label}
             </button>
           ))}
@@ -73,12 +74,12 @@ export default function ComboExplorer({ src }: { src: string }) {
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-foreground/60">
-        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => setSeed(Number(k))} />
+        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => { setSeed(Number(k)); trackExplorerChange("combo", "seed", k); }} />
         <Segmented
           label="View"
           options={[{ key: "full", label: "Full frame" }, { key: "zoom", label: data.zoomLabel || "Close-up" }]}
           value={zoom ? "zoom" : "full"}
-          onChange={(k) => setZoom(k === "zoom")}
+          onChange={(k) => { setZoom(k === "zoom"); trackExplorerChange("combo", "view", k); }}
         />
       </div>
       {notes.map((n) => (

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Segmented } from "./SettingsExplorer";
+import { trackExplorerChange } from "@/lib/analytics";
 
 // Data file shape: the models in display order, the seeds, and per scene each model's time on each seed.
 type Model = { key: string; label: string };
@@ -63,7 +64,7 @@ export default function ModelToggle({ src, scene }: { src: string; scene: string
           <button
             key={m.key}
             type="button"
-            onClick={() => setModel(m.key)}
+            onClick={() => { setModel(m.key); trackExplorerChange("models", "model", m.key); }}
             aria-pressed={m.key === model}
             className={`overflow-hidden rounded-md border-2 text-left transition-colors ${
               m.key === model ? "border-foreground" : "border-transparent opacity-60 hover:opacity-100"
@@ -80,13 +81,13 @@ export default function ModelToggle({ src, scene }: { src: string; scene: string
       </div>
 
       <div className={`mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-foreground/60 ${portrait ? "mx-auto max-w-[560px]" : ""}`}>
-        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => setSeed(Number(k))} />
+        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => { setSeed(Number(k)); trackExplorerChange("models", "seed", k); }} />
         {data.zoomLabel && (
           <Segmented
             label="View"
             options={[{ key: "full", label: "Full frame" }, { key: "zoom", label: data.zoomLabel }]}
             value={zoom ? "zoom" : "full"}
-            onChange={(k) => setZoom(k === "zoom")}
+            onChange={(k) => { setZoom(k === "zoom"); trackExplorerChange("models", "view", k); }}
           />
         )}
       </div>
