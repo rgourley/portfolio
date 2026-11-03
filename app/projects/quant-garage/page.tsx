@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Page from "@/components/Page";
-import DotImage from "@/components/DotImage";
+import Pic from "@/components/Pic";
 import StructuredData from "@/components/StructuredData";
 import Term from "@/components/Term";
 import type { TermLine } from "@/components/Term";
@@ -126,7 +126,7 @@ export default function QuantGaragePage() {
           <a className="big" href={GH} target="_blank" rel="noopener">View on GitHub<i>&rarr;</i></a>
         </p>
         <figure>
-          <DotImage src="/images/projects/quant-garage.webp" w={1360} h={850} cell={6} priority hero alt="Quant Garage" sizes="(max-width: 900px) 100vw, 880px" />
+          <Pic src="/images/projects/quant-garage.webp" w={1360} h={850} priority alt="Quant Garage" sizes="(max-width: 900px) 100vw, 880px" />
           <figcaption>Quant Garage: forty-two tools and thirteen workflows, from Claude Code or Python.</figcaption>
         </figure>
 
