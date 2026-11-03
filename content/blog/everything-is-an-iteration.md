@@ -9,7 +9,7 @@ tags: ["AI agents","process"]
 
 I've sat in a lot of roadmap meetings where a room full of people argued over which of three ideas to build. Today that meeting costs more than prototyping all three would. Most companies still pick one bet a quarter, staff it, and defend it, because prototyping and building used to be the expensive part.
 
-With agentic workflows that math flipped, and the strategy should flip with it. When prototypes are cheap, teams can stop predicting which idea is right and just find out. Have agents build out several working versions instead of one, keep the one that holds up, and throw the rest away without treating it as a loss.
+With agentic workflows that math flipped, and the strategy should flip with it. Prototypes used to be mockups that lived outside the product. Now an agent can build a working version in the real codebase, so teams can stop predicting which idea is right and just find out. Have agents build out several of those versions instead of one, keep the one that holds up, and throw the rest away without treating it as a loss.
 
 :::iterations
 
@@ -27,7 +27,7 @@ An agent cuts the cost of building something to minutes. A spike against an API 
 
 That changes what's worth trying. If a long-shot idea takes twenty minutes to test, test it. It used to lose to whatever was already on the roadmap.
 
-It also changes the order. Build the part you don't understand first, because that's where the surprises are and finding them early is cheap. More and more of the users on a product are AI agents, and they do things no person would, like sending back an example word for word instead of filling in their own. No spec predicts that. Ship a small version and watch what happens.
+It also changes the order. Build the part you don't understand first, because that's where the surprises are and finding them early is cheap. More and more of a product's users are [AI agents themselves](/blog/your-next-user-is-an-ai-agent), and they do things no person would, like sending back an example word for word instead of filling in their own. No spec predicts that. Ship a small version and watch what happens.
 
 :::pullquote
 text: Build the part you don't understand first. That's where the surprises are, and finding them early is cheap.
@@ -39,7 +39,7 @@ Teams that work this way stop treating a revert as a mistake. It's how an experi
 
 Agents made building cheap. They did nothing about the fear of being wrong.
 
-It shows up most in decisions that feel permanent and aren't. Most of what we decide in a day can be undone, and we still treat it like it can't. Agent work makes this obvious, because nearly all of it is reversible by default. It sits on a branch, in a draft, or behind a dry run. Anthropic's own Claude Code guidance leans on that: commit often, run several sessions side by side in separate copies of the code, and compare what comes back. The things that can't be undone are a short list, and those get a human looking at them first. Everything else, just try.
+It shows up most in decisions that feel permanent and aren't. Most of what we decide in a day can be undone, and we still treat it like it can't. Agent work makes this obvious, because nearly all of it is reversible by default. It sits on a branch, in a draft, or behind a dry run. Anthropic's own Claude Code guidance leans on that: commit often, run several sessions side by side in separate copies of the code, and compare what comes back. Only a few things can't be undone, like shipping to customers or deleting data. Have a person check those. Try everything else.
 
 What's left is ego. When people ask for options, part of them wants the agent to confirm the one they already pictured. Sometimes it does. Often another concept wins, and the hard part is letting go of the one they wanted. Teams that get good at this stop asking whose idea it was and start asking which version held up.
 
@@ -47,7 +47,7 @@ What's left is ego. When people ask for options, part of them wants the agent to
 
 Cheap experiments pile up if nobody cleans them up, and the ones nobody removes end up in the product.
 
-Agents make this worse in a way most people don't expect. An agent learns how your project works by reading it. Leave a losing experiment in place and the next session treats it as the pattern to follow, and copies it somewhere new. One forgotten test turns into three. The fix is boring: when an experiment loses, delete it that day.
+Agents make this worse in a way most people don't expect. An agent learns how your project works by reading it. Leave a losing experiment in place and the next session treats it as the pattern to follow, and copies it somewhere new. One forgotten test turns into three. The fix is boring: when an experiment loses, delete it that day, and keep a short note on what didn't work so the next agent reads that instead of trying it again.
 
 It also helps to write the stopping rules down where the agent reads them. One of mine says there's a single source for anything that matters, and nothing gets to compute it a second way. Another says that if a fix needs two more fixes, the first one was wrong, so undo it and try something simpler. Both are about ending experiments. An agent will keep patching something forever if you let it. It has to be told when a test is over.
 
