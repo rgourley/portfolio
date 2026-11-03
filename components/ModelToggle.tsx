@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Segmented } from "./SettingsExplorer";
 
 // Data file shape: the models in display order, the seeds, and per scene each model's time on each seed.
@@ -42,12 +43,13 @@ export default function ModelToggle({ src, scene }: { src: string; scene: string
       <div className={`relative overflow-hidden rounded-lg bg-foreground/5 ${data.aspect ? "" : "aspect-video"} ${portrait ? "mx-auto max-w-[560px]" : ""}`} style={ratio}>
         {/* All three stay mounted so switching is instant; only the chosen one is visible */}
         {data.models.map((m) => (
-          <img
+          <Image quality={92}
             key={m.key}
             src={path(m.key)}
-            loading="lazy"
+            fill
+            sizes="(max-width: 760px) 100vw, 690px"
             alt={`${s.title || scene}, made with ${m.label}, seed ${seed}`}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-150 ${m.key === model ? "opacity-100" : "opacity-0"}`}
+            className={`object-cover transition-opacity duration-150 ${m.key === model ? "opacity-100" : "opacity-0"}`}
             style={zoomStyle}
           />
         ))}
@@ -67,7 +69,9 @@ export default function ModelToggle({ src, scene }: { src: string; scene: string
               m.key === model ? "border-foreground" : "border-transparent opacity-60 hover:opacity-100"
             }`}
           >
-            <img src={path(m.key)} alt="" loading="lazy" className={`w-full object-cover ${data.aspect ? "" : "aspect-video"}`} style={ratio} />
+            <div className={`relative w-full ${data.aspect ? "" : "aspect-video"}`} style={ratio}>
+              <Image quality={92} src={path(m.key)} alt="" fill sizes="(max-width: 760px) 33vw, 230px" style={{ objectFit: "cover" }} />
+            </div>
             <span className="block px-2 py-1 text-xs text-foreground/70">
               {m.label} · {s.secs[m.key]?.[seed]}s
             </span>
