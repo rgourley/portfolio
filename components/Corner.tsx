@@ -25,7 +25,7 @@ export default function Corner() {
     <>
       <div className="corner tl">
         <Link href={R.home}>Robert Gourley</Link>
-        <span>Head of Agentic Systems</span>
+        <span>CXO, Agentic Systems</span>
       </div>
       <div className="corner tr">
         {NAV.map(([key, label]) => (

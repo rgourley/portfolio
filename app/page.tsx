@@ -5,7 +5,7 @@ import { agentMarkdown } from "@/lib/agent-views";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
-  title: { absolute: "Robert Gourley | Head of Agentic Systems, Product Designer" },
+  title: { absolute: "Robert Gourley | CXO, Agentic Systems, Product Designer" },
   description: "Robert Gourley designs products, and the agent systems teams use to build them. Autonomy, machine learning, markets. 20+ years across Shield AI, Kraken, Federato, Crunchyroll and Apple.",
   keywords: ["product design", "UX design", "design leadership", "autonomous systems", "AI product design", "AI agents", "agentic systems", "fintech design", "design strategy", "Shield AI", "Massive"],
   openGraph: {
@@ -31,7 +31,7 @@ export default function Home() {
     alternateName: ["Rob Gourley"],
     image: `${baseUrl}/opengraph-image`,
     knowsAbout: ["Product design", "Design leadership", "Design systems", "AI product design", "AI agents", "Autonomous systems", "Fintech UX"],
-    jobTitle: "Head of Agentic Systems",
+    jobTitle: "CXO, Agentic Systems",
     worksFor: {
       "@type": "Organization",
       name: "Massive",

@@ -53,7 +53,7 @@ export function workAgentMarkdown(slug: string): string | null {
 const VIEWS: Record<MdRoute, () => AgentView> = {
   "/": () => ({
     title: "Robert Gourley",
-    body: `> Designs products, and the agent systems teams use to build them. Autonomy, machine learning, markets.
+    body: `> Chief Experience Officer, Agentic Systems. Designs products, and the agent systems teams use to build them.
 
 ## Now
 - role: Principal Product Engineer, Massive
