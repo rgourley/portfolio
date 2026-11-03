@@ -26,14 +26,23 @@ export type PostPart =
   | { type: "settings"; src: string }
   | { type: "models"; src: string; scene: string }
   | { type: "combo"; src: string }
-  | { type: "crops"; src: string };
+  | { type: "crops"; src: string }
+  | { type: "iterations" };
 
-type Block = { type: "markdown"; content: string } | Exclude<PostPart, { type: "html" | "highlights" }>;
+type Block =
+  | { type: "markdown"; content: string }
+  | { type: "pullquote"; text: string }
+  | Exclude<PostPart, { type: "html" | "highlights" }>;
 
 /** The post as a list of parts: HTML for the prose, and one part per interactive block. */
 export async function renderPost(content: string, dims: Dims): Promise<PostPart[]> {
   const parts: PostPart[] = [];
   for (const block of splitBlocks(content)) {
+    // A pull quote is plain HTML, so it needs no component.
+    if (block.type === "pullquote") {
+      parts.push({ type: "html", html: `<blockquote class="pull"><p>${escapeHtml(block.text)}</p></blockquote>` });
+      continue;
+    }
     if (block.type !== "markdown") {
       parts.push(block);
       continue;
@@ -54,8 +63,10 @@ export async function renderPost(content: string, dims: Dims): Promise<PostPart[
 // Model toggle: :::models\nsrc: /data/file.json\nscene: key\n:::
 // Two-axis compare: :::combo\nsrc: /data/file.json\n:::
 // Close-up grid: :::crops\nsrc: /data/file.json\n:::
+// Growing-branches animation: :::iterations\n\n:::
+// Pull quote: :::pullquote\ntext: ...\n:::
 function splitBlocks(content: string): Block[] {
-  const blockRegex = /:::(testimonial|cards|settings|models|combo|crops)\n([\s\S]*?)\n:::/g;
+  const blockRegex = /:::(testimonial|cards|settings|models|combo|crops|iterations|pullquote)\n([\s\S]*?)\n:::/g;
   const blocks: Block[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -82,6 +93,10 @@ function splitBlocks(content: string): Block[] {
       blocks.push({ type: kind, src: f.src || "" });
     } else if (kind === "models") {
       blocks.push({ type: "models", src: f.src || "", scene: f.scene || "" });
+    } else if (kind === "iterations") {
+      blocks.push({ type: "iterations" });
+    } else if (kind === "pullquote") {
+      blocks.push({ type: "pullquote", text: f.text || "" });
     } else {
       const cards: LinkCard[] = match[2]
         .split(/\n---\n/)
@@ -320,4 +335,8 @@ function articleHast(dims: Dims) {
   };
 
   return (tree: Root) => walk(tree);
+}
+
+function escapeHtml(text: string) {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
