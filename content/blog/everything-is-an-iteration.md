@@ -27,7 +27,7 @@ An agent cuts the cost of building something to minutes. A spike against an API 
 
 That changes what's worth trying. If a long-shot idea takes twenty minutes to test, test it. It used to lose to whatever was already on the roadmap.
 
-It also changes the order. Build the part you don't understand first, because that's where the surprises are and finding them early is cheap. More and more of the users on a product are AI agents, and they do things no person would, like sending back an example word for word instead of filling in their own. No spec predicts that. Ship a small version and watch what happens.
+It also changes the order. Build the part you don't understand first, because that's where the surprises are and finding them early is cheap. More and more of a product's users are [AI agents themselves](/blog/your-next-user-is-an-ai-agent), and they do things no person would, like sending back an example word for word instead of filling in their own. No spec predicts that. Ship a small version and watch what happens.
 
 :::pullquote
 text: Build the part you don't understand first. That's where the surprises are, and finding them early is cheap.
