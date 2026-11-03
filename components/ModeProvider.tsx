@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { trackThemeToggle } from "@/lib/analytics";
 
 interface Mode { dark: boolean; setDark: (d: boolean) => void; toggle: () => void }
 const ModeContext = createContext<Mode>({ dark: false, setDark: () => {}, toggle: () => {} });
@@ -26,6 +27,7 @@ export function ModeProvider({ children }: { children: ReactNode }) {
     setDarkState(d);
     document.documentElement.setAttribute("data-mode", d ? "dark" : "light");
     try { localStorage.setItem("mode", d ? "dark" : "light"); } catch {}
+    trackThemeToggle(d ? "dark" : "light");   // only a choice made by the reader lands here; following the system does not
   }, []);
   const toggle = useCallback(() => setDark(!dark), [dark, setDark]);
   return <ModeContext.Provider value={{ dark, setDark, toggle }}>{children}</ModeContext.Provider>;

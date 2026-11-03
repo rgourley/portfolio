@@ -2,16 +2,19 @@
 
 import { useState } from "react";
 import { FONT_AUDIT_BOOKMARKLET, FONT_AUDIT_SOURCE } from "@/lib/font-audit-script";
+import { trackFontToolCopy, trackFontToolRun } from "@/lib/analytics";
 
 export default function FontAuditTool(): JSX.Element {
   const [copied, setCopied] = useState(false);
 
   function runHere(): void {
+    trackFontToolRun(location.href);
     new Function(FONT_AUDIT_SOURCE)();
   }
 
   async function copySnippet(): Promise<void> {
     await navigator.clipboard.writeText(FONT_AUDIT_SOURCE);
+    trackFontToolCopy();
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
   }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { Segmented } from "./SettingsExplorer";
+import { trackExplorerChange } from "@/lib/analytics";
 
 // Data file shape: rows of tiles, each with a close-up crop and the full frame it came from.
 type Tile = { crop: string; full: string; label: string };
@@ -47,6 +48,7 @@ export default function CropGrid({ src }: { src: string }) {
                 onClick={() => {
                   setOpen(t);
                   setView("crop");
+                  trackExplorerChange("crops", "open", t.label);
                 }}
                 aria-label={`Open ${t.label}`}
                 className="text-left cursor-zoom-in"
@@ -76,7 +78,7 @@ export default function CropGrid({ src }: { src: string }) {
           />
           <div className="flex items-center gap-4 text-sm text-white/80" onClick={(e) => e.stopPropagation()}>
             <span>{open.label}</span>
-            <Segmented label="View" options={[{ key: "crop", label: "Close-up" }, { key: "full", label: "Full frame" }]} value={view} onChange={setView} />
+            <Segmented label="View" options={[{ key: "crop", label: "Close-up" }, { key: "full", label: "Full frame" }]} value={view} onChange={(k) => { setView(k as typeof view); trackExplorerChange("crops", "view", k); }} />
           </div>
           <button type="button" onClick={() => setOpen(null)} aria-label="Close" className="absolute top-4 right-5 text-3xl leading-none text-white/80 hover:text-white">
             ×
