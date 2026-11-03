@@ -1,6 +1,6 @@
 /* The seven case studies in the Bloom language. Every fact comes from content/work/<slug>.md; the copy is set in the site's
    voice but nothing is added. Each chapter is a list of blocks: copy as HTML strings, figures that arrive as dots, and the
-   dot scenes. Hivemind gets its own scenes; the other six hold their place with a placeholder scene until theirs is built. */
+   dot scenes. Hivemind gets its own scenes; the other six wait for theirs, with photographs in the meantime. */
 import { R } from "@/lib/links";
 
 export interface Img { src: string; w: number; h: number }
@@ -43,7 +43,6 @@ export interface CaseStudy {
 const html = (s: string): Block => ({ t: "html", html: s });
 const fig = (img: string, cap: string, cls: "wide" | "narrow" = "wide", cell = 6): Block => ({ t: "fig", img, cap, cls, cell });
 const grid = (a: string, ca: string, b: string, cb: string): Block => ({ t: "grid", a, ca, b, cb });
-const hold = (label: string): Block => ({ t: "hold", label });
 const quote = (img: string, who: string, bio: string, q: string): Block => ({ t: "quote", img, who, bio, q });
 
 export const CASES: Record<string, CaseStudy> = {};
@@ -122,7 +121,6 @@ CASES.kraken = {
       html(`<p>Kraken is one of the world’s largest cryptocurrency exchanges, with over $200B in trading volume. The platform serves everyone from first-time crypto buyers to institutional traders moving millions of dollars per trade.</p>
 <p>These users have completely different needs. A beginner wants simplicity, and confidence that they will not lose money by accident. An institutional trader wants speed, precision and advanced tools: margin trading, futures, algorithmic order types. Most platforms pick a side. They either dumb things down for beginners or build complex interfaces that intimidate casual users.</p>
 <p class="pull">How do you design a trading platform that feels approachable to beginners while giving professional traders the power and speed they demand?</p>`),
-      hold("KRAKEN  ORDER BOOK"),
       quote("kraken-3", "Jay F.", "Day trader", "The interface on Cryptowatch is my favorite UI I have ever used as a trader."),
     ] },
     { id: "approach", name: "Approach", blocks: [
@@ -176,7 +174,6 @@ CASES.boombox = {
     { id: "brief", name: "The brief", blocks: [
       html(`<p>Boombox is a platform for musicians and music creators. As Director of Product Design I led a comprehensive redesign of it, to serve the way musicians actually work: the unique workflows of the music industry, where collaboration, creativity and productivity all have to happen in one place.</p>
 <p class="pull">A seamless, user-friendly environment tailored to how musicians work, with tools that make collaboration and creativity easier rather than adding to the admin.</p>`),
-      hold("BOOMBOX  SESSION"),
     ] },
     { id: "work", name: "The work", blocks: [
       html(`<h3>iPhone and web</h3>
@@ -201,7 +198,6 @@ CASES.axure = {
     { id: "challenge", name: "The challenge", blocks: [
       html(`<p>Axure RP is the prototyping tool UX teams use to build prototypes that work like the real thing. The challenge was to lead a transformative redesign of Axure RP 10, focused on usability, workflow and the feature set. That meant a comprehensive re-evaluation of the existing tool: fixing the user experience problems while aligning the product with Axure’s future vision and strategy.</p>
 <p class="pull">A ground-up redesign of a tool that thousands of designers already relied on every day.</p>`),
-      hold("AXURE  CANVAS"),
     ] },
     { id: "work", name: "The redesign", blocks: [
       html(`<p>The scope ran from a complete audit of existing features and user research to find the experience issues, to a future product vision and strategy, to new features shipped and outdated ones sunset.</p>`),
@@ -233,7 +229,6 @@ CASES.crunchyroll = {
     { id: "overview", name: "Overview", blocks: [
       html(`<p>Crunchyroll is the streaming video platform for anime. I designed the product, and through careful research and an iterative design process created an interface for easy navigation and personalised content discovery, to make the experience better for anime enthusiasts globally.</p>
 <p class="pull">Find the next thing to watch without the catalogue getting in the way.</p>`),
-      hold("CRUNCHYROLL  BROWSE"),
     ] },
     { id: "screens", name: "On the big screen", blocks: [
       html(`<p>The same discovery experience on the television, where browsing happens from the sofa and the interface has to read from across the room.</p>`),
@@ -254,7 +249,6 @@ CASES.apple = {
     { id: "work", name: "The work", blocks: [
       html(`<p class="links">As a lead designer I directed visual design projects for key sections of the Apple website, including the design of <a href="https://www.apple.com/">Apple.com</a>’s first website on Steve Jobs’s return, and the creation of one of the first iTunes e-commerce apps on Facebook.</p>
 <p class="links">The work spanned <a href="https://www.apple.com/education/">Apple Education</a>, <a href="https://www.apple.com/diversity/">Diversity initiatives</a>, and product sites for <a href="https://www.apple.com/final-cut-pro/">Final Cut Pro</a> and <a href="https://www.apple.com/logic-pro/">Logic Pro</a>.</p>`),
-      hold("APPLE  WEB"),
       html(`<p class="nda">I have worked on a number of projects with Apple, remotely and in-house, but due to confidentiality the work cannot be shown online. Feel free to <a href="${R.contact}">reach out</a> to learn more.</p>`),
     ] },
   ],
@@ -271,7 +265,6 @@ CASES["paul-frank-industries"] = {
     { id: "brief", name: "The brief", blocks: [
       html(`<p>Paul Frank Industries is the popular lifestyle brand behind Julius the Monkey. I helped them unveil a fun-loving line of environmentally friendly water bottles.</p>
 <p class="pull">Fans create their own one-of-a-kind reusable bottle from a variety of playful Julius designs.</p>`),
-      hold("PAUL FRANK  BOTTLE"),
     ] },
     { id: "site", name: "The site", blocks: [
       html(`<p>A landing page that sets the tone, and a configurator where a fan picks a character, personalises the bottle and sees it before they buy.</p>`),
