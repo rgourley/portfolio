@@ -83,8 +83,8 @@ export interface BloomCard {
   title: string;
   /** a seed for the dot field, so each page keeps its own scatter */
   seed?: number;
-  /** a cover image as a data URL: it fills the right part of the frame in place of the dot field, with a soft paper edge
-      where it meets the text column, and the title keeps to the column */
+  /** a cover image as a data URL: it fills the right part of the frame in place of the dot field, cut with a hard edge where
+      it meets the text column, and the title keeps to the column */
   art?: string;
 }
 
@@ -92,15 +92,14 @@ const mono = { fontFamily: "Mono", fontSize: 18, letterSpacing: "0.14em", textTr
 
 /** Renders the card. The fonts come from the route, which knows its runtime. */
 export function renderBloomCard({ label, title, seed = 7, art }: BloomCard, fonts: OgFont[]): ImageResponse {
-  // with a cover the text keeps to the left column; the cover takes the right 55 percent, edge to edge
-  const measure = art ? 460 : 780, artLeft = 540, edge = 150;
+  // with a cover the text keeps to the left column; the cover takes the right 55 percent, edge to edge, with a hard edge against the column
+  const measure = art ? 460 : 780, artLeft = 540;
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", background: PAPER, position: "relative", fontFamily: "Manrope", color: INK }}>
         {art ? (
           <div style={{ position: "absolute", left: artLeft, top: 0, width: ogSize.width - artLeft, height: "100%", display: "flex" }}>
             <img src={art} width={ogSize.width - artLeft} height={ogSize.height} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            <div style={{ position: "absolute", left: 0, top: 0, width: edge, height: "100%", display: "flex", backgroundImage: `linear-gradient(to right, ${PAPER} 0%, ${PAPER}00 100%)` }} />
           </div>
         ) : (
           <div style={{ position: "absolute", left: 0, top: 0, width: "100%", height: "100%", backgroundImage: `url("${dotField(seed)}")`, backgroundSize: "1200px 630px", display: "flex" }} />
