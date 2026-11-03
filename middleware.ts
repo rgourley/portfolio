@@ -41,8 +41,19 @@ function directFormat(path: string): AgentFormat | null {
 /** Content negotiation for agents. A page with a markdown twin answers with the twin when the request asks for
     text/markdown, or comes from a program rather than a browser; an Accept header that names text/html always wins.
     Either way the response names the other form in a Link header, so a client that got one knows where the other is. */
+/** True for the editor and anything that writes content: /admin, the upload route, and every non-GET call to the blog
+    and work APIs. These have no login, so they only answer on a local dev server. Reading the JSON stays public. */
+function isAdmin(path: string, method: string): boolean {
+  if (path === "/admin" || path.startsWith("/admin/") || path === "/api/upload") return true;
+  const contentApi = /^\/api\/(blog|work)(\/|$)/.test(path);
+  return contentApi && method !== "GET" && method !== "HEAD";
+}
+
 export function middleware(req: NextRequest, event: NextFetchEvent) {
   const path = req.nextUrl.pathname, ua = req.headers.get("user-agent");
+  if (isAdmin(path, req.method) && process.env.NODE_ENV !== "development") {
+    return new NextResponse("Not found", { status: 404 });
+  }
   // the agent documents themselves: counted, then served as they are
   const direct = directFormat(path);
   if (direct) {
@@ -69,7 +80,11 @@ export function middleware(req: NextRequest, event: NextFetchEvent) {
 
 // Every page path; the code above answers at once when the path has no twin. Assets, API and any other path with a file
 // extension never enter. The agent documents enter only to be counted: /md and its routes, the .md addresses (which the
-// rewrite still serves untouched), llms.txt and the feed.
+// rewrite still serves untouched), llms.txt and the feed. The content APIs and the upload route enter only for the admin
+// check above.
 export const config = {
-  matcher: ["/((?!_next/|api/|md/|.*\\..*).*)", "/md", "/md/:path*", "/llms.txt", "/llms-full.txt", "/feed.xml", "/(.*\\.md)"],
+  matcher: [
+    "/((?!_next/|api/|md/|.*\\..*).*)", "/md", "/md/:path*", "/llms.txt", "/llms-full.txt", "/feed.xml", "/(.*\\.md)",
+    "/api/blog", "/api/blog/:path*", "/api/work", "/api/work/:path*", "/api/upload",
+  ],
 };
