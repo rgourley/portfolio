@@ -55,9 +55,10 @@ export const metadata: Metadata = {
   },
 };
 
-// Runs before paint, so a dark-mode reader never sees a flash of paper. A choice made with the dot wins;
-// otherwise the page follows the system, which already switches with the day on most devices.
-const modeScript = `try{var m=localStorage.getItem('mode');if(m!=='dark'&&m!=='light')m=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';if(m==='dark')document.documentElement.setAttribute('data-mode','dark')}catch(e){}`;
+// Runs before paint, so a dark-mode reader never sees a flash of paper. A ?mode=dark or ?mode=light in a shared link
+// wins for that visit without being saved; then a choice made with the dot; otherwise the page follows the system,
+// which already switches with the day on most devices.
+const modeScript = `try{var q=new URLSearchParams(location.search).get('mode'),m=q==='dark'||q==='light'?q:localStorage.getItem('mode');if(m!=='dark'&&m!=='light')m=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';if(m==='dark')document.documentElement.setAttribute('data-mode','dark')}catch(e){}`;
 
 export default function RootLayout({
   children,
