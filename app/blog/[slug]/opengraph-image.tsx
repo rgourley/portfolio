@@ -1,127 +1,44 @@
-import { ImageResponse } from "next/og";
-import { readFile } from "fs/promises";
-import path from "path";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { getBlogPostBySlug } from "@/lib/content";
+import { fdate } from "@/lib/blog";
+import { ogSize, renderBloomCard, type OgFont } from "@/lib/og-bloom";
 
-export const alt = "Robert Gourley blog post";
-export const size = { width: 1200, height: 630 };
+export const alt = "A post by Robert Gourley";
+export const size = ogSize;
 export const contentType = "image/png";
 
-const interBlack = fetch(
-  "https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.19/files/inter-latin-900-normal.woff",
-).then((res) => res.arrayBuffer());
+// This route reads the post from the content folder, so it runs on Node and reads the fonts from disk the same way.
+async function fonts(): Promise<OgFont[]> {
+  const dir = path.join(process.cwd(), "lib", "og-fonts");
+  const [light, regular, mono] = await Promise.all(["manrope-300.woff", "manrope-400.woff", "mono-600.woff"].map((f) => readFile(path.join(dir, f))));
+  const buf = (b: Buffer) => b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength) as ArrayBuffer;
+  return [
+    { name: "Manrope", data: buf(light), weight: 300, style: "normal" },
+    { name: "Manrope", data: buf(regular), weight: 400, style: "normal" },
+    { name: "Mono", data: buf(mono), weight: 600, style: "normal" },
+  ];
+}
 
-const interMedium = fetch(
-  "https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.19/files/inter-latin-500-normal.woff",
-).then((res) => res.arrayBuffer());
-
-const ART_PATH = /^\/images\/[a-z0-9-]+\.(jpe?g|png)$/;
-
-async function readArt(artPath: string | undefined): Promise<string | null> {
-  if (!artPath || !ART_PATH.test(artPath)) return null;
-  const publicDir = path.join(process.cwd(), "public");
-  const resolved = path.join(publicDir, artPath);
-  if (!resolved.startsWith(publicDir + path.sep)) return null;
+/** The post's cover from the public folder as a data URL, or null when the post has none or the path is not a local image. */
+async function cover(image: string | undefined): Promise<string | null> {
+  if (!image || !/^\/images\/[\w./-]+\.(jpe?g|png|webp)$/i.test(image)) return null;
+  const publicDir = path.join(process.cwd(), "public"), file = path.join(publicDir, image);
+  if (!file.startsWith(publicDir + path.sep)) return null;
   try {
-    const file = await readFile(resolved);
-    const mime = artPath.endsWith(".png") ? "image/png" : "image/jpeg";
-    return `data:${mime};base64,${file.toString("base64")}`;
-  } catch {
-    return null;
-  }
+    const data = await readFile(file);
+    const mime = image.toLowerCase().endsWith(".png") ? "image/png" : image.toLowerCase().endsWith(".webp") ? "image/webp" : "image/jpeg";
+    return `data:${mime};base64,${data.toString("base64")}`;
+  } catch { return null; }
 }
 
-function titleSize(length: number, hasArt: boolean): number {
-  if (hasArt) return length <= 40 ? 64 : 54;
-  if (length <= 40) return 84;
-  if (length <= 60) return 70;
-  return 58;
-}
-
-export default async function OGImage({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<ImageResponse> {
+/** A post's share image: its date as the mono label, its title in the left column, and its cover filling the right part of
+    the frame; a post without a cover keeps the dot field. */
+export default async function OGImage({ params }: { params: { slug: string } }) {
   const post = await getBlogPostBySlug(params.slug);
-  const title = post?.title ?? "Robert Gourley";
-  const art = await readArt(post?.ogArt);
-  const [blackData, mediumData] = await Promise.all([interBlack, interMedium]);
-
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          background: "#2a2a2c",
-          fontFamily: "Inter",
-          position: "relative",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            padding: "64px 72px",
-            width: art ? "570px" : "780px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              fontSize: 20,
-              color: "#a3a3a3",
-              textTransform: "uppercase",
-              letterSpacing: "3px",
-              fontWeight: 500,
-            }}
-          >
-            robertcreative.com / blog
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: titleSize(title.length, art !== null),
-              fontWeight: 900,
-              color: "#e8e1d0",
-              lineHeight: 1.02,
-              letterSpacing: "-2px",
-            }}
-          >
-            {title}
-          </div>
-          <div style={{ display: "flex", fontSize: 24, color: "#e2a72e", fontWeight: 500 }}>
-            Robert Gourley
-          </div>
-        </div>
-
-        {art ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={art}
-            width={630}
-            height={630}
-            alt=""
-            style={{ position: "absolute", right: 0, top: 0, width: 630, height: 630 }}
-          />
-        ) : (
-          <div style={{ display: "flex", position: "absolute", right: 0, top: 0, width: 420, height: 630 }}>
-            <div style={{ position: "absolute", right: 90, top: 80, width: 220, height: 220, borderRadius: 110, background: "#d9472b", display: "flex" }} />
-            <div style={{ position: "absolute", right: 0, top: 300, width: 300, height: 120, background: "#e2a72e", display: "flex" }} />
-            <div style={{ position: "absolute", right: 150, top: 420, width: 270, height: 210, background: "#1f7a7a", display: "flex", borderTopLeftRadius: 135 }} />
-          </div>
-        )}
-      </div>
-    ),
-    {
-      ...size,
-      fonts: [
-        { name: "Inter", data: blackData, weight: 900, style: "normal" },
-        { name: "Inter", data: mediumData, weight: 500, style: "normal" },
-      ],
-    },
-  );
+  const title = post?.title || "Writing";
+  const label = post?.date ? `Writing. ${fdate(post.date)}` : "Writing";
+  const seed = [...params.slug].reduce((s, ch) => s * 31 + ch.charCodeAt(0), 11) % 100000;
+  const art = (await cover(post?.image)) || undefined;
+  return renderBloomCard({ label, title, seed, art }, await fonts());
 }

@@ -11,8 +11,6 @@ In my [last film test](/blog/film-camera-prompts-z-image-vs-krea-2), film names 
 
 I tried 68 film stocks, cameras, color looks and kinds of broken film, each on the same three photos. 42 of them changed the picture in a way you can see. Each one is below with the exact words I used and its result on all three photos.
 
-![Z-Image Turbo with the CineStill 800T recipe](/images/film-sim/r3/film-sim-hero.jpg#wide)
-
 :::jump
 # Film stocks
 Kodak Portra 400
@@ -81,7 +79,10 @@ The three scenes are a portrait against a sunlit wall (skin, hard shadow and war
 
 These are the plain images, with no film look:
 
-<photo-switch base="/images/film-sim/r3/plain" alt="No film look"></photo-switch>
+:::photos
+base: /images/film-sim/r3/plain
+alt: No film look
+:::
 
 Every recipe below opens on the portrait. Use the tabs above each photo to see the street and the boat, and click a photo to see it larger.
 
@@ -97,7 +98,10 @@ Every recipe below opens on the portrait. Use the tabs above each photo to see t
 35mm color negative film photo, warm natural skin tones, soft contrast, soft highlight rolloff, gentle pastel colors, organic fine grain in the shadows.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-kodak_portra_400" alt="Kodak Portra 400"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-kodak_portra_400
+alt: Kodak Portra 400
+:::
 
 Softer, paler color than the plain image. The safest film look if you just want it to feel less digital.
 
@@ -107,7 +111,10 @@ Softer, paler color than the plain image. The safest film look if you just want 
 Fast 35mm color negative film photo, warm skin tones, soft contrast, visible grain in the shadows.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-kodak_portra_800" alt="Kodak Portra 800"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-kodak_portra_800
+alt: Kodak Portra 800
+:::
 
 Close to Portra 400 on these scenes.
 
@@ -117,7 +124,10 @@ Close to Portra 400 on these scenes.
 35mm color negative film photo, very saturated punchy colors, vivid reds and blues, crisp detail, very fine grain.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-kodak_ektar_100" alt="Kodak Ektar 100"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-kodak_ektar_100
+alt: Kodak Ektar 100
+:::
 
 Punchier reds. The boat's paint gets brighter.
 
@@ -127,7 +137,10 @@ Punchier reds. The boat's paint gets brighter.
 Warm yellow-gold color cast, slightly muddy shadows, moderate film grain.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-kodak_gold_200" alt="Kodak Gold 200"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-kodak_gold_200
+alt: Kodak Gold 200
+:::
 
 A strong warm-yellow cast, most obvious on the night street. My first wording called it a "cheap consumer" photo with "1990s drugstore print colors." Z-Image read that as a kind of snapshot and redrew the scenes, with new framing and flatter light, while the color barely changed. Describing only the color fixed it.
 
@@ -137,7 +150,10 @@ A strong warm-yellow cast, most obvious on the night street. My first wording ca
 Consumer 35mm film photo, slight green cast in the shadows, cool tones, punchy greens, moderate grain.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-fuji_superia_400" alt="Fuji Superia 400"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-fuji_superia_400
+alt: Fuji Superia 400
+:::
 
 Cooler, with greener shadows.
 
@@ -147,7 +163,10 @@ Cooler, with greener shadows.
 35mm film photo, airy pastel colors, minty greens, cool soft highlights, low contrast, fine grain.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-fuji_pro_400h" alt="Fuji Pro 400H"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-fuji_pro_400h
+alt: Fuji Pro 400H
+:::
 
 Paler and cooler, close to pastel.
 
@@ -157,7 +176,10 @@ Paler and cooler, close to pastel.
 Tungsten-balanced night film photo, cool blue-teal shadows, soft red halation bloom around every light, organic film grain.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-cinestill_800t" alt="CineStill 800T"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-cinestill_800t
+alt: CineStill 800T
+:::
 
 Teal shadows and a cooler night. It didn't add the red glow around lights that the real film is known for.
 
@@ -169,7 +191,10 @@ Teal shadows and a cooler night. It didn't add the red glow around lights that t
 1960s color slide film photo, rich deep reds, dense dark blues, strong contrast, slightly warm, very fine grain.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-kodachrome_64" alt="Kodachrome 64"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-kodachrome_64
+alt: Kodachrome 64
+:::
 
 Deep blue sky and dense reds.
 
@@ -179,7 +204,10 @@ Deep blue sky and dense reds.
 Color slide film photo, hyper-saturated colors, intense greens and blues, deep black shadows, high contrast.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-fuji_velvia_50" alt="Fuji Velvia 50"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-fuji_velvia_50
+alt: Fuji Velvia 50
+:::
 
 Saturated, with darker blues.
 
@@ -189,7 +217,10 @@ Saturated, with darker blues.
 Cross-processed film photo, harsh contrast, yellow-green highlights, cyan shadows, blown out skin tones, strange color shifts.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-cross_processed_slide" alt="Cross-processed slide"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-cross_processed_slide
+alt: Cross-processed slide
+:::
 
 **Black and white**
 
@@ -199,7 +230,10 @@ Cross-processed film photo, harsh contrast, yellow-green highlights, cyan shadow
 Black and white 35mm film photo, gritty visible grain, high contrast, deep blacks, documentary feel.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-kodak_tri_x_400" alt="Kodak Tri-X 400"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-kodak_tri_x_400
+alt: Kodak Tri-X 400
+:::
 
 Black and white, except Z-Image left the yellow raincoat and the red paint in color. More on that below.
 
@@ -209,7 +243,10 @@ Black and white, except Z-Image left the yellow raincoat and the red paint in co
 Black and white film photo pushed in development, very heavy coarse grain, crushed black shadows, blown highlights.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-ilford_hp5_pushed_to_3200" alt="Ilford HP5 pushed to 3200"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-ilford_hp5_pushed_to_3200
+alt: Ilford HP5 pushed to 3200
+:::
 
 Darker and grittier than Tri-X. Same leftover color on the raincoat.
 
@@ -219,7 +256,10 @@ Darker and grittier than Tri-X. Same leftover color on the raincoat.
 Black and white film photo, smooth tones, very fine grain, crisp detail, full range of grays.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-kodak_t_max_100" alt="Kodak T-Max 100"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-kodak_t_max_100
+alt: Kodak T-Max 100
+:::
 
 **Instant**
 
@@ -229,7 +269,10 @@ Black and white film photo, smooth tones, very fine grain, crisp detail, full ra
 Square instant photo with a thick white border, soft focus, faded creamy colors, warm cast, low contrast.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-polaroid_sx_70" alt="Polaroid SX-70"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-polaroid_sx_70
+alt: Polaroid SX-70
+:::
 
 Adds the white instant-film border on every scene.
 
@@ -239,7 +282,10 @@ Adds the white instant-film border on every scene.
 Old expired instant photo with a white border, chemical blotches and streaks at the edges, colors bleeding, washed out blue-pink cast.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-expired_polaroid" alt="Expired Polaroid"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-expired_polaroid
+alt: Expired Polaroid
+:::
 
 Almost the same as the SX-70 here. I didn't get the chemical blotches.
 
@@ -249,7 +295,10 @@ Almost the same as the SX-70 here. I didn't get the chemical blotches.
 Small instant photo with a white border, bright washed out colors, slightly overexposed, soft detail.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-instax_mini" alt="Instax Mini"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-instax_mini
+alt: Instax Mini
+:::
 
 Also almost the same as the SX-70.
 
@@ -261,7 +310,10 @@ Also almost the same as the SX-70.
 Super 8 home movie frame, very heavy grain, soft blurry detail, faded warm colors, slight flicker, rounded frame edges.
 ```
 
-<photo-switch base="/images/film-sim/r3/film-super_8" alt="Super 8"></photo-switch>
+:::photos
+base: /images/film-sim/r3/film-super_8
+alt: Super 8
+:::
 
 Rounded black frame edges, like a projected home movie.
 
@@ -277,7 +329,10 @@ These are the cameras that changed something you can see. Pro camera names did n
 Overexposed snapshot, flash fired in daylight blowing out bright skin, warm yellow-green color cast, low sharpness, heavy grain, dark vignette in the corners.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-disposable__funsaver___quicksnap" alt="Disposable"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-disposable__funsaver___quicksnap
+alt: Disposable
+:::
 
 Blown-out flash on the boat and a dark flash snapshot on the street. Small change on the portrait.
 
@@ -287,7 +342,10 @@ Blown-out flash on the boat and a dark flash snapshot on the street. Small chang
 Square photo centered in the frame, with wide solid black bars on the left and right. Very heavy dark vignette, the corners fade to pure black, blurry smeared edges, only the center sharp, cyan shadows, yellow highlights.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-holga" alt="Holga"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-holga
+alt: Holga
+:::
 
 A square picture with black bars on both sides. My first wording just said "square frame" and got a thin border; naming the black bars is what worked on the street and the boat. On the portrait it only added a dark frame. The vignette stays weak: no wording I tried got Z-Image to darken the corners much.
 
@@ -297,7 +355,10 @@ A square picture with black bars on both sides. My first wording just said "squa
 Soft hazy low-contrast image, glowing blown highlights, pale washed-out pastel colors, strong vignette, blurry everywhere except the middle.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-diana" alt="Diana"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-diana
+alt: Diana
+:::
 
 Pale, washed out and soft.
 
@@ -307,7 +368,10 @@ Pale, washed out and soft.
 Round fisheye image, strong barrel distortion bending straight lines, black circular edge around the picture.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-fisheye_toy_camera" alt="Fisheye toy camera"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-fisheye_toy_camera
+alt: Fisheye toy camera
+:::
 
 Round black frame and bent lines.
 
@@ -317,7 +381,10 @@ Round black frame and bent lines.
 Very wide panoramic 35mm photo exposed across the whole film strip, sprocket holes and film edge markings visible along the top and bottom.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-sprocket_rocket" alt="Sprocket Rocket"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-sprocket_rocket
+alt: Sprocket Rocket
+:::
 
 Sprocket holes along the top and bottom of the frame. The real camera shoots a very wide panorama, but Z-Image kept the normal frame, even when I asked for black bars above and below.
 
@@ -327,7 +394,10 @@ Sprocket holes along the top and bottom of the frame. The real camera shoots a v
 Two narrow vertical half-frame photos side by side on one strip of film, a thin dark line between them, slightly different moments.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-half_frame_diptych" alt="Half-frame diptych"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-half_frame_diptych
+alt: Half-frame diptych
+:::
 
 Two frames side by side.
 
@@ -339,7 +409,10 @@ Two frames side by side.
 1950s snapshot, square frame, soft focus away from the center, faded colors or black and white, small white border.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-kodak_brownie_box_camera" alt="Kodak Brownie box camera"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-kodak_brownie_box_camera
+alt: Kodak Brownie box camera
+:::
 
 A faded print with a white border.
 
@@ -349,7 +422,10 @@ A faded print with a white border.
 Small grainy 1970s print, coarse grain, soft blurry detail, warm faded orange colors, darker edges.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-kodak_instamatic_110" alt="Kodak Instamatic 110"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-kodak_instamatic_110
+alt: Kodak Instamatic 110
+:::
 
 Strongest on the street, where it became a warm faded print with a border.
 
@@ -359,7 +435,10 @@ Strongest on the street, where it became a warm faded print with a border.
 Harsh flat flash, blown-out white highlights, cool bluish white balance, oversharpened edges, noisy smudged shadows, orange date numbers printed in the bottom right corner.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-2000s_digicam" alt="2000s digicam"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-2000s_digicam
+alt: 2000s digicam
+:::
 
 Cool flash color and an orange date stamp in the corner.
 
@@ -369,7 +448,10 @@ Cool flash color and an orange date stamp in the corner.
 Muted documentary colors, desaturated blues, firm shadows, slightly cool.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-fujifilm_classic_chrome" alt="Fujifilm Classic Chrome"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-fujifilm_classic_chrome
+alt: Fujifilm Classic Chrome
+:::
 
 Muted, cooler color.
 
@@ -381,7 +463,10 @@ Muted, cooler color.
 Early 1900s glass plate photograph, monochrome, slow exposure with ghostly blur on moving people, chipped dark plate edges, silvering in the corners.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-glass_plate__1900s" alt="Glass plate"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-glass_plate__1900s
+alt: Glass plate
+:::
 
 Muted, almost colorless, with dark worn plate edges.
 
@@ -391,7 +476,10 @@ Muted, almost colorless, with dark worn plate edges.
 Tintype wet plate photograph, dark brown-black metal plate, silvery highlights, swirling chemical streaks and pour marks at the edges, very shallow focus.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-tintype___wet_plate" alt="Tintype / wet plate"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-tintype___wet_plate
+alt: Tintype / wet plate
+:::
 
 Dark plate with worn corners.
 
@@ -401,7 +489,10 @@ Dark plate with worn corners.
 1840s daguerreotype, mirror-like silver plate, faint ghostly image, tarnished edges and oxidation, ornate brass mat around the picture.
 ```
 
-<photo-switch base="/images/film-sim/r3/camera-daguerreotype" alt="Daguerreotype"></photo-switch>
+:::photos
+base: /images/film-sim/r3/camera-daguerreotype
+alt: Daguerreotype
+:::
 
 Dark plate with worn corners, a little more faded than the tintype.
 
@@ -415,7 +506,10 @@ No film stock, just a color treatment. These are the looks people usually mean w
 Warm golden color, honey-toned highlights, soft amber shadows, gentle film grain.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-warm_golden" alt="Warm golden"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-warm_golden
+alt: Warm golden
+:::
 
 Warmer all over.
 
@@ -425,7 +519,10 @@ Warmer all over.
 Faded 1970s photo print, washed out colors drifting toward orange and magenta, lifted milky blacks, soft grain.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-faded_1970s_print" alt="Faded 1970s print"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-faded_1970s_print
+alt: Faded 1970s print
+:::
 
 Pink and magenta cast.
 
@@ -435,7 +532,10 @@ Pink and magenta cast.
 Faded 1990s drugstore photo print, slightly yellow cast, soft contrast, mild grain.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-faded_1990s_snapshot" alt="Faded 1990s snapshot"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-faded_1990s_snapshot
+alt: Faded 1990s snapshot
+:::
 
 Subtle. Slightly flatter and yellower.
 
@@ -445,7 +545,10 @@ Subtle. Slightly flatter and yellower.
 Matte faded film look, lifted gray-black shadows, low contrast, muted colors.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-matte_faded_film" alt="Matte faded film"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-matte_faded_film
+alt: Matte faded film
+:::
 
 Lifted, grayish blacks and cooler color. On my first portrait it made her eyes murky, so check faces.
 
@@ -455,7 +558,10 @@ Lifted, grayish blacks and cooler color. On my first portrait it made her eyes m
 Cool muted colors, desaturated blues and greens, soft gray shadows, quiet overcast mood.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-cool_muted" alt="Cool muted"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-cool_muted
+alt: Cool muted
+:::
 
 Blue-gray and quiet.
 
@@ -465,7 +571,10 @@ Blue-gray and quiet.
 Teal shadows and warm orange skin tones, cinematic color grade.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-teal_and_orange" alt="Teal and orange"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-teal_and_orange
+alt: Teal and orange
+:::
 
 Exactly what it says.
 
@@ -475,7 +584,10 @@ Exactly what it says.
 Bleach bypass film look, muted desaturated gritty colors, a black-and-white silver image laid over the color, skin looking cold, metallic and exhausted, deep dense shadows, bright hard highlights, prominent grain.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-bleach_bypass" alt="Bleach bypass"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-bleach_bypass
+alt: Bleach bypass
+:::
 
 On the portrait, this is the real look: muted color, hard contrast, and skin that looks cold and a little metallic. On the street and the boat it goes wrong. Z-Image turned the background black and white and kept the yellow raincoat and the red boat in full color, which is selective color, not bleach bypass. It seems to happen when the scene names a strong color. My first, simpler wording only took a little color out, and a line asking it to mute even bright reds and yellows made it worse. Use this one on scenes without a single strong color.
 
@@ -485,7 +597,10 @@ On the portrait, this is the real look: muted color, hard contrast, and skin tha
 Sepia toned old photograph, warm brown monochrome, soft faded edges.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-sepia" alt="Sepia"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-sepia
+alt: Sepia
+:::
 
 Brown monochrome.
 
@@ -495,7 +610,10 @@ Brown monochrome.
 Warm vintage photo filter, boosted yellows, faded blacks, soft vignette.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-warm_vintage_filter" alt="Warm vintage filter"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-warm_vintage_filter
+alt: Warm vintage filter
+:::
 
 Warm, with boosted yellows.
 
@@ -505,7 +623,10 @@ Warm, with boosted yellows.
 Soft pastel colors, airy overexposed highlights, pale pinks and mint greens, dreamy low contrast.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-pastel_dream" alt="Pastel dream"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-pastel_dream
+alt: Pastel dream
+:::
 
 Bright and washed out, with pink highlights.
 
@@ -515,7 +636,10 @@ Bright and washed out, with pink highlights.
 Dark moody look, deep crushed shadows, muted desaturated colors, small pools of light.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-moody_dark" alt="Moody dark"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-moody_dark
+alt: Moody dark
+:::
 
 Darkens the whole picture.
 
@@ -525,7 +649,10 @@ Darkens the whole picture.
 Glowing hazy golden backlight, soft lens flare, warm bloom around the highlights.
 ```
 
-<photo-switch base="/images/film-sim/r3/general-golden_hour_glow" alt="Golden hour glow"></photo-switch>
+:::photos
+base: /images/film-sim/r3/general-golden_hour_glow
+alt: Golden hour glow
+:::
 
 Softer light and a warm flare coming in from the edge of the frame.
 

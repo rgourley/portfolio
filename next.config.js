@@ -1,3 +1,9 @@
+// Pages with a markdown twin at /md/<page>; the same list as lib/md-routes.ts.
+const MD_PAGES = [
+  'about', 'resume', 'contact', 'newsletter', 'leadership', 'services', 'projects', 'projects/proxies',
+  'projects/quant-garage', 'projects/financial-ui-suite', 'coaster/about', 'tools/font-sizes', 'work', 'blog',
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -47,12 +53,25 @@ const nextConfig = {
     } : false,
   },
   async headers() {
+    // The markdown twins, llms.txt, the feed and the sitemap are built with the site and change only on deploy: a CDN
+    // keeps them for a day and serves the old copy while it fetches a new one; a client keeps them for five minutes.
+    const text = { key: 'Cache-Control', value: 'public, max-age=300, s-maxage=86400, stale-while-revalidate=604800' };
     return [
       // Market Coaster sounds never change in place, so browsers keep them for 30 days
       {
         source: '/coaster/:file(.*\\.(?:mp3|mp4))',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=2592000, immutable' }],
       },
+      // The site's font, self-hosted; a new file gets a new name, so this one can be kept for a year
+      { source: '/fonts/:file*', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
+      { source: '/md', headers: [text] },
+      { source: '/md/:path*', headers: [text] },
+      { source: '/:path*.md', headers: [text] },
+      { source: '/llms.txt', headers: [text] },
+      { source: '/llms-full.txt', headers: [text] },
+      { source: '/feed.xml', headers: [text] },
+      { source: '/sitemap.xml', headers: [text] },
+      { source: '/.well-known/mcp.json', headers: [text] },
     ];
   },
   async rewrites() {
@@ -60,6 +79,9 @@ const nextConfig = {
       // Markdown copies of posts and case studies for LLMs and agents: /blog/<slug>.md
       { source: '/blog/:slug.md', destination: '/md/blog/:slug' },
       { source: '/work/:slug.md', destination: '/md/work/:slug' },
+      // Every other page too: /about.md, /projects/proxies.md and so on; the home is /md and /index.md
+      { source: '/index.md', destination: '/md' },
+      ...MD_PAGES.map((p) => ({ source: `/${p}.md`, destination: `/md/${p}` })),
       { source: '/amphora', destination: '/amphora/index.html' },
       { source: '/amphora/updates', destination: '/amphora/updates/index.html' },
       { source: '/coaster', destination: '/coaster/index.html' },

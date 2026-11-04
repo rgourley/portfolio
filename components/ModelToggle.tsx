@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Segmented } from "./SettingsExplorer";
+import { trackExplorerChange } from "@/lib/analytics";
 
 // Data file shape: the models in display order, the seeds, and per scene each model's time on each seed.
 type Model = { key: string; label: string };
@@ -42,12 +44,13 @@ export default function ModelToggle({ src, scene }: { src: string; scene: string
       <div className={`relative overflow-hidden rounded-lg bg-foreground/5 ${data.aspect ? "" : "aspect-video"} ${portrait ? "mx-auto max-w-[560px]" : ""}`} style={ratio}>
         {/* All three stay mounted so switching is instant; only the chosen one is visible */}
         {data.models.map((m) => (
-          <img
+          <Image quality={92}
             key={m.key}
             src={path(m.key)}
-            loading="lazy"
+            fill
+            sizes="(max-width: 760px) 100vw, 690px"
             alt={`${s.title || scene}, made with ${m.label}, seed ${seed}`}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-150 ${m.key === model ? "opacity-100" : "opacity-0"}`}
+            className={`object-cover transition-opacity duration-150 ${m.key === model ? "opacity-100" : "opacity-0"}`}
             style={zoomStyle}
           />
         ))}
@@ -61,13 +64,15 @@ export default function ModelToggle({ src, scene }: { src: string; scene: string
           <button
             key={m.key}
             type="button"
-            onClick={() => setModel(m.key)}
+            onClick={() => { setModel(m.key); trackExplorerChange("models", "model", m.key); }}
             aria-pressed={m.key === model}
             className={`overflow-hidden rounded-md border-2 text-left transition-colors ${
               m.key === model ? "border-foreground" : "border-transparent opacity-60 hover:opacity-100"
             }`}
           >
-            <img src={path(m.key)} alt="" loading="lazy" className={`w-full object-cover ${data.aspect ? "" : "aspect-video"}`} style={ratio} />
+            <div className={`relative w-full ${data.aspect ? "" : "aspect-video"}`} style={ratio}>
+              <Image quality={92} src={path(m.key)} alt="" fill sizes="(max-width: 760px) 33vw, 230px" style={{ objectFit: "cover" }} />
+            </div>
             <span className="block px-2 py-1 text-xs text-foreground/70">
               {m.label} · {s.secs[m.key]?.[seed]}s
             </span>
@@ -76,13 +81,13 @@ export default function ModelToggle({ src, scene }: { src: string; scene: string
       </div>
 
       <div className={`mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-foreground/60 ${portrait ? "mx-auto max-w-[560px]" : ""}`}>
-        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => setSeed(Number(k))} />
+        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => { setSeed(Number(k)); trackExplorerChange("models", "seed", k); }} />
         {data.zoomLabel && (
           <Segmented
             label="View"
             options={[{ key: "full", label: "Full frame" }, { key: "zoom", label: data.zoomLabel }]}
             value={zoom ? "zoom" : "full"}
-            onChange={(k) => setZoom(k === "zoom")}
+            onChange={(k) => { setZoom(k === "zoom"); trackExplorerChange("models", "view", k); }}
           />
         )}
       </div>

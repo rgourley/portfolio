@@ -1,46 +1,51 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import posthog from "posthog-js";
+import { analyticsAllowed, firstPageview, loadPostHog, pageview } from "@/lib/analytics";
 
 const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com";
 
-let started = false;
-
-function startPostHog() {
-  if (started || !POSTHOG_KEY || typeof window === "undefined") return;
-  started = true;
-  posthog.init(POSTHOG_KEY, {
-    api_host: POSTHOG_HOST,
-    // App Router navigations don't reload the page, so pageviews are sent by PageViewTracker.
-    capture_pageview: false,
-    capture_pageleave: true,
-    // Anonymous visitors don't create billable person profiles.
-    person_profiles: "identified_only",
-  });
-}
-
+/** One $pageview per page the reader sees: the first by the route that cannot be lost to a fast exit, each client-side
+    navigation after it through the library. Hash changes within a page are not pageviews. */
 function PageViewTracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const first = useRef(true);
 
   useEffect(() => {
-    if (!POSTHOG_KEY || !pathname) return;
+    if (!POSTHOG_KEY || !pathname || !analyticsAllowed()) return;
     const query = searchParams?.toString();
-    posthog.capture("$pageview", {
-      $current_url: window.location.origin + pathname + (query ? `?${query}` : ""),
-    });
+    const url = window.location.origin + pathname + (query ? `?${query}` : "");
+    if (first.current) { first.current = false; firstPageview(url); }
+    else pageview(url);
   }, [pathname, searchParams]);
 
   return null;
 }
 
-// Renders nothing until NEXT_PUBLIC_POSTHOG_KEY is set, so the site works without it.
+/** Starts PostHog once the page is idle, or sooner if the reader interacts, so the library never competes with the page's
+    own scripts for the first paint. Renders nothing until NEXT_PUBLIC_POSTHOG_KEY is set, so the site works without it. */
 export default function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    startPostHog();
+    if (!POSTHOG_KEY || !analyticsAllowed()) return;
+    let done = false, idle = 0, timer = 0;
+    const events: Array<keyof WindowEventMap> = ["pointerdown", "keydown", "scroll", "touchstart"];
+    const start = () => {
+      if (done) return; done = true;
+      events.forEach((e) => window.removeEventListener(e, start));
+      if (idle && "cancelIdleCallback" in window) window.cancelIdleCallback(idle);
+      clearTimeout(timer);
+      loadPostHog();
+    };
+    events.forEach((e) => window.addEventListener(e, start, { passive: true, once: true }));
+    const whenIdle = () => {
+      if (typeof window.requestIdleCallback === "function") idle = window.requestIdleCallback(start, { timeout: 5000 });
+      else timer = window.setTimeout(start, 3000);
+    };
+    if (document.readyState === "complete") whenIdle();
+    else window.addEventListener("load", whenIdle, { once: true });
+    return () => { done = true; events.forEach((e) => window.removeEventListener(e, start)); window.removeEventListener("load", whenIdle); clearTimeout(timer); };
   }, []);
 
   return (

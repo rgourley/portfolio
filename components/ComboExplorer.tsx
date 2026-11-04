@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Segmented } from "./SettingsExplorer";
+import { trackExplorerChange } from "@/lib/analytics";
 
 // Data file shape: any number of axes (say checkpoint, setting, LoRA), the default pick on each, and per combination its time.
 // Images live at `${dir}/combo-${key on each axis, joined by -}-${seed}.jpg`, and secs is keyed the same way without the seed.
@@ -55,7 +57,7 @@ export default function ComboExplorer({ src }: { src: string }) {
         <div key={ax.label} className="mb-3 flex flex-wrap items-center gap-2">
           <span className="w-24 text-sm text-foreground/60">{ax.label}</span>
           {ax.options.map((o) => (
-            <button key={o.key} type="button" className={pill(o.key === picks[i])} onClick={() => setPicks(picks.map((p, j) => (j === i ? o.key : p)))}>
+            <button key={o.key} type="button" className={pill(o.key === picks[i])} onClick={() => { setPicks(picks.map((p, j) => (j === i ? o.key : p))); trackExplorerChange("combo", ax.label, o.key); }}>
               {o.label}
             </button>
           ))}
@@ -65,20 +67,19 @@ export default function ComboExplorer({ src }: { src: string }) {
       <div className="mt-4 grid grid-cols-2 gap-3">
         {frames.map((f, i) => (
           <div key={i} {...frame}>
-            {/* Plain img on purpose: these swap on every click and should show the file as exported */}
-            <img src={f.src} alt={f.tag} style={imgStyle} className="absolute inset-0 h-full w-full object-cover" />
+            <Image quality={92} src={f.src} alt={f.tag} fill sizes="(max-width: 760px) 50vw, 345px" style={{ objectFit: "cover", ...imgStyle }} />
             <span className="pointer-events-none absolute top-2 left-2 rounded bg-black/60 px-2 py-1 text-xs text-white">{f.tag}</span>
           </div>
         ))}
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-foreground/60">
-        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => setSeed(Number(k))} />
+        <Segmented label="Seed" options={data.seeds.map((x) => ({ key: String(x), label: String(x) }))} value={String(seed)} onChange={(k) => { setSeed(Number(k)); trackExplorerChange("combo", "seed", k); }} />
         <Segmented
           label="View"
           options={[{ key: "full", label: "Full frame" }, { key: "zoom", label: data.zoomLabel || "Close-up" }]}
           value={zoom ? "zoom" : "full"}
-          onChange={(k) => setZoom(k === "zoom")}
+          onChange={(k) => { setZoom(k === "zoom"); trackExplorerChange("combo", "view", k); }}
         />
       </div>
       {notes.map((n) => (
