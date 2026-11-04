@@ -223,7 +223,8 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
     : "text-[21px] text-foreground/65 font-light leading-[1.7]";
 
   // Parse testimonials first, then parse Solution Highlights from each markdown part
-  const { parts: testimonialParts } = useMemo(() => parseTestimonials(content), [content]);
+  // Normalize CRLF first: the custom blocks are matched on "\n", and Windows checkouts can turn posts into CRLF.
+  const { parts: testimonialParts } = useMemo(() => parseTestimonials(content.replace(/\r\n/g, "\n")), [content]);
 
   // Click-to-enlarge for local article images: shows the original file over the page.
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
