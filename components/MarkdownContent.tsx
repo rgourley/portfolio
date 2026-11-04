@@ -12,6 +12,9 @@ const SolutionHighlightsCarousel = dynamic(() => import("./SolutionHighlightsCar
   loading: () => <div className="h-64 bg-muted/20 animate-pulse rounded-lg" />,
 });
 import LinkCards, { LinkCard } from "./LinkCards";
+import PhotoSwitch from "./PhotoSwitch";
+import JumpList from "./JumpList";
+import { slugify, textOf } from "./slugify";
 const SettingsExplorer = dynamic(() => import("./SettingsExplorer"));
 const ModelToggle = dynamic(() => import("./ModelToggle"));
 const ComboExplorer = dynamic(() => import("./ComboExplorer"));
@@ -135,7 +138,8 @@ type ContentPart =
   | { type: 'settings'; src: string }
   | { type: 'models'; src: string; scene: string }
   | { type: 'combo'; src: string }
-  | { type: 'crops'; src: string };
+  | { type: 'crops'; src: string }
+  | { type: 'jump'; body: string };
 
 // Parse custom blocks out of markdown content.
 // Testimonial: :::testimonial\nimage: ...\nname: ...\nbio: ...\nquote: ...\n:::
@@ -144,8 +148,9 @@ type ContentPart =
 // Model toggle: :::models\nsrc: /data/file.json\nscene: key\n:::
 // Two-axis compare: :::combo\nsrc: /data/file.json\n:::
 // Close-up grid: :::crops\nsrc: /data/file.json\n:::
+// Jump-to box: :::jump\n# Group\nHeading text\n...\n::: (see JumpList)
 function parseTestimonials(content: string): { parts: ContentPart[] } {
-  const blockRegex = /:::(testimonial|cards|settings|models|combo|crops)\n([\s\S]*?)\n:::/g;
+  const blockRegex = /:::(testimonial|cards|settings|models|combo|crops|jump)\n([\s\S]*?)\n:::/g;
   const parts: ContentPart[] = [];
   let lastIndex = 0;
   let match;
@@ -174,6 +179,8 @@ function parseTestimonials(content: string): { parts: ContentPart[] } {
         type: 'testimonial',
         testimonial: { image: f.image || '', name: f.name || '', bio: f.bio || '', quote: f.quote || '' }
       });
+    } else if (match[1] === 'jump') {
+      parts.push({ type: 'jump', body: match[2] });
     } else if (match[1] === 'settings') {
       parts.push({ type: 'settings', src: parseFields(match[2]).src || '' });
     } else if (match[1] === 'combo' || match[1] === 'crops') {
@@ -383,7 +390,8 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
                 </div>
               );
             }
-            if (childrenArray.some((child: any) => child?.props?.src || child?.type === "img")) {
+            // Images and photo switchers render block elements, which can't sit inside a <p>.
+            if (childrenArray.some((child: any) => child?.props?.src || child?.props?.base || child?.type === "img")) {
               return <>{children}</>;
             }
             return <p className={`${bodyText} mb-6`}>{children}</p>;
@@ -392,10 +400,23 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
             <h1 className="font-display text-4xl md:text-5xl font-medium mb-1 mt-4">{children}</h1>
           ),
           h2: ({ node, children }: any) => (
-            <h2 className={`font-display text-3xl md:text-4xl font-medium mb-4 ${article ? "mt-12" : "mt-10"}`}>{children}</h2>
+            <h2 id={slugify(textOf(children))} className={`font-display text-3xl md:text-4xl font-medium mb-4 scroll-mt-24 ${article ? "mt-12" : "mt-10"}`}>{children}</h2>
           ),
           h3: ({ node, children }: any) => (
-            <h3 className="font-display text-2xl md:text-3xl font-medium text-foreground/90 mb-3 mt-8">{children}</h3>
+            <h3 id={slugify(textOf(children))} className="font-display text-2xl md:text-3xl font-medium text-foreground/90 mb-3 mt-8 scroll-mt-24">{children}</h3>
+          ),
+          // Collapsible sections (<details>/<summary> in a post): the summary looks like a button so it isn't missed.
+          // Images inside a closed section aren't rendered by the browser, so they don't load until it's opened.
+          details: ({ node, children }: any) => <details className="group my-6">{children}</details>,
+          summary: ({ node, children }: any) => (
+            <summary className="inline-flex cursor-pointer list-none items-center gap-2 rounded-lg border border-foreground/20 bg-foreground/5 px-4 py-2.5 text-base font-medium text-foreground/85 hover:bg-foreground/10 [&::-webkit-details-marker]:hidden">
+              <span className="transition-transform group-open:rotate-90" aria-hidden="true">▸</span>
+              {children}
+            </summary>
+          ),
+          // <photo-switch base="/images/x" alt="..."></photo-switch>: one large photo with tabs for the other scenes.
+          "photo-switch": ({ node, base, alt }: any) => (
+            <PhotoSwitch base={base} alt={alt || ""} onZoom={article ? (src, a) => setLightbox({ src, alt: a }) : undefined} />
           ),
           ul: ({ node, children }: any) => (
             <ul className={article ? `list-disc list-outside pl-6 mb-6 space-y-2 ${bodyText}` : "list-disc list-inside mb-6 space-y-2 text-[21px] text-foreground/65 leading-[1.7]"}>{children}</ul>
@@ -460,7 +481,9 @@ export default function MarkdownContent({ content, variant = "default" }: Markdo
     <div className={article ? "max-w-[700px] mx-auto" : "max-w-[1000px]"}>
       {/* Render content with testimonials inline */}
       {testimonialParts.map((part, index) => {
-        if (part.type === 'combo') {
+        if (part.type === 'jump') {
+          return <JumpList key={`jump-${index}`} body={part.body} />;
+        } else if (part.type === 'combo') {
           return <ComboExplorer key={`combo-${index}`} src={part.src} />;
         } else if (part.type === 'crops') {
           return <CropGrid key={`crops-${index}`} src={part.src} />;
