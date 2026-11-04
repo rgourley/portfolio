@@ -55,6 +55,9 @@ export function loadPostHog(): Promise<PostHog | null> {
         person_profiles: "identified_only",
         // no session replay: the recorder bundle never loads, whatever the project setting says
         disable_session_recording: true,
+        // no click autocapture or heatmaps: custom events are sent explicitly
+        autocapture: false,
+        capture_heatmaps: false,
         // the id this browser already has, so a pageview sent by beacon before the library loaded belongs to the same visitor
         bootstrap: { distinctID: anonymousId(), isIdentifiedID: false },
       });
