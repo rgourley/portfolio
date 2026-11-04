@@ -404,6 +404,27 @@ html[data-mode="dark"] .term i,html[data-mode="dark"] .term b{color:var(--ink-di
 .post .body .copy:hover{color:var(--ink);border-color:var(--ink)}
 .post .body .tablewrap{overflow-x:auto;margin:1.6em 0}
 .post .body .tablewrap table{margin:0}
+.post .body h2[id],.post .body h3[id]{scroll-margin-top:96px}
+/* :::jump: a "Jump to" list, one column per group */
+.post .body .jump{margin:2.4em 0 3em}
+.post .body .jump > .k{margin:0 0 14px}
+.post .body .jump .cols{display:grid;grid-template-columns:1fr;gap:20px 28px}
+@media (min-width:640px){.post .body .jump .cols{grid-template-columns:repeat(3,1fr)}}
+.post .body .jump .cols .k{margin:0 0 8px}
+.post .body .jump .cols .k a{color:var(--ink);text-decoration:none;border:0}
+.post .body .jump ul{list-style:none;margin:0;padding:0}
+.post .body .jump li{margin:0;padding:0;font-size:15px;line-height:1.75}
+.post .body .jump li a{color:var(--ink-mid);text-decoration:none;border:0}
+.post .body .jump a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+/* :::photos: one photo, tabs for the other scenes */
+.post .body .photoswitch{margin:1.6em 0 2.4em}
+.post .body .photoswitch .tabs{display:flex;gap:6px;margin:0 0 10px}
+.post .body .photoswitch .tabs button{font:600 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);background:none;border:1px solid var(--ink-ghost);border-radius:999px;padding:7px 11px;cursor:pointer}
+.post .body .photoswitch .tabs button:hover{color:var(--ink);border-color:var(--ink)}
+.post .body .photoswitch .tabs button[aria-selected="true"]{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+.post .body .photoswitch .frame{position:relative;aspect-ratio:1400/958;overflow:hidden;border-radius:3px;background:var(--muted)}
+.post .body .photoswitch .frame img{object-fit:cover;opacity:0;transition:opacity .15s}
+.post .body .photoswitch .frame img.on{opacity:1}
 .lightbox{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,.92);padding:16px;cursor:zoom-out}
 .lightbox img{max-height:88vh;max-width:100%;width:auto;height:auto;object-fit:contain;border-radius:3px}
 .lightbox p{max-width:60ch;text-align:center;font:400 12px/1.6 var(--mono);color:rgba(255,255,255,.7);margin:0}

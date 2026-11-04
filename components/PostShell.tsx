@@ -26,7 +26,9 @@ export default function PostShell({ children }: { children: ReactNode }) {
     const target = e.target as HTMLElement;
     const zoom = target.closest<HTMLButtonElement>("button.zoom");
     if (zoom?.dataset.src) {
-      setLightbox({ src: zoom.dataset.src, alt: zoom.querySelector("img")?.alt || "" });
+      // A photo switcher stacks several images in one button; "img.on" is the one showing.
+      const img = zoom.querySelector<HTMLImageElement>("img.on") ?? zoom.querySelector("img");
+      setLightbox({ src: zoom.dataset.src, alt: img?.alt || "" });
       return;
     }
     const copy = target.closest<HTMLButtonElement>("button.copy");

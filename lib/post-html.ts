@@ -8,6 +8,7 @@ import type { CSSProperties } from "react";
 import type { Element, ElementContent, Properties, Root } from "hast";
 import type { Dims } from "./image-dims";
 import type { LinkCard } from "@/components/LinkCards";
+import { slugify } from "./slugify";
 
 /*
  * A blog post, rendered on the server. The markdown becomes HTML here, so the browser never
@@ -27,20 +28,28 @@ export type PostPart =
   | { type: "models"; src: string; scene: string }
   | { type: "combo"; src: string }
   | { type: "crops"; src: string }
-  | { type: "iterations" };
+  | { type: "iterations" }
+  | { type: "photos"; base: string; alt: string };
 
 type Block =
   | { type: "markdown"; content: string }
   | { type: "pullquote"; text: string }
+  | { type: "jump"; body: string }
   | Exclude<PostPart, { type: "html" | "highlights" }>;
 
 /** The post as a list of parts: HTML for the prose, and one part per interactive block. */
 export async function renderPost(content: string, dims: Dims): Promise<PostPart[]> {
   const parts: PostPart[] = [];
-  for (const block of splitBlocks(content)) {
+  // The blocks are matched on "\n", and a Windows checkout can turn a post into CRLF.
+  for (const block of splitBlocks(content.replace(/\r\n/g, "\n"))) {
     // A pull quote is plain HTML, so it needs no component.
     if (block.type === "pullquote") {
       parts.push({ type: "html", html: `<blockquote class="pull"><p>${escapeHtml(block.text)}</p></blockquote>` });
+      continue;
+    }
+    // So is a jump list: links to the headings, which get their ids in articleHast.
+    if (block.type === "jump") {
+      parts.push({ type: "html", html: jumpHtml(block.body) });
       continue;
     }
     if (block.type !== "markdown") {
@@ -65,8 +74,10 @@ export async function renderPost(content: string, dims: Dims): Promise<PostPart[
 // Close-up grid: :::crops\nsrc: /data/file.json\n:::
 // Growing-branches animation: :::iterations\n\n:::
 // Pull quote: :::pullquote\ntext: ...\n:::
+// One photo with tabs for its other versions: :::photos\nbase: /images/x/name\nalt: ...\n::: (files are base-portrait/street/lake.jpg)
+// Jump-to list: :::jump\n# Group\nHeading text\n...\n::: ("# Group" starts a column; other lines link to the heading with that text)
 function splitBlocks(content: string): Block[] {
-  const blockRegex = /:::(testimonial|cards|settings|models|combo|crops|iterations|pullquote)\n([\s\S]*?)\n:::/g;
+  const blockRegex = /:::(testimonial|cards|settings|models|combo|crops|iterations|pullquote|photos|jump)\n([\s\S]*?)\n:::/g;
   const blocks: Block[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -97,6 +108,10 @@ function splitBlocks(content: string): Block[] {
       blocks.push({ type: "iterations" });
     } else if (kind === "pullquote") {
       blocks.push({ type: "pullquote", text: f.text || "" });
+    } else if (kind === "photos") {
+      blocks.push({ type: "photos", base: f.base || "", alt: f.alt || "" });
+    } else if (kind === "jump") {
+      blocks.push({ type: "jump", body: match[2] });
     } else {
       const cards: LinkCard[] = match[2]
         .split(/\n---\n/)
@@ -306,6 +321,13 @@ function articleHast(dims: Dims) {
         ];
       case "table":
         return [h("div", { className: ["tablewrap"] }, [el])];
+      case "h2":
+      case "h3": {
+        // Anchors, so a section can be linked (and a :::jump list can point at it)
+        const id = slugify(textOf(el));
+        if (id && el.properties.id == null) el.properties.id = id;
+        return [el];
+      }
       case "p": {
         // Images don't sit in paragraphs: a row of "#grid" images becomes a grid, any other image stands alone
         const meaningful = el.children.filter((c) => c.type !== "text" || c.value.trim());
@@ -335,6 +357,22 @@ function articleHast(dims: Dims) {
   };
 
   return (tree: Root) => walk(tree);
+}
+
+// A :::jump block as HTML: one column per "# Group", each line a link to the heading with that text.
+function jumpHtml(body: string): string {
+  const groups: { title: string; items: string[] }[] = [];
+  for (const raw of body.split("\n")) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (line.startsWith("# ")) groups.push({ title: line.slice(2).trim(), items: [] });
+    else if (groups.length) groups[groups.length - 1].items.push(line);
+  }
+  const link = (label: string) => `<a href="#${slugify(label)}">${escapeHtml(label)}</a>`;
+  const cols = groups
+    .map((g) => `<div><p class="k">${link(g.title)}</p><ul>${g.items.map((i) => `<li>${link(i)}</li>`).join("")}</ul></div>`)
+    .join("");
+  return `<nav class="jump" aria-label="Jump to a section"><p class="k">Jump to</p><div class="cols">${cols}</div></nav>`;
 }
 
 function escapeHtml(text: string) {
