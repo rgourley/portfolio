@@ -23,6 +23,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const metaDescription = post.description ||
     `${post.title}. ${post.tags?.length ? `Insights on ${post.tags.slice(0, 2).join(" and ")}. ` : ""}By Robert Gourley.`;
   const ogDescription = post.description || metaDescription;
+  const image = shareImage(post);
+  const imageDimensions = post.image ? fileDims(image.slice(SITE_URL.length)) : null;
 
   return {
     title: post.seoTitle || post.title,
@@ -39,14 +41,21 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       type: "article",
       publishedTime: post.date,
       authors: ["Robert Gourley"],
-      // No images here: every post gets the generated card from opengraph-image.tsx, which Next adds to openGraph and twitter.
+      images: [{ url: image, alt: post.title, ...(imageDimensions ? { width: imageDimensions.w, height: imageDimensions.h } : {}) }],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: ogDescription,
+      images: [image],
     },
   };
+}
+
+/** The picture a post shows when it's shared: its own cover, as a full URL. Some crawlers don't read WebP, so WebP covers
+    have a JPEG of the same name beside them. A post with no cover shows the blog's card. */
+function shareImage(post: { image?: string }): string {
+  return post.image ? `${SITE_URL}${post.image.replace(/\.webp$/i, ".jpg")}` : `${SITE_URL}/blog/opengraph-image`;
 }
 
 export async function generateStaticParams() {
@@ -63,8 +72,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const idx = posts.findIndex((p) => p.slug === post.slug);
   const nx = posts[(idx + 1) % posts.length];
   const postUrl = `${SITE_URL}/blog/${post.slug}`;
-  // Every post uses the generated card.
-  const postImage = `${postUrl}/opengraph-image`;
+  const postImage = shareImage(post);
   const cover = post.image ? fileDims(post.image) : null;
   const nextCover = nx.image ? fileDims(nx.image) : null;
   const dims = imageDims(post.content);
