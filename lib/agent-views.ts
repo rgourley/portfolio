@@ -84,8 +84,9 @@ export function openModelsAgentMarkdown(): string {
     .join("\n\n");
   return withFooter(
     `# ${OPEN_MODELS.title}\n\nURL: ${SITE_URL}${OPEN_MODELS.path}\n\n` +
-      `Open models tested on one machine: an RTX 5080 with 16 GB of VRAM, running ComfyUI. ` +
-      `Same prompts and seeds across models, every result shown.\n\n${body}\n`
+      `The models you can download and run on your own hardware: diffusion models for images and video, local LLMs, ` +
+      `and the tools around them, like ComfyUI. What they're good at, how they compare, and what it takes to run them ` +
+      `on an ordinary GPU. Every test shows its prompts, settings and results.\n\n${body}\n`
   );
 }
 

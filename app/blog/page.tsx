@@ -50,7 +50,7 @@ export default function BlogPage() {
         <section className="lane">
           <div className="lanehead">
             <h2><Link href={OPEN_MODELS.path}>{OPEN_MODELS.title}</Link></h2>
-            <p>Open image models tested on my own GPU: comparisons, settings and prompts, every result shown.</p>
+            <p>Models you can download and run yourself: image generation, diffusion models, local LLMs and the tools around them.</p>
             <Link className="k all" href={OPEN_MODELS.path}>All {models.length} posts &rarr;</Link>
           </div>
           <PostRows posts={models.slice(0, 3)} />

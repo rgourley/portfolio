@@ -1,6 +1,6 @@
 import type { BlogPost } from "@/lib/content";
 
-/* The blog's "Open models" section: posts that test open models run locally (image models in ComfyUI so far).
+/* The blog's "Open models" section: open models you can run yourself (image generation, diffusion models, local LLMs).
    A post belongs to it by tag, so new posts join by being tagged. Post URLs stay /blog/<slug>; the section adds a hub
    at /blog/open-models, its own lane on /blog, a back link and breadcrumb on each post, and "Next" within the section. */
 

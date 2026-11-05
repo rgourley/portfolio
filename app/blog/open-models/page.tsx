@@ -11,11 +11,11 @@ import { OPEN_MODELS, inOpenModels, openModelGroups } from "@/lib/sections";
 import { R } from "@/lib/links";
 
 const DESCRIPTION =
-  "Open image models tested on one RTX 5080 with 16 GB of VRAM in ComfyUI: Z-Image Turbo, MOSS-Image, Krea 2 and FLUX compared, plus settings, model files and prompts for film, light and realistic skin.";
+  "Open models you can download and run yourself: image generation with diffusion models like Z-Image, FLUX and MOSS-Image, local LLMs, ComfyUI, model files and settings, tested on an ordinary 16 GB GPU.";
 
 export const metadata: Metadata = {
   alternates: { canonical: OPEN_MODELS.path, types: { "text/markdown": `${OPEN_MODELS.path}.md` } },
-  title: "Open Models Tested: Z-Image, MOSS-Image, Krea 2 and FLUX on 16 GB VRAM",
+  title: "Open Models: Image Generation, Diffusion Models and Local AI, Tested",
   description: DESCRIPTION,
   openGraph: { title: "Open models", description: DESCRIPTION, url: OPEN_MODELS.path },
 };
@@ -42,10 +42,11 @@ export default function OpenModelsPage() {
       <header className="bhead">
         <Link className="back" href={R.blog}>&larr; Writing</Link>
         <h1>Open models</h1>
-        <div className="k"><span><b>{count}</b> posts</span><span>RTX 5080, 16 GB</span><span>ComfyUI</span></div>
+        <div className="k"><span><b>{count}</b> posts</span><span>Image generation</span><span>Local LLMs</span><span>Run it yourself</span></div>
         <p>
-          I test open models on my own machine: same prompts, same seeds, every result shown. So far that&rsquo;s image models:
-          Z-Image Turbo, MOSS-Image, Krea 2 and FLUX.
+          The models you can download and run on your own hardware: diffusion models for images and video, local LLMs, and the
+          tools around them, like ComfyUI. What they&rsquo;re good at, how they compare with each other and with closed models,
+          and what it takes to run them on an ordinary GPU. Every test shows its prompts, settings and results.
         </p>
       </header>
       {groups.map((g) => {
