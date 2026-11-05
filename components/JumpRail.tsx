@@ -36,16 +36,21 @@ export default function JumpRail({ root }: { root: RefObject<HTMLElement> }) {
   const rail = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const el = root.current;
-    const nav = el?.querySelector("nav.jump");
-    const body = el?.closest(".body") ?? el;
-    if (!el || !nav || !body) return;
-    const gs = readGroups(nav);
+    const first = root.current?.querySelector("nav.jump");
+    if (!first) return;
+    const gs = readGroups(first);
     setGroups(gs);
-    const wides = [...el.querySelectorAll<HTMLElement>(".wideimg")];
-    const targets = gs.flatMap((g) => [g.id, ...g.items.map((i) => i.id)]).map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const ids = gs.flatMap((g) => [g.id, ...g.items.map((i) => i.id)]);
+    // Looked up on every use, never kept: Next can re-render the article and swap these nodes for new copies, and a
+    // kept node that has left the page measures as 0, which hid the rail for good and froze the current section.
+    const live = () => {
+      const el = root.current;
+      return { el, nav: el?.querySelector("nav.jump"), body: el?.closest(".body") ?? el };
+    };
 
     const place = () => {
+      const { body } = live();
+      if (!body) return;
       const x = body.getBoundingClientRect().right + 48;
       setLeft(window.innerWidth - x >= MIN_ROOM ? x : null);
     };
@@ -53,13 +58,21 @@ export default function JumpRail({ root }: { root: RefObject<HTMLElement> }) {
     const onScroll = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
+        const { el, nav } = live();
+        if (!el || !nav) return;
         // Hidden above the inline list, and while a wide image overlaps the rail's height on screen
         const h = rail.current?.offsetHeight ?? 0;
-        const overlap = wides.some((w) => { const r = w.getBoundingClientRect(); return r.bottom > TOP - 16 && r.top < TOP + h + 16; });
+        const overlap = [...el.querySelectorAll<HTMLElement>(".wideimg")].some((w) => {
+          const r = w.getBoundingClientRect();
+          return r.bottom > TOP - 16 && r.top < TOP + h + 16;
+        });
         setShown(nav.getBoundingClientRect().bottom < 0 && !overlap);
         // The current section: the last heading that has reached the reading line
         let id = "";
-        for (const t of targets) if (t.getBoundingClientRect().top <= TOP + 40) id = t.id;
+        for (const i of ids) {
+          const t = document.getElementById(i);
+          if (t && t.getBoundingClientRect().top <= TOP + 40) id = i;
+        }
         setCurrent(id);
       });
     };
@@ -69,8 +82,12 @@ export default function JumpRail({ root }: { root: RefObject<HTMLElement> }) {
     return () => { window.removeEventListener("resize", place); window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
   }, [root]);
 
-  if (!groups.length || left === null) return null;
   const currentGroup = groups.find((g) => g.id === current || g.items.some((i) => i.id === current))?.id;
+  // Groups opened or closed by hand go back to automatic when the reader moves into another section. Otherwise
+  // the rail keeps growing, and a tall rail overlaps (and so hides for) almost any wide image on screen.
+  useEffect(() => setOpen({}), [currentGroup]);
+
+  if (!groups.length || left === null) return null;
   return createPortal(
     <aside ref={rail} className={"jumprail" + (shown ? " on" : "")} style={{ left, top: TOP }} aria-label="Contents" aria-hidden={!shown}>
       <p className="k">Contents</p>
