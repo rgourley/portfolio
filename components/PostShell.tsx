@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { trackCopyCode } from "@/lib/analytics";
 
 /**
@@ -39,7 +40,10 @@ export default function PostShell({ children }: { children: ReactNode }) {
     <div className="md" onClick={onClick}>
       {children}
 
-      {lightbox && (
+      {/* Portaled to <body>: .page keeps a transform from its entrance animation, and a transformed ancestor makes
+          position:fixed relative to that ancestor. Inside the article, the lightbox spanned the whole post and the
+          picture sat in its middle, thousands of pixels off screen on long posts. */}
+      {lightbox && createPortal(
         <div
           role="dialog"
           aria-modal="true"
@@ -51,7 +55,8 @@ export default function PostShell({ children }: { children: ReactNode }) {
           <img src={lightbox.src} alt={lightbox.alt} />
           {lightbox.alt && <p>{lightbox.alt}</p>}
           <button type="button" onClick={() => setLightbox(null)} aria-label="Close">×</button>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
