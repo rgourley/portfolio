@@ -47,11 +47,13 @@ ${work}
 
 ## Writing
 - [All posts](${SITE_URL}/blog.md): The index, with a JSON twin at ${SITE_URL}/api/blog
+- [Open models](${SITE_URL}/blog/open-models.md): The section on open models you can run yourself (image generation, diffusion models, local LLMs), its posts grouped by topic
 ${posts}
 
 ## Optional
 - [Manifest](${SITE_URL}/.well-known/mcp.json): Every resource with its HTML, Markdown and JSON URL
 - [RSS feed](${SITE_URL}/feed.xml)
+- [Open models RSS feed](${SITE_URL}/blog/open-models/feed.xml)
 - [Sitemap](${SITE_URL}/sitemap.xml)
 `;
 

@@ -14,7 +14,10 @@ const DESCRIPTION =
   "Open models you can download and run yourself: image generation with diffusion models like Z-Image, FLUX and MOSS-Image, local LLMs, ComfyUI, model files and settings, tested on an ordinary 16 GB GPU.";
 
 export const metadata: Metadata = {
-  alternates: { canonical: OPEN_MODELS.path, types: { "text/markdown": `${OPEN_MODELS.path}.md` } },
+  alternates: {
+    canonical: OPEN_MODELS.path,
+    types: { "text/markdown": `${OPEN_MODELS.path}.md`, "application/rss+xml": `${OPEN_MODELS.path}/feed.xml` },
+  },
   title: "Open Models: Image Generation, Diffusion Models and Local AI, Tested",
   description: DESCRIPTION,
   openGraph: { title: "Open models", description: DESCRIPTION, url: OPEN_MODELS.path },
@@ -62,7 +65,7 @@ export default function OpenModelsPage() {
           </section>
         );
       })}
-      <div className="foot"><span className="k"><Link href={R.blog}>All writing</Link></span><span className="k">Also as <a href={`${OPEN_MODELS.path}.md`}>markdown</a></span></div>
+      <div className="foot"><span className="k"><Link href={R.blog}>All writing</Link></span><span className="k">Also as <a href={`${OPEN_MODELS.path}/feed.xml`}>RSS</a> and <a href={`${OPEN_MODELS.path}.md`}>markdown</a></span></div>
     </Page>
   );
 }
