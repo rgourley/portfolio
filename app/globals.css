@@ -369,6 +369,15 @@ html[data-mode="dark"] .term i,html[data-mode="dark"] .term b{color:var(--ink-di
 .bfeat h2{font-weight:300;font-size:clamp(30px,3.6vw,50px);line-height:1.05;letter-spacing:-.03em;margin:14px 0 18px;text-wrap:balance}
 .bfeat p{font-size:17px;line-height:1.55;color:var(--ink-mid);margin:0 0 22px;max-width:40ch}
 .pic{width:100%;height:auto;object-fit:cover;display:block;border-radius:3px;background:var(--ink-ghost)}
+/* blog lanes: the writing and each section (Open models), on /blog and the section hubs */
+.lane{margin:0 0 12vh}
+.lanehead{display:grid;grid-template-columns:1fr auto;gap:8px 32px;align-items:baseline;margin:0 0 22px}
+.lanehead h2{font-weight:300;font-size:clamp(28px,3vw,40px);line-height:1.1;letter-spacing:-.025em;margin:0}
+.lanehead h2 a{text-decoration:none}
+.lanehead p{grid-column:1;margin:0;max-width:52ch;font-size:16px;line-height:1.5;color:var(--ink-mid)}
+.lanehead .all{grid-column:2;grid-row:1;text-decoration:none;white-space:nowrap}
+.lanehead .all:hover{color:var(--ink)}
+.bhead .back{display:inline-block;margin:0 0 28px}
 .foot{padding:12vh 0 14vh;display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap}
 .foot a{text-decoration:none;border-bottom:1px solid var(--ink-ghost)}
 .post{max-width:1200px;margin:0 auto;padding:15vh 0 8vh}
@@ -416,6 +425,21 @@ html[data-mode="dark"] .term i,html[data-mode="dark"] .term b{color:var(--ink-di
 .post .body .jump li{margin:0;padding:0;font-size:15px;line-height:1.75}
 .post .body .jump li a{color:var(--ink-mid);text-decoration:none;border:0}
 .post .body .jump a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+/* the jump list as a rail down the right side (components/JumpRail.tsx), on screens with room beside the column */
+.jumprail{position:fixed;z-index:5;width:210px;max-height:calc(100vh - 160px);overflow-y:auto;overscroll-behavior:contain;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .25s,transform .25s,visibility .25s;scrollbar-width:thin}
+.jumprail.on{opacity:1;visibility:visible;transform:none}
+.jumprail .k{margin:0 0 12px}
+.jumprail .grp{border-top:1px solid var(--ink-ghost)}
+.jumprail .grp:last-child{border-bottom:1px solid var(--ink-ghost)}
+.jumprail button{display:flex;justify-content:space-between;align-items:baseline;width:100%;padding:9px 0;background:none;border:0;cursor:pointer;font:600 11px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);text-align:left}
+.jumprail button:hover,.jumprail .grp.cur button{color:var(--ink)}
+.jumprail button .n{font-weight:400;letter-spacing:0;color:var(--ink-dim)}
+.jumprail ul{list-style:none;margin:0 0 10px;padding:0}
+.jumprail li{margin:0;padding:0;font-size:13px;line-height:1.55}
+.jumprail li a{display:block;padding:2px 0 2px 10px;border-left:1px solid transparent;color:var(--ink-mid);text-decoration:none}
+.jumprail li a:hover{color:var(--ink)}
+.jumprail li a.cur{color:var(--ink);border-left-color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.jumprail{transition:none;transform:none}}
 /* :::photos: one photo, tabs for the other scenes */
 .post .body .photoswitch{margin:1.6em 0 2.4em}
 .post .body .photoswitch .tabs{display:flex;gap:6px;margin:0 0 10px}

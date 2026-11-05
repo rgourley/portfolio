@@ -87,9 +87,7 @@ Each prompt is the recipe, then the scene, then the recipe again. The negative p
 
 > *Black and white 35mm film photo, gritty visible grain, high contrast, deep blacks, documentary feel. a waist-up portrait of a woman in her mid twenties, oval face, high cheekbones, straight dark eyebrows, hazel eyes, dark brown hair pulled back in a loose low bun with two strands falling across her right cheek, natural makeup, s...*
 
-The scene is one portrait: a woman against a sunlit plaster wall, with a green shutter on one side and red geraniums on the other. Skin, a hard shadow, warm light and two strong colors show most film looks well. I started from the portrait in the Z-Image post and changed three things for MOSS. I removed the small mole, which MOSS kept moving under her lip. I described her pose in detail, which kept her still. And I took out "striking" and "fashion editorial", which MOSS read as a glamour shoot:
-
-![Left: the Z-Image portrait wording on MOSS. Right: with plainer words](/images/moss-film/r1/method-model.jpg#wide)
+The scene is one portrait: a woman against a sunlit plaster wall, with a green shutter on one side and red geraniums on the other. Skin, a hard shadow, warm light and two strong colors show most film looks well. I started from the portrait in the Z-Image post and changed three things for MOSS. I removed the small mole, which MOSS kept moving under her lip. I described her pose in detail, which kept her still. And I took out "striking" and "fashion editorial", which MOSS read as a glamour shoot.
 
 This is the plain photo, with no film look:
 

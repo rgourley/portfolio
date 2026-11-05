@@ -17,6 +17,7 @@ import { GH as SUITE_GH, PATT, STY } from "@/lib/financial-ui-suite";
 import { CTRL } from "@/lib/coaster-about";
 import { R } from "@/lib/links";
 import { MD_ROUTES, type MdRoute } from "@/lib/md-routes";
+import { OPEN_MODELS, openModelGroups } from "@/lib/sections";
 import { POSITIONING, FOOTER_LINE, profileBlock } from "@/lib/profile";
 
 export interface AgentView {
@@ -70,6 +71,23 @@ export function blogAgentMarkdown(slug: string): string | null {
 export function workAgentMarkdown(slug: string): string | null {
   const md = workMarkdown(slug);
   return md ? withFooter(md) : null;
+}
+
+/** The Open models hub as an agent document: what /md/blog/open-models serves and what the hub's valve shows. */
+export function openModelsAgentMarkdown(): string {
+  const groups = openModelGroups(getAllBlogPosts());
+  const body = groups
+    .map((g) => {
+      const list = g.posts.map((p) => `- [${p.title}](${SITE_URL}/md/blog/${p.slug}) (${p.date})`).join("\n");
+      return `## ${g.title}\n\n${g.blurb ? `${g.blurb}\n\n` : ""}${list}`;
+    })
+    .join("\n\n");
+  return withFooter(
+    `# ${OPEN_MODELS.title}\n\nURL: ${SITE_URL}${OPEN_MODELS.path}\n\n` +
+      `The models you can download and run on your own hardware: diffusion models for images and video, local LLMs, ` +
+      `and the tools around them, like ComfyUI. What they're good at, how they compare, and what it takes to run them ` +
+      `on an ordinary GPU. Every test shows its prompts, settings and results.\n\n${body}\n`
+  );
 }
 
 const VIEWS: Record<MdRoute, () => AgentView> = {

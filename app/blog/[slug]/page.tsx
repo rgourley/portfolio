@@ -12,6 +12,7 @@ import { blogAgentMarkdown } from "@/lib/agent-views";
 import { fileDims, imageDims } from "@/lib/image-dims";
 import { R } from "@/lib/links";
 import { fdate, mins } from "@/lib/blog";
+import { OPEN_MODELS, inOpenModels } from "@/lib/sections";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getBlogPostBySlug(params.slug);
@@ -56,7 +57,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const post = await getBlogPostBySlug(params.slug);
   if (!post) notFound();
 
-  const posts = getAllBlogPosts();
+  // "Next" stays in the post's lane: Open models posts lead to the next one in the section, other posts to other writing
+  const section = inOpenModels(post);
+  const posts = getAllBlogPosts().filter((p) => inOpenModels(p) === section);
   const idx = posts.findIndex((p) => p.slug === post.slug);
   const nx = posts[(idx + 1) % posts.length];
   const postUrl = `${SITE_URL}/blog/${post.slug}`;
@@ -86,7 +89,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         author: personRef,
         publisher: personRef,
       },
-      breadcrumbSchema([["Blog", "/blog"], [post.title, `/blog/${post.slug}`]]),
+      breadcrumbSchema(section
+        ? [["Blog", "/blog"], [OPEN_MODELS.title, OPEN_MODELS.path], [post.title, `/blog/${post.slug}`]]
+        : [["Blog", "/blog"], [post.title, `/blog/${post.slug}`]]),
     ],
   };
 
@@ -95,7 +100,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <StructuredData data={articleSchema} />
       <article className="post">
         <div className="wide">
-          <Link className="back" href={R.blog}>&larr; Writing</Link>
+          {section
+            ? <Link className="back" href={OPEN_MODELS.path}>&larr; {OPEN_MODELS.title}</Link>
+            : <Link className="back" href={R.blog}>&larr; Writing</Link>}
           <h1>{post.title}</h1>
         </div>
         <div className="col lead">
