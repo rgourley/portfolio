@@ -2,7 +2,7 @@
 title: "52 film and camera prompts for MOSS-Image"
 seoTitle: "MOSS-Image Film Prompts: 52 Film Stock and Camera Looks Tested"
 description: "Portra, CineStill, Tri-X, Polaroid, Holga, light leaks, tintype and more: 52 film and camera prompts for MOSS-Image, each with its negative prompt and result. Plus what didn't work."
-date: "2026-11-02"
+date: "2026-11-03"
 image: "/images/moss-film/r1/moss-film-hero.jpg"
 tags: ["AI images","ComfyUI"]
 ---
