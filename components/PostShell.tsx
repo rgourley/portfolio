@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { trackCopyCode } from "@/lib/analytics";
+import JumpRail from "./JumpRail";
 
 /**
  * The browser side of a post. The article is server HTML; this is one click handler over all of
@@ -11,6 +12,7 @@ import { trackCopyCode } from "@/lib/analytics";
 export default function PostShell({ children }: { children: ReactNode }) {
   // Click-to-enlarge for local article images: shows the original file over the page.
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+  const article = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!lightbox) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setLightbox(null);
@@ -37,8 +39,9 @@ export default function PostShell({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="md" onClick={onClick}>
+    <div className="md" onClick={onClick} ref={article}>
       {children}
+      <JumpRail root={article} />
 
       {/* Portaled to <body>: .page keeps a transform from its entrance animation, and a transformed ancestor makes
           position:fixed relative to that ancestor. Inside the article, the lightbox spanned the whole post and the
