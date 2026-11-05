@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
-import { getAllBlogPosts, type BlogPost } from "@/lib/content";
-import { fileDims } from "@/lib/image-dims";
-import { fdate, mins, tagOf } from "@/lib/blog";
+import { getAllBlogPosts } from "@/lib/content";
+import { fdate, mins } from "@/lib/blog";
+import PostRows, { PostPic as Pic } from "@/components/PostRows";
+import { OPEN_MODELS, inOpenModels } from "@/lib/sections";
 import Page from "@/components/Page";
 import StructuredData from "@/components/StructuredData";
 import { pageSchema } from "@/lib/schema";
@@ -19,15 +19,12 @@ export const metadata: Metadata = {
 };
 
 
-function Pic({ post, priority, sizes }: { post: BlogPost; priority?: boolean; sizes: string }) {
-  if (!post.image) return <div className="pic" style={{ aspectRatio: "16/10" }} />;
-  const d = fileDims(post.image) || { w: 16, h: 10 };
-  return <Image className="pic" src={post.image} alt="" width={d.w} height={d.h} sizes={sizes} priority={priority} quality={82} />;
-}
-
 export default function BlogPage() {
   const posts = getAllBlogPosts();
-  const f = posts[0];
+  // Two lanes: the writing, and the Open models section (its latest three here, all of them on its hub)
+  const writing = posts.filter((p) => !inOpenModels(p));
+  const models = posts.filter(inOpenModels);
+  const f = writing[0];
   const years = posts.map((p) => +p.date.slice(0, 4));
   const md = agentMarkdown("/blog");
   return (
@@ -49,18 +46,20 @@ export default function BlogPage() {
           </div>
         </Link>
       )}
-      <ol className="rows">
-        {posts.slice(1).map((p, i) => (
-          <li key={p.slug}>
-            <Link className="row" href={`/blog/${p.slug}`} prefetch={false}>
-              <span className="n">{String(i + 2).padStart(2, "0")}</span>
-              <Pic post={p} sizes="(max-width: 760px) 260px, 176px" />
-              <h3>{p.title}</h3>
-              <span className="meta"><span>{fdate(p.date)}</span><span>{tagOf(p)} &nbsp; {mins(p)} min</span></span>
-            </Link>
-          </li>
-        ))}
-      </ol>
+      {models.length > 0 && (
+        <section className="lane">
+          <div className="lanehead">
+            <h2><Link href={OPEN_MODELS.path}>{OPEN_MODELS.title}</Link></h2>
+            <p>Open image models tested on my own GPU: comparisons, settings and prompts, every result shown.</p>
+            <Link className="k all" href={OPEN_MODELS.path}>All {models.length} posts &rarr;</Link>
+          </div>
+          <PostRows posts={models.slice(0, 3)} />
+        </section>
+      )}
+      <section className="lane">
+        <div className="lanehead"><h2>Design and agents</h2></div>
+        <PostRows posts={writing.slice(1)} start={2} />
+      </section>
       <div className="foot"><span className="k">Also as <a href="/feed.xml">RSS</a></span><span className="k">Written for people. Served to agents as plain text.</span></div>
     </Page>
   );

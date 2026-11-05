@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getAllWork } from '@/lib/content';
 import { getAllBlogPosts } from '@/lib/content';
+import { OPEN_MODELS, inOpenModels } from '@/lib/sections';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.robertcreative.com';
@@ -143,6 +144,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: lastModifiedFor[page.url.slice(baseUrl.length)],
   }));
 
-  return [...staticWithDates, ...workPages, ...blogPages];
+  // The Open models section's hub, dated by its newest post
+  const sectionPosts = allPosts.filter(inOpenModels);
+  const hub = sectionPosts.length
+    ? [{ url: `${baseUrl}${OPEN_MODELS.path}`, lastModified: latest(sectionPosts.map((p) => p.updated || p.date)), changeFrequency: 'weekly' as const, priority: 0.7 }]
+    : [];
+
+  return [...staticWithDates, ...hub, ...workPages, ...blogPages];
 }
 
