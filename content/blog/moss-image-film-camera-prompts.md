@@ -2,7 +2,7 @@
 title: "52 film and camera prompts for MOSS-Image"
 seoTitle: "MOSS-Image Film Prompts: 52 Film Stock and Camera Looks Tested"
 description: "Portra, CineStill, Tri-X, Polaroid, Holga, light leaks, tintype and more: 52 film and camera prompts for MOSS-Image, each with its negative prompt and result. Plus what didn't work."
-date: "2026-11-04"
+date: "2026-11-02"
 image: "/images/moss-film/r1/moss-film-hero.jpg"
 tags: ["AI images","ComfyUI"]
 ---
@@ -1025,4 +1025,4 @@ For a natural film photo, MOSS's plain output is already close to Portra, so try
 
 Write the look in visible terms, put it at both ends of the prompt, and give it an opposite in the negative prompt. I tested one seed per look, so if a result looks off, try another seed before giving up on the recipe.
 
-*Tested November 4, 2026, on an RTX 5080 with 16 GB of VRAM.*
+*Tested in November 2026 on an RTX 5080 with 16 GB of VRAM.*
