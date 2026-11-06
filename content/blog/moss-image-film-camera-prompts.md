@@ -234,18 +234,18 @@ Deeper reds and darker shadows. Subtle.
 ### Fuji Velvia 50
 
 ```
-Color slide film photo, hyper-saturated colors, intense greens and blues, deep black shadows, high contrast.
+Color slide film photo, underexposed and low-key, dark moody exposure, skin rendered dark and rich instead of bright, faces falling into shadow, deep cool blues and greens, deep luminous reds, neutral gray balance, high contrast, large areas of pure black shadow, razor-sharp detail, almost no grain.
 ```
 
 Negative prompt, after MOSS's usual one:
 
 ```
-muted dull colors, low contrast, faded
+bright skin, glowing skin, overexposed, high key, warm golden cast, yellow cast, neon green, lifted faded blacks, matte, low contrast, soft focus, visible grain, HDR
 ```
 
-![Fuji Velvia 50](/images/moss-film/r1/film-fuji_velvia_50.jpg)
+![Fuji Velvia 50](/images/moss-film/r1/film-fuji_velvia_50-v2.jpg)
 
-Hyper-saturated: a vivid green shutter and a yellow-green wall.
+Dark and moody: deep reds, a dark green shutter, a neutral wall and true blacks. My first wording gave a neon green shutter and a yellow-green wall, and someone who has shot Velvia rightly called that out. "Underexposed and low-key" made the biggest difference. Take those words out if you want it brighter.
 
 ### Cross-processed slide
 
