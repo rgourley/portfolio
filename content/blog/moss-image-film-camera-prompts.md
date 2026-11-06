@@ -234,18 +234,18 @@ Deeper reds and darker shadows. Subtle.
 ### Fuji Velvia 50
 
 ```
-Color slide film photo, ultra-saturated color, deep rich reds and warm yellows, lush cool greens and deep blues, ruddy pink skin, high contrast, shadows dropping quickly to pure black, razor-sharp detail, almost no grain.
+Color slide film photo, slightly underexposed, the most vivid saturated color, intensely vivid deep cool greens, rich blues and deep luminous reds, neutral gray balance, high contrast, shadows dropping quickly to pure black, razor-sharp detail, almost no grain.
 ```
 
 Negative prompt, after MOSS's usual one:
 
 ```
-muted colors, neon green, yellow-green cast, lifted faded blacks, matte, low contrast, soft focus, visible grain, HDR
+muted colors, warm golden cast, yellow cast, neon green, lifted faded blacks, matte, low contrast, overexposed, soft focus, visible grain, HDR
 ```
 
 ![Fuji Velvia 50](/images/moss-film/r1/film-fuji_velvia_50-v2.jpg)
 
-Deep reds, a dark cool-green shutter and ruddy skin. My first wording gave a neon green shutter and a yellow-green wall, and someone who has shot Velvia rightly called that out. The real film holds deeper blacks than this, and wording alone didn't get MOSS all the way there.
+Deep reds, a dark cool-green shutter, a neutral wall and deep shadows. My first wording gave a neon green shutter and a yellow-green wall, and someone who has shot Velvia rightly called that out. Asking for it "slightly underexposed" made the biggest difference, which is also how slide shooters get the most from this film.
 
 ### Cross-processed slide
 
