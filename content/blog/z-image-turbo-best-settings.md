@@ -136,3 +136,5 @@ Here it is at 25 steps, the way the advice says to run it. The picture holds tog
 No setting fixed the brooch. I asked for one pinning the cloak at the shoulder. In almost every image the cloak just drapes over the armor, and the round bronze pieces sit on the armor itself. Z-Image does that on every setting I tried.
 
 If you run ComfyUI, the [free workflow from the movie stills post](/downloads/z-image-turbo-movie-stills-8-looks.json) already uses 8 steps, CFG 1 and the simple scheduler. Try beta.
+
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, with the settings from this post built in.

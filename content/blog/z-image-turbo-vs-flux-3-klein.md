@@ -75,4 +75,6 @@ Z-Image leans polished even when you ask for amateur. The non-Turbo Z-Image base
 
 FLUX 3 klein follows "amateur" wording well. The plainness that hurts it on glamour shots is exactly what makes its kitchen look like someone's actual kitchen.
 
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, with the Z-Image settings from this post built in.
+
 *Tested on an RTX 5080 with 16 GB of VRAM.*

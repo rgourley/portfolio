@@ -73,3 +73,5 @@ src: /data/zimage-skin-crops.json
 For skin, base Z-Image or Stable Yogi at shift 2, no LoRA, with the skin written into the prompt. For a picture that looks like someone directed it, add Realistic Snapshot at 0.4 to 0.6 and accept smoother skin. For a beauty shot, Radiant at 0.6.
 
 Try shift 2 before you download anything.
+
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, including a realistic skin workflow set to shift 2, with an optional LoRA slot.

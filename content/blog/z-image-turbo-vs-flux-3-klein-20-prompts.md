@@ -206,4 +206,6 @@ FLUX is better at action. Shaking dogs, splashing bikes, breath and blowing snow
 
 The bigger difference is how each one fails. Z-Image gets ordinary things wrong, like six people instead of four or a missing splash. FLUX invents things that can't exist, like a barista pouring a finished latte into another cup.
 
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, with the Z-Image settings from this post built in.
+
 *Earlier: [the first 5-prompt test](/blog/z-image-turbo-vs-flux-3-klein) and [Z-Image Turbo vs Base](/blog/z-image-turbo-vs-z-image-base).*

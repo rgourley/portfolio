@@ -8,7 +8,7 @@ import { pageSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 import { openModelsAgentMarkdown } from "@/lib/agent-views";
 import { OPEN_MODELS, inOpenModels, openModelGroups } from "@/lib/sections";
-import { R } from "@/lib/links";
+import { PACK_URL, R } from "@/lib/links";
 
 const DESCRIPTION =
   "Open models you can download and run yourself: image generation with diffusion models like Z-Image, FLUX and MOSS-Image, local LLMs, ComfyUI, model files and settings, tested on an ordinary 16 GB GPU.";
@@ -51,6 +51,7 @@ export default function OpenModelsPage() {
           tools around them, like ComfyUI. What they&rsquo;re good at, how they compare with each other and with closed models,
           and what it takes to run them on an ordinary GPU. Every test shows its prompts, settings and results.
         </p>
+        <p>Want them ready to run? The <a href={PACK_URL}>Film Looks pack</a> has 12 ComfyUI workflows and 119 tested prompts.</p>
       </header>
       {groups.map((g) => {
         const start = n;

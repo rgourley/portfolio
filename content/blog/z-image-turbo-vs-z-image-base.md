@@ -71,4 +71,6 @@ Use Turbo when you want a fast, polished image with the subject front and center
 
 For believable everyday snapshots, FLUX 3 klein and Z-Image base are the two strongest models I've tested so far. Just don't ask base for red eyes.
 
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, including workflows for both Turbo and Base, with the settings from this post.
+
 *Tested on an RTX 5080 with 16 GB of VRAM.*

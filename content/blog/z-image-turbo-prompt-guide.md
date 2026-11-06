@@ -233,3 +233,5 @@ If you need a clean dial, a phone screen or a book cover, plan to fix it after.
 If you'd rather pick than type, my [free ComfyUI workflow](/downloads/z-image-turbo-movie-stills-8-looks.json) has all of this as dropdowns: shot size, angle, lens, placement, where they look, 27 lighting setups and weather. It builds the prompt for you and renders it in eight film looks from one seed.
 
 The diver is still my favorite test. If a prompt can get him out of the ocean and onto the right bench in the right light, it can handle most things.
+
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, with film and lighting wording you can paste into your own scenes.

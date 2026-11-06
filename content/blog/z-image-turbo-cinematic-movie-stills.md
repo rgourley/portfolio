@@ -225,4 +225,6 @@ The header I ended up using came from somewhere else. I set every menu in my sho
 
 You can try the same menus in the [free ComfyUI workflow](/downloads/z-image-turbo-movie-stills-8-looks.json). Type a scene, pick the shot, light and weather, and it renders all eight looks from one seed.
 
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, including this movie stills workflow with its model download links, plus film and lighting recipes.
+
 *Tested on an RTX 5080 with 16 GB of VRAM.*

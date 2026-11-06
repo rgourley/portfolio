@@ -155,3 +155,5 @@ medium shot of a young soldier in modern desert combat gear standing in a dusty 
 For a quick draft, Z-Image. It's the fastest, and the light is right most of the time. When the frame has to look like a film, Krea. Read its license first, though, because it limits commercial use above a revenue threshold. I compared it with Z-Image on shorter prompts in [an earlier post](/blog/z-image-turbo-vs-krea-2-turbo). MOSS is Apache 2.0 like Z-Image, and it's the one I'd pick when the blocking matters, when someone has to stand in a particular spot or look a particular way.
 
 Copy any prompt above and swap in your own person and place. Keep the light and the ending.
+
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, including text-to-image workflows for Z-Image and MOSS, with the settings from this post.
