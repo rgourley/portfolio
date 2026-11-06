@@ -117,4 +117,6 @@ I added the same four things to every scene. First, where the light comes from: 
 
 I also took out anything with lettering. Every sign, menu, poster and machine label in the short prompts came out garbled on both models. That includes words that only suggest a sign. In my film test, "24-hour diner" became "24-HOUR" painted on the window.
 
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, with the Z-Image settings from this post built in.
+
 *Tested on an RTX 5080 with 16 GB of VRAM.*

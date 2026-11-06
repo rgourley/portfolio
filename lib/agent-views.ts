@@ -18,6 +18,7 @@ import { CTRL } from "@/lib/coaster-about";
 import { R } from "@/lib/links";
 import { MD_ROUTES, type MdRoute } from "@/lib/md-routes";
 import { OPEN_MODELS, openModelGroups } from "@/lib/sections";
+import { PACK_URL } from "@/lib/links";
 import { POSITIONING, FOOTER_LINE, profileBlock } from "@/lib/profile";
 
 export interface AgentView {
@@ -86,7 +87,7 @@ export function openModelsAgentMarkdown(): string {
     `# ${OPEN_MODELS.title}\n\nURL: ${SITE_URL}${OPEN_MODELS.path}\n\n` +
       `The models you can download and run on your own hardware: diffusion models for images and video, local LLMs, ` +
       `and the tools around them, like ComfyUI. What they're good at, how they compare, and what it takes to run them ` +
-      `on an ordinary GPU. Every test shows its prompts, settings and results.\n\n${body}\n`
+      `on an ordinary GPU. Every test shows its prompts, settings and results. Ready-to-run workflows: ${PACK_URL}.\n\n${body}\n`
   );
 }
 

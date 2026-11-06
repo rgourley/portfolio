@@ -87,3 +87,5 @@ NVFP4 is the fastest, at 4 seconds and 4.5 GB, and its pictures are good. Use it
 Memory didn't help me choose. ComfyUI filled about 15.3 GB of my card's 16 GB with every file, because it caches whatever fits, so the peak readings were the same for all four. On a smaller card, file size is the number to watch. I haven't tested GGUF files yet, which go smaller still and need an extra ComfyUI node.
 
 The surprise was the order. I'd have bet on FP8 as the faithful copy, and int8 beat it on both speed and detail.
+
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, with download links for the model files and settings already in place.

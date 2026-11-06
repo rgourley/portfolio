@@ -273,3 +273,5 @@ Every light that worked had the same parts: what the source is, where it is, and
 If you run ComfyUI, the [free workflow from the movie stills post](/downloads/z-image-turbo-movie-stills-8-looks.json) has a lighting dropdown with 27 setups, most of them night interiors, written with the wording that worked here.
 
 Start with the fridge. Then try the blinds.
+
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, including a lighting workflow and all 25 of these setups in a spreadsheet.

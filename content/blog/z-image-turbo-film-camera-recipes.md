@@ -690,4 +690,6 @@ For a natural film photo, Portra 400. For night, CineStill 800T. For strong colo
 
 Put the recipe at the start of the prompt, and describe the look rather than naming the film. I tested one seed per look, so if a result looks off, try another seed before giving up on the recipe.
 
+**Want this ready to run?** The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has 12 ComfyUI workflows and 119 tested prompts for Z-Image Turbo and MOSS-Image, including all 42 of these looks in a dropdown, with the settings from this post built in.
+
 *Tested November 3, 2026, on an RTX 5080 with 16 GB of VRAM.*

@@ -25,6 +25,9 @@ export const R = {
   "font-sizes": "/tools/font-sizes",
 } as const;
 
+// The Film Looks pack on Gumroad: linked from the footer, the Open models hub and the model posts.
+export const PACK_URL = "https://rgourley.gumroad.com/l/film-looks-z-image-moss";
+
 export const NAV: [keyof typeof R, string][] = [
   ["work", "Work"],
   ["projects", "Projects"],
