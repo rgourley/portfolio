@@ -67,11 +67,13 @@ img,video{max-width:100%}
    the dot field on the home page or the plain background elsewhere, shows through unchanged. The fade is a mask on the page
    itself, one viewport tall, moved down the page by a scroll-driven animation so its top edge always sits at the top of the
    window. The header's own elements, the valve and the field are outside the page and never fade. Where scroll-driven
-   animations are not supported the mask stays at the top of the page, which is where the header overlaps first. */
+   animations are not supported (Safari before 26, Firefox), the page has no mask. Without a scroll timeline, headerzone
+   runs as a 0s animation and holds its end frame, which moves the mask to the page bottom and hides all other content. */
 .page{--fade:calc(88px + env(safe-area-inset-top,0px));
   -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 var(--fade));mask-image:linear-gradient(to bottom,transparent 0,#000 var(--fade));
   -webkit-mask-size:100% 100vh;mask-size:100% 100vh;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
   animation:pagein .55s cubic-bezier(.2,.7,.2,1) both,headerzone linear both;animation-timeline:auto,scroll(root)}
+@supports not (animation-timeline:scroll()){.page{-webkit-mask-image:none;mask-image:none}}
 @keyframes headerzone{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:0 100%;mask-position:0 100%}}
 .k{font:600 11px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
 

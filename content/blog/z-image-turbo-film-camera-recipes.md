@@ -67,6 +67,8 @@ Golden hour glow
 - **Describe what you'd see, not the lens.** "Heavy black vignette, cyan shadows, a red light leak" works for a Holga. Talk about focal length or sharpness changes nothing, because Z-Image already makes sharp, clean photos.
 - **Don't name a device.** Ask for a "smartphone photo" or a "camera" and Z-Image may put one in the picture.
 
+All 42 looks are also in the [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) as a ComfyUI dropdown, if you'd rather not copy them by hand.
+
 ## How I tested
 
 Everything ran on Z-Image Turbo in ComfyUI on an RTX 5080: 16 steps, CFG 1, `res_multistep`, shift 3, 1216×832, no LoRAs. I used 16 steps instead of the usual 8 because my [settings test](/blog/z-image-turbo-best-settings) found it adds a little film texture. The seed is the same for every image and there are no re-rolls, so each image is a one-shot.

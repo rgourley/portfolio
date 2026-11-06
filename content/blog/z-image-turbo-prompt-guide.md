@@ -79,6 +79,8 @@ low angle from the edge of the road, wide 24mm lens, a deep-sea diver in a dente
 
 The grade comes last, and it does the least. That surprised me. When my early tests looked fake, I blamed the color. It was almost always the light or the blocking.
 
+The [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) has the film and lighting wording from these tests as ComfyUI workflows, ready to drop into your own scenes.
+
 ## Same shot, different light
 
 Light is where I'd spend your words. Same diver, same seed, only the light changed. The full prompts are below the pictures.
