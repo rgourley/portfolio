@@ -234,18 +234,18 @@ Deeper reds and darker shadows. Subtle.
 ### Fuji Velvia 50
 
 ```
-Color slide film photo, hyper-saturated colors, intense greens and blues, deep black shadows, high contrast.
+Color slide film photo, ultra-saturated color, deep rich reds and warm yellows, lush cool greens and deep blues, ruddy pink skin, high contrast, shadows dropping quickly to pure black, razor-sharp detail, almost no grain.
 ```
 
 Negative prompt, after MOSS's usual one:
 
 ```
-muted dull colors, low contrast, faded
+muted colors, neon green, yellow-green cast, lifted faded blacks, matte, low contrast, soft focus, visible grain, HDR
 ```
 
-![Fuji Velvia 50](/images/moss-film/r1/film-fuji_velvia_50.jpg)
+![Fuji Velvia 50](/images/moss-film/r1/film-fuji_velvia_50-v2.jpg)
 
-Hyper-saturated: a vivid green shutter and a yellow-green wall.
+Deep reds, a dark cool-green shutter and ruddy skin. My first wording gave a neon green shutter and a yellow-green wall, and someone who has shot Velvia rightly called that out. The real film holds deeper blacks than this, and wording alone didn't get MOSS all the way there.
 
 ### Cross-processed slide
 

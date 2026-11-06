@@ -203,15 +203,15 @@ Deep blue sky and dense reds.
 ### Fuji Velvia 50
 
 ```
-Color slide film photo, hyper-saturated colors, intense greens and blues, deep black shadows, high contrast.
+Color slide film photo, ultra-saturated color, deep rich reds and warm yellows, lush cool greens and deep blues, ruddy pink skin, high contrast, shadows dropping quickly to pure black, razor-sharp detail, almost no grain.
 ```
 
 :::photos
-base: /images/film-sim/r3/film-fuji_velvia_50
+base: /images/film-sim/r3/film-fuji_velvia_50-v2
 alt: Fuji Velvia 50
 :::
 
-Saturated, with darker blues.
+Strong color and hard contrast: deep reds, cool greens and blacks that drop away fast. My first wording missed this, and someone who has shot Velvia corrected me on its greens and blacks. Real Velvia is rarely used for portraits because it turns skin ruddy, and you can see that here.
 
 ### Cross-processed slide
 
