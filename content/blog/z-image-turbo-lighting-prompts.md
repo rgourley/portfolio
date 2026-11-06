@@ -31,6 +31,8 @@ medium wide shot of a small old apartment kitchen, a woman in a sweater standing
 
 I tried a corner grocery store before the bus stop, and it failed in a useful way. The store's lit window became the main light in every night version, so sodium lamps, headlights and rain all came out looking the same. A glowing window in the frame beats whatever light you write. If you want the light to change, keep big bright things out of the scene.
 
+All 25 setups below are also in the [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss), as a ComfyUI lighting workflow and a spreadsheet, if you'd rather not copy them by hand.
+
 ## Daylight, outside
 
 ![Overcast](/images/lighting/light-bus-overcast.jpg#grid)

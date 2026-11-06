@@ -44,6 +44,8 @@ The subway platform got green fluorescent tubes and a train's headlight coming o
 
 Z-Image still got details wrong. My tired detective in a motel room came out as a uniformed police officer in both versions. A family of four at dinner had five kids. An old propeller plane got a modern glass cockpit.
 
+The movie stills workflow from these tests is in the [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss), with its model download links.
+
 ## A framing cheat sheet
 
 Next I tried bigger movies, each with one named framing technique. Most of the names worked. Each image below is captioned with the words that did the work. Click any one to see it full size.

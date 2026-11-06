@@ -79,6 +79,8 @@ Expired film
 - **Describe the pose exactly.** Every change to the prompt nudges the picture. Spelling out the head, chin, eyes and arm kept her nearly still from look to look.
 - **Say exactly what to add.** MOSS ignored "a faint second image". "A night city skyline printed over the entire photo" worked.
 
+All 52 looks are also in the [Film Looks pack](https://rgourley.gumroad.com/l/film-looks-z-image-moss) as a ComfyUI dropdown that builds the prompt and the negative prompt for you, if you'd rather not copy them by hand.
+
 ## How I tested
 
 Everything ran on MOSS-Image in ComfyUI 0.44 on an RTX 5080, with ComfyUI's MOSS template settings: the int8 model file, `er_sde`, 25 steps, CFG 2.5, 1216×832, no LoRAs and no prompt rewriter. The seed is the same for every image and there are no re-rolls, so each image is a one-shot. Each took about 11 seconds.
