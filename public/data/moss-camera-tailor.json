@@ -1,0 +1,59 @@
+{
+ "dir": "/images/moss-camera",
+ "aspect": "1216/832",
+ "prefix": "tailor",
+ "alt": "The tailor",
+ "rows": [
+  {
+   "label": "Lens",
+   "options": [
+    {
+     "key": "35",
+     "label": "35mm"
+    },
+    {
+     "key": "50",
+     "label": "50mm"
+    },
+    {
+     "key": "85",
+     "label": "85mm"
+    }
+   ]
+  },
+  {
+   "label": "Aperture",
+   "options": [
+    {
+     "key": "sharp",
+     "label": "Sharp"
+    },
+    {
+     "key": "blurred",
+     "label": "Blurred"
+    },
+    {
+     "key": "vblur",
+     "label": "Very blurred"
+    }
+   ]
+  },
+  {
+   "label": "Exposure",
+   "options": [
+    {
+     "key": "0",
+     "label": "Normal"
+    },
+    {
+     "key": "m1",
+     "label": "-1 stop"
+    },
+    {
+     "key": "p1",
+     "label": "+1 stop"
+    }
+   ]
+  }
+ ]
+}
