@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NAV, R, navKeyFor } from "@/lib/links";
 import { useMode } from "@/components/ModeProvider";
+import SocialIcons from "@/components/SocialIcons";
 
 /** The fixed corners: the name and title top left, the nav and the mode dot top right.
     On a phone the nav folds into one word, Menu, that opens a full-screen sheet of the same links. */
@@ -31,6 +32,7 @@ export default function Corner() {
         {NAV.map(([key, label]) => (
           <Link key={key} href={R[key]} className={here === key ? "here" : undefined}>{label}</Link>
         ))}
+        <SocialIcons className="social" />
         <button type="button" className="mode" onClick={toggle} aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} />
       </div>
       <button type="button" className="menubtn" aria-expanded={open} aria-controls="menu" onClick={() => setOpen((o) => !o)}>
@@ -42,6 +44,7 @@ export default function Corner() {
             {label}<i>{String(i + 1).padStart(2, "0")}</i>
           </Link>
         ))}
+        <SocialIcons className="msocial" />
         <div className="mrow">
           <button type="button" onClick={toggle}><span className="mode" />{dark ? "Light mode" : "Dark mode"}</button>
           <Link href={R.contact}>Contact</Link>
