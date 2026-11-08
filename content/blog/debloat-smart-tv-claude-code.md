@@ -1,7 +1,7 @@
 ---
 title: "How to Debloat a Smart TV With Claude Code"
 seoTitle: "How to Debloat a Smart TV With Claude Code (Android and LG)"
-description: "Turn off the ads and tracking on your smart TV and replace the home screen with a plain launcher. Steps for Android TV, Google TV, LG and Fire TV, and how to undo each one."
+description: "Turn off the ads and tracking on your smart TV and swap the home screen for a plain launcher. Steps for Android TV, Google TV, LG and Fire TV."
 date: "2026-10-19"
 image: "/images/debloat-tv-hero-quiet-coast.webp"
 tags: ["design","AI","smart TV"]
@@ -48,13 +48,13 @@ If you'd rather click than prompt, [*Android TV Tools*](https://www.androidautho
 
 ## Decluttering the screen
 
-A stock home screen is built around what the manufacturer wants to show you. The launcher replaces it with one built around the apps you use.
+On a stock Google TV, the top of the home screen is a sponsored banner. The launcher puts your apps there instead.
 
-![Stock Google TV home with a sponsored ad, next to the Clean Your TV launcher](https://github.com/Gathin23/cleanyourtv/raw/main/docs/stock-vs-new-side.jpg)
+![Stock Google TV home with a sponsored ad, next to the Clean Your TV launcher](https://github.com/Gathin23/cleanyourtv/raw/d451b175ab3f869f9a5d66993fb2dd501c96920b/docs/stock-vs-new-side.jpg)
 
 *Source: [Clean Your TV](https://github.com/Gathin23/cleanyourtv), by Gathin.*
 
-Once it's installed you can change how it looks. The launcher's settings on the TV let you show 4 to 7 apps per row, and themes change the colors, wallpaper and columns. Other owners have gone further and built their own versions for their TVs. The [showcase page](https://github.com/Gathin23/cleanyourtv/blob/main/SHOWCASE.md) lists 19, including these:
+Once it's installed you can change how it looks. The launcher's settings on the TV let you show 4 to 7 apps per row, and themes change the colors, wallpaper and columns. Other owners have gone further and built their own versions for their TVs. The project [keeps a list of them](https://github.com/Gathin23/cleanyourtv/blob/main/SHOWCASE.md) with 19 so far, including these:
 
 - [tv-bookshelf](https://github.com/griffincockfoster56/tv-bookshelf) on a Sony Bravia: each app is a 3D book on a bookcase.
 - [Cosy Home](https://github.com/oliverjwroberts/cosy-home-tv) on a Philips OLED: a sunrise-aware backdrop, live weather and OLED pixel shift.
@@ -66,7 +66,7 @@ Once it's installed you can change how it looks. The launcher's settings on the 
 
 I'm a designer, not a lawyer, and I'm not affiliated with any TV maker or any of the projects above. This is for your own TV, for personal use and for learning how it works. Changing system software can void a warranty, break an app, stop firmware updates, or in a bad case leave the TV stuck on a boot screen. Terms of service differ by manufacturer, so read yours. If you do this, you do it at your own risk.
 
-You need a computer on the same Wi-Fi as the TV, Claude Code, and about an hour of patience with menus. Three rules apply to every TV below:
+You need a computer on the same Wi-Fi as the TV, and Claude Code. On every TV below:
 
 - Back up the list of installed apps before you change anything.
 - Disable packages, never uninstall them. A disabled package comes back with one command.
@@ -74,7 +74,7 @@ You need a computer on the same Wi-Fi as the TV, Claude Code, and about an hour 
 
 ## Start with the settings
 
-This takes five minutes and needs no code, and it works on any TV. Turn off anything about viewing information, interest-based ads, personalized recommendations or content recognition. Content recognition, or ACR, is the one that tracks what's on your screen. In December 2025 Texas [sued five TV makers over it](https://therecord.media/texas-sues-5-smart-tv-makers-over-acr-tech), alleging it was switched on during setup without clear consent. The cases are still going. The names change by brand and the menus are buried, so try searching the settings for "ads" and "viewing."
+This needs no code, and it works on any TV. Turn off anything about viewing information, interest-based ads, personalized recommendations or content recognition. Content recognition, or ACR, is the one that tracks what's on your screen. In December 2025 Texas [sued five TV makers over it](https://therecord.media/texas-sues-5-smart-tv-makers-over-acr-tech), alleging it was switched on during setup without clear consent. The cases are still going. The names change by brand and the menus are buried, so try searching the settings for "ads" and "viewing."
 
 On an LG, the [*webos-vibehack*](https://github.com/OmkarK97/webos-vibehack) docs give these two places, though the names vary a little by webOS version:
 
@@ -85,11 +85,11 @@ On an LG, the [*webos-vibehack*](https://github.com/OmkarK97/webos-vibehack) doc
 
 This covers Sony, TCL, Hisense, Philips, Nvidia Shield and many others. With [*Clean Your TV*](https://github.com/Gathin23/cleanyourtv) you paste its prompt into Claude Code and tell it your TV model. It connects over Wi-Fi, backs up what's installed, asks which apps you use, installs the launcher, and then disables the ad and telemetry packages. The author says nothing gets deleted, and a restore script turns it all back on. If you'd rather drive it yourself, this is the manual route.
 
-![The Aurora theme](https://github.com/Gathin23/cleanyourtv/raw/main/docs/theme-aurora.jpg)
+![The Aurora theme](https://github.com/Gathin23/cleanyourtv/raw/d451b175ab3f869f9a5d66993fb2dd501c96920b/themes/aurora/screenshot.jpg)
 
 *Aurora theme. Source: [Clean Your TV](https://github.com/Gathin23/cleanyourtv).*
 
-![Six columns and a six-app dock](https://github.com/Gathin23/cleanyourtv/raw/main/docs/theme-six-columns.jpg)
+![Six columns and a six-app dock](https://github.com/Gathin23/cleanyourtv/raw/d451b175ab3f869f9a5d66993fb2dd501c96920b/themes/six-columns/screenshot.jpg)
 
 *Six columns and a six-app dock. Source: [Clean Your TV](https://github.com/Gathin23/cleanyourtv).*
 
@@ -143,7 +143,7 @@ On an LG you're installing an app, not modifying the system. LG locks things dow
 
 *webos-vibehack* was ported by a developer named OmkarK97 and tested on an LG OLED C6. You install it through LG's own Developer Mode with a free developer account. Nothing is rooted, and firmware updates keep working. This is the short version, and the README has the exact commands.
 
-![The launcher running on an LG OLED C6](https://github.com/OmkarK97/webos-vibehack/raw/main/docs/screenshot.jpg)
+![The launcher running on an LG OLED C6](https://github.com/OmkarK97/webos-vibehack/raw/31a518aef23768067975f3ac2e464462a8046bab/docs/screenshot.jpg)
 
 *On an LG OLED C6. Source: [webos-vibehack](https://github.com/OmkarK97/webos-vibehack), by OmkarK97.*
 
@@ -158,24 +158,22 @@ Developer Mode sessions expire, so every so often you'll need to open the app an
 
 ## Fire TV
 
-The step-by-step above is written for Android TV and Google TV, and I haven't tested it on a Fire TV. Three projects in the *Clean Your TV* showcase target Fire TV. [fire-tv-cleanup](https://github.com/itsmeterrylin/fire-tv-cleanup) has debloat tools and a launcher with a macOS-style dock. [Fire TV Glass](https://github.com/ivantrj/firetv-glass-launcher) tests on a Fire TV Stick 4K and brings its launcher back whenever Amazon's home screen appears. A [Home watcher](https://github.com/ljis120301/tv-vibehack/tree/fire-tv-support) for Fire OS 6 does the same thing. Read each README for the exact steps.
+The step-by-step above is written for Android TV and Google TV, and I haven't tested it on a Fire TV. Three projects on the *Clean Your TV* list target Fire TV. [fire-tv-cleanup](https://github.com/itsmeterrylin/fire-tv-cleanup) has debloat tools and a launcher with a macOS-style dock. [Fire TV Glass](https://github.com/ivantrj/firetv-glass-launcher) tests on a Fire TV Stick 4K and brings its launcher back whenever Amazon's home screen appears. A [Home watcher](https://github.com/ljis120301/tv-vibehack/tree/fire-tv-support) for Fire OS 6 does the same thing. Read each README for the exact steps.
 
-![Stock Fire TV home on the left, Glass on the right](https://github.com/ivantrj/firetv-glass-launcher/raw/main/docs/before-after.jpg)
+![Stock Fire TV home on the left, Glass on the right](https://github.com/ivantrj/firetv-glass-launcher/raw/9d68fad0cf729f1be0eacb7ca4133273dcd76394/docs/before-after.jpg)
 
 *Stock Fire TV home and Glass. Source: [Fire TV Glass](https://github.com/ivantrj/firetv-glass-launcher), by ivantrj.*
 
-![Fire TV home screen with ads on top and the launcher below](https://github.com/itsmeterrylin/fire-tv-cleanup/raw/main/docs/firetv-home-before-after.jpg)
+![Fire TV home screen with ads on top and the launcher below](https://github.com/itsmeterrylin/fire-tv-cleanup/raw/ab4d9bfbc51e48316d0a19583d579de0b3f44215/docs/firetv-home-before-after.jpg)
 
 *Ads on top, the launcher below. Source: [fire-tv-cleanup](https://github.com/itsmeterrylin/fire-tv-cleanup), by itsmeterrylin.*
 
 ## Samsung and others
 
-I haven't found a comparable project for Samsung's Tizen, so there are no screenshots here either. The settings route is your best option on a Samsung.
-
-[*Glasshouse*](https://github.com/rorygallagher2024/glasshouse) covers rooted LG TVs with a dashboard and an ad and telemetry blocker. It needs a rooted TV, so I'm not covering it here.
+I haven't found a comparable project for Samsung's Tizen. On a Samsung, the settings are the whole job.
 
 ## Is it worth it?
 
-It takes some care and carries some risk. Back up first and disable instead of uninstalling to keep that risk down.
+On an Android TV, yes. The settings change is free on every TV, and a disabled package is one command from coming back.
 
-In return, Home opens a screen with your apps on it and nothing else.
+Every partner slot I argued about in those reviews lived in one app. Replace that app, and Home opens your apps and nothing else.
