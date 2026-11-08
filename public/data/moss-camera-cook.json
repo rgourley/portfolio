@@ -54,6 +54,32 @@
      "label": "+1 stop"
     }
    ]
+  },
+  {
+   "label": "Vignette",
+   "overlay": "/images/moss-camera/vignette-mask.png",
+   "options": [
+    {
+     "key": "off",
+     "label": "Off",
+     "opacity": 0
+    },
+    {
+     "key": "light",
+     "label": "Light",
+     "opacity": 0.3
+    },
+    {
+     "key": "medium",
+     "label": "Medium",
+     "opacity": 0.5
+    },
+    {
+     "key": "heavy",
+     "label": "Heavy",
+     "opacity": 0.8
+    }
+   ]
   }
  ]
 }

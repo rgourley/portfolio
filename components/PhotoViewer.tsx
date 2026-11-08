@@ -5,11 +5,14 @@ import Image from "next/image";
 import { trackExplorerChange } from "@/lib/analytics";
 
 // A post's :::viewer block: one large photo with a row of buttons per setting, where each click changes only that
-// setting. Images live at `${dir}/${prefix}-${key on each row, joined by -}.jpg`. The first option on each row is the
-// starting pick. Every photo one click away loads once the frame is near the screen, so a click swaps instantly.
+// setting. Images live at `${dir}/${prefix}-${key on each row, joined by -}.jpg`; an empty key adds nothing to the name.
+// The first option on each row is the starting pick. An option can need certain picks on other rows (`needs`, by row
+// label): choosing it moves those rows onto an allowed pick, and the rest of their buttons are greyed out until it's
+// unpicked. A row with an `overlay` doesn't change the photo: it lays that image over it at each option's `opacity`.
+// Every photo one click away loads once the frame is near the screen, so a click swaps instantly.
 // The frame is a `button.zoom`, so PostShell's lightbox opens it.
-type Option = { key: string; label: string; note?: string };
-type Row = { label: string; options: Option[] };
+type Option = { key: string; label: string; note?: string; needs?: Record<string, string[]>; opacity?: number };
+type Row = { label: string; options: Option[]; overlay?: string };
 type Data = { dir: string; prefix: string; aspect: string; alt: string; rows: Row[] };
 
 export default function PhotoViewer({ src }: { src: string }) {
@@ -38,11 +41,28 @@ export default function PhotoViewer({ src }: { src: string }) {
 
   if (!data || !picks.length) return <div className="my-10 rounded-lg bg-muted/20 animate-pulse" style={{ aspectRatio: "1216/832" }} />;
 
-  const path = (keys: string[]) => `${data.dir}/${data.prefix}-${keys.join("-")}.jpg`;
+  const rows = data.rows;
+  const picked = (ps: string[]) => rows.map((row, i) => row.options.find((o) => o.key === ps[i]) || row.options[0]);
+  // what each row is limited to by the options picked on the other rows
+  const limits = (ps: string[]) => rows.map((row, i) => {
+    let allowed: string[] | null = null;
+    picked(ps).forEach((o, j) => {
+      const need = j !== i ? o.needs?.[row.label] : undefined;
+      if (need) allowed = allowed ? allowed.filter((k) => need.includes(k)) : need;
+    });
+    return allowed as string[] | null;
+  });
+  const choose = (i: number, key: string) => {
+    let ps = picks.map((p, j) => (j === i ? key : p));
+    limits(ps).forEach((allowed, j) => { if (allowed && !allowed.includes(ps[j])) ps = ps.map((p, k) => (k === j ? allowed[0] : p)); });
+    return ps;
+  };
+  const limited = limits(picks);
+  const path = (keys: string[]) => `${data.dir}/${data.prefix}-${keys.filter((k, i) => k && !rows[i].overlay).join("-")}.jpg`;
   const current = path(picks);
   const visible = loaded[current] ? current : lastVisible.current;
   lastVisible.current = visible;
-  const choices = data.rows.map((row, i) => row.options.find((o) => o.key === picks[i]) || row.options[0]);
+  const choices = picked(picks);
   const label = `${data.alt}: ${choices.map((c) => c.label).join(", ")}`;
   const notes = choices.map((c) => c.note).filter(Boolean);
 
@@ -50,7 +70,7 @@ export default function PhotoViewer({ src }: { src: string }) {
   const shown = new Set<string>([current]);
   if (visible) shown.add(visible);
   if (near && Object.keys(loaded).length > 0) {
-    data.rows.forEach((row, i) => row.options.forEach((o) => shown.add(path(picks.map((p, j) => (j === i ? o.key : p))))));
+    rows.forEach((row, i) => row.options.forEach((o) => { if (!limited[i] || limited[i]!.includes(o.key)) shown.add(path(choose(i, o.key))); }));
   }
 
   return (
@@ -65,8 +85,9 @@ export default function PhotoViewer({ src }: { src: string }) {
                 type="button"
                 role="tab"
                 aria-selected={o.key === picks[i]}
+                disabled={!!limited[i] && !limited[i]!.includes(o.key)}
                 onClick={() => {
-                  setPicks(picks.map((p, j) => (j === i ? o.key : p)));
+                  setPicks(choose(i, o.key));
                   trackExplorerChange("viewer", row.label, o.key);
                 }}
               >
@@ -90,6 +111,7 @@ export default function PhotoViewer({ src }: { src: string }) {
             onLoad={() => setLoaded((l) => (l[s] ? l : { ...l, [s]: true }))}
           />
         ))}
+        {rows.map((row, i) => row.overlay && choices[i].opacity ? <img key={row.label} src={row.overlay} alt="" aria-hidden className="overlay" style={{ opacity: choices[i].opacity }} /> : null)}
       </button>
       {notes.length > 0 && <figcaption>{notes.join(" ")}</figcaption>}
     </figure>
