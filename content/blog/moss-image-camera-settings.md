@@ -13,7 +13,7 @@ Plain words like "heavy bokeh background" did better, but the harder I pushed th
 
 So I built a [free ComfyUI workflow](https://github.com/rgourley/moss-camera-settings) that works more like a camera. You render your image first, then pick the lens, aperture and exposure from menus and click where you want the focus. It stays the same picture, just shot differently.
 
-You can try it on the four photos below. Each one starts as the untouched render, and each row of buttons changes one setting.
+You can try it on the four photos below. Each one starts as the untouched render, and each row of buttons changes one setting. On the tailor, the Focus row moves the focus off his face. That's only rendered at 35mm, so the buttons that don't apply grey out until you switch back. The Vignette row works on all four.
 
 ## The tailor
 
@@ -23,11 +23,7 @@ A long room behind him gives the blur plenty of distance to work with.
 src: /data/moss-camera-tailor.json
 :::
 
-Focus works the same way: you click what you want sharp. This is the same render with two focus points.
-
-:::viewer
-src: /data/moss-camera-tailor-focus.json
-:::
+Focus works the same way: you click what you want sharp. Try Focus on the shears, and he falls out of focus behind them.
 
 ```text
 an elderly tailor standing at a long cutting table in a narrow upstairs workshop, chalk in his hand, leaning over a length of dark wool and marking a line, placed on the left third of the frame, hard morning sun through a tall window on the right throwing the shadow of the window bars across the table, the cloth and his forearms, rolls of fabric and hanging half-made jackets soft in the shadow behind him, a pair of big steel shears and a tape measure out of focus in the near foreground, candid documentary photograph, ordinary real face with natural skin
@@ -61,11 +57,7 @@ a cook in his forties in a white t-shirt sitting on an upturned crate outside th
 src: /data/moss-camera-musician.json
 :::
 
-The vignette darkens the corners, the way many real lenses do when they're wide open. Here she's at 50mm with the background Blurred, and only the vignette changes.
-
-:::viewer
-src: /data/moss-camera-musician-vignette.json
-:::
+The vignette darkens the corners, the way many real lenses do when they're wide open. Try the Vignette row on any of the four photos.
 
 ```text
 a double bass player in her forties in a bright patterned dress playing on a wide quiet cobbled street, standing with the bass upright in front of her and plenty of room around her, seen from the waist up, bow in her right hand, placed on the left third of the frame, calm neutral expression and eyes on the strings, her face clear and in soft daylight, a long street of old ochre buildings with green shutters falling away far into the distance behind her, soft late afternoon daylight, candid street photograph
