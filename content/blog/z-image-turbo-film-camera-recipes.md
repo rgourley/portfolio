@@ -203,15 +203,15 @@ Deep blue sky and dense reds.
 ### Fuji Velvia 50
 
 ```
-Color slide film photo, hyper-saturated colors, intense greens and blues, deep black shadows, high contrast.
+Color slide film photo, underexposed and low-key, dark moody exposure, skin rendered dark and rich instead of bright, faces falling into shadow, deep cool blues and greens, deep luminous reds, neutral gray balance, high contrast, large areas of pure black shadow, razor-sharp detail, almost no grain.
 ```
 
 :::photos
-base: /images/film-sim/r3/film-fuji_velvia_50
+base: /images/film-sim/r3/film-fuji_velvia_50-v2
 alt: Fuji Velvia 50
 :::
 
-Saturated, with darker blues.
+Dark and contrasty: deep reds, cool greens, a neutral balance and big areas of pure black. My first wording pushed everything warm and bright, and someone who has shot Velvia corrected me. "Underexposed and low-key" made the biggest difference. Take those words out if you want it brighter.
 
 ### Cross-processed slide
 

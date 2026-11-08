@@ -12,6 +12,7 @@ const ComboExplorer = dynamic(() => import("./ComboExplorer"));
 const CropGrid = dynamic(() => import("./CropGrid"));
 const IterationDots = dynamic(() => import("./IterationDots"), { ssr: false });
 const PhotoSwitch = dynamic(() => import("./PhotoSwitch"));
+const PhotoViewer = dynamic(() => import("./PhotoViewer"));
 const TestimonialBlock = dynamic(() => import("./TestimonialBlock"), {
   loading: () => <div className="h-48 bg-muted/20 animate-pulse rounded-lg" />,
 });
@@ -34,6 +35,8 @@ export default function PostTool({ part }: { part: ToolPart }) {
       return <CropGrid src={part.src} />;
     case "iterations":
       return <IterationDots />;
+    case "viewer":
+      return <PhotoViewer src={part.src} />;
     case "photos":
       return <PhotoSwitch base={part.base} alt={part.alt} />;
     case "cards":

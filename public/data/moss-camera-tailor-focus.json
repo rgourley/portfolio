@@ -1,0 +1,23 @@
+{
+ "dir": "/images/moss-camera",
+ "aspect": "1216/832",
+ "prefix": "tailor-focus",
+ "alt": "The tailor, moving the focus",
+ "rows": [
+  {
+   "label": "Focus",
+   "options": [
+    {
+     "key": "face",
+     "label": "His face",
+     "note": "Foreground set to Blurred, so the shears in front of him go soft."
+    },
+    {
+     "key": "shears",
+     "label": "The shears",
+     "note": "He falls out of focus behind them."
+    }
+   ]
+  }
+ ]
+}

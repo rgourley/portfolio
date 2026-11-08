@@ -451,6 +451,14 @@ html[data-mode="dark"] .term i,html[data-mode="dark"] .term b{color:var(--ink-di
 .post .body .photoswitch .frame{position:relative;aspect-ratio:1400/958;overflow:hidden;border-radius:3px;background:var(--muted)}
 .post .body .photoswitch .frame img{object-fit:cover;opacity:0;transition:opacity .15s}
 .post .body .photoswitch .frame img.on{opacity:1}
+/* Wider than the text, centered on the page: the text column starts at the page center, not the text center, and .page clips anything past its edges */
+@media (min-width:900px){.post .body .photoswitch.viewer{--col:min(880px,calc(100vw - 32px));--wide:min(1100px,calc(100vw - 8rem));width:var(--wide);margin-left:calc((var(--col) - var(--wide))/2)}}
+.post .body .photoswitch.viewer .tabs{flex-wrap:wrap}
+.post .body .photoswitch.viewer .setting{display:flex;align-items:center;gap:12px;margin:0 0 8px}
+.post .body .photoswitch.viewer .setting .tabs{margin:0}
+.post .body .photoswitch.viewer .setting-name{flex:0 0 64px;font:600 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim)}
+.post .body .photoswitch.viewer .frame{display:block;width:100%}
+.post .body .photoswitch.viewer figcaption{margin-top:10px;font-size:14px;color:var(--ink-dim)}
 .lightbox{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,.92);padding:16px;cursor:zoom-out}
 .lightbox img{max-height:88vh;max-width:100%;width:auto;height:auto;object-fit:contain;border-radius:3px}
 .lightbox p{max-width:60ch;text-align:center;font:400 12px/1.6 var(--mono);color:rgba(255,255,255,.7);margin:0}

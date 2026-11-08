@@ -29,7 +29,8 @@ export type PostPart =
   | { type: "combo"; src: string }
   | { type: "crops"; src: string }
   | { type: "iterations" }
-  | { type: "photos"; base: string; alt: string };
+  | { type: "photos"; base: string; alt: string }
+  | { type: "viewer"; src: string };
 
 type Block =
   | { type: "markdown"; content: string }
@@ -75,9 +76,10 @@ export async function renderPost(content: string, dims: Dims): Promise<PostPart[
 // Growing-branches animation: :::iterations\n\n:::
 // Pull quote: :::pullquote\ntext: ...\n:::
 // One photo with tabs for its other versions: :::photos\nbase: /images/x/name\nalt: ...\n::: (files are base-portrait/street/lake.jpg)
+// One large photo with buttons: :::viewer\nsrc: /data/file.json\n:::
 // Jump-to list: :::jump\n# Group\nHeading text\n...\n::: ("# Group" starts a column; other lines link to the heading with that text)
 function splitBlocks(content: string): Block[] {
-  const blockRegex = /:::(testimonial|cards|settings|models|combo|crops|iterations|pullquote|photos|jump)\n([\s\S]*?)\n:::/g;
+  const blockRegex = /:::(testimonial|cards|settings|models|combo|crops|iterations|pullquote|photos|viewer|jump)\n([\s\S]*?)\n:::/g;
   const blocks: Block[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -108,6 +110,8 @@ function splitBlocks(content: string): Block[] {
       blocks.push({ type: "iterations" });
     } else if (kind === "pullquote") {
       blocks.push({ type: "pullquote", text: f.text || "" });
+    } else if (kind === "viewer") {
+      blocks.push({ type: "viewer", src: f.src || "" });
     } else if (kind === "photos") {
       blocks.push({ type: "photos", base: f.base || "", alt: f.alt || "" });
     } else if (kind === "jump") {
