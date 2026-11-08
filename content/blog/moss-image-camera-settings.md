@@ -33,8 +33,6 @@ src: /data/moss-camera-tailor-focus.json
 an elderly tailor standing at a long cutting table in a narrow upstairs workshop, chalk in his hand, leaning over a length of dark wool and marking a line, placed on the left third of the frame, hard morning sun through a tall window on the right throwing the shadow of the window bars across the table, the cloth and his forearms, rolls of fabric and hanging half-made jackets soft in the shadow behind him, a pair of big steel shears and a tape measure out of focus in the near foreground, candid documentary photograph, ordinary real face with natural skin
 ```
 
-Seed 2121.
-
 ## The goalkeeper
 
 :::viewer
@@ -44,8 +42,6 @@ src: /data/moss-camera-goalkeeper.json
 ```text
 a young woman goalkeeper in a worn green jersey and muddy gloves standing beside the near goalpost on a wet grass soccer pitch, one hand resting on the white post, looking out across the field, placed on the left third of the frame, low late afternoon sun from the right throwing long shadows across the torn-up goalmouth and catching the water drops on the net, chalk lines scuffed into the mud at her feet, empty concrete stands and floodlight towers far behind her across the pitch, a muddy match ball out of focus in the near foreground
 ```
-
-Seed 2121.
 
 ## The cook
 
@@ -59,19 +55,21 @@ src: /data/moss-camera-cook.json
 a cook in his forties in a white t-shirt sitting on an upturned crate outside the back door of a small restaurant on his break, reading a folded newspaper, a blue painted door, stacked crates of oranges and a cat on the step, bright afternoon daylight on a warm terracotta wall, candid street photograph, seen from across the lane
 ```
 
-Seed 2122.
-
 ## The musician
 
 :::viewer
 src: /data/moss-camera-musician.json
 :::
 
+The vignette darkens the corners, the way many real lenses do when they're wide open. Here she's at 50mm with the background Blurred, and only the vignette changes.
+
+:::viewer
+src: /data/moss-camera-musician-vignette.json
+:::
+
 ```text
 a double bass player in her forties in a bright patterned dress playing on a wide quiet cobbled street, standing with the bass upright in front of her and plenty of room around her, seen from the waist up, bow in her right hand, placed on the left third of the frame, calm neutral expression and eyes on the strings, her face clear and in soft daylight, a long street of old ochre buildings with green shutters falling away far into the distance behind her, soft late afternoon daylight, candid street photograph
 ```
-
-Seed 2125.
 
 ## How it emulates a camera
 
@@ -96,7 +94,7 @@ You can try, but MOSS doesn't really respond to camera numbers. In my tests "f/1
 2. **Click what you want in focus.** A box shows what the lens will keep.
 3. Pick your menus and press **Run** again. The render is reused, so trying another look only takes seconds.
 
-**Good to know:** thin things like nets can confuse the depth estimate. With the foreground blurred, open ground can show a sharp strip with blurred bands in front and behind. Face detail is off by default, because it can damage small faces. All four photos use MOSS-Image at 25 steps, CFG 2.5, `er_sde`, 1216×832.
+**Good to know:** focus and aperture can give mixed results. Moving the focus off the subject works best when the new spot is clearly nearer or farther away. If the focus lands slightly off, set `focus_nudge` to Nearer or Farther to move it a little, like turning the focus ring. Thin things like nets can confuse the depth estimate. With the foreground blurred, open ground can show a sharp strip with blurred bands in front and behind. Face detail is off by default, because it can damage small faces. All four photos use MOSS-Image at 25 steps, CFG 2.5, `er_sde`, 1216×832.
 
 ## Get it
 

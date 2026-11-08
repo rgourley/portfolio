@@ -15,12 +15,12 @@ So I wasn't surprised when people started pointing coding agents at their TVs to
 
 ## How to debloat your TV
 
-Just point Claude Code at it. On an Android TV, [*Clean Your TV*](https://github.com/Gathin23/cleanyourtv) is one long prompt you paste in. It switches off the ad and telemetry packages, then installs a plain launcher with the apps you use. Other people have ported it, and how much carries over depends on your TV:
+Just point Claude Code at it. On an Android TV, [*Clean Your TV*](https://github.com/Gathin23/cleanyourtv) is one long prompt you paste in. It switches off the ad and telemetry packages, then installs a plain launcher with the apps you use. It has about 54,000 stars on GitHub. Other people have ported it, and how much carries over depends on your TV:
 
 - **Android TV and Google TV:** both. One prompt to Claude Code does it.
 - **LG webOS:** the launcher only. webOS can't disable packages.
 - **Fire TV:** both, through community forks of the Android project.
-- **Samsung:** nothing I could find.
+- **Samsung:** a launcher for The Frame, and root-only projects for the rest.
 
 :::cards
 title: Clean Your TV
@@ -32,6 +32,10 @@ title: webos-vibehack
 meta: LG webOS
 url: https://github.com/OmkarK97/webos-vibehack
 description: The same launcher, ported to LG TVs. It installs through LG's Developer Mode, with no root.
+title: tv-detox
+meta: Old Android TVs
+url: https://github.com/ansub/tv-detox
+description: A small ad-free home screen and the cleanup prompt, aimed at old, slow Android TVs. A Reddit commenter says it works on TCL.
 ---
 title: Glasshouse
 meta: Rooted LG webOS
@@ -71,6 +75,8 @@ You need a computer on the same Wi-Fi as the TV, and Claude Code. On every TV be
 - Back up the list of installed apps before you change anything.
 - Disable packages, never uninstall them. A disabled package comes back with one command.
 - Get the new launcher running and set as the default before you touch the stock one.
+
+Run Claude Code so it asks before every command by starting it with `claude --permission-mode default`. Approving each one gets old fast, so use `/permissions` to allow the read-only ones like `pm list packages`. Then it only stops for commands that change something, which are the ones worth reading.
 
 ## Start with the settings
 
@@ -115,9 +121,17 @@ The TV will ask whether to allow this computer. Say yes. Newer versions of Andro
 adb shell pm list packages -f > before.txt
 ```
 
+Save the packages that are already disabled, too:
+
+```
+adb shell pm list packages -d > disabled-before.txt
+```
+
 **5. Install the launcher first.** Open a terminal in an empty folder and tell Claude Code what you want the home screen to be. Something like this works:
 
 > My TV is connected over adb at this address. I want a plain launcher as the home screen: rows for the apps I use, no ads, no promoted content. List the installed apps and ask me which ones go on it. Install a launcher, set it as the default, and confirm Home opens it. Don't disable anything yet.
+
+Give it your TV model, whether it runs Google TV or Android TV, the IP address and the apps to keep. A vague request like "hack my TV" gets pushback, and some people in [a r/ClaudeAI thread](https://www.reddit.com/r/ClaudeAI/comments/1xk8apo/if_youre_letting_claude_code_clean_up_your_smart/) say Claude turned the job down.
 
 Press Home and check that the new launcher opens before you go any further.
 
@@ -127,6 +141,14 @@ Press Home and check that the new launcher opens before you go any further.
 
 Read the list yourself. Anything with "setup," "provision," "launcher," "update," or the manufacturer's name in it deserves a second look. The *Clean Your TV* page warns that disabling the stock launcher or the setup wizard before a replacement is in place can send some Google TVs into a crash loop.
 
+Before you disable anything with "home" or "launcher" in its name, check which app the TV is using as its launcher:
+
+```
+adb shell cmd package resolve-activity -a android.intent.action.MAIN -c android.intent.category.HOME
+```
+
+Keep these on, whatever the list says: System UI, Settings, the HDMI and TV inputs, Bluetooth and remote pairing, the package installer, the Play Store, Google Play services, Android System WebView, and the current launcher until the new one works. Play services and WebView look like bloat in a long list. Turn them off and apps break in ways that don't point back to the cleanup.
+
 **7. Test after each batch.** Check that the TV wakes up, opens your streaming apps, and plays sound. If something breaks, you know which batch did it.
 
 **8. Know your way back.** To undo a package, use the enable command with its name:
@@ -134,6 +156,14 @@ Read the list yourself. Anything with "setup," "provision," "launcher," "update,
 ```
 adb shell pm enable PACKAGE.NAME
 ```
+
+To see exactly what changed, save the disabled list again and compare it with the one from step 4:
+
+```
+adb shell pm list packages -d > disabled-after.txt
+```
+
+If an app acts up a week later, re-enable only the new entries instead of working through the whole backup.
 
 If the TV stops responding to your computer, go to Settings, Apps, find the disabled ones and re-enable them from the TV itself. When you're done, turn USB debugging off again.
 
@@ -158,7 +188,7 @@ Developer Mode sessions expire, so every so often you'll need to open the app an
 
 ## Fire TV
 
-The step-by-step above is written for Android TV and Google TV, and I haven't tested it on a Fire TV. Three projects on the *Clean Your TV* list target Fire TV. [fire-tv-cleanup](https://github.com/itsmeterrylin/fire-tv-cleanup) has debloat tools and a launcher with a macOS-style dock. [Fire TV Glass](https://github.com/ivantrj/firetv-glass-launcher) tests on a Fire TV Stick 4K and brings its launcher back whenever Amazon's home screen appears. A [Home watcher](https://github.com/ljis120301/tv-vibehack/tree/fire-tv-support) for Fire OS 6 does the same thing. Read each README for the exact steps.
+The step-by-step above is written for Android TV and Google TV, and I haven't tested it on a Fire TV. Three projects on the *Clean Your TV* list target Fire TV. [fire-tv-cleanup](https://github.com/itsmeterrylin/fire-tv-cleanup) has debloat tools and a launcher with a macOS-style dock. [Fire TV Glass](https://github.com/ivantrj/firetv-glass-launcher) tests on a Fire TV Stick 4K and brings its launcher back whenever Amazon's home screen appears. A [Home watcher](https://github.com/ljis120301/tv-vibehack/tree/fire-tv-support) for Fire OS 6 does the same thing. Read each README for the exact steps. [dumbtv](https://github.com/humblemuzzu/dumbtv) isn't on that list, but it does the same job over adb with no root, on Fire TV sticks, the Cube and Fire TV Edition TVs, and its README says every step can be undone.
 
 ![Stock Fire TV home on the left, Glass on the right](https://github.com/ivantrj/firetv-glass-launcher/raw/9d68fad0cf729f1be0eacb7ca4133273dcd76394/docs/before-after.jpg)
 
@@ -170,7 +200,7 @@ The step-by-step above is written for Android TV and Google TV, and I haven't te
 
 ## Samsung and others
 
-I haven't found a comparable project for Samsung's Tizen. On a Samsung, the settings are the whole job.
+Two projects now cover Samsung's Tizen. [CleanFrame](https://github.com/nthnclrk/CleanFrame) is a home screen for The Frame that installs through Samsung's Developer Mode, with one LS03D as its reference TV. [quiet-tizen](https://github.com/jss8649/quiet-tizen) adds a launcher and cleanup tools, but it uses temporary root and was tested on one model, the UN75U8000F, so I'm not covering it here. On any other Samsung, the settings are the whole job.
 
 ## Is it worth it?
 
