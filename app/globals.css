@@ -57,6 +57,10 @@ img,video{max-width:100%}
 .corner.tl a{margin:0;border:0}
 .corner a.here{border-bottom-color:var(--ink)}
 .corner a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.corner .social{display:inline-flex;gap:12px;margin-left:18px;vertical-align:-2px}
+.corner .social a{display:inline-flex;margin:0;border:0;color:var(--ink-mid);transition:color .2s}
+.corner .social a:hover{color:var(--ink)}
+.corner .social svg{width:13px;height:13px}
 .mode{display:inline-block;width:9px;height:9px;border:1px solid var(--ink);border-radius:50%;background:transparent;padding:0;margin-left:18px;vertical-align:1px;cursor:pointer;transition:background .3s}
 :root[data-mode="dark"] .mode{background:var(--ink)}
 .mode:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
@@ -479,6 +483,10 @@ html[data-mode="dark"] .term i,html[data-mode="dark"] .term b{color:var(--ink-di
 .menu a i{font:600 10px/1 var(--mono);letter-spacing:.14em;font-style:normal;color:var(--ink-dim);text-transform:uppercase}
 .menu a.here{color:var(--ink)}
 .menu a:not(.here){color:var(--ink-mid)}
+.menu .msocial{display:flex;gap:8px;margin-top:auto;padding-top:28px}
+.menu .msocial a{border:0;padding:10px;margin-left:-10px;margin-right:8px;color:var(--ink);display:inline-flex}
+.menu .msocial svg{width:24px;height:24px}
+.menu .msocial + .mrow{margin-top:0;padding-top:16px}
 .menu .mrow{margin-top:auto;padding-top:32px;display:flex;flex-wrap:wrap;gap:10px 24px;font:600 11px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
 .menu .mrow a{font:inherit;color:inherit;border:0;padding:0;display:inline;letter-spacing:inherit}
 .menu .mrow button{font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--ink);background:none;border:0;padding:0;cursor:pointer;display:inline-flex;align-items:center;gap:8px}

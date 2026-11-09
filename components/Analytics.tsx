@@ -11,7 +11,7 @@ const OWN = /(^|\.)robertcreative\.com$/;
 const LABELS: Array<[RegExp, string]> = [
   [/clawstreet\.io$/, "ClawStreet"], [/github\.com$/, "GitHub"], [/linkedin\.com$/, "LinkedIn"], [/greatrobots\.ai$/, "greatrobots"],
   [/madeforspace\.io$/, "madeforspace"], [/mdskills\.ai$/, "mdskills"], [/massive\.com$/, "Massive"], [/medium\.com$/, "Medium"],
-  [/instagram\.com$/, "Instagram"], [/theautonomyreport\.com$/, "The Autonomy Report"], [/gitkingdom\.com$/, "Git Kingdom"], [/apple\.com$/, "Apple"],
+  [/instagram\.com$/, "Instagram"], [/theautonomyreport\.com$/, "The Autonomy Report"], [/gitkingdom\.com$/, "Git Kingdom"], [/apple\.com$/, "Apple"], [/(^|\.)x\.com$/, "X"],
 ];
 function labelFor(host: string, text: string): string {
   for (const [re, label] of LABELS) if (re.test(host)) return label;

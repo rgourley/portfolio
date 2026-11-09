@@ -28,6 +28,13 @@ export const R = {
 // The Film Looks pack on Gumroad: linked from the footer, the Open models hub and the model posts.
 export const PACK_URL = "https://rgourley.gumroad.com/l/film-looks-z-image-moss";
 
+// The social icons after Newsletter in the nav. An empty link is left out.
+export const SOCIAL: [string, string][] = [
+  ["Instagram", "https://www.instagram.com/whats.up.rob/"],
+  ["LinkedIn", "https://www.linkedin.com/in/rob-gourley/"],
+  ["X", "https://x.com/Whats_Up_Rob"],
+];
+
 export const NAV: [keyof typeof R, string][] = [
   ["work", "Work"],
   ["projects", "Projects"],
